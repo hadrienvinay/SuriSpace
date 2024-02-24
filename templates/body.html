@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+
+{% block title %}Home 🏡{% endblock %}
+
+{% block body %}
+    <!-- Page Content -->
+    <div class="row" style="padding-top: 60px;">
+        <div class="border-panel-left">
+        </div>
+        <div class="border-panel-center">
+          <!-- Jumbotron Header -->
+            <div class="panel-content">
+                <div class="">
+                    <img src="images/marsu.png" style="width: 80px; float: left; margin-left:15%;" title="logo" alt="Marsupilami">
+                    <img src="images/marsu.png" style="width: 80px; float: right; margin-right: 15%;" title="logo" alt="Marsupilami">
+                    <h1 class="text-center">Bienvenue man sur le site de Suri ❤️</h1>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-12 col-lg-6">
+                        <h3 class="lead text-center">P'tits évènements qui arrivent 🍻:</h3>
+                        calendrier
+                    </div>
+                    <div class="col-md-12 col-lg-6">
+                        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                              <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                              <li data-target="#myCarousel" data-slide-to="1"></li>
+                            </ol>
+                            <div class="carousel-inner">
+                              <div class="carousel-item active">
+                                <img class="d-block w-100" src="" alt="First slide">
+                              </div>
+                              <div class="carousel-item">
+                                <img class="d-block w-100" src="" alt="Second slide">
+                              </div>
+                            </div>
+                            <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+                              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                              <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+                              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                              <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="lead text-center">P'tites statistiques 📊:</p>
+                        <div class="row">
+                            <div class="col-md-4 text-center">
+                                <li class="block">
+                                    <a class="btn btn-outline-success block no-decoration bottom" href="#"> 
+                                        Nombre d'utilisateurs 🐢: 1
+                                    </a>
+                                </li>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+          <div class="panel-content">
+            <h3 class="border-bottom border-gray pb-2 mb-0">Les p'tits mises à jour 🛰️</h3>
+                    <div class="pt-3 big">
+                        <a class="no-decoration media" href="">
+                            <img class="mr-2 rounded myImg" src="" alt="">
+                            <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                                <strong class="d-block text-gray-dark">my men </strong>
+                                description
+                                <i>3 jours</i>
+                            </p>
+                            <span>
+                                👻
+                            </span>
+
+                        </a>
+                    </div>
+            <br>
+
+          </div>
+
+        </div>
+        <div class="border-panel-right">
+            <div class="card my-3">
+              <h5 class="card-header text-center">Routes</h5>
+              <div class="card-body" style='padding:0.5rem;'>
+                  <ul class="list-unstyled mb-0">
+                    <li>
+                        <div class="d-block">
+                            <a href="">
+                                🎉 P'tit récap
+                            </a>
+                        </div>                      
+                    </li>
+                    <li>
+                        <div class="d-block">
+                            <a href="">
+                                🏝️ P'tite gallerie
+                            </a>
+                        </div>                       
+                    </li>
+                    <li>
+                        <div class="d-block">
+                            <a href="">
+                                🗺️ P'tite map
+                            </a>
+                        </div>                       
+                    </li>
+                    <li>
+                        <div class="d-block">
+                            <a href="">
+                                📆 P'tit calendrier
+                            </a>
+                        </div>                       
+                    </li>
+                    <li>
+                        <div class="d-block">
+                            <a href="">
+                                👨‍💻 P'tit profil
+                            </a>
+                        </div>                       
+                    </li>
+                    <li>
+                        <div class="d-block">
+                            <a href="">
+                                🎲 P'tit CATAN
+                            </a>
+                        </div>                       
+                    </li>
+                    <li>
+                        <div class="d-block">
+                            <a href="">
+                                🕺 P'tite radio
+                            </a>
+                        </div>                       
+                    </li>
+                     <li>
+                        <div class="d-block">
+                            <a href="">
+                                📥 P'tit convertor
+                            </a>
+                        </div>                       
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card my-3">
+              <h5 class="card-header text-center">Ajout</h5>
+              <div class="card-body" style='padding:0.5rem;'>               
+                  <ul class="list-unstyled mb-0">
+                    <li>
+                        <div class="d-block">
+                            <a class="add-event" href="">
+                                📣 Add event
+                            </a>
+                        </div>                      
+                    </li>
+            
+                  </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+      
+    <!-- Modal add an event -->
+    <div id="addEventModal" class="modal" role="dialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title">Ajout d'un P'tit Evènement 🍺</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>
+               <div class="modal-body">
+                   body
+               </div>
+                <div class="modal-footer">
+                   <div class="form-group middle">
+                       <input class=" btn btn-primary" type="submit" value="Ajouter" />
+                   </div>
+                   
+               </div>
+            </div>
+        </div>
+    </div>
+            
+
+
+    <script>
+        $(document).ready(function(){
+            //Autocomplete
+            //initializeAutocomplete('event_address');
+            //initializeAutocomplete('job_address');
+
+             //Carrousel
+             //$("#myCarousel").carousel();
+             $('.carousel').carousel();
+
+             $('#click').click(function(e){
+               e.preventDefault();
+               alert('Click Click !');
+              });
+              
+             $('.fc-scroller').addClass("home_fc-scroller");
+
+             $('.add-event').on('click', function(e) {
+                 e.preventDefault();
+                 $('#addEventModal').modal('show');
+             });
+
+
+        });
+
+
+        
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyA0wuGfkqLD67jR6NfcC8mm4EuUROGis_I"
+        async defer></script>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <h1>
+        Mon ptit blog
+    </h1>
+    <div>
+        <section>
+            <h2>
+                Titre de ma section
+            </h2>
+            <p>
+                Texte de ma section.
+            </p>
+        </section>
+        <section>
+            <h2>
+                Titre de ma section
+            </h2>
+            <p>
+                Texte de ma section. Avec des articles liés :
+            </p>
+            <div>
+                <article>
+                    <h2>
+                       Titre de mon article
+                    </h2>
+                    <p>
+                        Texte de mon article.
+                    </p>
+                </article>
+                <article>
+                    <h2>
+                        Titre de mon article
+                    </h2>
+                    <p>
+                        Texte de mon article.
+                    </p>
+                </article>
+            </div>
+        </section>
+    </div>
+{% endblock %}

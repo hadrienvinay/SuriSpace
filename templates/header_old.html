@@ -1,0 +1,57 @@
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="margin-bottom: 2%;">
+    <div class="container-fluid" style="margin-left: 5%;">
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <img src="images/marsu.png" class="logo-imali" title="logo">
+            Imalipusram
+        </a>
+        <div class="myNavbar" style="margin-right: 15%;">
+            <ul id="navContent" class="navbar-nav ml-auto" >
+                <li class="nav-item" style="margin:auto;">
+                    <a class="nav-link" style="display:flex;" href="" data-toggle="tooltip" data-placement="bottom" title="Mon profil">
+                        <img class="myPic" src="" alt="Mon profil">
+                        <div class="minimize" style="padding-left: 10%;">
+                            Hadri
+                        </div>
+                    </a>
+                </li>
+                    
+                <li id="menu-dropdown" class="nav-item tab-item dropdown" title="Rubriques">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #fff;">
+                        🗂️
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'home' %}">
+                            🥂 What's up
+                        </a>
+                        <a class="dropdown-item" href="{% url 'home' %}">
+                            🏖️ Gallerie Photo
+                        </a>    
+                        <a class="dropdown-item" href="{% url 'home' %}">
+                            📆 Calendrier
+                        </a>
+                        <a class="dropdown-item" href="{% url 'home' %}">
+                            💡 Médias
+                        </a>
+                        <a class="dropdown-item" href="{% url 'home' %}">
+                            💃 Radio
+                        </a>
+                        <a class="dropdown-item" href="{% url 'home' %}">
+                            🗺️ Map
+                        </a>
+                        <a class="dropdown-item" href="{% url 'home' %}">
+                            🐑 Catan
+                        </a>
+                       
+                        
+                    </div>
+                </li>
+
+
+            </ul>
+            
+        </div>
+       
+    </div>
+</nav>
+
