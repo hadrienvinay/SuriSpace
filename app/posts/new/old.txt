@@ -1,0 +1,98 @@
+import Form from "next/form";
+import prisma from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import path from 'path';
+import { writeFile } from 'fs/promises';
+
+export default function NewPost() {
+  async function createPost(formData: FormData) {
+    "use server";
+
+    const title = formData.get("title") as string;
+    const content = formData.get("content") as string;
+    const image = formData.get("image") as File;
+
+    //handle image upload
+    let imagePath = "/uploads/default.webp";
+    console.log(image)
+    if (image && image.size > 0) {
+      const bytes = await image.arrayBuffer();
+      const buffer = Buffer.from(bytes);
+
+      // Générer un nom unique pour l'image
+      const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1E9)}`;
+      const ext = path.extname(image.name);
+      const filename = `image-${uniqueSuffix}${ext}`;
+      
+      // Sauvegarder dans /public/uploads
+      const filepath = path.join(process.cwd(), 'public', 'uploads', filename);
+      await writeFile(filepath, buffer);
+      
+      // Chemin relatif pour la DB
+      imagePath = `/uploads/${filename}`;
+    }
+
+
+    await prisma.post.create({
+      data: {
+        title,
+        content,
+        authorId: 1,
+        image: imagePath,
+      },
+    });
+
+    revalidatePath("/posts");
+    redirect("/posts");
+  }
+
+  return (
+    <section className="max-w-screen-xl mx-auto p-16">
+
+    <div className="max-w-2xl mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-6">Create New Post</h1>
+      <Form action={createPost} className="space-y-6">
+        <div>
+          <label htmlFor="title" className="block text-lg mb-2">
+            Title
+          </label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            placeholder="Enter your post title"
+            className="w-full px-4 py-2 border rounded-lg"
+          />
+        </div>
+        <div>
+          <label htmlFor="content" className="block text-lg mb-2">
+            Content
+          </label>
+          <textarea
+            id="content"
+            name="content"
+            placeholder="Write your post content here..."
+            rows={6}
+            className="w-full px-4 py-2 border rounded-lg"
+          />
+        </div>
+         <div>
+        <label htmlFor="image" className="block mb-2 font-medium">
+          Image 
+        </label>
+        <input
+          type="file"
+          id="image"
+          accept="image/*"
+          className="w-full px-4 py-2 border rounded-lg bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+        <button type="submit" className="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600">
+          Publier Article
+        </button>
+      </Form>
+    </div>
+    </section>
+  );
+}

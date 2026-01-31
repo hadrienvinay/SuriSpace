@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-  ],
+, "app/api/metals/route.ts.old", "app/api/metals/route.ts", "prisma/db.js", "prisma/seed.ss"  ],
   "exclude": ["node_modules"]
 }
