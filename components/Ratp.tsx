@@ -4,10 +4,16 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 
+interface TimingData {
+  direction: string
+  timeAgo: string
+  timeAgo2: string
+}
+
 export default function Ratp() {
-  const [timing, setTiming] = useState(null)
+  const [timing, setTiming] = useState<TimingData | null>(null)
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     async function fetchData() {
@@ -20,9 +26,8 @@ export default function Ratp() {
         
         const data = await response.json()
         setTiming(data)
-        console.log("Données RATP reçues:", data)
       } catch (err) {
-        setError(err.message)
+        setError(err instanceof Error ? err.message : 'Une erreur inconnue est survenue')
       } finally {
         setLoading(false)
       }

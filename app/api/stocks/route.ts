@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import YahooFinance from 'yahoo-finance2';
 
-let cache = { data: null, timestamp: 0 }
+let cache: { data: any[] | null; timestamp: number } = { data: null, timestamp: 0 }
 const CACHE_DURATION = 600000 // 10 minute
 
 export async function GET() {
@@ -42,15 +42,19 @@ export async function GET() {
             const summary = quote.summaryDetail;
             const stats = quote.defaultKeyStatistics;
 
+            if (!result) {
+                console.error(`No price data for ${symbol}`);
+                return null;
+            }
             return {
             ticker: symbol,
             name: result.longName,
             price: result.regularMarketPrice,
             change: result.regularMarketChange,
             changePercent: result.regularMarketChangePercent,
-            pe: summary.trailingPE,
-            eps: stats.trailingEps,
-            dividendYield: summary.dividendYield,
+            pe: summary?.trailingPE,
+            eps: stats?.trailingEps,
+            dividendYield: summary?.dividendYield,
             marketCap: result.marketCap,
             currency: result.currency,
             isPEA: symbol.includes('.PA') || symbol.includes('.AS') || symbol.includes('.DE') || symbol.includes('.MC'),
@@ -73,7 +77,8 @@ export async function GET() {
     
     } catch (error) {
     console.error('Erreur API:', error)
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    const errorMessage = error instanceof Error ? error.message : String(error)
+    return NextResponse.json({ error: errorMessage }, { status: 500 })
   }
 
 }

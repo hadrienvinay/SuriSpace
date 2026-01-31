@@ -6,10 +6,24 @@ import { useState, useEffect } from 'react'
 type SortField = 'ticker' | 'name' | 'price' | 'changePercent' | 'volume' | 'pe' | 'marketCap' | 'dividendYield'
 type SortDirection = 'asc' | 'desc'
 
+interface Stock {
+  ticker: string
+  name: string
+  price: number
+  change: number
+  changePercent: number
+  currency: string
+  pe: number | null
+  marketCap: number
+  dividendYield: number | null
+  volume: number
+  isPEA: boolean
+}
+
 export default function StocksTable() {
-  const [stocks, setStocks] = useState([])
+  const [stocks, setStocks] = useState<Stock[]>([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState<string | null>(null)
   const [filter, setFilter] = useState('all')
   const [sortField, setSortField] = useState<SortField>('changePercent')
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc')
@@ -28,7 +42,7 @@ export default function StocksTable() {
         const data = await response.json()
         setStocks(data)
       } catch (err) {
-        setError(err.message)
+        setError(err instanceof Error ? err.message : 'Une erreur est survenue')
       } finally {
         setLoading(false)
       }
@@ -72,7 +86,7 @@ export default function StocksTable() {
       if (aValue == null) return 1
       if (bValue == null) return -1
       
-      if (typeof aValue === 'string') {
+      if (typeof aValue === 'string' && typeof bValue === 'string') {
         aValue = aValue.toLowerCase()
         bValue = bValue.toLowerCase()
       }

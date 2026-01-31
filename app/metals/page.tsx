@@ -3,18 +3,30 @@
 
 import { useState, useEffect } from 'react';
 
+type MetalPrice = {
+  price: number;
+  pricePerGram?: number;
+  source?: string;
+};
+
+type Prices = {
+  gold?: MetalPrice;
+  silver?: MetalPrice;
+  [key: string]: MetalPrice | undefined;
+};
+
 export default function MetalsPrice() {
-  const [prices, setPrices] = useState(null);
+  const [prices, setPrices] = useState<Prices | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [lastUpdate, setLastUpdate] = useState(null);
+  const [error, setError] = useState<string | null>(null);
+  const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
   const [autoRefresh, setAutoRefresh] = useState(true);
 
   useEffect(() => {
     fetchPrices();
     
     // Rafraîchir automatiquement toutes les 2 minutes si activé
-    let interval;
+    let interval: NodeJS.Timeout | undefined;
     if (autoRefresh) {
       interval = setInterval(fetchPrices, 120000); // 2 minutes
     }
@@ -316,7 +328,14 @@ export default function MetalsPrice() {
 }
 
 // Composant calculateur
-function QuickCalculator({ metal, price, color, icon }) {
+type QuickCalculatorProps = {
+  metal: string;
+  price?: number;
+  color: string;
+  icon: string;
+};
+
+function QuickCalculator({ metal, price, color, icon }: QuickCalculatorProps) {
   const [quantity, setQuantity] = useState(1);
   const [unit, setUnit] = useState('oz'); // 'oz' ou 'g'
 

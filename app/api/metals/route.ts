@@ -39,7 +39,7 @@ export async function GET() {
         timestamp: data.items[0].timestamp || new Date().toISOString()
       });
     } catch (error2) {
-      console.error('❌ GoldPrice.org échoué:', error2.message);
+      console.error('❌ GoldPrice.org échoué:', error2 instanceof Error ? error2.message : String(error2));
       
       // Méthode 3: Fallback vers Alpha Vantage (avec clé API)
       try {
@@ -98,15 +98,15 @@ export async function GET() {
           timestamp: new Date().toISOString()
         });
       } catch (error3) {
-        console.error('❌ Alpha Vantage échoué:', error3.message);
+        console.error('❌ Alpha Vantage échoué:', error3 instanceof Error ? error3.message : String(error3));
         
         // Toutes les méthodes ont échoué
         return NextResponse.json(
           { 
             error: 'Toutes les sources de données ont échoué',
             details: {
-              goldprice: error2.message,
-              alphavantage: error3.message
+              goldprice: error2 instanceof Error ? error2.message : String(error2),
+              alphavantage: error3 instanceof Error ? error3.message : String(error3)
             }
           },
           { status: 500 }
