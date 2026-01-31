@@ -1,7 +1,10 @@
+First deployment of my blog with NextJs and Vercel
+
 Dependencies (prisma db, react map)
 npm install prisma tsx @types/pg --save-dev
 npm install @prisma/client @prisma/adapter-pg dotenv pg
 npm install react-map-gl react-icons --save
+npm install yahoo-finance2
 
 brew services start postgresql
 brew services stop postgresql@14
@@ -57,9 +60,3 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
-
-
-ex button
-   <button type="button" class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 me-2 mb-2">
-Connect with MetaMask
-</button>
