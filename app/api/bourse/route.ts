@@ -1,7 +1,7 @@
 // app/api/stocks/route.ts
 import { NextResponse } from 'next/server'
 
-let cache = { data: null, timestamp: 0 }
+let cache: { data: any[] | null; timestamp: number } = { data: null, timestamp: 0 }
 const CACHE_DURATION = 600000 // 10 minute
 
 export async function GET() {
@@ -109,6 +109,7 @@ export async function GET() {
     return NextResponse.json(validStocks)
   } catch (error) {
     console.error('Erreur API:', error)
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    const errorMessage = error instanceof Error ? error.message : String(error)
+    return NextResponse.json({ error: errorMessage }, { status: 500 })
   }
 }
