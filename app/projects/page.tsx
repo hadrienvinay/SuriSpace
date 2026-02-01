@@ -16,8 +16,9 @@ export default async function Projects() {
         <p className="mt-6 text-xl max-w-2xl mx-auto">
           Une page référencant mes divers projets réalisés 
         </p>
-        <div className="mx-auto mt-8 grid max-w-2xl grid-cols-1 gap-8 sm:mt-12 lg:mx-0 lg:max-w-none lg:grid-cols-3 ">
-        {projects.map((project) => (
+        <div className="max-w-screen-xl mx-auto p-16">  
+          <div className="sm:grid lg:grid-cols-3 sm:grid-cols-2 gap-10">
+                    {projects.map((project) => (
 
           <div key={project.id} className="hover:bg-gray-900 hover:text-white transition duration-300 max-w-sm rounded overflow-hidden shadow-lg">
                         
@@ -43,6 +44,7 @@ export default async function Projects() {
         ))}
 
          </div>
+        </div>
 
       </div>
 

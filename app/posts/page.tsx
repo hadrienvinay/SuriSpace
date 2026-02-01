@@ -3,17 +3,21 @@ import prisma from '@/lib/prisma'
 import Image from 'next/image'
 import { format } from "path";
 import DeletePostButton from '@/components/DeletePostButton';
+import { auth } from "@/lib/auth";
 
 export default async function Posts() {
   const posts = await prisma.post.findMany();
+  const session = await auth();
+  
   
   return (
     <section className="space-y-16">
+      {session && (
       <div className="fixed top-40 right-40">
         <Link href="/posts/new" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full shadow-lg">
           + Nouvel Article 
         </Link>
-      </div>
+      </div>)}
 
       {/* HERO */}
       <div className="text-center mt-10">
@@ -62,13 +66,34 @@ export default async function Posts() {
                 &nbsp;<span className="text-xs text-gray-500">2026</span>
               </div>
             </div>
+            <div key="space" className="hover:bg-gray-900 hover:text-white transition duration-300 max-w-sm rounded overflow-hidden shadow-lg">
+              <Image
+                  src="/artemis.jpg"
+                  width={300}
+                  height={300}
+                  alt="image"
+                  className="w-100"
+                />
+              <div className="py-4 px-8">
+                <a href="/posts/space">
+                    <h4 className="text-lg mb-3 font-semibold">L'actualité spatiale 2026</h4>
+                </a>
+                <p className="mb-2 text-sm text-gray-600">
+                  Un panorama des dernières nouvelles et missions prévues pour le spatial en 2026                
+                </p>
+                <span className="text-xs">ARTICLE</span>
+                &nbsp;<span className="text-xs text-gray-500">2026</span>
+              </div>
+            </div>
 
             {posts.map((post) => (
 
               <div key={post.id} className="hover:bg-gray-900 hover:text-white transition duration-300 max-w-sm rounded overflow-hidden shadow-lg">
+                {session && (
                 <div className="absolute">
                   <DeletePostButton postId={post.id} />
                 </div>
+                )}
                 <Image
                     src={post.image || "/python_img.webp"}
                     width={300}

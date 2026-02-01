@@ -42,7 +42,7 @@ export default function Ratp() {
 
   return (
     <div>
-    <h3 className='text-center text-lg font-bold mt-1 mb-2'>
+    <h3 className='text-center text-lg mt-1 mb-2'>
         Direction {timing.direction}
     </h3>
     <div className="flex items-center justify-between">
@@ -52,10 +52,10 @@ export default function Ratp() {
             width={40}
             height={30}
             alt="current"
-            className="ml-4"
+            className="ml-6"
             />
         </div>
-        <div className='text-right space-y-1'>
+        <div className='text-right space-y-1 mr-4'>
             <div>prochain {timing.timeAgo}</div>
             <div>suivant {timing.timeAgo2}</div>
         </div>

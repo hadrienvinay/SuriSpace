@@ -59,7 +59,7 @@ export default function CreateMessageForm() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
-                    placeholder="Name"
+                    placeholder="Nom"
                     className="w-full pl-10 pr-3 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                     />
                 </div>
@@ -99,7 +99,7 @@ export default function CreateMessageForm() {
 
             <div>
             <button type="submit" 
-            className="w-full p-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-colors"
+            className="hover:cursor-pointer w-full p-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-colors"
             disabled={isSubmitting}
             >
             {isSubmitting ? 'Envoie en cours...' : 'Envoyer'}

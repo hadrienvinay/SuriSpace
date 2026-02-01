@@ -54,11 +54,73 @@ export default function Home() {
         </div>
 
         <div className="p-6 border rounded-xl shadow hover:shadow-lg transition">
-          <h3 className="text-xl font-bold">⚡ Astro</h3>
-          <p className="mt-2">
-            Prochaine éclipse totale : 12 août 2026
-          </p>
-        </div>
+
+          <h3 className="text-xl font-bold">⚡ Compétences</h3>
+          <div className="mt-2 ">
+            <div className="flex flex-wrap p-2 gap-2">
+              <div className=" sm:w-5/11 w-full ">
+                <div className="myclass bg-blue-100 rounded flex h-full items-center">
+                    <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3"
+                        className="text-indigo-500 w-6 h-6 flex-shrink-0 mr-2" viewBox="0 0 24 24">
+                        <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
+                        <path d="M22 4L12 14.01l-3-3"></path>
+                    </svg>
+                    <span className="font-medium">C, C++</span>
+                </div>
+                </div>
+                <div className=" sm:w-5/11 w-full">
+                  <div className="myclass bg-blue-100 rounded flex h-full items-center">
+                      <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3"
+                          className="text-indigo-500 w-6 h-6 flex-shrink-0 mr-2" viewBox="0 0 24 24">
+                          <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
+                          <path d="M22 4L12 14.01l-3-3"></path>
+                      </svg>
+                      <span className="font-medium">Python</span>
+                  </div>
+                </div>
+                <div className=" sm:w-5/11 w-full">
+                  <div className="myclass bg-blue-100 rounded flex h-full items-center">
+                      <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3"
+                          className="text-indigo-500 w-6 h-6 flex-shrink-0 mr-2" viewBox="0 0 24 24">
+                          <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
+                          <path d="M22 4L12 14.01l-3-3"></path>
+                      </svg>
+                      <span className="font-medium">Web Framework</span>
+                  </div>
+                </div>
+                <div className=" sm:w-5/11 w-full">
+                  <div className="myclass bg-blue-100 rounded flex h-full items-center">
+                      <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3"
+                          className="text-indigo-500 w-6 h-6 flex-shrink-0 mr-2" viewBox="0 0 24 24">
+                          <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
+                          <path d="M22 4L12 14.01l-3-3"></path>
+                      </svg>
+                      <span className="font-medium">SQL, Backend</span>
+                  </div>
+                </div>
+                <div className=" sm:w-5/11 w-full">
+                  <div className="myclass bg-blue-100 rounded flex h-full items-center">
+                      <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3"
+                          className="text-indigo-500 w-6 h-6 flex-shrink-0 mr-2" viewBox="0 0 24 24">
+                          <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
+                          <path d="M22 4L12 14.01l-3-3"></path>
+                      </svg>
+                      <span className="font-medium">Embedded Systems</span>
+                  </div>
+                </div>
+                <div className=" sm:w-5/11 w-full">
+                  <div className="myclass bg-blue-100 rounded flex h-full items-center">
+                      <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3"
+                          className="text-indigo-500 w-6 h-6 flex-shrink-0 mr-2" viewBox="0 0 24 24">
+                          <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
+                          <path d="M22 4L12 14.01l-3-3"></path>
+                      </svg>
+                      <span className="font-medium">Versionning</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
       </div>
 

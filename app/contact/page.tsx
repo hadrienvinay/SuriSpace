@@ -35,17 +35,18 @@ export default async function Contact() {
         <div className="order-1 w-full px-4 lg:order-2 lg:w-1/2 xl:w-6/12">
             <div className="mb-12 px-5 pt-3 sm:max-w-[570px] lg:mb-0">
             <span className="mb-4 block text-base font-semibold text-indigo-500">
-                Contacts
+                Contact
             </span>
             <h2 className="mb-6 text-[32px] font-bold uppercase sm:text-[40px] lg:text-[36px] xl:text-[40px]">
-                Contact me
+                Contactez moi
             </h2>
             <p className="text-base leading-relaxed">
-                If you have any question and request, feel free to contact me
+                Si vous avez des questions ou souhaitez discuter d'un projet, n'hésitez
+                pas à me contacter par mail ou en utilisant le
+                formulaire ci-contre.
             </p>
             <p className="mb-9 text-base leading-relaxed">
-                We're here to help and answer any questions you might have. We look
-                forward to hearing from you.
+                Basé sur Arcachon en ce moment, près de Bordeaux, je me prépare à une future installation en Espagne.
             </p>
 
             <div className="mb-8 flex w-full max-w-[330px] gap-3">
@@ -53,7 +54,7 @@ export default async function Contact() {
                 <i className="fas fa-phone text-xl"></i>
                 </div>
                 <div className="w-full">
-                <h4 className="mb-1 text-base sm:text-xl font-bold">Phone Number</h4>
+                <h4 className="mb-1 text-base sm:text-xl font-bold">Téléphone</h4>
                 <p className="text-xs sm:text-base">+33 6 43 07 95 12</p>
                 </div>
             </div>

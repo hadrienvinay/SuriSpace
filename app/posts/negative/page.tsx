@@ -1,13 +1,11 @@
 import Image from 'next/image'
 import { notFound } from "next/navigation";
 
-export default async function Negative() {
-  
+export default function Negative() {
   return (
     <section className="space-y-16">
-
-    <div className="max-w-3xl px-4 pt-6 lg:pt-10 pb-12 sm:px-6 lg:px-8 mx-auto">
-        <div className="max-w-2xl">
+      <article className="max-w-4xl px-4 pt-6 lg:pt-10 pb-12 sm:px-6 lg:px-8 mx-auto">
+        <div className="max-w-4xl">
             <div className="flex justify-between items-center mb-6">
                 <div className="flex w-full sm:items-center gap-x-5 sm:gap-x-3">
                     <div className="shrink-0">
@@ -43,181 +41,298 @@ export default async function Negative() {
                                         </div>
                                     </div>
                                     </div>
+
+                                    <div className="flex justify-between items-center px-4 py-3 sm:px-5">
+                                        <div>
+                                            <a href="/posts" id="back-button" type="button" className="py-1.5 px-2.5 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50 focus:outline-hidden focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none   ">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                <path d="M19 12H5M12 19l-7-7 7-7"/>
+                                            </svg>
+                                            Retour
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             </div>
 
                             <ul className="text-xs">
                                 <li className="inline-block relative pe-6 last:pe-0 last-of-type:before:hidden before:absolute before:top-1/2 before:end-2 before:-translate-y-1/2 before:size-1 before:bg-gray-300 before:rounded-full ">
-                                Jan 18
+                                18 Janvier 2026
                                 </li>
-                                <li className="inline-block relative pe-6 last:pe-0 last-of-type:before:hidden before:absolute before:top-1/2 before:end-2 before:-translate-y-1/2 before:size-1 before:bg-gray-300 before:rounded-full ">
-                                2 min read
+                                <li className="inline-block relative pe-6 last:pe-0 last-of-type:before:hidden before:absolute before:top-1/2 before:end-2 before:-translate-y-1/2 before:size-1 before:bg-gray-300 before:rounded-full">
+                                2 min de lecture
                                 </li>
                             </ul>
                         </div>
 
                         <div>
-                        <button type="button" className="py-1.5 px-2.5 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50 focus:outline-hidden focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none   ">
-                            <svg className="size-3.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"/>
-                            </svg>
-                            Tweet
-                        </button>
+                            <a style={{color:"black"}} href="/posts" type="button" className="py-1.5 px-2.5 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white  shadow-2xs hover:bg-gray-50 focus:outline-hidden focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none   ">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                                </svg>
+                                Retour
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         </div>
-            
-        <div className="space-y-5 md:space-y-8">
-            <div className="space-y-3">
-                <h2 className="text-center text-2xl font-bold md:text-3xl ">La masse négative : symétries, géométrie et cosmologies en miroir</h2>
-                <p className="text-lg">
-                    De la matière classique au modèle Janus face au ΛCDM
-                </p>
-            </div>
+        {/* HERO / INTRO */}
+        <div className="space-y-6">
+          <h1 className="text-4xl md:text-5xl font-bold leading-tight">
+            De la matière classique au modèle Janus face au ΛCDM
+          </h1>
 
-            <p className="text-lg ">
-                La masse négative est l’une de ces idées qui semblent, à première vue, appartenir à la science-fiction. Pourtant, elle surgit régulièrement au cœur des équations fondamentales de la physique, comme une possibilité mathématique difficile à ignorer. Son étude oblige à revisiter la notion même de masse, les symétries profondes des lois physiques et la géométrie globale de l’Univers.              
-                Dans la cosmologie contemporaine, deux grandes approches se font face :
-                    •	le modèle standard ΛCDM, fondé sur la relativité générale et l’introduction de composantes invisibles (matière noire et énergie noire),
-                    •	et des modèles alternatifs, dont le modèle Janus de Jean-Pierre Petit, qui réintroduit la symétrie matière / masse négative comme principe structurant.
-                Explorer la masse négative, c’est donc aussi comparer deux visions de l’Univers.
-            </p>
-            <figure>
-                <Image
-                    src="/univers.webp"
-                    width={100}
-                    height={100}
-                    alt="image"
-                    className="w-full object-cover rounded-xl"
-                    unoptimized
-                    />
-                <figcaption className="mt-3 text-sm text-center">
-                    Image de l'univers
-                </figcaption>
-            </figure>
+          <p className="text-lg ">
+            La <strong>masse négative</strong> est l’une de ces idées qui semblent, à première vue,
+            appartenir à la science-fiction. Pourtant, elle surgit régulièrement au cœur des équations
+            fondamentales de la physique, comme une possibilité mathématique difficile à ignorer. Son
+            étude oblige à revisiter la notion même de masse, les symétries profondes des lois physiques
+            et la géométrie globale de l’Univers.
+          </p>
 
-            <blockquote className="text-center p-4 sm:px-7">
-                <p className="text-xl font-medium md:text-2xl md:leading-normal xl:text-2xl xl:leading-normal ">
-                    Présentation modèle Janus
-                </p>
-                <p className="mt-5 ">
-                https://www.youtube.com/watch?v=9LxU0BSTmLs
-                </p>
-            </blockquote>
-            
-            <div className="space-y-3">
-                <h3 className="text-2xl font-semibold ">
-                    Masse et matière : fondements historiques
-                </h3>
-                <p className="text-lg ">
-                    1.1 La masse dans la physique classique
-                    Dans la mécanique newtonienne, la masse est une grandeur positive, mesurant à la fois :
-                        •	l’inertie d’un corps,
-                        •	sa capacité à interagir gravitationnellement.
-                    La gravitation est toujours attractive, et l’Univers est pensé comme un espace absolu, passif.
-                    Ce cadre fonctionne remarquablement bien à l’échelle humaine, mais il n’offre aucune explication profonde à l’origine de la masse ni à l’égalité entre masse inertielle et gravitationnelle.
+          <p className="text-lg ">
+            Dans la cosmologie contemporaine, deux grandes approches se font face :
+          </p>
 
-                    1.2 Relativité générale et rôle géométrique de la masse
-                    Avec Einstein, la masse devient une source de courbure de l’espace-temps. La matière ne se contente plus de “subir” l’espace : elle le façonne.
-                    Les équations d’Einstein autorisent mathématiquement :
-                        •	des densités d’énergie positives,
-                        •	mais aussi nulles ou négatives, sans contradiction formelle.
-                    C’est ici que la porte conceptuelle de la masse négative s’entrouvre.</p>
-            </div>  
+          <ul className="list-disc pl-6 space-y-2 ">
+            <li>
+              le modèle standard <strong>ΛCDM</strong>, fondé sur la relativité générale et
+              l’introduction de composantes invisibles (matière noire et énergie noire),
+            </li>
+            <li>
+              et des modèles alternatifs, dont le <strong>modèle Janus</strong> de Jean-Pierre Petit,
+              qui réintroduit la symétrie matière / masse négative comme principe structurant.
+            </li>
+          </ul>
 
-            <div className="space-y-3">
-                <h3 className="text-2xl font-semibold ">
-                    Symétries fondamentales et statut du signe de la masse
-                </h3>
-                <div className="text-lg">
-                    La physique moderne est gouvernée par des symétries profondes (C, P, T, CPT). Or :
-                        •	aucune symétrie fondamentale n’impose que la masse soit strictement positive,
-                        •	le signe de la masse apparaît davantage comme un choix de solution que comme une nécessité absolue.
-                    ⚠️ À noter :L’antimatière n’est pas de la masse négative. Elle possède une masse positive et obéit à la gravitation normale (à l’état des connaissances actuelles).
-                    Dans une approche newtonienne naïve, on obtient un comportement étrange :
-                    <ul className="list-disc list-outside space-y-5 ps-5 text-lg ">
-                        <li className="ps-2"> la masse positive attire la masse négative,</li>
-                        <li className="ps-2"> la masse négative fuit,</li>
-                        <li className="ps-2"> les deux accélèrent indéfiniment.</li>
-                    </ul>
-                    Ce scénario, souvent cité comme argument contre la masse négative, repose toutefois sur une extension non relativiste et non symétrique des équations.
-                    Il soulève une question centrale :👉 le paradoxe est-il fondamental, ou provient-il d’un cadre théorique incomplet ?
-
-                </div>
-            </div>  
-
-            <div className="space-y-3">
-                <h3 className="text-2xl font-semibold ">
-                    Le modèle ΛCDM : la solution standard
-                </h3>
-                <p className="text-lg ">
-                   Le modèle ΛCDM (Lambda Cold Dark Matter) est aujourd’hui le cadre dominant en cosmologie. Il repose sur :
-                        •	la relativité générale,
-                        •	une constante cosmologique Λ (énergie noire),
-                        •	une matière noire froide, non baryonique.
-                    Forces du modèle ΛCDM
-                        •	excellent accord avec le fond diffus cosmologique,
-                        •	reproduction statistique des grandes structures,
-                        •	cadre mathématique bien maîtrisé.
-                    Faiblesses conceptuelles
-                        •	95 % du contenu de l’Univers est invisible et non détecté directement,
-                        •	la nature de la matière noire et de l’énergie noire reste inconnue,
-                        •	aucune symétrie fondamentale n’explique leur existence.
-                    ΛCDM fonctionne remarquablement bien, mais au prix d’entités ad hoc.
-
-                </p>
-            </div>  
-
-            <div className="space-y-3">
-                <h3 className="text-2xl font-semibold ">
-                    Le modèle Janus de Jean-Pierre Petit
-                </h3>
-                <h4 className="text-xl font-semibold ">
-                    Principe général
-                </h4>
-                <p className="text-lg">
-                    Le modèle Janus propose une extension symétrique de la relativité générale, reposant sur :
-                        •	deux feuillets d’espace-temps conjugués,
-                        •	l’un dominé par la masse positive,
-                        •	l’autre par la masse négative.
-                    Ces deux feuillets sont liés géométriquement mais séparés dynamiquement.
-                </p>
-                <h4 className="text-xl font-semibold ">
-                    Interaction gravitationnelle répulsive
-                </h4>
-                <p className="text-lg ">
-                    Contrairement au cadre newtonien classique :
-                        •	la masse positive et la masse négative se repoussent mutuellement,
-                        •	il n’existe pas de poursuite perpétuelle,
-                        •	la dynamique est stable et symétrique.
-                    Le paradoxe disparaît non pas par interdiction de la masse négative, mais par révision du cadre géométrique.
-                </p>
-            </div>  
-
-            <div className="space-y-3">
-                <h3 className="text-2xl font-semibold">
-                    Conclusion et perspectives
-                </h3>
-                <p className="text-lg ">
-                Il est essentiel de souligner que :
-                    •	ΛCDM est largement admis aujourd’hui en raison de son efficacité prédictive mais certaines observations restent difficiles à expliquer pleinement,
-                    •	Janus est cohérent théoriquement mais marginal, bien que la pluplart des observations faites aujourd’hui colle avec ses prédictions.
-                Cependant, Janus présente une qualité rare :👉 il réduit le nombre d’hypothèses ad hoc en restaurant une symétrie fondamentale.
-
-                La masse négative n’est peut-être pas une curiosité interdite, mais le signe d’une symétrie cosmique brisée dans nos modèles standards.
-                    •	ΛCDM décrit efficacement l’Univers tel que nous l’observons,
-                    •	le modèle Janus propose une lecture plus géométrique et symétrique de ces mêmes observations.
-                L’histoire de la physique montre que les grandes avancées naissent souvent de telles tensions conceptuelles.Que la masse négative existe ou non comme entité physique, elle joue déjà un rôle crucial : forcer la cosmologie à interroger ses propres fondations.
-                </p>
-            </div>
+          <p className="text-lg ">
+            Explorer la masse négative, c’est donc aussi comparer deux visions de l’Univers.
+          </p>
         </div>
-    </div>
-</section>
 
+        {/* IMAGE DE L'UNIVERS */}
+        <figure className='mt-10'>
+            <Image
+                src="/univers.webp"
+                width={100}
+                height={100}
+                alt="image"
+                className="w-full object-cover rounded-xl"
+                unoptimized
+                />
+            <figcaption className="mt-3 text-sm text-center">
+                Image granulaire de l'univers
+            </figcaption>
+        </figure>
 
+        {/* VIDEO JANUS */}
+        <section className="space-y-4 mt-10">
+          <h2 className="text-2xl font-semibold">Présentation du modèle Janus</h2>
+
+          <div className="aspect-video w-full">
+            <iframe
+              className="w-full h-full rounded-xl shadow-md"
+              src="https://www.youtube.com/embed/9LxU0BSTmLs"
+              title="Présentation modèle Janus"
+              allowFullScreen
+            />
+          </div>
+        </section>
+
+        {/* SECTION 1 */}
+        <section className="space-y-6 mt-10">
+          <h2 className="text-3xl font-semibold">
+            Masse et matière : fondements historiques
+          </h2>
+
+          <h3 className="text-2xl font-medium">1.1 La masse dans la physique classique</h3>
+
+          <p>
+            Dans la mécanique newtonienne, la masse est une grandeur positive, mesurant à la fois :
+          </p>
+
+          <ul className="list-disc pl-6 space-y-2">
+            <li>l’inertie d’un corps,</li>
+            <li>sa capacité à interagir gravitationnellement.</li>
+          </ul>
+
+          <p>
+            La gravitation est toujours attractive, et l’Univers est pensé comme un espace absolu,
+            passif. Ce cadre fonctionne remarquablement bien à l’échelle humaine, mais il n’offre
+            aucune explication profonde à l’origine de la masse ni à l’égalité entre masse inertielle
+            et gravitationnelle.
+          </p>
+
+          <h3 className="text-2xl font-medium">
+            1.2 Relativité générale et rôle géométrique de la masse
+          </h3>
+
+          <p>
+            Avec Einstein, la masse devient une <strong>source de courbure de l’espace-temps</strong>.
+            La matière ne se contente plus de “subir” l’espace : elle le façonne.
+          </p>
+
+          <ul className="list-disc pl-6 space-y-2">
+            <li>des densités d’énergie positives,</li>
+            <li>mais aussi nulles ou négatives, sans contradiction formelle.</li>
+          </ul>
+
+          <p>
+            C’est ici que la porte conceptuelle de la masse négative s’entrouvre.
+          </p>
+        </section>
+
+        {/* SYMETRIES */}
+        <section className="space-y-6 mt-10">
+          <h2 className="text-3xl font-semibold">
+            Symétries fondamentales et statut du signe de la masse
+          </h2>
+
+          <p>
+            La physique moderne est gouvernée par des symétries profondes (C, P, T, CPT). Or :
+          </p>
+
+          <ul className="list-disc pl-6 space-y-2">
+            <li>
+              aucune symétrie fondamentale n’impose que la masse soit strictement positive,
+            </li>
+            <li>
+              le signe de la masse apparaît davantage comme un choix de solution que comme une
+              nécessité absolue.
+            </li>
+          </ul>
+
+          <div className=" border border-yellow-200 p-4 rounded-lg">
+            <p>
+              <strong>⚠️ À noter :</strong> L’antimatière n’est pas de la masse négative. Elle possède
+              une masse positive et obéit à la gravitation normale (à l’état des connaissances
+              actuelles).
+            </p>
+          </div>
+
+          <p>Dans une approche newtonienne naïve, on obtient un comportement étrange :</p>
+
+          <ul className="list-disc pl-6 space-y-2">
+            <li>la masse positive attire la masse négative,</li>
+            <li>la masse négative fuit,</li>
+            <li>les deux accélèrent indéfiniment.</li>
+          </ul>
+
+          <p>
+            Ce scénario repose toutefois sur une extension non relativiste et non symétrique des
+            équations.
+          </p>
+
+          <p className="italic">
+            👉 Le paradoxe est-il fondamental, ou provient-il d’un cadre théorique incomplet ?
+          </p>
+        </section>
+
+        {/* LAMBDA CDM */}
+        <section className="space-y-6 mt-10">
+          <h2 className="text-3xl font-semibold">Le modèle ΛCDM : la solution standard</h2>
+
+          <p>
+            Le modèle <strong>ΛCDM</strong> (Lambda Cold Dark Matter) est aujourd’hui le cadre dominant
+            en cosmologie. Il repose sur :
+          </p>
+
+          <ul className="list-disc pl-6 space-y-2">
+            <li>la relativité générale,</li>
+            <li>une constante cosmologique Λ (énergie noire),</li>
+            <li>une matière noire froide, non baryonique.</li>
+          </ul>
+
+          <h3 className="text-2xl font-medium">Forces du modèle ΛCDM</h3>
+          <ul className="list-disc pl-6 space-y-2">
+            <li>excellent accord avec le fond diffus cosmologique,</li>
+            <li>reproduction statistique des grandes structures,</li>
+            <li>cadre mathématique bien maîtrisé.</li>
+          </ul>
+
+          <h3 className="text-2xl font-medium">Faiblesses conceptuelles</h3>
+          <ul className="list-disc pl-6 space-y-2">
+            <li>95 % du contenu de l’Univers est invisible,</li>
+            <li>la nature de la matière noire reste inconnue,</li>
+            <li>aucune symétrie fondamentale n’explique leur existence.</li>
+          </ul>
+
+          <p>
+            ΛCDM fonctionne remarquablement bien, mais au prix d’entités ad hoc.
+          </p>
+        </section>
+
+        {/* JANUS */}
+        <section className="space-y-6 mt-10">
+          <h2 className="text-3xl font-semibold">
+            Le modèle Janus de Jean-Pierre Petit
+          </h2>
+
+          <h3 className="text-2xl font-medium">Principe général</h3>
+
+          <ul className="list-disc pl-6 space-y-2">
+            <li>deux feuillets d’espace-temps conjugués,</li>
+            <li>l’un dominé par la masse positive,</li>
+            <li>l’autre par la masse négative.</li>
+          </ul>
+
+          <p>
+            Ces deux feuillets sont liés géométriquement mais séparés dynamiquement.
+          </p>
+
+          <h3 className="text-2xl font-medium">
+            Interaction gravitationnelle répulsive
+          </h3>
+
+          <ul className="list-disc pl-6 space-y-2">
+            <li>la masse positive et la masse négative se repoussent mutuellement,</li>
+            <li>il n’existe pas de poursuite perpétuelle,</li>
+            <li>la dynamique est stable et symétrique.</li>
+          </ul>
+        </section>
+
+        {/* CONCLUSION */}
+        <section className="space-y-6 mt-10">
+          <h2 className="text-3xl font-semibold">Conclusion et perspectives</h2>
+
+          <ul className="list-disc pl-6 space-y-2">
+            <li>
+              ΛCDM est largement admis aujourd’hui en raison de son efficacité prédictive,
+            </li>
+            <li>
+              Janus est cohérent théoriquement mais marginal, bien que beaucoup d’observations
+              collent avec ses prédictions.
+            </li>
+          </ul>
+
+          <p className="italic">
+            👉 Janus réduit le nombre d’hypothèses ad hoc en restaurant une symétrie fondamentale.
+          </p>
+
+          <p>
+            La masse négative n’est peut-être pas une curiosité interdite, mais le signe d’une
+            symétrie cosmique brisée dans nos modèles standards.
+          </p>
+
+          <p>En fin de compte, deux visions coexistent :</p>
+
+          <ul className="list-disc pl-6 space-y-2">
+            <li>ΛCDM décrit efficacement l’Univers tel que nous l’observons,</li>
+            <li>
+              le modèle Janus propose une lecture plus géométrique et symétrique de ces mêmes
+              observations.
+            </li>
+          </ul>
+
+          <p>
+            L’histoire de la physique montre que les grandes avancées naissent souvent de telles
+            tensions conceptuelles.
+          </p>
+        </section>
+      </article>
+    </section>
   );
 }

@@ -8,7 +8,7 @@ export default async function About() {
   
   return (
 
-<section className="w-full overflow-hidden  mt-10">
+<section className="w-full overflow-hidden  mt-4">
     <div className="flex flex-col">
         <img src="https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHw2fHxlYXJ0aHxlbnwwfDB8fHwxNzQ2NTM0MzY3fDA&ixlib=rb-4.1.0&q=80&w=1080" alt="User Cover" className="w-full xl:h-[20rem] lg:h-[18rem] md:h-[16rem] sm:h-[14rem] h-[11rem]" />
 
@@ -121,7 +121,7 @@ export default async function About() {
                     <h1 className="w-fit font-serif my-4 pb-1 pr-2 rounded-b-md border-b-4 border-blue-600 lg:text-4xl md:text-3xl text-xl">
                         My Location
                     </h1>
-                    < MyMap/>
+                    
                 </div>
             </div>
 

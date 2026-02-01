@@ -34,9 +34,11 @@ export default function NavbarClient({ session }: { session: Session | null }) {
         </div>
           {/* Desktop Menu - Visible sur grands écrans */}
           <div className="hidden text-center md:flex md:items-center md:space-x-4">
+            { session ? (
             <Link href="/dashboard" className="hover:bg-gray-200 dark:hover:bg-gray-700 px-3 py-2 rounded-md">
               Dashboard
             </Link>
+            ) : null}
             <Link href="/posts" className="hover:bg-gray-700 px-3 py-2 rounded-md">
               Articles
             </Link>
@@ -47,10 +49,13 @@ export default function NavbarClient({ session }: { session: Session | null }) {
               À propos
             </Link>
             <Link href="/metals" className="hover:bg-gray-700 px-3 py-2 rounded-md">
-              Gold
+              Prix Métaux
             </Link>
              <Link href="/bourse" className="hover:bg-gray-700 px-3 py-2 rounded-md">
               Bourse
+            </Link>
+            <Link href="/periodic_table" className="hover:bg-gray-700 px-3 py-2 rounded-md">
+              Tableau
             </Link>
             <Link href="/contact" className="hover:bg-gray-700 px-3 py-2 rounded-md">
               Contact
@@ -77,9 +82,9 @@ export default function NavbarClient({ session }: { session: Session | null }) {
                 </Link>
               </div>
             ) : (
-              <Link href="/api/auth/signin" className="bg-purple-700 hover:bg-purple-800 px-3 py-2 rounded-md">
+              /*<Link href="/api/auth/signin" className="bg-purple-700 hover:bg-purple-800 px-3 py-2 rounded-md">
                 Connexion
-              </Link>
+              </Link>*/ null
             )}
 
           {/* Bouton collapse - Visible uniquement sur petits écrans */}
