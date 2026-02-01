@@ -10,7 +10,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   session: {
     strategy: "database",
   },
-  debug: false, // Active les logs détaillés
+  //debug: false, // Active les logs détaillés
   callbacks: {
     async session({ session, user }) {
       //console.log("📧 Session callback - user:", user)

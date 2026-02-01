@@ -11,10 +11,6 @@ export default function NavbarClient({ session }: { session: Session | null }) {
   const [isOpen, setIsOpen] = useState(false);
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  console.log("=== DEBUG AUTH ===")
-  console.log("session:", session)
-
-  console.log("==================")
 
   useEffect(() => {
     setMounted(true);
