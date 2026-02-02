@@ -20,7 +20,7 @@ export default async function Projects() {
           <div className="sm:grid lg:grid-cols-3 sm:grid-cols-2 gap-10">
                     {projects.map((project) => (
 
-          <div key={project.id} className="hover:bg-gray-900 hover:text-white transition duration-300 max-w-sm rounded overflow-hidden shadow-lg">
+          <a href={`/projects/${project.id}`} key={project.id} className="hover:bg-gray-900 hover:text-white transition duration-300 max-w-sm rounded overflow-hidden shadow-lg">
                         
             <Image
                 src={project.image || "/python_img.webp"}
@@ -30,9 +30,7 @@ export default async function Projects() {
                 className="w-full h-48 object-cover"
               />
             <div className="py-4 px-8">
-              <a href={`/projects/${project.id}`}>
-                  <h4 className="text-lg mb-3 font-semibold">{project.title}</h4>
-              </a>
+              <h4 className="text-lg mb-3 font-semibold">{project.title}</h4>
               <p className="mb-2 text-sm text-gray-600">
                 {project.resume}
               </p>
@@ -40,7 +38,7 @@ export default async function Projects() {
               <span className="text-xs">Projet</span>
               &nbsp;<span className="text-xs text-gray-500">{ project.createdAt.getUTCFullYear() }</span>
             </div>
-          </div>
+          </a>
         ))}
 
          </div>

@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Session } from "next-auth";
 import { useTheme } from 'next-themes';
 import { useEffect } from 'react';
+import Image from 'next/image';
 
 export default function NavbarClient({ session }: { session: Session | null }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,11 +22,13 @@ export default function NavbarClient({ session }: { session: Session | null }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex-shrink-0">
-            <Link href="/" className="text-xl font-bold">
+
+            <Link href="/" className="flex items-center text-2xl font-bold">
+            <Image 
+              src="/favicon.ico" alt="Logo" width={40} height={40} className="mr-2 flex-shrink-0"
+              />
               Suri's <span className="text-blue-600"> Blog</span>
             </Link>
-          </div>
           <div className="flex items-center lg:order-2">
             <div className="hidden mt-2 mr-4 sm:inline-block">
                 <span></span>
@@ -33,7 +36,7 @@ export default function NavbarClient({ session }: { session: Session | null }) {
 
         </div>
           {/* Desktop Menu - Visible sur grands écrans */}
-          <div className="hidden text-center md:flex md:items-center md:space-x-4">
+          <div className="hidden text-center gap-2 md:flex md:items-center md:space-x-4">
             { session ? (
             <Link href="/dashboard" className="hover:bg-gray-200 dark:hover:bg-gray-700 px-3 py-2 rounded-md">
               Dashboard
@@ -47,9 +50,6 @@ export default function NavbarClient({ session }: { session: Session | null }) {
             </Link>
             <Link href="/about" className="hover:bg-gray-700 px-3 py-2 rounded-md">
               À propos
-            </Link>
-            <Link href="/metals" className="hover:bg-gray-700 px-3 py-2 rounded-md">
-              Prix Métaux
             </Link>
              <Link href="/bourse" className="hover:bg-gray-700 px-3 py-2 rounded-md">
               Bourse
@@ -89,7 +89,7 @@ export default function NavbarClient({ session }: { session: Session | null }) {
 
           {/* Bouton collapse - Visible uniquement sur petits écrans */}
           <div className="md:hidden">
-            <button onClick={() => setIsOpen(!isOpen)} className="inline-flex items-center justify-center p-2 rounded-md hover:bg-gray-700 focus:outline-none" aria-expanded={isOpen}>
+            <button id="mobile-menu-button" onClick={() => setIsOpen(!isOpen)} className="inline-flex items-center justify-center p-2 rounded-md hover:bg-gray-700 focus:outline-none" aria-expanded={isOpen}>
               <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                 {isOpen ? (
                   // Icône X quand le menu est ouvert
@@ -107,21 +107,19 @@ export default function NavbarClient({ session }: { session: Session | null }) {
       {/* Menu Mobile - Visible uniquement sur petits écrans quand isOpen = true */}
       <div className={`md:hidden ${isOpen ? 'block' : 'hidden'}`}>
         <div className="px-2 pt-2 pb-3 space-y-1">
+          { session ? (
           <Link href="/dashboard" className="block hover:bg-gray-700 px-3 py-2 rounded-md" onClick={() => setIsOpen(false)}>
             Dashboard
           </Link>
+          ) : null}
           <Link href="/posts" className="block hover:bg-gray-700 px-3 py-2 rounded-md" onClick={() => setIsOpen(false)}>
             Articles
           </Link>
-          <Link
-            href="/projets" className="block hover:bg-gray-700 px-3 py-2 rounded-md" onClick={() => setIsOpen(false)}>
+          <Link href="/projects" className="block hover:bg-gray-700 px-3 py-2 rounded-md" onClick={() => setIsOpen(false)}>
             Projets
           </Link>
           <Link href="/about" className="block hover:bg-gray-700 px-3 py-2 rounded-md" onClick={() => setIsOpen(false)}>
             À propos
-          </Link>
-          <Link href="/metals" className="hover:bg-gray-700 px-3 py-2 rounded-md">
-            Gold
           </Link>
           <Link href="/bourse" className="block hover:bg-gray-700 px-3 py-2 rounded-md" onClick={() => setIsOpen(false)}>
             Bourse

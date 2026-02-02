@@ -49,7 +49,7 @@ export default function StocksTable() {
     }
 
     fetchStocks()
-    const interval = setInterval(fetchStocks, 1200000) // Rafraîchir toutes les 20 minutes (limite API)
+    const interval = setInterval(fetchStocks, 12000000) // Rafraîchir toutes les 200 minutes (limite API)
     return () => clearInterval(interval)
   }, [])
 
@@ -132,7 +132,6 @@ export default function StocksTable() {
 
   return (
     <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">Tableau Boursier Mondial</h1>
       
       {/* Barre de recherche et filtres */}
       <div className="mb-6 flex flex-col md:flex-row gap-4">
@@ -147,7 +146,7 @@ export default function StocksTable() {
         <div className="flex gap-2">
           <button
             onClick={() => setFilter('all')}
-            className={` px-4 py-2 rounded-lg font-medium hover:cursor-pointer ${
+            className={`bourse px-4 py-2 rounded-lg font-medium hover:cursor-pointer ${
               filter === 'all' 
                 ? 'bg-blue-600 ' 
                 : 'bg-gray-200 hover:bg-gray-300'
@@ -157,7 +156,7 @@ export default function StocksTable() {
           </button>
           <button
             onClick={() => setFilter('pea')}
-            className={`px-4 py-2 rounded-lg font-medium hover:cursor-pointer ${
+            className={`bourse px-4 py-2 rounded-lg font-medium hover:cursor-pointer ${
               filter === 'pea' 
                 ? 'bg-green-600 ' 
                 : 'bg-gray-200 hover:bg-gray-300'
@@ -167,7 +166,7 @@ export default function StocksTable() {
           </button>
           <button
             onClick={() => setFilter('world')}
-            className={`px-4 py-2 rounded-lg font-medium hover:cursor-pointer ${
+            className={`bourse px-4 py-2 rounded-lg font-medium hover:cursor-pointer ${
               filter === 'world' 
                 ? 'bg-purple-600 ' 
                 : 'bg-gray-200 hover:bg-gray-300'

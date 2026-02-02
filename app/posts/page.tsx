@@ -27,7 +27,7 @@ export default async function Posts() {
 
         <div className="max-w-screen-xl mx-auto p-16">
           <div className="sm:grid lg:grid-cols-3 sm:grid-cols-2 gap-10">
-            <div key="algo" className="hover:bg-gray-900 hover:text-white transition duration-300 max-w-sm rounded overflow-hidden shadow-lg">
+            <a href="/posts/algoculture" key="algo" className="hover:bg-gray-900 hover:text-white transition duration-300 max-w-sm rounded overflow-hidden shadow-lg">
               <Image
                   src="/uploads/image-1769438168655-893060458.jpg"
                   width={300}
@@ -36,9 +36,7 @@ export default async function Posts() {
                   className="w-100"
                 />
               <div className="py-4 px-8">
-                <a href="/posts/algoculture">
-                    <h4 className="text-lg mb-3 font-semibold">L'algoculture</h4>
-                </a>
+                <h4 className="text-lg mb-3 font-semibold">L'algoculture</h4>
                 <p className="mb-2 text-sm text-gray-600">
                   La culture des algues — ou algoculture — est une activité vieille de plusieurs siècles, mais elle connaît aujourd’hui une croissance rapide à l’échelle mondiale.
                 </p>
@@ -46,8 +44,8 @@ export default async function Posts() {
                 <span className="text-xs">ARTICLE</span>
                 &nbsp;<span className="text-xs text-gray-500">2025</span>
               </div>
-            </div>
-            <div key="cosmo" className="hover:bg-gray-900 hover:text-white transition duration-300 max-w-sm rounded overflow-hidden shadow-lg">
+            </a>
+            <a href="/posts/negative" key="cosmo" className="hover:bg-gray-900 hover:text-white transition duration-300 max-w-sm rounded overflow-hidden shadow-lg">
               <Image
                   src="/univers.webp"
                   width={300}
@@ -56,17 +54,15 @@ export default async function Posts() {
                   className="w-100"
                 />
               <div className="py-4 px-8">
-                <a href="/posts/negative">
-                    <h4 className="text-lg mb-3 font-semibold">La masse négative</h4>
-                </a>
+                <h4 className="text-lg mb-3 font-semibold">La masse négative</h4>
                 <p className="mb-2 text-sm text-gray-600">
                   Rapidement réfuté par les scientifiques dans les années 50, l'hypothèse de l'existence de la masse négative attise la curiosité et pourrait s'avérer un candidat sérieux pour expliquer la structure et le comportement des masses de notre univers
                 </p>
                 <span className="text-xs">ARTICLE</span>
                 &nbsp;<span className="text-xs text-gray-500">2026</span>
               </div>
-            </div>
-            <div key="space" className="hover:bg-gray-900 hover:text-white transition duration-300 max-w-sm rounded overflow-hidden shadow-lg">
+            </a>
+            <a href="/posts/space" key="space" className="hover:bg-gray-900 hover:text-white transition duration-300 max-w-sm rounded overflow-hidden shadow-lg">
               <Image
                   src="/artemis.jpg"
                   width={300}
@@ -75,16 +71,14 @@ export default async function Posts() {
                   className="w-100"
                 />
               <div className="py-4 px-8">
-                <a href="/posts/space">
-                    <h4 className="text-lg mb-3 font-semibold">L'actualité spatiale 2026</h4>
-                </a>
+                <h4 className="text-lg mb-3 font-semibold">L'actualité spatiale 2026</h4>
                 <p className="mb-2 text-sm text-gray-600">
                   Un panorama des dernières nouvelles et missions prévues pour le spatial en 2026                
                 </p>
                 <span className="text-xs">ARTICLE</span>
                 &nbsp;<span className="text-xs text-gray-500">2026</span>
               </div>
-            </div>
+            </a>
 
             {posts.map((post) => (
 

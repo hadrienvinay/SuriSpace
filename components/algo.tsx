@@ -3,7 +3,7 @@ import Image from 'next/image'
 export default function Algo() {
   return (
     <div className=" ">
-      <article className="max-w-5xl mx-auto px-6 py-12 space-y-12">
+      <article className="max-w-5xl mx-auto px-6 py-6 space-y-12">
         {/* INTRODUCTION */}
         <div className="space-y-6">
           <h1 className="text-4xl md:text-5xl font-bold leading-tight">
@@ -14,13 +14,14 @@ export default function Algo() {
             La culture des algues — ou <strong>algoculture</strong> — est une activité vieille de
             plusieurs siècles, mais elle connaît aujourd’hui une croissance rapide à l’échelle
             mondiale. La production mondiale d’algues cultivées dépasse aujourd’hui les{" "}
-            <strong>14 millions de tonnes par an</strong>, principalement sous forme de
-            macro-algues marines (comme les laminaires, le wakamé ou le nori).
+            <strong>30 millions de tonnes par an</strong>, principalement sous forme de
+            macro-algues marines (comme les laminaires, le wakamé ou le nori). La moitié est utilisée à des fins alimentaires, le reste pour des applications industrielles, cosmétiques et agricoles.   
+            Avec un taux de croissance annuel moyen supérieur à 5% depuis les années 2000, le commerce d'algues compte un chiffre d'affaire annuel compris en 4 et 5 miliards de dollars.  
           </p>
 
           <p className="text-lg ">
-            Elle est dominée par des pays d’Asie-Pacifique tels que la Chine, l’Indonésie et le Japon,
-            qui représentent la majorité de la production mondiale.
+            Elle est dominée par des pays d’Asie du Sud Est tels que la Chine, l’Indonésie et la Corée du Sud,
+            qui représentent la majorité de la production mondiale (respectivement 58%, 28%, 5%).
           </p>
 
           <p className="text-lg ">
@@ -116,7 +117,7 @@ export default function Algo() {
             </li>
 
             <li>
-              <strong>Spiruline (Arthrospira)</strong>
+              <strong>Spiruline (bactérie Arthrospira)</strong>
               <p>→ Complément alimentaire, riche en protéines, fer et antioxydants.</p>
             </li>
 
@@ -157,8 +158,7 @@ export default function Algo() {
           <ul className="list-disc pl-6 space-y-2">
             <li>
               La production annuelle française s’élève à plusieurs dizaines de milliers de tonnes,
-              mais elle est surtout issue de la récolte sauvage en mer, notamment en Bretagne et au
-              Pays Basque.
+              mais elle est surtout issue de la récolte sauvage en mer, principalement en Bretagne (+90% de la production annuelle). 
             </li>
             <li>
               L’algoculture commerciale reste moins développée qu’en Asie, avec une part minoritaire
@@ -220,6 +220,24 @@ export default function Algo() {
             className="text-green-700 underline"
           >
             → Article scientifique sur Persée
+          </a>
+          <br></br>
+          <a
+            href="https://fr.wikipedia.org/wiki/Algoculture"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-green-700 underline"
+          >
+            → Page Wikipédia
+          </a>
+            <br></br>
+          <a
+            href="https://www.guidedesespeces.org/fr/algues"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-green-700 underline"
+          >
+            → Guide des espèces algues
           </a>
         </section>
       </article>

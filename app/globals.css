@@ -17,14 +17,19 @@
   background-color : #ded6d6;
 }
 
-.dark button{
-  color: #141313;
+.dark #mobile-menu-button{
+  color: #ffffff;
+}
+
+.dark button.bourse{
+  color: #000000;
 }
 
 
 .dark div.myclass{
   background-color: #2c4255;
 }
+
 
 @media (prefers-color-scheme: dark) {
   :root {

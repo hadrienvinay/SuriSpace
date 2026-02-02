@@ -54,7 +54,7 @@ const userData: Prisma.UserCreateInput[] = [
           title: "Blog Personnel",
           resume: "Site personnel réalisé avec Next JS pour présenter mon profil et mes projets.",
           content: "Approfondissement de mes compétences Web avec le framework Next JS. Le site inclut une page d'accueil, un blog pour partager des articles, une section projets pour présenter mes travaux et également une partie finance avec les prix spot de l'or et l'argent ainsi qu'un tableau dynamique des principales actions mondiales. Utilisation de TypeScript pour le typage statique et Tailwind CSS pour le design responsive. authentification utilisateur et gestion des données avec NextAuth, Prisma et une base de données PostgreSQL.",
-          link: "https://github.com/hadrienvinay/Blog",
+          link: "https://github.com/hadrienvinay/SuriSpace",
           image: "/blog.png",
           imageTitle: "Capture d'écran du blog personnel",
           image2: "/bdd.png",
