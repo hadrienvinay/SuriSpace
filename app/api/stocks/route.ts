@@ -41,6 +41,7 @@ export async function GET() {
             const result = quote.price;
             const summary = quote.summaryDetail;
             const stats = quote.defaultKeyStatistics;
+            console.log(`Fetched data for ${symbol}:`, result);
 
             if (!result) {
                 console.error(`No price data for ${symbol}`);

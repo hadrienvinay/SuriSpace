@@ -4,7 +4,7 @@ export default async function Contact() {
   
   return (
 
-    <section className="relative z-10 mt-10 overflow-hidden py-12 sm:py-20 lg:py-[120px] transition-colors duration-300">
+    <section className="relative z-10 overflow-hidden py-12 sm:py-20 lg:py-[120px] transition-colors duration-300">
     <div className="container mx-auto">
         <div className="mx-4 flex flex-wrap justify-center lg:justify-between">
         <div className="order-2 w-full px-4 lg:order-1 lg:w-1/2 xl:w-5/12">

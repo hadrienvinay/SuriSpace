@@ -4,20 +4,31 @@ import { useEffect, useState } from 'react';
 import Weather from '@/components/Weather'
 import Ratp from '@/components/Ratp'
 import StocksTable from '@/components/stockTable';
+import { CreateLinkModal } from '@/components/CreateLinkModal';
+import ShowStats from '@/components/ShowStats';
+import ShowMessages from '@/components/ShowMessages';
 // Note: Verify that Weather component accepts city as a string prop
 
-export default function ThemePage() {
+export default function TestPage() {
   const [isDark, setIsDark] = useState(false);
-
+  const [isModalOpen, setIsModalOpen] = useState(false)
   return (
     <section className={`mt-10 transition-colors duration-500 w-full overflow-hidden ${
       isDark ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'
     }`}>
-      <StocksTable />
       <div className="container mx-auto px-4 py-10">
         <div className="flex justify-between items-center mb-10">
           <h1 className="text-4xl font-bold">Ma Page</h1>
-          
+          <button
+          onClick={() => setIsModalOpen(true)}
+          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+          </svg>
+          Nouvelle ressource
+        </button>
+                  
           {/* Toggle Switch */}
           <button
             onClick={() => setIsDark(!isDark)}
@@ -81,6 +92,10 @@ export default function ThemePage() {
           </div>
         </div>
       </div>
+      <CreateLinkModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </section>
   );
 }

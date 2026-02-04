@@ -5,6 +5,7 @@ export default function Negative() {
   return (
     <section className="space-y-16">
       <article className="max-w-4xl px-4 pt-6 lg:pt-10 pb-12 sm:px-6 lg:px-8 mx-auto">
+
         <div className="max-w-4xl">
             <div className="flex justify-between items-center mb-6">
                 <div className="flex w-full sm:items-center gap-x-5 sm:gap-x-3">
@@ -82,7 +83,7 @@ export default function Negative() {
         {/* HERO / INTRO */}
         <div className="space-y-6">
           <h1 className="text-4xl md:text-5xl font-bold leading-tight">
-            De la matière classique au modèle Janus face au ΛCDM
+            De la matière classique au modèle Janus face au modèle ΛCDM
           </h1>
 
           <p className="text-lg ">
@@ -94,7 +95,7 @@ export default function Negative() {
           </p>
 
           <p className="text-lg ">
-            Dans la cosmologie contemporaine, deux grandes approches se font face :
+            Dans la cosmologie contemporaine, plusieurs approches se font face :
           </p>
 
           <ul className="list-disc pl-6 space-y-2 ">
@@ -128,19 +129,6 @@ export default function Negative() {
             </figcaption>
         </figure>
 
-        {/* VIDEO JANUS */}
-        <section className="space-y-4 mt-10">
-          <h2 className="text-2xl font-semibold">Présentation du modèle Janus</h2>
-
-          <div className="aspect-video w-full">
-            <iframe
-              className="w-full h-full rounded-xl shadow-md"
-              src="https://www.youtube.com/embed/9LxU0BSTmLs"
-              title="Présentation modèle Janus"
-              allowFullScreen
-            />
-          </div>
-        </section>
 
         {/* SECTION 1 */}
         <section className="space-y-6 mt-10">
@@ -231,6 +219,8 @@ export default function Negative() {
           </p>
         </section>
 
+        
+
         {/* LAMBDA CDM */}
         <section className="space-y-6 mt-10">
           <h2 className="text-3xl font-semibold">Le modèle ΛCDM : la solution standard</h2>
@@ -265,6 +255,20 @@ export default function Negative() {
           </p>
         </section>
 
+        {/* VIDEO JANUS */}
+        <section className="space-y-4 mt-10">
+          <h2 className="text-2xl font-semibold">Présentation du modèle Janus</h2>
+
+          <div className="aspect-video w-full">
+            <iframe
+              className="w-full h-full rounded-xl shadow-md"
+              src="https://www.youtube.com/embed/9LxU0BSTmLs"
+              title="Présentation modèle Janus"
+              allowFullScreen
+            />
+          </div>
+        </section>
+
         {/* JANUS */}
         <section className="space-y-6 mt-10">
           <h2 className="text-3xl font-semibold">
@@ -291,6 +295,10 @@ export default function Negative() {
             <li>la masse positive et la masse négative se repoussent mutuellement,</li>
             <li>il n’existe pas de poursuite perpétuelle,</li>
             <li>la dynamique est stable et symétrique.</li>
+            <li>explique la structure lacunaire de l'univers, fait de 'trous' vides et des conglomérats de matières (amas de galaxie) </li>
+            <li>explique la vitesse de rotation des galaxies, qui serait entouré de masse négative </li>
+            <li>l'univers contiendrait donc une dimension caché: celle des masses négatives, avec des propriétés et comportements différents (présence uniquement d'hydrogène et d'helium, vitesse de la lumière * 10)</li>
+
           </ul>
         </section>
 
@@ -300,7 +308,7 @@ export default function Negative() {
 
           <ul className="list-disc pl-6 space-y-2">
             <li>
-              ΛCDM est largement admis aujourd’hui en raison de son efficacité prédictive,
+              ΛCDM est largement admis aujourd’hui en raison de son efficacité prédictive, bien qu'elle n'arrive pas à détecter cette matière noire ou autres particules résultantes de cette théorie(graviton,...)
             </li>
             <li>
               Janus est cohérent théoriquement mais marginal, bien que beaucoup d’observations

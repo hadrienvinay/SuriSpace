@@ -121,6 +121,83 @@ const linkData =  [
     tag: "Education, Sciences",
     link: "https://www.youtube.com/@ScienceEtonnante"
   },
+  {
+    title: "Elucid",
+    description: "Interview, articles économie, société, politique ",
+    image: "/default.png",
+    tag: "Education, Economie",
+    link: "https://www.elucid-media.fr"
+  },
+  {
+    title: "Idriss Aberkane",
+    description: "Conférencier, Journaliste indépendant",
+    image: "/default.png",
+    tag: "Education, Actualité, Sciences",
+    link: "https://www.youtube.com/@ScienceEtonnante"
+  },
+  {
+    title: "3Blue1Brown",
+    description: "Vulgarisation Mathématiques",
+    image: "/default.png",
+    tag: "Education, Mathématiques",
+    link: "https://www.youtube.com/@3Blue1Brown"
+  },
+  {
+    title: "Aurélien Barrau",
+    description: "Professeur, chercheur",
+    image: "/default.png",
+    tag: "Education, Sciences",
+    link: "https://www.youtube.com/@AurelienBarrau"
+  },
+  {
+    title: "Jean Pierre Petit",
+    description: "Scientifique",
+    image: "/default.png",
+    tag: "Education, Inventeur",
+    link: "https://www.youtube.com/@JPPEtit"
+  },
+  {
+    title: "Bataille de France",
+    description: "Vulgarisation historique",
+    image: "/default.png",
+    tag: "Education, Histoire",
+    link: "https://www.youtube.com/@ScienceEtonnante"
+  },
+  {
+    title: "Hugo Lisoir",
+    description: "Actualisté spatiale",
+    image: "/default.png",
+    tag: "Actualité, Espace",
+    link: "https://www.youtube.com/@ScienceEtonnante"
+  },
+  {
+    title: "Charles Gave",
+    description: "Vulgarisateur scientifique",
+    image: "/default.png",
+    tag: "Economie, Education",
+    link: "https://www.youtube.com/@ScienceEtonnante"
+  },
+  {
+    title: "Juan Branco",
+    description: "Avocat, défenseur des liberté",
+    image: "/default.png",
+    tag: "Droit, Défense",
+    link: "https://www.youtube.com/@ScienceEtonnante"
+  },
+  {
+    title: "Veridis Project",
+    description: "Musique, remix et composition",
+    image: "/default.png",
+    tag: "Musique",
+    link: "https://www.youtube.com/@VeridisProject"
+  },
+  {
+    title: "Tocsin",
+    description: "Radio citoyenne",
+    image: "/default.png",
+    tag: "Journalisme, Actualité",
+    link: "https://www.youtube.com/@Tocsin"
+  },
 
 
 ];

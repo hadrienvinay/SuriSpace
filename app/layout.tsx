@@ -1,11 +1,7 @@
 import "./globals.css";
 import Link from "next/link";
 import { ThemeProvider } from "../components/ThemeProvider"
-import ThemeToggle from "../components/ThemeToggle"
-import { auth } from "@/lib/auth";
-import prisma from '@/lib/prisma'
 import  NavBar from '@/components/Navbar'
-import { SessionProvider } from 'next-auth/react';
 
 export const metadata = {
   title: "Suri Space",

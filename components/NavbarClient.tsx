@@ -22,21 +22,14 @@ export default function NavbarClient({ session }: { session: Session | null }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-
-            <Link href="/" className="flex items-center text-2xl font-bold">
+          <Link href="/" className="flex items-center text-2xl font-bold">
             <Image 
               src="/favicon.ico" alt="Logo" width={40} height={40} className="mr-2 flex-shrink-0"
               />
-              Suri's <span className="text-blue-600"> Blog</span>
-            </Link>
-          <div className="flex items-center lg:order-2">
-            <div className="hidden mt-2 mr-4 sm:inline-block">
-                <span></span>
-            </div>
-
-        </div>
+            Suri's <span className="text-blue-600"> Blog</span>
+          </Link>
           {/* Desktop Menu - Visible sur grands écrans */}
-          <div className="hidden text-center gap-2 md:flex md:items-center md:space-x-4">
+          <div className="hidden gap-2 md:flex md:items-center md:space-x-4">
             { session ? (
             <Link href="/dashboard" className="hover:bg-gray-200 dark:hover:bg-gray-700 px-3 py-2 rounded-md">
               Dashboard

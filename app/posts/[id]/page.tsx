@@ -7,7 +7,6 @@ export default async function Post({ params }: { params: Promise<{ id: string }>
   const { id } = await params;
   const post = await prisma.post.findUnique({
     where: { id: parseInt(id) },
-    
   });
 
   if (!post) {

@@ -1,10 +1,9 @@
 
 import Link from "next/link";
 import Image from 'next/image';
-import { formatDistanceToNow } from 'date-fns';
-import { fr } from 'date-fns/locale';
 import Weather from '@/components/Weather'
 import Ratp from '@/components/Ratp'
+import Links from '@/components/ShowLinks'
 
 export default function Home() {
     
@@ -45,6 +44,9 @@ export default function Home() {
           </div>
           <div className="mt-2">  
             <Weather city="Madrid" />
+          </div>
+          <div className="mt-2">  
+            <Weather city="Arcachon" />
           </div>
         </div>
 
@@ -124,7 +126,6 @@ export default function Home() {
 
       </div>
 
-      <div>
          
       <div className="max-w-screen-xl mx-auto py-4 px-2 lg:py-16 lg:px-6 border-t border-gray-200 dark:border-gray-700">
         <div className="text-center mb-10">
@@ -173,9 +174,16 @@ export default function Home() {
 
             </div>
           </div>
-        </div>
-
       </div>
+
+      <div className="max-w-screen-xl mx-auto py-4 px-2 lg:py-16 lg:px-6 border-t border-gray-200 dark:border-gray-700">
+        <div className="text-center mb-10">
+            <h2 className="text-4xl tracking-tight font-bold text-primary-800">Médias et ressources utiles</h2>
+        </div>  
+        <Links/>   
+      </div>
+
+
 
     </section>
 
