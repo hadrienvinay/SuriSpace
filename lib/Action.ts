@@ -1,0 +1,42 @@
+export type ActionParams = {
+  name: string;
+  ticker: string;
+  price: number;
+  purchasePrice: number;
+  pe?: number | null;
+};
+
+export default class Action {
+  name: string;
+  ticker: string;
+  price: number;
+  purchasePrice: number;
+  pe?: number | null;
+
+  constructor({ name, ticker, price, purchasePrice, pe }: ActionParams) {
+    this.name = name;
+    this.ticker = ticker;
+    this.price = Number(price || 0);
+    this.purchasePrice = Number(purchasePrice || 0);
+    this.pe = pe ?? null;
+  }
+
+  getGain(): number {
+    return Number((this.price - this.purchasePrice) || 0);
+  }
+
+  getGainPercent(): number | null {
+    if (!this.purchasePrice) return null;
+    return Number(((this.price - this.purchasePrice) / this.purchasePrice) * 100);
+  }
+
+  toJSON() {
+    return {
+      name: this.name,
+      ticker: this.ticker,
+      price: this.price,
+      purchasePrice: this.purchasePrice,
+      pe: this.pe,
+    };
+  }
+}

@@ -8,7 +8,7 @@ export async function GET() {
     try{
         const now = Date.now()
         if (cache.data && (now - cache.timestamp) < CACHE_DURATION) {
-        console.log('Serving from cache')
+            console.log('Serving from cache')
         return NextResponse.json(cache.data)
         }
         const symbols = [
@@ -30,6 +30,10 @@ export async function GET() {
         'CRM', 'ORCL', 'CSCO', 'INTC', 'AMD',
         'NKE', 'PFE', 'KO', 'PEP', 'MCD',
         ]  
+
+        const mySymbols = [
+        'BNP.PA', 'BNP.PA', 'BNP.PA', 'BNP.PA', 'BNP.PA',
+        ]
         const yahooFinance = new YahooFinance();
         const stocksData = await Promise.all(
         symbols.map(async (symbol) => {

@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import prisma from '@/lib/prisma'
 import Link from "next/link";
+import DeleteLinkButton  from "@/components/DeleteLinkButton";
 
 export default async function MyLinks() {
 
@@ -26,6 +27,7 @@ export default async function MyLinks() {
                 <td className="p-4">{link.description}</td>
                 <td className="p-4 "><Link href={`${link.link}`}className="hover:text-blue-600 transition">{link.link}</Link></td>
                 <td className="p-4 text-green-600 font-bold">{link.tag}</td>
+                
             </tr>
             ))
             }

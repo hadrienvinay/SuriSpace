@@ -28,7 +28,9 @@ export default function Algo() {
             Le rôle écologique de ces cultures n’est pas négligeable : les algues sont de redoutables
             pompes à carbone (elles captent le CO₂ par photosynthèse sans besoin d’intrants
             agricoles) et contribuent à atténuer l’acidification des océans — un atout dans un
-            contexte de changement climatique.
+            contexte de changement climatique. Elles permettent entre autre de purifier l'eau et ainsi de dépolluer les eaux et donc l'écosystème 
+            environnant, comme le font les arbres et les plantes pour le sol et l'air.
+
           </p>
         </div>
 
@@ -50,7 +52,7 @@ export default function Algo() {
         {/* CITATION */}
         <blockquote className="border-l-4 border-green-600 pl-4 italic text-lg ">
           “L’algoculture c’est la rencontre entre la mer, la science et l’avenir durable.”
-          <span className="block mt-2 font-semibold">— Nicole Grazioso</span>
+          <span className="block mt-2 font-semibold">— Un futur algoculteur</span>
         </blockquote>
 
         {/* APPLICATIONS */}
@@ -61,9 +63,9 @@ export default function Algo() {
 
           <ul className="space-y-4">
             <li>
-              <strong>🥢 Alimentation humaine :</strong> une part très importante de la production
-              mondiale est destinée à la consommation directe comme légume marin (sushis, salades,
-              snacks).
+              <strong>🥢 Alimentation humaine :</strong> une part importante de la production
+              mondiale est destinée à la consommation directe (environ la moitié), principalement en Asie
+              (sushis, salades, snacks).
             </li>
             <li>
               <strong>🧪 Industrie et chimie :</strong> elles fournissent des hydrocolloïdes

@@ -28,7 +28,7 @@ export default function MetalsPrice() {
     // Rafraîchir automatiquement toutes les 2 minutes si activé
     let interval: NodeJS.Timeout | undefined;
     if (autoRefresh) {
-      interval = setInterval(fetchPrices, 120000); // 2 minutes
+      interval = setInterval(fetchPrices, 1200000); // 20 minutes
     }
     
     return () => {

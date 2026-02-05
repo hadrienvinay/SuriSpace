@@ -45,7 +45,7 @@ export async function GET() {
           const meta = result.meta
           console.log(result)
           
-          const previousClose = meta.chartPreviousClose || meta.previousClose
+          const previousClose = meta.regularMarketPreviousClose || meta.previousClose
           const currentPrice = meta.regularMarketPrice
           
           // 2. P/E ratio et autres métriques (quoteSummary API)

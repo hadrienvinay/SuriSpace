@@ -114,3 +114,16 @@ model VerificationToken {
   @@unique([identifier, token])
   @@map("verification_tokens")
 }
+
+model Action {
+  id           Int      @id @default(autoincrement())
+  name         String
+  ticker       String
+  price        Float
+  purchasePrice Float
+  pe           Float?
+  dividend     Float?
+  notes        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
