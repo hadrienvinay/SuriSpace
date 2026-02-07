@@ -100,11 +100,14 @@ export default function Negative() {
 
           <ul className="list-disc pl-6 space-y-2 ">
             <li>
-              le modèle standard <strong>ΛCDM</strong>, fondé sur la relativité générale et
-              l’introduction de composantes invisibles (matière noire et énergie noire),
+              le modèle standard <strong>ΛCDM</strong>, fondé sur la relativité générale et qui stipule que l'univers est composé à 68% d'énergie noire, 
+              à 27% de matière noire, des entités mystérieuses dont la nature exacte reste à élucider et enfin de 5% de matière ordinaire, celle que nous connaissons 
+              et qui compose tous ce que nous voyons dans l'univers ( les galaxies faites d'étoiles, de gaz et de planètes).
+              Beaucoup de théories et d'expériences sont en cours pour tenter de comprendre la nature de la matière noire et de l'énergie noire, depuis les années 70. 
             </li>
             <li>
-              et des modèles alternatifs, dont le <strong>modèle Janus</strong> de Jean-Pierre Petit,
+              Nous n'en parlerons pas içi mais cela comprend de nombreuses hypothèses, comme les WIMPS, les axions, les neutrinos stériles, les trous noirs primordiaux, les modifications de la gravité à grande échelle, théorie MOND...
+              Je vais me concentrer sur la description peu connue du <strong>modèle Janus</strong> de Jean-Pierre Petit,
               qui réintroduit la symétrie matière / masse négative comme principe structurant.
             </li>
           </ul>
@@ -136,8 +139,6 @@ export default function Negative() {
             Masse et matière : fondements historiques
           </h2>
 
-          <h3 className="text-2xl font-medium">1.1 La masse dans la physique classique</h3>
-
           <p>
             Dans la mécanique newtonienne, la masse est une grandeur positive, mesurant à la fois :
           </p>
@@ -153,10 +154,6 @@ export default function Negative() {
             aucune explication profonde à l’origine de la masse ni à l’égalité entre masse inertielle
             et gravitationnelle.
           </p>
-
-          <h3 className="text-2xl font-medium">
-            1.2 Relativité générale et rôle géométrique de la masse
-          </h3>
 
           <p>
             Avec Einstein, la masse devient une <strong>source de courbure de l’espace-temps</strong>.
@@ -197,7 +194,7 @@ export default function Negative() {
             <p>
               <strong>⚠️ À noter :</strong> L’antimatière n’est pas de la masse négative. Elle possède
               une masse positive et obéit à la gravitation normale (à l’état des connaissances
-              actuelles).
+              actuelles). Ce sont uniquement les propriétés électriques (dit aussi charges) qui sont inversées, pas la masse.
             </p>
           </div>
 
@@ -211,8 +208,14 @@ export default function Negative() {
 
           <p>
             Ce scénario repose toutefois sur une extension non relativiste et non symétrique des
-            équations.
+            équations mais les scientifiques ont décrété depuis les années 50 d'abandonner tous travaux sur la masse négative, jugeant peu sérieux son étude, à cause de ce paradoxe de la poursuite perpétuelle. 
+            Pourtant, il existe des solutions relativistes stables et symétriques, comme le modèle Janus que nous allons présenter, oû :
           </p>
+          <ul className="list-disc pl-6 space-y-2">
+            <li>la masse positive attire la masse positive,</li>
+            <li>la masse négative attire la masse négative,</li>
+            <li>deux masses opposées se repoussent</li>
+          </ul>
 
           <p className="italic">
             👉 Le paradoxe est-il fondamental, ou provient-il d’un cadre théorique incomplet ?
@@ -236,10 +239,11 @@ export default function Negative() {
             <li>une matière noire froide, non baryonique.</li>
           </ul>
 
-          <h3 className="text-2xl font-medium">Forces du modèle ΛCDM</h3>
+          <h3 className="text-2xl font-medium">Forces du modèle ΛCDM (Cold Dark Matter)</h3>
           <ul className="list-disc pl-6 space-y-2">
-            <li>excellent accord avec le fond diffus cosmologique,</li>
-            <li>reproduction statistique des grandes structures,</li>
+            <li>excellent accord avec le fond diffus cosmologique (CMB),</li>
+            <li>reproduction statistique des grandes structures commme les galaxies, amas</li>
+            <li>l'expansion de l'univers </li>
             <li>cadre mathématique bien maîtrisé.</li>
           </ul>
 
@@ -251,7 +255,8 @@ export default function Negative() {
           </ul>
 
           <p>
-            ΛCDM fonctionne remarquablement bien, mais au prix d’entités ad hoc.
+            ΛCDM fonctionne remarquablement bien, et est généralement considéré comme la meilleure description de l’Univers à grande échelle. 
+            Cependant, il repose sur des composants mystérieux (matière noire, énergie noire) qui n’ont pas encore été détectés directement, et qui soulèvent des questions profondes sur la nature de la réalité cosmique.
           </p>
         </section>
 
@@ -278,13 +283,15 @@ export default function Negative() {
           <h3 className="text-2xl font-medium">Principe général</h3>
 
           <ul className="list-disc pl-6 space-y-2">
-            <li>deux feuillets d’espace-temps conjugués,</li>
+            <li>deux univers/dimensions d’espace-temps conjugués,</li>
             <li>l’un dominé par la masse positive,</li>
             <li>l’autre par la masse négative.</li>
           </ul>
 
           <p>
-            Ces deux feuillets sont liés géométriquement mais séparés dynamiquement.
+            Ces deux feuillets sont liés géométriquement mais séparés dynamiquement. Ce modèle repose également sur une base mathématique solide :
+             une extension de la relativité générale, avec des métriques conjuguées pour chaque type de masse, et une interaction gravitationnelle répulsive entre les deux.
+             Cela complète donc les equations d'Einstein en introduisant une symétrie matière / masse négative, et en réinterprétant la gravitation comme une interaction géométrique plus riche que dans le cadre standard.
           </p>
 
           <h3 className="text-2xl font-medium">
@@ -296,8 +303,8 @@ export default function Negative() {
             <li>il n’existe pas de poursuite perpétuelle,</li>
             <li>la dynamique est stable et symétrique.</li>
             <li>explique la structure lacunaire de l'univers, fait de 'trous' vides et des conglomérats de matières (amas de galaxie) </li>
-            <li>explique la vitesse de rotation des galaxies, qui serait entouré de masse négative </li>
-            <li>l'univers contiendrait donc une dimension caché: celle des masses négatives, avec des propriétés et comportements différents (présence uniquement d'hydrogène et d'helium, vitesse de la lumière * 10)</li>
+            <li>explique la vitesse de rotation des galaxies, qui serait entouré de masse négative qui les confineraient </li>
+            <li>l'univers contiendrait donc une dimension caché: celle des masses négatives, avec des propriétés et comportements différents (présence uniquement d'hydrogène et d'helium, vitesse de la lumière modifiée..)</li>
 
           </ul>
         </section>
@@ -308,7 +315,8 @@ export default function Negative() {
 
           <ul className="list-disc pl-6 space-y-2">
             <li>
-              ΛCDM est largement admis aujourd’hui en raison de son efficacité prédictive, bien qu'elle n'arrive pas à détecter cette matière noire ou autres particules résultantes de cette théorie(graviton,...)
+              ΛCDM est largement admis aujourd’hui en raison de son efficacité prédictive, bien qu'elle n'arrive pas à détecter cette matière noire et les
+              particules résultantes de cette théorie (graviton, axions, WIMPS...) malgré des décennies de recherche.
             </li>
             <li>
               Janus est cohérent théoriquement mais marginal, bien que beaucoup d’observations
@@ -340,6 +348,38 @@ export default function Negative() {
             tensions conceptuelles.
           </p>
         </section>
+            
+         {/* RESSOURCES */}
+        <section className="space-y-4">
+          <h2 className="text-2xl font-semibold">Ressources</h2>
+          <a
+            href="https://www.jp-petit.org/science/JANUS_COSMOLOGICAL_MODEL/JMC.htm"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-green-700 underline"
+          >
+            → Modèle Janus de Jean-Pierre Petit
+          </a>
+          <br></br>
+          <a
+            href="https://fr.wikipedia.org/wiki/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-green-700 underline"
+          >
+            → Page 
+          </a>
+            <br></br>
+          <a
+            href="https://www.youtube.com/watch?v=9LxU0BSTmLs"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-green-700 underline"
+          >
+            → Conférence de Jean-Pierre Petit sur le modèle Janus
+          </a>
+        </section>
+
       </article>
     </section>
   );
