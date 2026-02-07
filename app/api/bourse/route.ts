@@ -43,7 +43,7 @@ export async function GET() {
           const chartData = await chartResponse.json()
           const result = chartData.chart.result[0]
           const meta = result.meta
-          console.log(result)
+          //console.log(result)
           
           const previousClose = meta.regularMarketPreviousClose || meta.previousClose
           const currentPrice = meta.regularMarketPrice
@@ -55,7 +55,7 @@ export async function GET() {
           })
           const summaryData = await summaryResponse.json()
           const quoteSummary = summaryData.quoteSummary?.result?.[0]
-          console.log(quoteSummary)
+          //console.log(quoteSummary)
           // Extraire le P/E ratio
           const peRatio = 
             quoteSummary?.defaultKeyStatistics?.trailingPE?.raw ||

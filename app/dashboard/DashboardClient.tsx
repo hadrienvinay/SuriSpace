@@ -103,7 +103,7 @@ const [isModalOpen, setIsModalOpen] = useState(false)
                                     <DeleteLinkButton linkId={link.id} /> 
 
                                     <Link href={`/link/${link.id}/edit`} className="flex bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded-full shadow-lg">
-                                    Edit 
+                                        Edit 
                                     </Link>
                                     </div>
                                 </td>

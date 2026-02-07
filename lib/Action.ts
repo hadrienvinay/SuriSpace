@@ -3,6 +3,7 @@ export type ActionParams = {
   ticker: string;
   price: number;
   purchasePrice: number;
+  quantity?: number;
   pe?: number | null;
 };
 
@@ -11,13 +12,15 @@ export default class Action {
   ticker: string;
   price: number;
   purchasePrice: number;
+  quantity: number;
   pe?: number | null;
 
-  constructor({ name, ticker, price, purchasePrice, pe }: ActionParams) {
+  constructor({ name, ticker, price, purchasePrice,quantity, pe }: ActionParams) {
     this.name = name;
     this.ticker = ticker;
     this.price = Number(price || 0);
     this.purchasePrice = Number(purchasePrice || 0);
+    this.quantity = Number(quantity || 0);
     this.pe = pe ?? null;
   }
 
@@ -36,6 +39,7 @@ export default class Action {
       ticker: this.ticker,
       price: this.price,
       purchasePrice: this.purchasePrice,
+      quantity: this.quantity,
       pe: this.pe,
     };
   }

@@ -19,17 +19,17 @@ export default function NavbarClient({ session }: { session: Session | null }) {
 
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className=" mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center text-2xl font-bold">
+          <Link id="logo-link" href="/" className="flex items-center text-2xl font-bold">
             <Image 
               src="/favicon.ico" alt="Logo" width={40} height={40} className="mr-2 flex-shrink-0"
               />
             Suri's <span className="text-blue-600"> Blog</span>
           </Link>
           {/* Desktop Menu - Visible sur grands écrans */}
-          <div className="hidden gap-2 md:flex md:items-center md:space-x-4">
+          <div className="hidden gap-2 md:flex md:items-center lg:space-x-8">
             { session ? (
             <Link href="/dashboard" className="hover:bg-gray-200 dark:hover:bg-gray-700 px-3 py-2 rounded-md">
               Dashboard
@@ -74,10 +74,11 @@ export default function NavbarClient({ session }: { session: Session | null }) {
                   Déconnexion
                 </Link>
               </div>
-            ) : (
-              /*<Link href="/api/auth/signin" className="bg-purple-700 hover:bg-purple-800 px-3 py-2 rounded-md">
+            ) : (null
+              
+              /*<div className="flex items-center space-x-4"></div><Link href="/api/auth/signin" className="bg-purple-700 hover:bg-purple-800 px-3 py-2 rounded-md">
                 Connexion
-              </Link>*/ null
+              </Link>*/ 
             )}
 
           {/* Bouton collapse - Visible uniquement sur petits écrans */}

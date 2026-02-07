@@ -79,7 +79,7 @@ export default function CreatePostForm() {
           value={titre}
           onChange={(e) => setTitre(e.target.value)}
           required
-          className="w-full px-4 py-2 border rounded-lg bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-4 py-2 border rounded-lg  border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Entrez le titre de l'article"
         />
       </div>
@@ -95,7 +95,7 @@ export default function CreatePostForm() {
           onChange={(e) => setContenu(e.target.value)}
           required
           rows={8}
-          className="w-full px-4 py-2 border rounded-lg bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-4 py-2 border rounded-lg border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Écrivez votre article..."
         />
       </div>
@@ -110,7 +110,7 @@ export default function CreatePostForm() {
           id="image"
           accept="image/*"
           onChange={handleImageChange}
-          className="w-full px-4 py-2 border rounded-lg bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-4 py-2 border rounded-lg border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
 

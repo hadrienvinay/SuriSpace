@@ -44,3 +44,28 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Style pour le jeu de la vie */
+.cell{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /*padding: 1rem;*/
+  border: 1px solid #999;
+  outline: 0;
+  border-radius: 0;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+
+.alive {
+  background-color: #fff; /* Blanc pour les cellules vivantes */
+}
+
+.dead {
+  background-color: #000; /* Noir pour les cellules mortes */
+}
+
+#logo-link:hover {
+  background-color: transparent;
+}

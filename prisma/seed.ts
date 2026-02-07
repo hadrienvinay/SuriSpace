@@ -202,13 +202,246 @@ const linkData =  [
 
 ];
 
+const actionsData: Prisma.ActionCreateInput[] = [
+  {
+    name: "ABC ARBITRAGE",
+    ticker: "ABCA.PA",
+    price: 5.55,
+    purchasePrice: 5.39,
+    quantity: 93,
+    pe: 0,
+  },
+  {
+    name: "AIR FRANCE KLM",
+    ticker: "AF.PA",
+    price: 12.055,
+    purchasePrice: 11.76,
+    quantity: 15,
+    pe: 0,
+  },
+  {
+    name: "AIRBUS",
+    ticker: "AIR.PA",
+    price: 191.30,
+    purchasePrice: 195.57,
+    quantity: 3,
+    pe: 0,
+  },
+  {
+    name: "ArcelorMittal",
+    ticker: "MT.PA",
+    price: 51.2,
+    purchasePrice: 30.28,
+    quantity: 10,
+    pe: 0,
+  },
+  {
+    name: "AXA",
+    ticker: "CS.PA",
+    price: 39.66,
+    purchasePrice: 40.11,
+    quantity: 4,
+    pe: 0,
+  },
+  {
+    name: "BNP PARIBAS",
+    ticker: "BNP.PA",
+    price: 79.61,
+    purchasePrice: 93.18,
+    quantity: 3,
+    pe: 0,
+  },
+  {
+    name: "CARBIOS",
+    ticker: "ALCRB.PA",
+    price: 9.85,
+    purchasePrice: 11.919,
+    quantity: 15,
+    pe: 0,
+  },
+    {
+    name: "CROSSJECT",
+    ticker: "ALCJ.PA",
+    price: 2.03,
+    purchasePrice: 2.32,
+    quantity: 40,
+    pe: 0,
+  },
+    {
+    name: "DASSAULT SYSTEMES",
+    ticker: "DSY.PA",
+    price: 22.25,
+    purchasePrice: 25.41,
+    quantity: 18,
+    pe: 0,
+  },
+    {
+    name: "EIFFAGE",
+    ticker: "EI.PA",
+    price: 134.3,
+    purchasePrice: 110.99,
+    quantity: 2,
+    pe: 0,
+  },
+    {
+    name: "ELECTRICITE DE STRASBOURG",
+    ticker: "ELEC.PA",
+    price: 220,
+    purchasePrice: 164,
+    quantity: 3,
+    pe: 0,
+  },
+  {
+    name: "ENGIE",
+    ticker: "ENGI.PA",
+    price: 25.7,
+    purchasePrice: 18.34,
+    quantity: 28,
+    pe: 0,
+  },
+  {
+    name: "EUTELSAT COMMUNICATION",
+    ticker: "ETL.PA",
+    price: 2.105,
+    purchasePrice: 2.356,
+    quantity: 150,
+    pe: 0,
+  },
+  {
+    name: "FRANCAISE ENERGIE",
+    ticker: "FDE.PA",
+    price: 34.05,
+    purchasePrice: 33.97,
+    quantity: 4,
+    pe: 0,
+  },
+  {
+    name: "GAZTRANSPORT TECHNIGAZ",
+    ticker: "GTT.PA",
+    price: 177,
+    purchasePrice: 157.9,
+    quantity: 2,
+    pe: 0,
+  },
+    {
+    name: "MICHELIN",
+    ticker: "ML.PA",
+    price: 32.98,
+    purchasePrice: 31.14,
+    quantity: 5,
+    pe: 0,
+  },
+    {
+    name: "ORANGE",
+    ticker: "ORA.PA",
+    price: 16.5,
+    purchasePrice: 13.929,
+    quantity: 10,
+    pe: 0,
+  },
+    {
+    name: "SAFRAN",
+    ticker: "SAF.PA",
+    price: 308,
+    purchasePrice: 302.6,
+    quantity: 2,
+    pe: 0,
+  },
+    {
+    name: "STMICROELECTRONICS",
+    ticker: "STMPA.PA",
+    price: 24.89,
+    purchasePrice: 23.84,
+    quantity: 11,
+    pe: 0,
+  },
+  {
+    name: "VALLOUREC",
+    ticker: "VK.PA",
+    price: 18.52,
+    purchasePrice: 15.77,
+    quantity: 5,
+    pe: 0,
+  },
+  {
+    name: "VICAT",
+    ticker: "VCT.PA",
+    price: 76.4,
+    purchasePrice: 61.6,
+    quantity: 2,
+    pe: 0,
+  },
+  {
+    name: "CAIXABANK",
+    ticker: "CABK.MC",
+    price: 10.87,
+    purchasePrice: 8.7,
+    quantity: 15,
+    pe: 0,
+  },
+  {
+    name: "INTESA SANPAOLO",
+    ticker: "ISP.MC",
+    price: 5.97,
+    purchasePrice: 5.5,
+    quantity: 38,
+    pe: 0,
+  },
+    {
+    name: "LEONARDO",
+    ticker: "LDO.MI",
+    price: 53.2,
+    purchasePrice: 53.38,
+    quantity: 5,
+    pe: 0,
+  },
+    {
+    name: "SIEMENS AG",
+    ticker: "SIE.DE",
+    price: 250.5,
+    purchasePrice: 247.33,
+    quantity: 5,
+    pe: 0,
+  },
+    {
+    name: "PEA EMERG AMUNDI",
+    ticker: "PLEM",
+    price: 22.104,
+    purchasePrice: 21.331,
+    quantity: 15,
+    pe: 0,
+  },
+   {
+    name: "PEA MSCI AMUNDI",
+    ticker: "PAEEM",
+    price: 31,
+    purchasePrice: 30.582,
+    quantity: 30,
+    pe: 0,
+  },
+  {
+    name: "PEA MSCI WORLD AMUNDI",
+    ticker: "CW8U",
+    price: 724.34,
+    purchasePrice: 693.62,
+    quantity: 2,
+    pe: 0,
+  },
+
+
+];
+
+
 export async function main() {
   for (const u of userData) {
     await prisma.user.create({ data: u });
   }
-  
+
     await prisma.link.createMany({
         data: linkData
+    });
+    await prisma.action.createMany({
+        data: actionsData
     });
 }
 

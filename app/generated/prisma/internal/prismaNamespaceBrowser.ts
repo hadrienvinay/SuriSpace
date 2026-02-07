@@ -190,6 +190,7 @@ export const ActionScalarFieldEnum = {
   ticker: 'ticker',
   price: 'price',
   purchasePrice: 'purchasePrice',
+  quantity: 'quantity',
   pe: 'pe',
   dividend: 'dividend',
   notes: 'notes',

@@ -121,6 +121,7 @@ model Action {
   ticker       String
   price        Float
   purchasePrice Float
+  quantity     Float
   pe           Float?
   dividend     Float?
   notes        String?

@@ -40,7 +40,6 @@ export async function PUT(
   try {
     // ✅ Await params
     const formData = await request.formData();
-    console.log(formData)
     const title = formData.get('titre') as string;
     const description = formData.get('description') as string;
     const tag = formData.get('tag') as string;

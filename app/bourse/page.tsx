@@ -1,5 +1,3 @@
-import Link from "next/link";
-import dynamic from "next/dynamic";
 import StocksTable from "@/components/stockTable"
 import MetalsPrice from "../metals/page";
 

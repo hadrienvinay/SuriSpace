@@ -15,7 +15,7 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { name, ticker, price, purchasePrice, pe, notes } = body;
+    const { name, ticker, price, purchasePrice, quantity, pe, notes } = body;
     if (!name || !ticker) return NextResponse.json({ error: 'Missing name or ticker' }, { status: 400 });
     let actionPe = pe
     let actionDividend = 0
@@ -44,6 +44,7 @@ export async function POST(req: Request) {
         ticker: String(ticker),
         price: Number(actionPrice || price),
         purchasePrice: Number(purchasePrice || actionPrice),
+        quantity: Number(body.quantity || 0),
         pe: actionPe || pe,
         dividend: actionDividend || 0,
         notes: notes ? String(notes) : null,

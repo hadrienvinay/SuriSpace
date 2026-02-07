@@ -113,7 +113,7 @@ export default function Negative() {
           </ul>
 
           <p className="text-lg ">
-            Explorer la masse négative, c’est donc aussi comparer deux visions de l’Univers.
+            Explorer la masse négative, c’est donc aussi comparer deux visions de l’univers et tenter d'expliquer pourquoi il est structuré de manière si inégale.
           </p>
         </div>
 
@@ -302,7 +302,7 @@ export default function Negative() {
             <li>la masse positive et la masse négative se repoussent mutuellement,</li>
             <li>il n’existe pas de poursuite perpétuelle,</li>
             <li>la dynamique est stable et symétrique.</li>
-            <li>explique la structure lacunaire de l'univers, fait de 'trous' vides et des conglomérats de matières (amas de galaxie) </li>
+            <li>explique la structure lacunaire de l'univers, fait de 'trous' vides et de conglomérats de matières (amas de galaxies) </li>
             <li>explique la vitesse de rotation des galaxies, qui serait entouré de masse négative qui les confineraient </li>
             <li>l'univers contiendrait donc une dimension caché: celle des masses négatives, avec des propriétés et comportements différents (présence uniquement d'hydrogène et d'helium, vitesse de la lumière modifiée..)</li>
 
@@ -362,12 +362,12 @@ export default function Negative() {
           </a>
           <br></br>
           <a
-            href="https://fr.wikipedia.org/wiki/"
+            href="http://pccollege.fr/cycle-4/cycle-4-classe-de-4eme/chapitre-iv-lunivers/"
             target="_blank"
             rel="noopener noreferrer"
             className="text-green-700 underline"
           >
-            → Page 
+            → Structure de l'univers
           </a>
             <br></br>
           <a

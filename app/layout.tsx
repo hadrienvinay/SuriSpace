@@ -25,7 +25,7 @@ export default function RootLayout({
         </header>
 
         {/* CONTENT */}
-        <main className="max-w-6xl mx-auto px-6 pt-10 pb-10">
+        <main className="max-w-7xl mx-auto px-6 pt-10 pb-14">
           {children}
         </main>
 

@@ -43,7 +43,7 @@ export default function MetalsPrice() {
     try {
       const response = await fetch('/api/metals');
       const data = await response.json();
-      console.log('Données des prix:', data);
+      //console.log('Données des prix:', data);
 
       if (response.ok && data.success) {
         setPrices(data);
