@@ -8,7 +8,7 @@ export default async function About() {
   
   return (
 
-<section className="w-full overflow-hidden mt-4">
+<section className="max-w-7xl mx-auto w-full overflow-hidden mt-4">
     <div className="flex flex-col">
         <img src="https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHw2fHxlYXJ0aHxlbnwwfDB8fHwxNzQ2NTM0MzY3fDA&ixlib=rb-4.1.0&q=80&w=1080" alt="User Cover" className="w-full xl:h-[20rem] lg:h-[18rem] md:h-[16rem] sm:h-[14rem] h-[11rem]" />
         <div className="sm:w-[80%] w-[90%] mx-auto flex">
@@ -25,7 +25,7 @@ export default async function About() {
         </div>
         
         <div className="xl:w-[80%] lg:w-[90%] md:w-[90%] sm:w-[92%] w-[90%] mx-auto flex flex-col gap-4 items-center relative lg:-top-8 md:-top-6 -top-4">
-            <p className="w-fit text-md">
+            <p className="w-fit text-md text-justify">
                 Jeune Ingénieur de 29 ans, spécialisé dans les systèmes d'information et les systèmes embarqués.<br></br>
                 Féru de connaissances, j'ai à coeur de partager mais aussi de découvrir toujours de nouvelles idées, histoires et actualités sur le monde qui nous entoure.<br></br>
                 Que ce soit les sciences de pointe comme la physique nucléaire ou bien mécanique céleste, l'économie, l'histoire, la géopolitique, l'informatique, chaque jour est source de nouvelles découvertes et d'aventure. <br></br>

@@ -11,7 +11,7 @@ export default function Home() {
     //console.log(user)
   
   return (
-    <section className="space-y-16">
+    <section className="max-w-7xl mx-auto space-y-16">
       {/* HERO */}
       <div className="text-center mt-10">
         

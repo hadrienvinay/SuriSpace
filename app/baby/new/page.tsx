@@ -71,13 +71,13 @@ export default function BabyBetPage() {
   };
 
   return (
-   <div className="min-h-screen bg-gradient-to-br from-pink-100 to-blue-100 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden text-black">
+   <div className="min-h-screen bg-linear-to-br from-pink-100 to-blue-100 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden text-black">
   {/* Éléments décoratifs : cœurs et étoiles */}
   <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
     <div className="absolute top-10 left-10 text-pink-200 animate-pulse">❤️</div>
     <div className="absolute top-20 right-20 text-pink-200 animate-pulse">🌟</div>
     <div className="absolute bottom-10 left-10 text-pink-200 animate-pulse">❤️</div>
-    <div className="absolute bottom-10 right-10 text-pink-200 animate-pulse">🌟</div>
+    <div className="absolute bottom-11 right-10 text-pink-200 animate-pulse">🌟</div>
     <div className="absolute top-1/3 right-10 text-pink-200 animate-pulse">👶</div>
     <div className="absolute top-1/3 left-10 text-pink-200 animate-pulse">💖</div>
     <div className="absolute bottom-1/3 left-9 text-pink-200 animate-pulse">💕</div>

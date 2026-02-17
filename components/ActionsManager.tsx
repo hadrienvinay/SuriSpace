@@ -269,7 +269,7 @@ export default function ActionsManager() {
         Total Gain: <span className={totalGain > 0 ? 'text-green-500' : 'text-red-500'}>{totalGain.toFixed(2)} €</span>
       </div>
 
-    <div className="w-[90vw] max-w-none ml-[-12vw]">
+    <div className="">
       <table className="w-full divide-y divide-gray-200 text-black">
         <thead className="bg-gray-50">
           <tr>
