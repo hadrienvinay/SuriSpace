@@ -53,6 +53,7 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   Post: 'Post',
+  Pari: 'Pari',
   Project: 'Project',
   Link: 'Link',
   Message: 'Message',
@@ -104,6 +105,24 @@ export const PostScalarFieldEnum = {
 } as const
 
 export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof PostScalarFieldEnum]
+
+
+export const PariScalarFieldEnum = {
+  id: 'id',
+  date: 'date',
+  sexe: 'sexe',
+  poids: 'poids',
+  taille: 'taille',
+  yeux: 'yeux',
+  prenom: 'prenom',
+  cheveux: 'cheveux',
+  autres: 'autres',
+  parieurName: 'parieurName',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PariScalarFieldEnum = (typeof PariScalarFieldEnum)[keyof typeof PariScalarFieldEnum]
 
 
 export const ProjectScalarFieldEnum = {

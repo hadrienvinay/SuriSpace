@@ -2,12 +2,14 @@ import Link from "next/link";
 import prisma from '@/lib/prisma'
 import Image from 'next/image'
 import { notFound } from "next/navigation";
+import { auth } from "@/lib/auth";
+import DeleteProjectButton from "@/components/DeleteProjectButton";
 
-export default async function Project({ params }: { params: Promise<{ id: string }> }) {
+export default async function ProjectPage({ params }: { params: Promise<{ id: string }> }) {
+  const session = await auth()
   const { id } = await params;
   const project = await prisma.project.findUnique({
     where: { id: parseInt(id) },
-    
   });
 
   if (!project) {
@@ -43,7 +45,7 @@ export default async function Project({ params }: { params: Promise<{ id: string
                                         <div className="mb-2 flex w-full sm:items-center gap-x-5 sm:gap-x-3">
                                             <div className="shrink-0">
                                             <Image
-                                                src={`${project.image}`|| "/python_img.webp"}
+                                                src={project.image? `${project.image}` : "/python_img.webp"}
                                                 width={100}
                                                 height={100}
                                                 alt="image"
@@ -78,6 +80,14 @@ export default async function Project({ params }: { params: Promise<{ id: string
                         </svg>
                         Projet sur Github 
                     </Link>
+                    {session && (
+                        <div className="absolute ">
+                            <DeleteProjectButton projectId={project.id} />
+                        <a className="p-2 bg-blue-400 hover:bg-blue-500 cursor-pointer rounded ml-2" href={`/projects/${project.id}/edit`}>
+                            Modifier
+                        </a>
+                        </div>
+                        )}
                 </div>
                 </div>
             </div>
@@ -94,7 +104,7 @@ export default async function Project({ params }: { params: Promise<{ id: string
 
         <figure>
             <Image
-                src={`${project.image}`|| "/python_img.webp"}
+                src={project.image? `${project.image}`: "/python_img.webp"}
                 width={100}
                 height={100}
                 alt="image"

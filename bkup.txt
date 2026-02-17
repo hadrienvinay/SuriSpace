@@ -1,0 +1,87 @@
+ <div className="space-y-5 md:space-y-8">
+            <div className="space-y-3">
+                <h2 className="text-center text-2xl font-bold md:text-3xl">🌱 La culture des algues dans le monde : un secteur en pleine expansion</h2>
+                <p className="text-lg ">
+                    La culture des algues — ou algoculture — est une activité vieille de plusieurs siècles, mais elle connaît aujourd’hui une croissance rapide à l’échelle mondiale. La production mondiale d’algues cultivées dépasse aujourd’hui les 14 millions de tonnes par an, principalement sous forme de macro-algues marines (comme les laminaires, le wakamé ou le nori). Elle est dominée par des pays d’Asie-Pacifique tels que la Chine, l’Indonésie et le Japon, qui représentent la majorité de la production mondiale.
+                </p>
+            </div>
+
+            <p className="text-lg">
+                Le rôle écologique de ces cultures n’est pas négligeable : les algues sont de redoutables pompes à carbone (elles captent le CO₂ par photosynthèse sans besoin d’intrants agricoles) et contribuent à atténuer l’acidification des océans — un atout dans un contexte de changement climatique.                    
+            </p>
+
+            <figure>
+                <Image
+                    src="/uploads/image-1769438168655-893060458.jpg"
+                    width={100}
+                    height={100}
+                    alt="image"
+                    className="w-full object-cover rounded-xl"
+                    unoptimized
+                    />
+                <figcaption className="mt-3 text-sm text-center">
+                    Une culture d'algue en Asie
+                </figcaption>
+            </figure>
+
+            <blockquote className="text-center p-4 sm:px-7">
+                <p className="text-xl font-medium md:text-2xl md:leading-normal xl:text-2xl xl:leading-normal">
+                    L'algoculture c'est ""
+                </p>
+                <p className="mt-5 text-gray-800">
+                Nicole Grazioso
+                </p>
+            </blockquote>
+
+            <div className="space-y-3">
+                <h3 className="text-2xl font-semibold ">
+                    🛠️ Applications : de l’alimentation aux biotechnologies
+                </h3>
+
+                <div className="text-lg ">
+                    Les algues ont des usages très diversifiés :
+                    <ul className="list-disc list-outside space-y-5 ps-5 text-lg ">
+                        <li className="ps-2">🥢 Alimentation humaine : une part très importante de la production mondiale est destinée à la consommation directe comme légume marin (sushis, salades, snacks). </li>
+                        <li className="ps-2">🧪 Industrie et chimie : elles fournissent des hydrocolloïdes (alginate, agar, carraghénanes) utilisés comme gélifiants et épaississants dans de nombreux produits alimentaires et cosmétiques.</li>
+                        <li className="ps-2">💄 Cosmétiques & bien-être : extraits d’algues aux propriétés hydratantes, anti-âge et protectrices. </li>
+                        <li className="ps-2">🚜 Agriculture & fertilisation : les algues et leurs extraits améliorent la qualité des sols et stimulent la croissance des plantes. </li>
+                        <li className="ps-2">🐄 Alimentation animale et biocarburants : des pistes de développement (énergétiques et pour réduire les émissions) sont en cours d’exploration dans plusieurs pays. </li>
+                    </ul>
+                    Ce large éventail d’applications positionne la culture des algues comme une composante clé de l’économie bleue durable et de la bio-économie du XXIᵉ siècle.                    
+                </div>
+            </div>
+            
+            <div className="space-y-3">
+                <h3 className="text-2xl font-semibold">
+                    🇫🇷 Son usage en France
+                </h3>
+                <p className="text-lg ">
+                En France, la filière algues est historique mais encore limitée :
+                    * La production annuelle française s’élève à plusieurs dizaines de milliers de tonnes, mais elle est surtout issue de la récolte sauvage en mer, notamment en Bretagne et au Pays Basque, plutôt que de culture contrôlée. 
+                    * L’algoculture commerciale reste moins développée qu’en Asie, avec une part minoritaire de la production totale. 
+                    Pourtant, plusieurs facteurs plaident en faveur d’un développement plus fort :🌟 Potentiel technologique — des projets pilotes de culture en mer ou en bassins (y compris associée à la conchyliculture) explorent des modèles économiquement viables. 🌱 Demande croissante pour les produits d’algues alimentaires, cosmétiques et bio-technologiques. 📈 Soutien institutionnel — des missions ministérielles encouragent l’émergence d’une filière structurée, notamment pour valoriser les molécules d’intérêt.
+                    Les défis restent néanmoins réels : le marché alimentaire pourrait évoluer plus lentement, les techniques de culture nécessitent encore des innovations pour devenir rentables à large échelle, et la gestion écologique du littoral doit s’équilibrer avec les objectifs de production.
+                </p>
+            </div>  
+            <div className="space-y-3">
+                <h3 className="text-2xl font-semibold">
+                    🧭 En résumé
+                </h3>
+                <p className="text-lg">
+                La culture des algues est une activité mondiale en forte croissance, avec des applications allant de l’alimentation humaine à l’industrie, aux cosmétiques, aux biocarburants et à l’agriculture durable. En France, malgré un héritage riche et des atouts naturels, l’algoculture en mer et en bassin reste un secteur émergent à fort potentiel, qui pourrait jouer un rôle stratégique dans l’économie bleue française si les obstacles techniques et économiques sont relevés dans les années à venir.
+                </p>
+            </div>  
+
+            <div className="space-y-3">
+                <h3 className="text-2xl font-semibold">
+                    Ressources
+                </h3>
+                <div className="text-lg ">
+                    Liste 
+                    <ul className="list-disc list-outside space-y-5 ps-5 text-lg ">
+                        <li className="ps-2">https://www.persee.fr/doc/geo_0003-4010_1996_num_105_591_21712</li>
+                    </ul>
+
+                </div>
+            </div>  
+        </div>

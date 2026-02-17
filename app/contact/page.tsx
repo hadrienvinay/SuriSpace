@@ -46,7 +46,8 @@ export default async function Contact() {
                 formulaire ci-contre.
             </p>
             <p className="mb-9 text-base leading-relaxed">
-                Basé sur Arcachon en ce moment, près de Bordeaux, je me prépare à une future installation en Espagne.
+                Basé sur Arcachon en ce moment, je me prépare à une future installation sur Bordeaux afin de travailler 
+                dans l'industrie aéronautique et spatiale
             </p>
 
             <div className="mb-8 flex w-full max-w-[330px] gap-3">

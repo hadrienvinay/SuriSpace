@@ -197,6 +197,16 @@ export interface PrismaClient<
   get post(): Prisma.PostDelegate<ExtArgs, { omit: OmitOpts }>;
 
   /**
+   * `prisma.pari`: Exposes CRUD operations for the **Pari** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Paris
+    * const paris = await prisma.pari.findMany()
+    * ```
+    */
+  get pari(): Prisma.PariDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
    * `prisma.project`: Exposes CRUD operations for the **Project** model.
     * Example usage:
     * ```ts
