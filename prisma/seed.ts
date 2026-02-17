@@ -14,17 +14,6 @@ const userData: Prisma.UserCreateInput[] = [
   {
     name: "Suri",
     email: "hadrien.vinay@yahoo.fr",
-    posts: {
-      create: [
-        {
-          title: "Le spatial en 2026",
-          content: "https://pris.ly/youtube",
-          image: "/uploads/default.webp",
-          published: true,
-        },
-
-      ],
-    },
     projects: {
       create: [
         {
@@ -68,7 +57,7 @@ const userData: Prisma.UserCreateInput[] = [
           content: "Permet de créer et de résoudre des grilles de Sudoku de différentes difficultés. Interface utilisateur simple avec pour le moment une saisie manuele des grilles dans le code source (premières lignes du fichier main.c). ",
           content2: "Peut être amélioré en utilisant des algorithmes de backtracking pour trouver la solution optimale plus rapidement et en ajoutant une interface graphique pour une meilleure expérience utilisateur. Pour le moment le rendu est dans le terminal. Je pense le refaire avec comme input une image prise en photo d'une grille de Sudoku et utiliser la reconnaissance d'image pour extraire la grille automatiquement.",
           link: "https://github.com/hadrienvinay/sudoku",
-          image: "/sudoku1.png",
+          image: "/sudoku.png",
           imageTitle: "Capture d'écran du solveur Sudoku - Initialisation",
           image2: "/sudoku2.png",
           image2Title: "Fin de la résolution du Sudoku",

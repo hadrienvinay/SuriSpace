@@ -77,12 +77,6 @@ export default async function Projects() {
                 <p className="mb-2 text-sm ">
                   {project.resume}
                 </p>
-                {session && (
-                  <div className="absolute">
-                    <DeleteProjectButton projectId={project.id} />
-                  </div>
-                  )}
-
                 <span className="text-xs">Projet</span>
                 &nbsp;<span className="text-xs text-gray-500">{ project.createdAt.getUTCFullYear() }</span>
               </div>
