@@ -2,9 +2,24 @@ import Link from "next/link";
 import prisma from '@/lib/prisma'
 import Image from 'next/image'
 import { link } from "fs";
+import { auth } from "@/lib/auth";
+import DeleteProjectButton from "@/components/DeleteProjectButton";
 
 export default async function Projects() {
-  const projects = await prisma.project.findMany()
+  const session = await auth();
+  let user = null;
+  if (session && session.user?.email) {
+    user = await prisma.user.findUnique({
+      where: {
+        email: session.user?.email,
+      }
+    });
+  }
+  const projects = await prisma.project.findMany({
+    orderBy: {
+    createdAt: 'desc', // or 'asc'
+  },}
+  )
   return (
     <section className="space-y-16">
 
@@ -13,9 +28,17 @@ export default async function Projects() {
         <h1 className="text-5xl font-extrabold tracking-tight leading-tight md:text-6xl">
           Les projets de <span className="text-blue-600">Suri</span>
         </h1>
-        <p className="mt-6 text-xl max-w-2xl mx-auto">
-          Une page référencant mes divers projets réalisés 
-        </p>
+        <div>
+          <p className="mt-6 text-xl max-w-2xl mx-auto">
+            Une page référencant mes divers projets réalisés 
+          </p>
+      {session && (
+      <div className=" mt-5">
+        <Link href="/projects/create" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full shadow-lg">
+          + Nouveau Projet 
+        </Link>
+      </div>)}
+        </div>
         <div className=" mx-auto p-16">  
           <div className="sm:grid lg:grid-cols-3 sm:grid-cols-2 gap-10">
             <a href={`/projects/gameoflife`} key="gameoflife" className="hover:bg-gray-900 hover:text-white transition duration-300 max-w-sm rounded overflow-hidden shadow-lg">
@@ -41,9 +64,9 @@ export default async function Projects() {
           {projects.map((project) => (
 
             <a href={`/projects/${project.id}`} key={project.id} className="hover:bg-gray-900 hover:text-white transition duration-300 max-w-sm rounded overflow-hidden shadow-lg">
-                          
+            
               <Image
-                  src={project.image || "/python_img.webp"}
+                  src={project.image? project.image: "/python_img.webp"}
                   width={300}
                   height={300}
                   alt="image"
@@ -54,6 +77,11 @@ export default async function Projects() {
                 <p className="mb-2 text-sm ">
                   {project.resume}
                 </p>
+                {session && (
+                  <div className="absolute">
+                    <DeleteProjectButton projectId={project.id} />
+                  </div>
+                  )}
 
                 <span className="text-xs">Projet</span>
                 &nbsp;<span className="text-xs text-gray-500">{ project.createdAt.getUTCFullYear() }</span>

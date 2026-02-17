@@ -84,6 +84,19 @@ const userData: Prisma.UserCreateInput[] = [
           imageTitle: "Capture d'écran du projet Kolibri",
           createdAt: new Date('2018-03-10'),
         },
+        {
+          title: "Media Controller",
+          resume: "Site de création de mix audio ou de vidéos personnalisés",
+          content: "Plateforme web permettant de créer des fichiers audio ou vidéos personnalisés.Contient également un outil afin de couvertir un lien Youtube ou Soundcloud en format mp3 téléchargeable. Permet de créer un mix à partir de fichier audio entrant (gestion des transitions, synchronisation des rythmes, gestion de l'ordre des morceaux) ou bien un montage vidéo à partir d'image et de vidéos entrantes.",
+          link: 'https://github.com/hadrienvinay/MediaControllerApp',
+          image : "/media-controller.png",
+          imageTitle: "Capture d'écran de la page d'accueil",
+          content2: "On peut également faire un montage vidéo à partir de fichier img ou mp4 entrants et sélectionner la configuration et les options de notre choix. Le fichier sortant est enregistré et peut être télécharger au format mp4.",
+          image2 : "/media-controller2.png",
+          image2Title: "Capture d'écran de la page de création d'une vidéo",
+          createdAt: new Date('2026-02-05'),
+
+        }
 
       ],
     },
