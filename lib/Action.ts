@@ -5,6 +5,8 @@ export type ActionParams = {
   purchasePrice: number;
   quantity?: number;
   pe?: number | null;
+  dividendYield?: number | null;
+  where?: string;
 };
 
 export default class Action {
@@ -14,14 +16,18 @@ export default class Action {
   purchasePrice: number;
   quantity: number;
   pe?: number | null;
+  dividendYield?: number | null;
+  where?: string;
 
-  constructor({ name, ticker, price, purchasePrice,quantity, pe }: ActionParams) {
+  constructor({ name, ticker, price, purchasePrice,quantity, pe, dividendYield, where }: ActionParams) {
     this.name = name;
     this.ticker = ticker;
     this.price = Number(price || 0);
     this.purchasePrice = Number(purchasePrice || 0);
     this.quantity = Number(quantity || 0);
     this.pe = pe ?? null;
+    this.dividendYield = dividendYield ?? null;
+    this.where = where;
   }
 
   getGain(): number {
@@ -41,6 +47,8 @@ export default class Action {
       purchasePrice: this.purchasePrice,
       quantity: this.quantity,
       pe: this.pe,
+      dividendYield: this.dividendYield,
+      where: this.where,
     };
   }
 }

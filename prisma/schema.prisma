@@ -22,8 +22,9 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  posts Post[]
-  projects Project[]
+  posts         Post[]
+  projects      Project[]
+  actions       Action[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -139,10 +140,11 @@ model Action {
   purchasePrice Float
   quantity     Float
   pe           Float?
-  dividendYield     Float?
+  dividendYield Float?
   notes        String?
-  userId       Int      @map("user_id") @default(1)
-  where        String
+  where        String?
+  userId       Int      @default(1)
+  user         User    @relation(fields: [userId], references: [id])
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }

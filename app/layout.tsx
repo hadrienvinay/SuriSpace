@@ -1,6 +1,5 @@
 import "./globals.css";
-import Link from "next/link";
-import { ThemeProvider } from "../components/ThemeProvider"
+import { ThemeProvider } from "@/components/ThemeProvider"
 import  NavBar from '@/components/Navbar'
 
 export const metadata = {
@@ -13,7 +12,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  //const session = await getServerSession(authConfig);
 
   return (
     <html lang="fr" className="scroll-smooth" suppressHydrationWarning>
@@ -32,7 +30,7 @@ export default function RootLayout({
 
         {/* FOOTER */}
         <footer className="py-6 text-center text-gray-500 border-t border-gray-200 dark:border-gray-700">
-          © {new Date().getFullYear()} Hadrien Vinay — Blog Page
+          © Hadrien Vinay — Blog Page - {new Date().getFullYear()}
         </footer>
       </ThemeProvider>
       </body>

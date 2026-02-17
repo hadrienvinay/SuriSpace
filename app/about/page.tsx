@@ -14,10 +14,10 @@ export default async function About() {
         <div className="sm:w-[80%] w-[90%] mx-auto flex">
             <Image
                 src="/uploads/profil/profil.png"
-                width={100}
-                height={100}
+                width={1000}
+                height={1000}
                 alt="image"
-                className="rounded-md lg:w-[12rem] lg:h-[12rem] md:w-[10rem] md:h-[10rem] sm:w-[8rem] sm:h-[8rem] w-[7rem] h-[7rem] outline outline-2 outline-offset-2 outline-blue-500 relative lg:bottom-[5rem] sm:bottom-[4rem] bottom-[3rem]"
+                className="rounded-md lg:w-48 lg:h-48 md:w-40 md:h-40 sm:w-32 sm:h-32 w-28 h-28 outline-4 outline-offset-2 outline-blue-500 relative lg:-top-20 sm:-top-16 -top-12"
             />
             <h1 className="w-full text-left my-2 sm:mx-2 pl-4 lg:text-4xl md:text-3xl sm:text-3xl text-xl font-serif">
                 Hadrien Vinay

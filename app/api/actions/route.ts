@@ -21,7 +21,7 @@ export async function POST(req: Request) {
     let actionDividend = 0
     let actionPrice = price
     try {
-        const yahooFinance = new YahooFinance();
+        const yahooFinance = new YahooFinance({ suppressNotices: ['yahooSurvey'] });
           const quote = await yahooFinance.quoteSummary(ticker, {
           modules: ['price', 'summaryDetail', 'defaultKeyStatistics'],
           });

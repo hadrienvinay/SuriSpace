@@ -5,8 +5,8 @@ import Link from 'next/link';
 import { useRouter } from "next/navigation";
 
 type Stored = ReturnType<Action['toJSON']> & { id: number; createdAt?: string };
-type SortField = 'ticker' | 'name' | 'price' | 'gain' | 'invested' | 'pe' | 'currentvalue' | 'dividendYield'
-type SortDirection = 'asc' | 'desc'
+type SortField = 'ticker' | 'name' | 'price' | 'gain' | 'invested' | 'pe' | 'currentvalue' | 'dividendYield' | 'where';
+type SortDirection = 'asc' | 'desc';
 const STORAGE_KEY = 'suri_actions';
 
 function loadStored(): Stored[] {
@@ -33,6 +33,10 @@ export default function ActionsManager() {
   const [form, setForm] = useState<Partial<ActionParams>>({ name: '', ticker: '', price: 0, purchasePrice: 0, quantity: 1, pe: undefined });
   const [usingServer, setUsingServer] = useState(true);
   const [totalGain, setTotalGain] = useState(Number(0));
+  const [totalInvested, setTotalInvested] = useState(Number(0));
+  const [totalCurrentValue, setTotalCurrentValue] = useState(Number(0));
+
+
   const [isDeleting, setIsDeleting] = useState(false);
   const router = useRouter()
 
@@ -42,6 +46,10 @@ export default function ActionsManager() {
   function calculateTotalGain(actions: Stored[]) {
     const total = actions.reduce((acc, a) => {
       const gain = (a.price - a.purchasePrice) * a.quantity;
+      const invested = a.purchasePrice * a.quantity;
+      const currentValue = a.price * a.quantity;
+      setTotalInvested((prev) => prev + invested);
+      setTotalCurrentValue((prev) => prev + currentValue);
       console.log(`Calculating gain for ${a.name}: (${a.price} - ${a.purchasePrice}) * ${a.quantity} = ${gain}`);
       return acc + gain;
     }, 0);
@@ -52,8 +60,8 @@ export default function ActionsManager() {
     // Trie la liste
   const sortList = (list: Stored[]) => {
     return [...list].sort((a, b) => {
-      const aAction = new Action({ name: a.name, ticker: a.ticker, price: a.price, purchasePrice: a.purchasePrice, quantity: a.quantity, pe: a.pe });
-      const bAction = new Action({ name: b.name, ticker: b.ticker, price: b.price, purchasePrice: b.purchasePrice, quantity: b.quantity, pe: b.pe });
+      const aAction = new Action({ name: a.name, ticker: a.ticker, price: a.price, purchasePrice: a.purchasePrice, quantity: a.quantity, pe: a.pe, dividendYield: a.dividendYield, where: a.where });
+      const bAction = new Action({ name: b.name, ticker: b.ticker, price: b.price, purchasePrice: b.purchasePrice, quantity: b.quantity, pe: b.pe, dividendYield: b.dividendYield, where: b.where });
 
       let aValue: number, bValue: number;
 
@@ -77,6 +85,10 @@ export default function ActionsManager() {
         case 'pe':
           aValue = aAction.pe || 0;
           bValue = bAction.pe || 0;
+          break;
+        case 'dividendYield':
+          aValue = aAction.dividendYield || 0;
+          bValue = bAction.dividendYield || 0;
           break;
         default:
           // @ts-ignore
@@ -220,7 +232,6 @@ export default function ActionsManager() {
           <button type="submit" className="bg-green-600 text-white px-3 py-1 rounded cursor-pointer">Ajouter</button>
           <button type="button" onClick={() => { setForm({ name: '', ticker: '', price: 0, purchasePrice: 0, pe: undefined }); }} className="border px-3 py-1 rounded cursor-pointer">Réinitialiser</button>
           <button onClick={updatePrices} className="border bg-blue-400 px-3 py-1 rounded hover:bg-blue-500  cursor-pointer">Mettre à jour les prix</button>
-
         </div>
       </form>
 
@@ -229,9 +240,9 @@ export default function ActionsManager() {
         {list.length === 0 && <div>Aucune action ajoutée.</div>}
 
         {list.map((l) => {
-          const a = new Action({ name: l.name, ticker: l.ticker, price: l.price, purchasePrice: l.purchasePrice, quantity: l.quantity, pe: l.pe ?? undefined });
+          const a = new Action({ name: l.name, ticker: l.ticker, price: l.price, purchasePrice: l.purchasePrice, quantity: l.quantity, pe: l.pe ?? undefined, dividendYield: l.dividendYield ?? undefined, where: l.where ?? undefined });
           return (
-            <div key={String(l.id)} className="p-3 border rounded flex justify-between items-center">
+            <div key={String(l.id)} className={`p-3 border rounded flex justify-between items-center ${a.where ==='PEA' ? 'bg-green-200 text-black' : a.where === 'AV' ? 'bg-yellow-200 text-black' : a.where === 'BINANCE' ? 'bg-purple-300 text-black' : a.where === 'SCPI' ? 'bg-blue-300 text-black' : a.where === 'PS' ? 'bg-red-400 text-black' : a.where === 'TITRES' ? 'bg-green-300 text-black' : ''}`}>
               <div>
                 <div className="font-semibold items-center">{a.name} <span className="text-sm ">({a.ticker})</span></div>
                 <div className="flex text-sm ">Prix: {a.price.toFixed(2)} € — Achat: {a.purchasePrice.toFixed(2)} € </div>
@@ -254,32 +265,36 @@ export default function ActionsManager() {
         })}
       </div>
 
-      <div className="mt-4 font-bold text-lg">
+      <div className="mt-4 font-bold text-lg mb-2">
         Total Gain: <span className={totalGain > 0 ? 'text-green-500' : 'text-red-500'}>{totalGain.toFixed(2)} €</span>
       </div>
 
-      <table className="min-w-full divide-y divide-gray-200 text-black">
+    <div className="w-[90vw] max-w-none ml-[-12vw]">
+      <table className="w-full divide-y divide-gray-200 text-black">
         <thead className="bg-gray-50">
           <tr>
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider cursor-pointer" onClick={() => handleSort('name')}>
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium border border-gray-400 uppercase tracking-wider cursor-pointer" onClick={() => handleSort('name')}>
               Action
             </th>
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider cursor-pointer" onClick={() => handleSort('price')}>
-              Prix
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium border border-gray-400 uppercase tracking-wider cursor-pointer" onClick={() => handleSort('where')}>
+              Types
             </th>
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider cursor-pointer" onClick={() => handleSort('gain')}>
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium border border-gray-400   uppercase tracking-wider cursor-pointer" onClick={() => handleSort('gain')}>
               Gain
             </th>
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider cursor-pointer" onClick={() => handleSort('pe')}>
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium border border-gray-400  uppercase tracking-wider cursor-pointer" onClick={() => handleSort('pe')}>
               P/E
             </th>
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider cursor-pointer" onClick={() => handleSort('invested')}>
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium border border-gray-400  uppercase tracking-wider cursor-pointer" onClick={() => handleSort('dividendYield')}>
+              Dividende
+            </th>
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium border border-gray-400  uppercase tracking-wider cursor-pointer" onClick={() => handleSort('invested')}>
               Montant investi
             </th>
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider cursor-pointer" onClick={() => handleSort('currentvalue')}>
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium border border-gray-400  uppercase tracking-wider cursor-pointer" onClick={() => handleSort('currentvalue')}>
               Valeur actuelle
             </th>
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider cursor-pointer" >
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium border border-gray-400  uppercase tracking-wider cursor-pointer" >
               Edit
             </th>
 
@@ -288,29 +303,32 @@ export default function ActionsManager() {
         <tbody className="bg-white divide-y divide-gray-200">
           {sortedList.map((item, index) => {
             
-            const a = new Action({ name: item.name, ticker: item.ticker, price: item.price, purchasePrice: item.purchasePrice, quantity: item.quantity, pe: item.pe ?? undefined });
+            const a = new Action({ name: item.name, ticker: item.ticker, price: item.price, purchasePrice: item.purchasePrice, quantity: item.quantity, pe: item.pe ?? undefined , dividendYield: item.dividendYield?? undefined , where: item.where ?? undefined });
           return (
 
-            <tr key={index}>
-              <td className="px-6 py-4 whitespace-nowrap">
+            <tr key={index} className={`${a.where ==='PEA' ? 'bg-green-100' : a.where === 'AV' ? 'bg-yellow-100' : a.where === 'BINANCE' ? 'bg-purple-100' : a.where === 'SCPI' ? 'bg-blue-100' : a.where === 'PS' ? 'bg-red-400' : a.where === 'TITRES' ? 'bg-green-100' : ''}`}>
+              <td className="px-6 py-3 whitespace-nowrap">
                 <div className="font-semibold">{item.name} <span className="text-sm ">({item.ticker})</span></div>
               </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm ">Prix: {item.price} € — Achat: {item.purchasePrice} €</div>
+               <td className="px-6 py-3 whitespace-nowrap">
+                <div className="font-semibold">{item.where}</div>
               </td>
-              <td className={`px-6 py-4 whitespace-nowrap text-sm ${a.getGain() < 0 ? 'text-red-500' : 'text-green-500'}`}>
+              <td className={`whitespace-nowrap text-sm ${a.getGain() < 0 ? 'text-red-500' : 'text-green-500'}`}>
                 {(a.getGain()*a.quantity).toFixed(2)} € ({a.getGainPercent() !== null ? `${a.getGainPercent()!.toFixed(2)}%` : 'N/A'})
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm ">
-                {item.pe !== undefined ? item.pe : 'N/A'}
+              <td className="whitespace-nowrap text-sm ">
+                {item.pe !== undefined ? item.pe?.toFixed(2) : 'N/A'}
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm "> 
+              <td className="whitespace-nowrap text-sm ">
+                {item.dividendYield !== undefined && item.dividendYield !== null ? (item.dividendYield * 100).toFixed(2) + '%' : 'N/A'} 
+              </td>
+              <td className="whitespace-nowrap text-sm "> 
                 {(a.purchasePrice * a.quantity).toFixed(2)} €
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm "> 
+              <td className="whitespace-nowrap text-sm "> 
                 {(a.price * a.quantity).toFixed(2)} €
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+              <td className="px-6 py-3whitespace-nowrap text-right text-sm font-medium">
                 <div className="flex flex-col items-end gap-2">
                   <a href={`/dashboard/actions/${item.id}/edit`} className="cursor-pointer text-blue-600">Edit</a>
                   <button className="cursor-pointer text-red-600">Supprimer</button>
@@ -320,8 +338,30 @@ export default function ActionsManager() {
           )
           })
           }
+          <tr key='total' className="bg-purple-200 text-md">
+            <td className="px-6 py-4 whitespace-nowrap border font-bold">
+              TOTAL
+            </td>
+            <td className="px-6 py-4 whitespace-nowrap border font-bold">
+            </td>
+            <td className="px-6 py-4 whitespace-nowrap border font-bold">
+            </td>
+            <td className="px-6 py-4 whitespace-nowrap border font-bold">
+            </td>
+            <td className="px-6 py-4 whitespace-nowrap border font-bold">
+              Investi : {totalInvested.toFixed(2)} €
+            </td>
+            <td className="px-6 py-4 whitespace-nowrap border font-bold">
+              Valeur actuelle: {totalCurrentValue.toFixed(2)} €
+            </td>
+            <td className={`px-6 py-4 whitespace-nowrap border font-bold ${totalGain < 0 ? 'text-red-500' : 'text-green-500'}`}>
+              Gain : {totalGain.toFixed(2)} €
+            </td>
+
+          </tr>
         </tbody>
       </table>
+      </div>
     </div>
   );
 }

@@ -128,7 +128,7 @@ export default function Negative() {
                 unoptimized
                 />
             <figcaption className="mt-3 text-sm text-center">
-                Image granulaire de l'univers
+                L'univers a une structure lacunaire, faite de conglomérats de matière (galaxies, amas) entourés de vastes vides.
             </figcaption>
         </figure>
 
@@ -279,7 +279,14 @@ export default function Negative() {
           <h2 className="text-3xl font-semibold">
             Le modèle Janus de Jean-Pierre Petit
           </h2>
-
+          <p> 
+            Cette théorie propose une vision radicalement différente de l’Univers, en introduisant une symétrie fondamentale entre la matière ordinaire (masse positive) 
+            et une hypothétique matière à masse négative.
+            Il doit son nom à Janus, un dieu romain à deux visages des commencements et des fins, des choix, du passage et des portes. 
+            Il est représenté avec deux visages (aussi dit bifrons), avec une tournée vers le passé et une autre vers l'avenir , 
+            symbolisant les dualités et les transitions. De même, le modèle Janus envisage l’Univers comme composé de deux mondes , 
+            l’un dominé par la masse positive, l’autre par la masse négative.
+          </p>
           <h3 className="text-2xl font-medium">Principe général</h3>
 
           <ul className="list-disc pl-6 space-y-2">

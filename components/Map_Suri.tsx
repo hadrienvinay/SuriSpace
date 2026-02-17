@@ -6,9 +6,7 @@ import Map , { Marker,Popup } from 'react-map-gl/mapbox';
 import "mapbox-gl/dist/mapbox-gl.css";
 
 const points = [
-  { id: 1, lat: 48.8566, lng: 2.3522, label: "Paris" },
-  { id: 2, lat: 48.8606, lng: 2.3376, label: "Louvre" },
-  { id: 3, lat: 48.853, lng: 2.3499, label: "Notre-Dame" },
+  { id: 1, lat: 44.65889, lng: -1.16355, label: "Arcachon" },
 ];
   
 export default function MyMap() {
@@ -31,7 +29,7 @@ export default function MyMap() {
           longitude={point.lng}
           anchor="bottom"
         >
-        <div className="">
+        <div className="my-marker">
           📍
         </div>
         </Marker>
