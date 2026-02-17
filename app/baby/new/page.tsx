@@ -71,7 +71,7 @@ export default function BabyBetPage() {
   };
 
   return (
-   <div className="min-h-screen bg-gradient-to-br from-pink-50 to-blue-50 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+   <div className="min-h-screen bg-gradient-to-br from-pink-100 to-blue-100 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden text-black">
   {/* Éléments décoratifs : cœurs et étoiles */}
   <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
     <div className="absolute top-10 left-10 text-pink-200 animate-pulse">❤️</div>
@@ -79,6 +79,7 @@ export default function BabyBetPage() {
     <div className="absolute bottom-10 left-10 text-pink-200 animate-pulse">❤️</div>
     <div className="absolute bottom-10 right-10 text-pink-200 animate-pulse">🌟</div>
     <div className="absolute top-1/3 right-10 text-pink-200 animate-pulse">👶</div>
+    <div className="absolute top-1/3 left-10 text-pink-200 animate-pulse">💖</div>
     <div className="absolute bottom-1/3 left-9 text-pink-200 animate-pulse">💕</div>
   </div>
 
@@ -90,7 +91,7 @@ export default function BabyBetPage() {
     <h1 className="text-4xl font-bold text-center text-pink-600 mb-6">
       Pariez sur le futur bébé des Babes !
     </h1>
-    <p className="text-center text-xl mb-8 text-gray-600">
+    <p className="text-center text-xl mb-8 ">
       Remplissez ce formulaire et comparez vos prédictions après la naissance.
       <br />
       Tentez de gagner un super cadeau !
@@ -99,7 +100,7 @@ export default function BabyBetPage() {
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Votre nom */}
       <div>
-        <label className="block text-sm font-medium text-gray-700">Votre nom (pour le classement)</label>
+        <label className="block text-sm font-medium ">Votre nom (pour le classement)</label>
         <input
           type="text"
           name="parieurName"
@@ -112,7 +113,7 @@ export default function BabyBetPage() {
 
       {/* Sexe */}
       <div className={`${formData.sexe ==='fille' ? 'bg-pink-100 ' : 'bg-blue-100 '} p-4 rounded-lg"`}>
-        <label className="block text-sm font-medium text-gray-700 mb-2">Sexe</label>
+        <label className="block text-sm font-medium  mb-2">Sexe</label>
         <div className="mt-2 space-x-6 flex justify-center">
           <label className="inline-flex items-center cursor-pointer bg-white p-3 rounded-lg shadow-sm hover:shadow-md transition">
             <input
@@ -123,7 +124,7 @@ export default function BabyBetPage() {
               onChange={handleChange}
               className="form-radio text-pink-500 focus:ring-pink-500"
             />
-            <span className="ml-2 text-gray-700 font-medium">Garçon 👦</span>
+            <span className="ml-2  font-medium">Garçon 👦</span>
           </label>
           <label className="inline-flex items-center cursor-pointer bg-white p-3 rounded-lg shadow-sm hover:shadow-md transition">
             <input
@@ -134,14 +135,14 @@ export default function BabyBetPage() {
               onChange={handleChange}
               className="form-radio text-pink-500 focus:ring-pink-500"
             />
-            <span className="ml-2 text-gray-700 font-medium">Fille 👧</span>
+            <span className="ml-2  font-medium">Fille 👧</span>
           </label>
         </div>
       </div>
 
       {/* Date de naissance */}
       <div>
-        <label className="block text-sm font-medium text-gray-700">Date de naissance</label>
+        <label className="block text-sm font-medium ">Date de naissance</label>
         <input
           type="date"
           name="date"
@@ -153,7 +154,7 @@ export default function BabyBetPage() {
 
       {/* Prénom */}
       <div>
-        <label className="block text-sm font-medium text-gray-700">Prénom du nouveau-né</label>
+        <label className="block text-sm font-medium ">Prénom du nouveau-né</label>
         <input
           type="text"
           name="prenom"
@@ -167,7 +168,7 @@ export default function BabyBetPage() {
       {/* Poids et Taille */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700">Poids (en grammes)</label>
+          <label className="block text-sm font-medium ">Poids (en grammes)</label>
           <input
             type="number"
             name="poids"
@@ -178,7 +179,7 @@ export default function BabyBetPage() {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">Taille (en cm)</label>
+          <label className="block text-sm font-medium ">Taille (en cm)</label>
           <input
             type="number"
             name="taille"
@@ -193,7 +194,7 @@ export default function BabyBetPage() {
       {/* Couleur des yeux et cheveux */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700">Couleur des yeux</label>
+          <label className="block text-sm font-medium ">Couleur des yeux</label>
           <select
             name="yeux"
             value={formData.yeux}
@@ -209,7 +210,7 @@ export default function BabyBetPage() {
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">Couleur des cheveux</label>
+          <label className="block text-sm font-medium ">Couleur des cheveux</label>
           <select
             name="cheveux"
             value={formData.cheveux}
@@ -228,7 +229,7 @@ export default function BabyBetPage() {
 
       {/* Autres paris */}
       <div>
-        <label className="block text-sm font-medium text-gray-700">Autres paris (optionnel)</label>
+        <label className="block text-sm font-medium ">Autres paris (optionnel)</label>
         <textarea
           name="autres"
           value={formData.autres}
