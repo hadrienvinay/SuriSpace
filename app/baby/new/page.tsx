@@ -84,7 +84,7 @@ export default function BabyBetPage() {
   </div>
 
   {/* Conteneur principal */}
-  <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-4xl p-8 relative z-10 border-2 border-pink-100">
+  <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden p-8 relative z-10 border-2 border-pink-100">
     <div className="flex justify-center mb-6">
       <div className="text-5xl text-pink-400">👶💖</div>
     </div>
