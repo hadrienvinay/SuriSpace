@@ -18,8 +18,8 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
   return (
     <section className="space-y-16">
 
-        <div className="max-w-3xl px-4 pt-6 lg:pt-10 pb-12 sm:px-6 lg:px-8 mx-auto">
-        <div className="max-w-2xl">
+        <div className="max-w-5xl px-4 pt-6 lg:pt-10 pb-12 sm:px-6 lg:px-8 mx-auto">
+        <div className="">
             <div className="flex justify-between items-center mb-6">
             <div className="flex w-full sm:items-center gap-x-5 sm:gap-x-3">
                 <div className="shrink-0">
@@ -69,7 +69,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
                         </li>
                     </ul>
                 </div>
-                <div>
+                <div className="">
                     <Link href={project.link || ""} className="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 mb-2">
                         <svg className="w-5 h-5 me-2 -ms-1 text-green-600" aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
