@@ -18,10 +18,15 @@ export default function Home() {
         <h1 className="text-5xl font-extrabold tracking-tight leading-tight md:text-6xl">
           Bienvenue sur <span className="text-blue-600">Suri's Page</span>
         </h1>
-        <p className="mt-6 text-xl max-w-2xl mx-auto">
+        <p className="mt-6 text-xl max-w-3xl mx-auto">
           Un blog permettant de centraliser mes projets, idées et avancées 
-          Framework NextJs, Prisma pour la base de donnée, NextAuth pour l'authentification
-          Diverses API : MapBox, Météo, Ratp, Bourses
+          Fait avec le Framework NextJs, Prisma pour la base de donnée, NextAuth pour l'authentification
+          Utilisation de diverses API : MapBox, Météo, Ratp, Bourses, LLM
+        </p>
+        <p className="mt-6 text-l max-w-6xl mx-auto justify italic">
+          <b>Citation du jour : </b>"Pour découvrir les meilleures règles de société qui conviennent aux nations, il faudrait une intelligence supérieure qui vît toutes les passions des hommes
+           et qui n'en éprouvât aucune; qui n'eût aucune rapport avec notre nature et qui la connût à fond ; dont le bonheur fût indépendant de nous et qui pourtant voulût bien 
+           s'occuper du notre [...]. Il faudrait des Dieux pour donner des lois aux hommes." <b>(Jean-Jacques Rousseau, Du contrat social, 1762)</b>
         </p>
 
         <div className="mt-8 flex justify-center gap-4">

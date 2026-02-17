@@ -1231,8 +1231,10 @@ export const ActionScalarFieldEnum = {
   purchasePrice: 'purchasePrice',
   quantity: 'quantity',
   pe: 'pe',
-  dividend: 'dividend',
+  dividendYield: 'dividendYield',
   notes: 'notes',
+  where: 'where',
+  userId: 'userId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

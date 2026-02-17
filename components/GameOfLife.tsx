@@ -2,14 +2,38 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 
 const LifeCells = initCells(30, 30,0);
-const ExempleOne = initCells(30,30,1);
-const ExempleTwo = initCells(30, 30,2);
-const ExempleThree = initCells(30, 30,3);
+const InitCells = initCells(30,30,1);
+const ExempleOne = initCells(30, 30,2);
+const ExempleTwo = initCells(30, 30,3);
+const ExempleThree = initCells(30, 30,4);
 
 function initCells(rows: number, cols: number, seed: number): boolean[][] {
     const cells = Array.from({ length: rows }, () => Array.from({ length: cols }, () => false));
     if (seed === 0) {return cells;}
     if (seed === 1) {
+        cells[14][3] = true;
+        cells[14][4] = true;
+        cells[14][5] = true;
+        cells[4][14] = true;
+        cells[5][14] = true;
+        cells[6][14] = true;
+        cells[1][2] = true;
+        cells[2][2] = true;
+        cells[3][2] = true;
+        cells[2][0] = true;
+        cells[3][1] = true;
+
+        cells[8][20] = true;
+        cells[8][21] = true;
+        cells[9][20] = true;
+        cells[9][21] = true;
+        cells[10][22] = true;
+        cells[10][23] = true;
+        cells[11][22] = true;
+        cells[11][23] = true;
+
+    }
+    if (seed === 2) {
         cells[5][3] = true;
         cells[5][4] = true;
         cells[5][5] = true;
@@ -23,14 +47,14 @@ function initCells(rows: number, cols: number, seed: number): boolean[][] {
         cells[10][10] = true;
         cells[12][10] = true;
     }
-    else if (seed === 2) {
+    else if (seed === 3) {
         cells[1][2] = true;
         cells[2][2] = true;
         cells[3][2] = true;
         cells[2][0] = true;
         cells[3][1] = true;
     }
-    else if (seed === 3) {
+    else if (seed === 4) {
         cells[2][0] = true;
         cells[4][0] = true;
         cells[2][3] = true;
@@ -126,7 +150,7 @@ function updateCells(cells: boolean[][]) {
 }
 
 const Grid = () => {
-    const [cells, setCells] = useState(LifeCells);
+    const [cells, setCells] = useState(InitCells);
     const [setting,setSetting] = useState(0);
     const [running, setRunning] = useState(false);
     const [speed, setSpeed] = useState(100);
@@ -194,7 +218,6 @@ const Grid = () => {
                 setting === 2 ? <div className=" mb-4">Exemple 2 : Un simple planneur</div> :
                 setting === 3 ? <div className=" mb-4">Exemple 3 : Plusieurs "spaceship" (vaisseau spatial)</div> :
                 null
-
             } 
         </div>
         <div className="grid grid-cols-30 gap-0 border border-red-500">

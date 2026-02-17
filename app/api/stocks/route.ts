@@ -34,7 +34,7 @@ export async function GET() {
         const mySymbols = [
         'BNP.PA', 'BNP.PA', 'BNP.PA', 'BNP.PA', 'BNP.PA',
         ]
-        const yahooFinance = new YahooFinance();
+        const yahooFinance = new YahooFinance({ suppressNotices: ['yahooSurvey'] });
         const stocksData = await Promise.all(
         symbols.map(async (symbol) => {
         try {

@@ -210,6 +210,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 5.39,
     quantity: 93,
     pe: 0,
+    where: "PEA"
   },
   {
     name: "AIR FRANCE KLM",
@@ -218,6 +219,8 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 11.76,
     quantity: 15,
     pe: 0,
+    where: "PEA"
+
   },
   {
     name: "AIRBUS",
@@ -226,6 +229,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 195.57,
     quantity: 3,
     pe: 0,
+    where: "PEA"
   },
   {
     name: "ArcelorMittal",
@@ -234,6 +238,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 30.28,
     quantity: 10,
     pe: 0,
+    where: "PEA"
   },
   {
     name: "AXA",
@@ -242,6 +247,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 40.11,
     quantity: 4,
     pe: 0,
+    where: "PEA"
   },
   {
     name: "BNP PARIBAS",
@@ -250,6 +256,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 93.18,
     quantity: 3,
     pe: 0,
+    where: "PEA"
   },
   {
     name: "CARBIOS",
@@ -258,6 +265,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 11.919,
     quantity: 15,
     pe: 0,
+    where: "PEA"
   },
     {
     name: "CROSSJECT",
@@ -266,6 +274,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 2.32,
     quantity: 40,
     pe: 0,
+    where: "PEA"
   },
     {
     name: "DASSAULT SYSTEMES",
@@ -274,14 +283,16 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 25.41,
     quantity: 18,
     pe: 0,
+    where: "PEA"
   },
     {
     name: "EIFFAGE",
-    ticker: "EI.PA",
+    ticker: "FGR.PA",
     price: 134.3,
     purchasePrice: 110.99,
     quantity: 2,
     pe: 0,
+    where: "PEA"
   },
     {
     name: "ELECTRICITE DE STRASBOURG",
@@ -290,6 +301,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 164,
     quantity: 3,
     pe: 0,
+    where: "PEA"
   },
   {
     name: "ENGIE",
@@ -298,6 +310,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 18.34,
     quantity: 28,
     pe: 0,
+    where: "PEA"
   },
   {
     name: "EUTELSAT COMMUNICATION",
@@ -306,6 +319,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 2.356,
     quantity: 150,
     pe: 0,
+    where: "PEA"
   },
   {
     name: "FRANCAISE ENERGIE",
@@ -314,6 +328,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 33.97,
     quantity: 4,
     pe: 0,
+    where: "PEA"
   },
   {
     name: "GAZTRANSPORT TECHNIGAZ",
@@ -322,6 +337,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 157.9,
     quantity: 2,
     pe: 0,
+    where: "PEA"
   },
     {
     name: "MICHELIN",
@@ -330,6 +346,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 31.14,
     quantity: 5,
     pe: 0,
+    where: "PEA"
   },
     {
     name: "ORANGE",
@@ -338,6 +355,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 13.929,
     quantity: 10,
     pe: 0,
+    where: "PEA"
   },
     {
     name: "SAFRAN",
@@ -346,6 +364,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 302.6,
     quantity: 2,
     pe: 0,
+    where: "PEA"
   },
     {
     name: "STMICROELECTRONICS",
@@ -354,6 +373,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 23.84,
     quantity: 11,
     pe: 0,
+    where: "PEA"
   },
   {
     name: "VALLOUREC",
@@ -362,6 +382,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 15.77,
     quantity: 5,
     pe: 0,
+    where: "PEA"
   },
   {
     name: "VICAT",
@@ -370,6 +391,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 61.6,
     quantity: 2,
     pe: 0,
+    where: "PEA"
   },
   {
     name: "CAIXABANK",
@@ -378,14 +400,16 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 8.7,
     quantity: 15,
     pe: 0,
+    where: "PEA"
   },
   {
     name: "INTESA SANPAOLO",
-    ticker: "ISP.MC",
+    ticker: "ISP.MI",
     price: 5.97,
     purchasePrice: 5.5,
     quantity: 38,
     pe: 0,
+    where: "PEA"
   },
     {
     name: "LEONARDO",
@@ -394,6 +418,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 53.38,
     quantity: 5,
     pe: 0,
+    where: "PEA"
   },
     {
     name: "SIEMENS AG",
@@ -402,6 +427,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 247.33,
     quantity: 5,
     pe: 0,
+    where: "PEA"
   },
     {
     name: "PEA EMERG AMUNDI",
@@ -410,6 +436,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 21.331,
     quantity: 15,
     pe: 0,
+    where: "PEA"
   },
    {
     name: "PEA MSCI AMUNDI",
@@ -418,6 +445,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 30.582,
     quantity: 30,
     pe: 0,
+    where: "PEA"
   },
   {
     name: "PEA MSCI WORLD AMUNDI",
@@ -426,6 +454,94 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 693.62,
     quantity: 2,
     pe: 0,
+    where: "PEA"
+  },
+    {
+    name: "AIR LIQUIDE",
+    ticker: "AI.PA",
+    price: 167.74,
+    purchasePrice: 34.69,
+    quantity: 33,
+    pe: 0,
+    where: "TITRES"
+  },
+  {
+    name: "TOTAL ENERGIES",
+    ticker: "TTE.PA",
+    price: 62.58,
+    purchasePrice: 33.054,
+    quantity: 88,
+    pe: 0,
+    where: "TITRES"
+  },
+  {
+    name: "ARKEMA",
+    ticker: "ARKE.PA",
+    price: 58,
+    purchasePrice: 0,
+    quantity: 2,
+    pe: 0,
+    where: "TITRES"
+  },
+  {
+    name: "HSBC MIX EQUILAD",
+    ticker: "HSBC.MC",
+    price: 436,
+    purchasePrice: 230,
+    quantity: 34.889,
+    pe: 0,
+    where: "AV",
+    notes: "FR0007003868 - HSBC MIX EQUILAD - 34.889 titres achetés"
+  },
+  {
+    name: "NUANCE GRENADINE",
+    ticker: "CE",
+    price: 2635.59,
+    purchasePrice: 2000,
+    quantity: 1,
+    pe: 0,
+    where: "AV",
+    notes: "Nuances Grenadine CE"
+  },
+  {
+    name: "MILLEVIE PRENIUM",
+    ticker: "CE",
+    price: 27760,
+    purchasePrice: 25500,
+    quantity: 1,
+    pe: 0,
+    where: "AV",
+    notes: "Assurance vie Millevie Premium CE, actions et obligations"
+  },
+  {
+    name: "BITCOIN",
+    ticker: "BTC-USDT",
+    price: 70000,
+    purchasePrice: 100000,
+    quantity: 0.06,
+    pe: 0,
+    where: "BINANCE",
+    notes: "Bitcoin acheté sur Binance, 0.06 BTC à 100000€ soit 6000€ d'investissement"
+  },
+    {
+    name: "ETHERUM",
+    ticker: "ETH-USDT",
+    price: 2200,
+    purchasePrice: 3000,
+    quantity: 1,
+    pe: 0,
+    where: "BINANCE",
+    notes: "Etherum acheté sur Binance, 1 ETH à 3000€ soit 3000€ d'investissement"
+  },
+  {
+    name: "BNP MULTIPLACEMENT AVENIR",
+    ticker: "BNP Assurance vie",
+    price: 24450,
+    purchasePrice: 22000,
+    quantity: 1,
+    pe: 0,
+    where: "AV",
+    notes: "Assurance vie BNP Multiplacement Avenir, reparti en fond diversifié, uniquement actions"
   },
 
 

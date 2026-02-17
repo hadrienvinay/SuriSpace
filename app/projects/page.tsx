@@ -11,7 +11,7 @@ export default async function Projects() {
       {/* HERO */}
       <div className="text-center mt-10">
         <h1 className="text-5xl font-extrabold tracking-tight leading-tight md:text-6xl">
-          Projets de <span className="text-blue-600">Suri</span>
+          Les projets de <span className="text-blue-600">Suri</span>
         </h1>
         <p className="mt-6 text-xl max-w-2xl mx-auto">
           Une page référencant mes divers projets réalisés 

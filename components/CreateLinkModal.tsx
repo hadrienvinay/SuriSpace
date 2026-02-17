@@ -86,7 +86,7 @@ export function CreateLinkModal({ isOpen, onClose }: CreateLinkModalProps) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-green-200 p-6 shadow-xl transition-all">
+              <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-green-100 text-black p-6 shadow-xl transition-all">
                 {/* Header avec bouton fermer */}
                 <div className="flex justify-between items-center mb-6">
                   <Dialog.Title className="text-2xl font-bold">
@@ -173,14 +173,14 @@ export function CreateLinkModal({ isOpen, onClose }: CreateLinkModalProps) {
                     <button
                       type="button"
                       onClick={onClose}
-                      className="flex-1 px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                      className="flex-1 px-6 py-3 cursor-pointer bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
                     >
                       Annuler
                     </button>
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                      className="flex-1 px-6 py-3 cursor-pointer bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >
                       {isSubmitting ? 'Ajout en cours...' : 'Ajouter le lien'}
                     </button>
