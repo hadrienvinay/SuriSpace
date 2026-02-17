@@ -32,7 +32,8 @@ export type ActionAvgAggregateOutputType = {
   purchasePrice: number | null
   quantity: number | null
   pe: number | null
-  dividend: number | null
+  dividendYield: number | null
+  userId: number | null
 }
 
 export type ActionSumAggregateOutputType = {
@@ -41,7 +42,8 @@ export type ActionSumAggregateOutputType = {
   purchasePrice: number | null
   quantity: number | null
   pe: number | null
-  dividend: number | null
+  dividendYield: number | null
+  userId: number | null
 }
 
 export type ActionMinAggregateOutputType = {
@@ -52,8 +54,10 @@ export type ActionMinAggregateOutputType = {
   purchasePrice: number | null
   quantity: number | null
   pe: number | null
-  dividend: number | null
+  dividendYield: number | null
   notes: string | null
+  userId: number | null
+  where: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -66,8 +70,10 @@ export type ActionMaxAggregateOutputType = {
   purchasePrice: number | null
   quantity: number | null
   pe: number | null
-  dividend: number | null
+  dividendYield: number | null
   notes: string | null
+  userId: number | null
+  where: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -80,8 +86,10 @@ export type ActionCountAggregateOutputType = {
   purchasePrice: number
   quantity: number
   pe: number
-  dividend: number
+  dividendYield: number
   notes: number
+  userId: number
+  where: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -94,7 +102,8 @@ export type ActionAvgAggregateInputType = {
   purchasePrice?: true
   quantity?: true
   pe?: true
-  dividend?: true
+  dividendYield?: true
+  userId?: true
 }
 
 export type ActionSumAggregateInputType = {
@@ -103,7 +112,8 @@ export type ActionSumAggregateInputType = {
   purchasePrice?: true
   quantity?: true
   pe?: true
-  dividend?: true
+  dividendYield?: true
+  userId?: true
 }
 
 export type ActionMinAggregateInputType = {
@@ -114,8 +124,10 @@ export type ActionMinAggregateInputType = {
   purchasePrice?: true
   quantity?: true
   pe?: true
-  dividend?: true
+  dividendYield?: true
   notes?: true
+  userId?: true
+  where?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -128,8 +140,10 @@ export type ActionMaxAggregateInputType = {
   purchasePrice?: true
   quantity?: true
   pe?: true
-  dividend?: true
+  dividendYield?: true
   notes?: true
+  userId?: true
+  where?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -142,8 +156,10 @@ export type ActionCountAggregateInputType = {
   purchasePrice?: true
   quantity?: true
   pe?: true
-  dividend?: true
+  dividendYield?: true
   notes?: true
+  userId?: true
+  where?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -243,8 +259,10 @@ export type ActionGroupByOutputType = {
   purchasePrice: number
   quantity: number
   pe: number | null
-  dividend: number | null
+  dividendYield: number | null
   notes: string | null
+  userId: number
+  where: string
   createdAt: Date
   updatedAt: Date
   _count: ActionCountAggregateOutputType | null
@@ -280,8 +298,10 @@ export type ActionWhereInput = {
   purchasePrice?: Prisma.FloatFilter<"Action"> | number
   quantity?: Prisma.FloatFilter<"Action"> | number
   pe?: Prisma.FloatNullableFilter<"Action"> | number | null
-  dividend?: Prisma.FloatNullableFilter<"Action"> | number | null
+  dividendYield?: Prisma.FloatNullableFilter<"Action"> | number | null
   notes?: Prisma.StringNullableFilter<"Action"> | string | null
+  userId?: Prisma.IntFilter<"Action"> | number
+  where?: Prisma.StringFilter<"Action"> | string
   createdAt?: Prisma.DateTimeFilter<"Action"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Action"> | Date | string
 }
@@ -294,8 +314,10 @@ export type ActionOrderByWithRelationInput = {
   purchasePrice?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   pe?: Prisma.SortOrderInput | Prisma.SortOrder
-  dividend?: Prisma.SortOrderInput | Prisma.SortOrder
+  dividendYield?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  where?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -311,8 +333,10 @@ export type ActionWhereUniqueInput = Prisma.AtLeast<{
   purchasePrice?: Prisma.FloatFilter<"Action"> | number
   quantity?: Prisma.FloatFilter<"Action"> | number
   pe?: Prisma.FloatNullableFilter<"Action"> | number | null
-  dividend?: Prisma.FloatNullableFilter<"Action"> | number | null
+  dividendYield?: Prisma.FloatNullableFilter<"Action"> | number | null
   notes?: Prisma.StringNullableFilter<"Action"> | string | null
+  userId?: Prisma.IntFilter<"Action"> | number
+  where?: Prisma.StringFilter<"Action"> | string
   createdAt?: Prisma.DateTimeFilter<"Action"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Action"> | Date | string
 }, "id">
@@ -325,8 +349,10 @@ export type ActionOrderByWithAggregationInput = {
   purchasePrice?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   pe?: Prisma.SortOrderInput | Prisma.SortOrder
-  dividend?: Prisma.SortOrderInput | Prisma.SortOrder
+  dividendYield?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  where?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ActionCountOrderByAggregateInput
@@ -347,8 +373,10 @@ export type ActionScalarWhereWithAggregatesInput = {
   purchasePrice?: Prisma.FloatWithAggregatesFilter<"Action"> | number
   quantity?: Prisma.FloatWithAggregatesFilter<"Action"> | number
   pe?: Prisma.FloatNullableWithAggregatesFilter<"Action"> | number | null
-  dividend?: Prisma.FloatNullableWithAggregatesFilter<"Action"> | number | null
+  dividendYield?: Prisma.FloatNullableWithAggregatesFilter<"Action"> | number | null
   notes?: Prisma.StringNullableWithAggregatesFilter<"Action"> | string | null
+  userId?: Prisma.IntWithAggregatesFilter<"Action"> | number
+  where?: Prisma.StringWithAggregatesFilter<"Action"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Action"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Action"> | Date | string
 }
@@ -360,8 +388,10 @@ export type ActionCreateInput = {
   purchasePrice: number
   quantity: number
   pe?: number | null
-  dividend?: number | null
+  dividendYield?: number | null
   notes?: string | null
+  userId?: number
+  where: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -374,8 +404,10 @@ export type ActionUncheckedCreateInput = {
   purchasePrice: number
   quantity: number
   pe?: number | null
-  dividend?: number | null
+  dividendYield?: number | null
   notes?: string | null
+  userId?: number
+  where: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -387,8 +419,10 @@ export type ActionUpdateInput = {
   purchasePrice?: Prisma.FloatFieldUpdateOperationsInput | number
   quantity?: Prisma.FloatFieldUpdateOperationsInput | number
   pe?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  dividend?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dividendYield?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  where?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -401,8 +435,10 @@ export type ActionUncheckedUpdateInput = {
   purchasePrice?: Prisma.FloatFieldUpdateOperationsInput | number
   quantity?: Prisma.FloatFieldUpdateOperationsInput | number
   pe?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  dividend?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dividendYield?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  where?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -415,8 +451,10 @@ export type ActionCreateManyInput = {
   purchasePrice: number
   quantity: number
   pe?: number | null
-  dividend?: number | null
+  dividendYield?: number | null
   notes?: string | null
+  userId?: number
+  where: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -428,8 +466,10 @@ export type ActionUpdateManyMutationInput = {
   purchasePrice?: Prisma.FloatFieldUpdateOperationsInput | number
   quantity?: Prisma.FloatFieldUpdateOperationsInput | number
   pe?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  dividend?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dividendYield?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  where?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -442,8 +482,10 @@ export type ActionUncheckedUpdateManyInput = {
   purchasePrice?: Prisma.FloatFieldUpdateOperationsInput | number
   quantity?: Prisma.FloatFieldUpdateOperationsInput | number
   pe?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  dividend?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dividendYield?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  where?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -456,8 +498,10 @@ export type ActionCountOrderByAggregateInput = {
   purchasePrice?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   pe?: Prisma.SortOrder
-  dividend?: Prisma.SortOrder
+  dividendYield?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  where?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -468,7 +512,8 @@ export type ActionAvgOrderByAggregateInput = {
   purchasePrice?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   pe?: Prisma.SortOrder
-  dividend?: Prisma.SortOrder
+  dividendYield?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
 }
 
 export type ActionMaxOrderByAggregateInput = {
@@ -479,8 +524,10 @@ export type ActionMaxOrderByAggregateInput = {
   purchasePrice?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   pe?: Prisma.SortOrder
-  dividend?: Prisma.SortOrder
+  dividendYield?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  where?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -493,8 +540,10 @@ export type ActionMinOrderByAggregateInput = {
   purchasePrice?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   pe?: Prisma.SortOrder
-  dividend?: Prisma.SortOrder
+  dividendYield?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  where?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -505,7 +554,8 @@ export type ActionSumOrderByAggregateInput = {
   purchasePrice?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   pe?: Prisma.SortOrder
-  dividend?: Prisma.SortOrder
+  dividendYield?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
 }
 
 export type FloatFieldUpdateOperationsInput = {
@@ -534,8 +584,10 @@ export type ActionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   purchasePrice?: boolean
   quantity?: boolean
   pe?: boolean
-  dividend?: boolean
+  dividendYield?: boolean
   notes?: boolean
+  userId?: boolean
+  where?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["action"]>
@@ -548,8 +600,10 @@ export type ActionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   purchasePrice?: boolean
   quantity?: boolean
   pe?: boolean
-  dividend?: boolean
+  dividendYield?: boolean
   notes?: boolean
+  userId?: boolean
+  where?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["action"]>
@@ -562,8 +616,10 @@ export type ActionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   purchasePrice?: boolean
   quantity?: boolean
   pe?: boolean
-  dividend?: boolean
+  dividendYield?: boolean
   notes?: boolean
+  userId?: boolean
+  where?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["action"]>
@@ -576,13 +632,15 @@ export type ActionSelectScalar = {
   purchasePrice?: boolean
   quantity?: boolean
   pe?: boolean
-  dividend?: boolean
+  dividendYield?: boolean
   notes?: boolean
+  userId?: boolean
+  where?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ActionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "ticker" | "price" | "purchasePrice" | "quantity" | "pe" | "dividend" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["action"]>
+export type ActionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "ticker" | "price" | "purchasePrice" | "quantity" | "pe" | "dividendYield" | "notes" | "userId" | "where" | "createdAt" | "updatedAt", ExtArgs["result"]["action"]>
 
 export type $ActionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Action"
@@ -595,8 +653,10 @@ export type $ActionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     purchasePrice: number
     quantity: number
     pe: number | null
-    dividend: number | null
+    dividendYield: number | null
     notes: string | null
+    userId: number
+    where: string
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["action"]>
@@ -1029,8 +1089,10 @@ export interface ActionFieldRefs {
   readonly purchasePrice: Prisma.FieldRef<"Action", 'Float'>
   readonly quantity: Prisma.FieldRef<"Action", 'Float'>
   readonly pe: Prisma.FieldRef<"Action", 'Float'>
-  readonly dividend: Prisma.FieldRef<"Action", 'Float'>
+  readonly dividendYield: Prisma.FieldRef<"Action", 'Float'>
   readonly notes: Prisma.FieldRef<"Action", 'String'>
+  readonly userId: Prisma.FieldRef<"Action", 'Int'>
+  readonly where: Prisma.FieldRef<"Action", 'String'>
   readonly createdAt: Prisma.FieldRef<"Action", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Action", 'DateTime'>
 }

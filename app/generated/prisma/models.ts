@@ -10,6 +10,7 @@
  */
 export type * from './models/User'
 export type * from './models/Post'
+export type * from './models/Pari'
 export type * from './models/Project'
 export type * from './models/Link'
 export type * from './models/Message'

@@ -84,6 +84,19 @@ const userData: Prisma.UserCreateInput[] = [
           imageTitle: "Capture d'écran du projet Kolibri",
           createdAt: new Date('2018-03-10'),
         },
+        {
+          title: "Media Controller",
+          resume: "Site de création de mix audio ou de vidéos personnalisés",
+          content: "Plateforme web permettant de créer des fichiers audio ou vidéos personnalisés.Contient également un outil afin de couvertir un lien Youtube ou Soundcloud en format mp3 téléchargeable. Permet de créer un mix à partir de fichier audio entrant (gestion des transitions, synchronisation des rythmes, gestion de l'ordre des morceaux) ou bien un montage vidéo à partir d'image et de vidéos entrantes.",
+          link: 'https://github.com/hadrienvinay/MediaControllerApp',
+          image : "/media-controller.png",
+          imageTitle: "Capture d'écran de la page d'accueil",
+          content2: "On peut également faire un montage vidéo à partir de fichier img ou mp4 entrants et sélectionner la configuration et les options de notre choix. Le fichier sortant est enregistré et peut être télécharger au format mp4.",
+          image2 : "/media-controller2.png",
+          image2Title: "Capture d'écran de la page de création d'une vidéo",
+          createdAt: new Date('2026-02-05'),
+
+        }
 
       ],
     },
@@ -210,6 +223,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 5.39,
     quantity: 93,
     pe: 0,
+    where: 'PEA'
   },
   {
     name: "AIR FRANCE KLM",
@@ -218,6 +232,8 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 11.76,
     quantity: 15,
     pe: 0,
+    where: 'PEA'
+
   },
   {
     name: "AIRBUS",
@@ -226,6 +242,8 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 195.57,
     quantity: 3,
     pe: 0,
+    where: 'PEA'
+
   },
   {
     name: "ArcelorMittal",
@@ -234,6 +252,8 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 30.28,
     quantity: 10,
     pe: 0,
+    where: 'PEA',
+
   },
   {
     name: "AXA",
@@ -242,6 +262,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 40.11,
     quantity: 4,
     pe: 0,
+    where: 'PEA',
   },
   {
     name: "BNP PARIBAS",
@@ -250,6 +271,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 93.18,
     quantity: 3,
     pe: 0,
+    where: 'PEA',
   },
   {
     name: "CARBIOS",
@@ -258,6 +280,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 11.919,
     quantity: 15,
     pe: 0,
+    where: 'PEA',
   },
     {
     name: "CROSSJECT",
@@ -266,6 +289,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 2.32,
     quantity: 40,
     pe: 0,
+    where: 'PEA',
   },
     {
     name: "DASSAULT SYSTEMES",
@@ -274,6 +298,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 25.41,
     quantity: 18,
     pe: 0,
+    where: 'PEA',
   },
     {
     name: "EIFFAGE",
@@ -282,6 +307,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 110.99,
     quantity: 2,
     pe: 0,
+    where: 'PEA',
   },
     {
     name: "ELECTRICITE DE STRASBOURG",
@@ -290,6 +316,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 164,
     quantity: 3,
     pe: 0,
+    where: 'PEA',
   },
   {
     name: "ENGIE",
@@ -298,6 +325,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 18.34,
     quantity: 28,
     pe: 0,
+    where: 'PEA',
   },
   {
     name: "EUTELSAT COMMUNICATION",
@@ -306,6 +334,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 2.356,
     quantity: 150,
     pe: 0,
+    where: 'PEA',
   },
   {
     name: "FRANCAISE ENERGIE",
@@ -314,6 +343,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 33.97,
     quantity: 4,
     pe: 0,
+    where: 'PEA',
   },
   {
     name: "GAZTRANSPORT TECHNIGAZ",
@@ -322,6 +352,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 157.9,
     quantity: 2,
     pe: 0,
+    where: 'PEA',
   },
     {
     name: "MICHELIN",
@@ -330,6 +361,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 31.14,
     quantity: 5,
     pe: 0,
+    where: 'PEA',
   },
     {
     name: "ORANGE",
@@ -338,6 +370,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 13.929,
     quantity: 10,
     pe: 0,
+    where: 'PEA',
   },
     {
     name: "SAFRAN",
@@ -346,6 +379,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 302.6,
     quantity: 2,
     pe: 0,
+    where: 'PEA',
   },
     {
     name: "STMICROELECTRONICS",
@@ -354,6 +388,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 23.84,
     quantity: 11,
     pe: 0,
+    where: 'PEA',
   },
   {
     name: "VALLOUREC",
@@ -362,6 +397,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 15.77,
     quantity: 5,
     pe: 0,
+    where: 'PEA',
   },
   {
     name: "VICAT",
@@ -370,6 +406,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 61.6,
     quantity: 2,
     pe: 0,
+    where: 'PEA',
   },
   {
     name: "CAIXABANK",
@@ -378,6 +415,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 8.7,
     quantity: 15,
     pe: 0,
+    where: 'PEA',
   },
   {
     name: "INTESA SANPAOLO",
@@ -386,6 +424,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 5.5,
     quantity: 38,
     pe: 0,
+    where: 'PEA',
   },
     {
     name: "LEONARDO",
@@ -394,6 +433,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 53.38,
     quantity: 5,
     pe: 0,
+    where: 'PEA',
   },
     {
     name: "SIEMENS AG",
@@ -402,6 +442,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 247.33,
     quantity: 5,
     pe: 0,
+    where: 'PEA',
   },
     {
     name: "PEA EMERG AMUNDI",
@@ -410,6 +451,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 21.331,
     quantity: 15,
     pe: 0,
+    where: 'PEA',
   },
    {
     name: "PEA MSCI AMUNDI",
@@ -418,6 +460,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 30.582,
     quantity: 30,
     pe: 0,
+    where: 'PEA',
   },
   {
     name: "PEA MSCI WORLD AMUNDI",
@@ -426,6 +469,7 @@ const actionsData: Prisma.ActionCreateInput[] = [
     purchasePrice: 693.62,
     quantity: 2,
     pe: 0,
+    where: 'PEA',
   },
 
 

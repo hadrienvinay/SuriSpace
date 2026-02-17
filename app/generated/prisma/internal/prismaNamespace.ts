@@ -386,6 +386,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   User: 'User',
   Post: 'Post',
+  Pari: 'Pari',
   Project: 'Project',
   Link: 'Link',
   Message: 'Message',
@@ -408,7 +409,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "post" | "project" | "link" | "message" | "account" | "session" | "verificationToken" | "action"
+    modelProps: "user" | "post" | "pari" | "project" | "link" | "message" | "account" | "session" | "verificationToken" | "action"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -557,6 +558,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.PostCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.PostCountAggregateOutputType> | number
+        }
+      }
+    }
+    Pari: {
+      payload: Prisma.$PariPayload<ExtArgs>
+      fields: Prisma.PariFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PariFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PariPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PariFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PariPayload>
+        }
+        findFirst: {
+          args: Prisma.PariFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PariPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PariFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PariPayload>
+        }
+        findMany: {
+          args: Prisma.PariFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PariPayload>[]
+        }
+        create: {
+          args: Prisma.PariCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PariPayload>
+        }
+        createMany: {
+          args: Prisma.PariCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PariCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PariPayload>[]
+        }
+        delete: {
+          args: Prisma.PariDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PariPayload>
+        }
+        update: {
+          args: Prisma.PariUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PariPayload>
+        }
+        deleteMany: {
+          args: Prisma.PariDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PariUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PariUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PariPayload>[]
+        }
+        upsert: {
+          args: Prisma.PariUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PariPayload>
+        }
+        aggregate: {
+          args: Prisma.PariAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePari>
+        }
+        groupBy: {
+          args: Prisma.PariGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PariGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PariCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PariCountAggregateOutputType> | number
         }
       }
     }
@@ -1145,6 +1220,24 @@ export const PostScalarFieldEnum = {
 export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof PostScalarFieldEnum]
 
 
+export const PariScalarFieldEnum = {
+  id: 'id',
+  date: 'date',
+  sexe: 'sexe',
+  poids: 'poids',
+  taille: 'taille',
+  yeux: 'yeux',
+  prenom: 'prenom',
+  cheveux: 'cheveux',
+  autres: 'autres',
+  parieurName: 'parieurName',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PariScalarFieldEnum = (typeof PariScalarFieldEnum)[keyof typeof PariScalarFieldEnum]
+
+
 export const ProjectScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -1231,8 +1324,10 @@ export const ActionScalarFieldEnum = {
   purchasePrice: 'purchasePrice',
   quantity: 'quantity',
   pe: 'pe',
-  dividend: 'dividend',
+  dividendYield: 'dividendYield',
   notes: 'notes',
+  userId: 'userId',
+  where: 'where',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1429,6 +1524,7 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   post?: Prisma.PostOmit
+  pari?: Prisma.PariOmit
   project?: Prisma.ProjectOmit
   link?: Prisma.LinkOmit
   message?: Prisma.MessageOmit

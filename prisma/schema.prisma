@@ -42,6 +42,22 @@ model Post {
   updatedAt DateTime @updatedAt
 }
 
+model Pari {
+  id      Int     @id @default(autoincrement())
+  date    String
+  sexe    String
+  poids   String
+  taille  String
+  yeux    String
+  prenom  String
+  cheveux String
+  autres  String?
+  parieurName String    
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Project {
   id        Int     @id @default(autoincrement())
   title     String
@@ -54,7 +70,7 @@ model Project {
   image2Title String?
   link      String?
   authorId  Int
-  author    User    @relation(fields: [authorId], references: [id])
+  author    User   @relation(fields: [authorId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -123,8 +139,10 @@ model Action {
   purchasePrice Float
   quantity     Float
   pe           Float?
-  dividend     Float?
+  dividendYield     Float?
   notes        String?
+  userId       Int      @map("user_id") @default(1)
+  where        String
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }

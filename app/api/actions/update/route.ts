@@ -9,7 +9,7 @@ export async function GET(req: Request) {
   for(const action of actionsList) {
     let actionPrice = action.price
     let actionPe = action.pe
-    let actionDividend = action.dividend
+    let actionDividend = action.dividendYield
       try {
           const yahooFinance = new YahooFinance();
             const quote = await yahooFinance.quoteSummary(action.ticker, {
@@ -33,7 +33,7 @@ export async function GET(req: Request) {
           price: Number(actionPrice || action.price),
           purchasePrice: Number(action.purchasePrice || actionPrice),
           pe: actionPe || action.pe,
-          dividend: actionDividend || 0,
+          dividendYield: actionDividend || 0,
         },
       })
     }

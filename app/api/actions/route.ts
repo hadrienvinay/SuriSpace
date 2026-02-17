@@ -39,15 +39,19 @@ export async function POST(req: Request) {
     
 
     const created = await prisma.action.create({
+ 
       data: {
         name: String(name),
         ticker: String(ticker),
         price: Number(actionPrice || price),
         purchasePrice: Number(purchasePrice || actionPrice),
-        quantity: Number(body.quantity || 0),
+        quantity: Number(body.quantity || 1),
         pe: actionPe || pe,
-        dividend: actionDividend || 0,
+        dividendYield: actionDividend || 0,
         notes: notes ? String(notes) : null,
+        where: 'PEA',
+        
+        
       },
     });
 

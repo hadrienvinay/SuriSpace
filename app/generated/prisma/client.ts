@@ -50,6 +50,11 @@ export type User = Prisma.UserModel
  */
 export type Post = Prisma.PostModel
 /**
+ * Model Pari
+ * 
+ */
+export type Pari = Prisma.PariModel
+/**
  * Model Project
  * 
  */
