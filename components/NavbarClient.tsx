@@ -44,9 +44,6 @@ export default function NavbarClient({ session }: { session: Session | null }) {
             <Link href="/about" className="hover:bg-gray-700 px-3 py-2 rounded-md">
               À propos
             </Link>
-             <Link href="/bourse" className="hover:bg-gray-700 px-3 py-2 rounded-md">
-              Bourse
-            </Link>
             <Link href="/periodic_table" className="hover:bg-gray-700 px-3 py-2 rounded-md">
               Tableau
             </Link>
@@ -114,9 +111,6 @@ export default function NavbarClient({ session }: { session: Session | null }) {
           </Link>
           <Link href="/about" className="block hover:bg-gray-700 px-3 py-2 rounded-md" onClick={() => setIsOpen(false)}>
             À propos
-          </Link>
-          <Link href="/bourse" className="block hover:bg-gray-700 px-3 py-2 rounded-md" onClick={() => setIsOpen(false)}>
-            Bourse
           </Link>
           <Link href="/contact" className="block hover:bg-gray-700 px-3 py-2 rounded-md" onClick={() => setIsOpen(false)}>
             Contact

@@ -62,8 +62,8 @@ const [isModalOpen, setIsModalOpen] = useState(false)
                 <div className="bg-white p-6 rounded-lg shadow-md grid grid-cols-2 md:grid-cols-4 gap-4">
                     <button className="bg-purple-600 text-white py-3 rounded-lg shadow hover:bg-purple-700">Add User</button>
                     <a href="/dashboard/actions" className="bg-blue-600 text-white py-3 rounded-lg shadow hover:bg-blue-700">Actions</a>
+                    <a href="/dashboard/bourse" className="bg-red-600 text-white py-3 rounded-lg shadow hover:bg-red-700">Bourse</a>
                     <a href="/dashboard/jobs" className="bg-green-600 text-white py-3 rounded-lg shadow hover:bg-green-700">Jobs</a>
-                    <button className="bg-red-600 text-white py-3 rounded-lg shadow hover:bg-red-700">Delete Records</button>
                 </div>
 
                     

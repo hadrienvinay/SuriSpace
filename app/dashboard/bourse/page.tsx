@@ -1,5 +1,5 @@
 import StocksTable from "@/components/stockTable"
-import MetalsPrice from "../metals/page";
+import MetalsPrice from "../../metals/page";
 
 export  default function Bourse() {
 

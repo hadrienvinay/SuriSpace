@@ -47,7 +47,7 @@ export default function CreateMessageForm() {
   };
 
   return (
-        <form onSubmit={handleSubmit} className="rounded-xl  dark:bg-gray-700 p-5 transition-colors duration-300" id="contactForm">
+        <form onSubmit={handleSubmit} className="rounded-xl dark:bg-gray-700 p-5 transition-colors duration-300" id="contactForm">
             <div className="mb-6">
                 <div className="relative">
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -102,7 +102,7 @@ export default function CreateMessageForm() {
             className="hover:cursor-pointer w-full p-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-colors"
             disabled={isSubmitting}
             >
-            {isSubmitting ? 'Envoie en cours...' : 'Envoyer'}
+            {isSubmitting ? 'Envoi en cours...' : 'Envoyer'}
             </button>
             </div>
             </form>
