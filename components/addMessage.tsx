@@ -47,7 +47,7 @@ export default function CreateMessageForm() {
   };
 
   return (
-        <form onSubmit={handleSubmit} className="rounded-xl dark:bg-gray-700 p-5 transition-colors duration-300" id="contactForm">
+        <form onSubmit={handleSubmit} className="myform rounded-xl p-5 transition-colors duration-300" id="contactForm">
             <div className="mb-6">
                 <div className="relative">
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">

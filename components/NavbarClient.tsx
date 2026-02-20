@@ -29,7 +29,7 @@ export default function NavbarClient({ session }: { session: Session | null }) {
             Suri's <span className="text-blue-600"> Blog</span>
           </Link>
           {/* Desktop Menu - Visible sur grands écrans */}
-          <div className="hidden gap-2 md:flex md:items-center lg:space-x-8">
+          <div className="hidden gap-2 md:flex md:items-center lg:space-x-8 font-semibold">
             { session ? (
             <Link href="/dashboard" className="hover:bg-gray-200 dark:hover:bg-gray-700 px-3 py-2 rounded-md">
               Dashboard
@@ -44,8 +44,8 @@ export default function NavbarClient({ session }: { session: Session | null }) {
             <Link href="/about" className="hover:bg-gray-700 px-3 py-2 rounded-md">
               À propos
             </Link>
-            <Link href="/periodic_table" className="hover:bg-gray-700 px-3 py-2 rounded-md">
-              Tableau
+            <Link href="/atoms" className="hover:bg-gray-700 px-3 py-2 rounded-md">
+              Atomes
             </Link>
             <Link href="/contact" className="hover:bg-gray-700 px-3 py-2 rounded-md">
               Contact
@@ -111,6 +111,9 @@ export default function NavbarClient({ session }: { session: Session | null }) {
           </Link>
           <Link href="/about" className="block hover:bg-gray-700 px-3 py-2 rounded-md" onClick={() => setIsOpen(false)}>
             À propos
+          </Link>
+          <Link href="/atoms" className="block hover:bg-gray-700 px-3 py-2 rounded-md" onClick={() => setIsOpen(false)}>
+            Atomes
           </Link>
           <Link href="/contact" className="block hover:bg-gray-700 px-3 py-2 rounded-md" onClick={() => setIsOpen(false)}>
             Contact

@@ -28,7 +28,7 @@ export async function POST(req: Request) {
           const result = quote.price;
           const summary = quote.summaryDetail;
           const stats = quote.defaultKeyStatistics;
-          console.log(`Fetched data for ${ticker}:`, result);
+          //console.log(`Fetched data for ${ticker}:`, result);
           actionPrice = result?.regularMarketPrice
           actionPe = summary?.trailingPE
           actionDividend = summary?.dividendYield || 0
@@ -37,9 +37,7 @@ export async function POST(req: Request) {
           console.error(`Erreur pour ${ticker}:`, err);
       }
     
-
     const created = await prisma.action.create({
- 
       data: {
         name: String(name),
         ticker: String(ticker),
@@ -50,8 +48,6 @@ export async function POST(req: Request) {
         dividendYield: actionDividend || 0,
         notes: notes ? String(notes) : null,
         where: 'PEA',
-        
-        
       },
     });
 

@@ -15,7 +15,7 @@ export default function RootLayout({
 
   return (
     <html lang="fr" className="scroll-smooth" suppressHydrationWarning>
-      <body className="bg-white text-white dark:bg-black dark:text-white">
+      <body className="bg-white text-white dark:bg-black dark:text-white flex flex-col">
         <ThemeProvider attribute="class" defaultTheme="dark">
         {/* HEADER */}
         <header className="fixed top-0 left-0 right-0 backdrop-blur bg-white/70 dark:bg-gray-900/70 border-b border-gray-200/40 dark:border-gray-700/40 z-50">
@@ -23,7 +23,7 @@ export default function RootLayout({
         </header>
 
         {/* CONTENT */}
-        <main className="md:px-0 sm:px-0 mx-auto lg:px-6 pt-10 pb-14">
+        <main className="flex-1 md:px-0 sm:px-0 mx-auto lg:px-6 pt-10 pb-14">
           {children}
         </main>
 

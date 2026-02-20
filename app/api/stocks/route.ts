@@ -45,18 +45,28 @@ export async function GET() {
             const result = quote.price;
             const summary = quote.summaryDetail;
             const stats = quote.defaultKeyStatistics;
-            console.log(`Fetched data for ${symbol}:`, result);
+            //console.log(`Fetched data for ${symbol}:`, result);
 
             if (!result) {
                 console.error(`No price data for ${symbol}`);
                 return null;
             }
+            
+            let dayChange = 0
+            let dayChangePercent = 0
+            if (result.regularMarketOpen && result.regularMarketPrice){
+                dayChange = result.regularMarketPrice - result.regularMarketOpen
+                dayChangePercent = (dayChange/result.regularMarketOpen)*100
+            }
             return {
             ticker: symbol,
             name: result.longName,
             price: result.regularMarketPrice,
-            change: result.regularMarketChange,
-            changePercent: result.regularMarketChangePercent,
+            //change: result.regularMarketChange,
+            //changePercent: result.regularMarketChangePercent,
+            change: dayChange,
+            changePercent: dayChangePercent,
+            marketOpen: result.regularMarketOpen,
             pe: summary?.trailingPE,
             eps: stats?.trailingEps,
             dividendYield: summary?.dividendYield,

@@ -1,6 +1,7 @@
 // app/components/StocksTable.tsx
 'use client'
 
+import { openAsBlob } from 'fs'
 import { useState, useEffect } from 'react'
 
 type SortField = 'ticker' | 'name' | 'price' | 'changePercent' | 'volume' | 'pe' | 'marketCap' | 'dividendYield'
@@ -12,6 +13,7 @@ interface Stock {
   price: number
   change: number
   changePercent: number
+  marketOpen: number
   currency: string
   pe: number | null
   marketCap: number
@@ -49,6 +51,7 @@ export default function StocksTable() {
     }
 
     fetchStocks()
+
     const interval = setInterval(fetchStocks, 12000000) // Rafraîchir toutes les 200 minutes (limite API)
     return () => clearInterval(interval)
   }, [])
@@ -283,7 +286,7 @@ export default function StocksTable() {
                       stock.change >= 0 ? 'text-green-600' : 'text-red-600'
                     }`}>
                       {stock.change >= 0 ? '+' : ''}
-                      {stock.change.toFixed(2)} {stock.currency}
+                      {stock.change.toFixed(2)} {stock.currency} 
                     </span>
                     <span className={`text-sm ${
                       stock.changePercent >= 0 ? 'text-green-600' : 'text-red-600'

@@ -35,6 +35,13 @@
   background-color: #2c4255;
 }
 
+.dark form.myform{
+  background-color: #233341;
+}
+.light form.myform{
+  background-color: #d7e4f0;
+}
+
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -47,6 +54,14 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+}
+
+main{
+  flex: 1
 }
 
 .my-marker {

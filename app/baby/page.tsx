@@ -6,6 +6,10 @@ import { auth } from "@/lib/auth";
 
 export default async function paris() {
   const paris = await prisma.pari.findMany();
+  const totalParis = await prisma.pari.count();
+  const nbFilles =  await prisma.pari.count({
+    where: {sexe: 'fille'},
+  });
   
   return (
     <section className="max-w-7xl mx-auto space-y-16">
@@ -26,6 +30,9 @@ export default async function paris() {
               active:scale-95">
               ➕ Nouveau pari
             </Link>
+          </div>
+          <div className="mt-5">
+            Nombre total de paris : {totalParis} / Cote fille : {(nbFilles/totalParis)*100}% - Cote garçon : {100-(nbFilles/totalParis)*100}%
           </div>
         <table className="hidden md:table mt-10 min-w-full divide-y divide-gray-200 text-gray-600">
           <thead className="bg-gray-50">
