@@ -40,10 +40,10 @@ function ElementCell({
       }}
     >
       <span className="text-[7px] sm:text-[9px] text-gray-500 leading-none">{element.number}</span>
-      <span className="text-[10px] sm:text-sm font-bold leading-none" style={{ color: isDimmed ? '#666' : bg }}>
+      <span className="text-sm sm:text-2xl font-bold leading-none" style={{ color: isDimmed ? '#666' : bg }}>
         {element.symbol}
       </span>
-      <span className="text-[5px] sm:text-[7px] text-gray-400 leading-none truncate w-full text-center px-0.5 hidden sm:block">
+      <span className="text-sm md:text-m text-gray-400 leading-none truncate w-full text-center px-0.5 hidden sm:block">
         {element.nameFr}
       </span>
     </button>
@@ -60,33 +60,39 @@ function buildGrid(elements: Element[]): (Element | null)[][] {
   );
 
   for (const el of elements) {
-    if (el.group !== null && el.period <= 7) {
-      // Special: lanthanides (period 6, groups 3) and actinides (period 7, groups 3) are put in rows 8/9
-      if (el.category === 'lanthanide') {
-        const lanthanideOrder = el.number - 57 + 1; // La=1, Ce=2, ...
-        if (lanthanideOrder >= 1 && lanthanideOrder <= 15) {
-          grid[8][lanthanideOrder + 2] = el;
+    //Special for Bore to Neon (id 5 to 10)
+    if (el.number > 4 && el.number < 11){
+      grid[1][el.number + 7] = el;
+    }
+    else{
+      if (el.group !== null && el.period <= 7) {
+        // Special: lanthanides (period 6, groups 3) and actinides (period 7, groups 3) are put in rows 8/9
+        if (el.category === 'lanthanide') {
+          const lanthanideOrder = el.number - 57 + 1; // La=1, Ce=2, ...
+          if (lanthanideOrder >= 1 && lanthanideOrder <= 15) {
+            grid[8][lanthanideOrder + 2] = el;
+          }
+        } else if (el.category === 'actinide') {
+          const actinideOrder = el.number - 89 + 1;
+          if (actinideOrder >= 1 && actinideOrder <= 15) {
+            grid[9][actinideOrder + 2] = el;
+          }
+        } else {
+          const adjustedGroup = el.group - 1;
+          grid[el.period - 1][adjustedGroup] = el;
         }
-      } else if (el.category === 'actinide') {
-        const actinideOrder = el.number - 89 + 1;
-        if (actinideOrder >= 1 && actinideOrder <= 15) {
-          grid[9][actinideOrder + 2] = el;
-        }
-      } else {
-        const adjustedGroup = el.group - 1;
-        grid[el.period - 1][adjustedGroup] = el;
-      }
-    } else if (el.group === null) {
-      // lanthanide or actinide
-      if (el.category === 'lanthanide') {
-        const lanthanideOrder = el.number - 57 + 1;
-        if (lanthanideOrder >= 1 && lanthanideOrder <= 15) {
-          grid[8][lanthanideOrder + 2] = el;
-        }
-      } else if (el.category === 'actinide') {
-        const actinideOrder = el.number - 89 + 1;
-        if (actinideOrder >= 1 && actinideOrder <= 15) {
-          grid[9][actinideOrder + 2] = el;
+      } else if (el.group === null) {
+        // lanthanide or actinide
+        if (el.category === 'lanthanide') {
+          const lanthanideOrder = el.number - 57 + 1;
+          if (lanthanideOrder >= 1 && lanthanideOrder <= 15) {
+            grid[8][lanthanideOrder + 2] = el;
+          }
+        } else if (el.category === 'actinide') {
+          const actinideOrder = el.number - 89 + 1;
+          if (actinideOrder >= 1 && actinideOrder <= 15) {
+            grid[9][actinideOrder + 2] = el;
+          }
         }
       }
     }
@@ -153,7 +159,7 @@ export default function PeriodicTable() {
             <button
               key={key}
               onClick={() => { setFilterCategory(filterCategory === key ? null : key); setSearch(''); }}
-              className={`px-2 py-1 rounded text-xs font-medium transition-all border ${filterCategory === key ? 'opacity-100 scale-105' : 'opacity-60 hover:opacity-80'}`}
+              className={`px-2 py-1 rounded text-l font-medium transition-all border ${filterCategory === key ? 'opacity-100 scale-105' : 'opacity-60 hover:opacity-80'}`}
               style={{
                 borderColor: CATEGORY_COLORS[key] + '66',
                 background: CATEGORY_COLORS[key] + '22',
@@ -171,7 +177,7 @@ export default function PeriodicTable() {
             {/* Groups header */}
             <div className="grid mb-0.5" style={{ gridTemplateColumns: `repeat(${GROUPS}, 1fr)`, gap: '2px' }}>
               {Array.from({ length: GROUPS }, (_, i) => (
-                <div key={i} className="text-center text-[7px] text-gray-700 font-mono">
+                <div key={i} className="text-center text-15 text-gray-700 font-mono">
                   {i + 1}
                 </div>
               ))}
@@ -197,7 +203,7 @@ export default function PeriodicTable() {
                           onClick={setSelected}
                         />
                       ) : (
-                        <div key={groupIdx} style={{ aspectRatio: '1' }} />
+                        <div key={`id${groupIdx}`} style={{ aspectRatio: '1' }} />
                       )
                     ))}
                   </div>
@@ -225,7 +231,7 @@ export default function PeriodicTable() {
 
               {/* Header */}
               <div className="flex items-start gap-4 mb-4">
-                <div className="flex-shrink-0 w-20 h-20 rounded-xl flex flex-col items-center justify-center border"
+                <div className="shrink-0 w-20 h-20 rounded-xl flex flex-col items-center justify-center border"
                   style={{
                     background: (CATEGORY_COLORS[selected.category] ?? '#666') + '22',
                     borderColor: (CATEGORY_COLORS[selected.category] ?? '#666') + '55',

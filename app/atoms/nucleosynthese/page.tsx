@@ -308,14 +308,14 @@ export default function Nucleosynthese() {
                 <div className="flex items-center gap-2">
                   <span className="text-xl">{ev.icon}</span>
                   <div>
-                    <div className="text-xs font-bold" style={{ color: ev.color }}>{ev.era}</div>
-                    <div className="text-[10px] text-gray-600">{ev.time}</div>
+                    <div className="text-xl font-bold" style={{ color: ev.color }}>{ev.era}</div>
+                    <div className="text-l text-gray-600">{ev.time}</div>
                   </div>
                 </div>
                 {/* Elements produced */}
                 <div className="flex flex-wrap gap-1 mt-2">
                   {ev.elements.slice(0, 6).map(sym => (
-                    <span key={sym} className="text-[9px] font-mono px-1 rounded"
+                    <span key={sym} className="text-15 font-mono px-1 rounded"
                       style={{ background: `${ev.color}22`, color: ev.color }}>
                       {sym}
                     </span>
