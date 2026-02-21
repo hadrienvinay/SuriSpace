@@ -23,7 +23,7 @@ export default function RootLayout({
         </header>
 
         {/* CONTENT */}
-        <main className="flex-1 md:px-0 sm:px-0 lg:px-6 pt-10 pb-2">
+        <main className="flex-1 md:px-0 sm:px-0 pt-10 pb-2">
           {children}
         </main>
 

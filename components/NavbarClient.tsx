@@ -44,6 +44,9 @@ export default function NavbarClient({ session }: { session: Session | null }) {
             <Link href="/about" className="hover:bg-gray-700 px-3 py-2 rounded-md">
               À propos
             </Link>
+            <Link href="/solar-system" className="hover:bg-gray-700 px-3 py-2 rounded-md">
+              Système solaire
+            </Link>
             <Link href="/atoms" className="hover:bg-gray-700 px-3 py-2 rounded-md">
               Atomes
             </Link>
@@ -111,6 +114,9 @@ export default function NavbarClient({ session }: { session: Session | null }) {
           </Link>
           <Link href="/about" className="block hover:bg-gray-700 px-3 py-2 rounded-md" onClick={() => setIsOpen(false)}>
             À propos
+          </Link>
+          <Link href="/solar-system" className="block hover:bg-gray-700 px-3 py-2 rounded-md" onClick={() => setIsOpen(false)}>
+            Système solaire
           </Link>
           <Link href="/atoms" className="block hover:bg-gray-700 px-3 py-2 rounded-md" onClick={() => setIsOpen(false)}>
             Atomes

@@ -8,6 +8,10 @@ const navItems = [
   { href: '/atoms/nucleosynthese', label: 'Nucléosynthèse', icon: '💥' },
   { href: '/atoms/abondance', label: 'Abondance', icon: '📊' },
   { href: '/atoms/histoire', label: 'Histoire', icon: '🌌' },
+  { href: '/solar-system', label: 'Systeme solaire', icon: '🗺️' },
+  { href: '/', label: 'Retour', icon: '⬅️' },
+
+
 ];
 
 export default function AtomicLayout({ children }: { children: React.ReactNode }) {
@@ -75,13 +79,7 @@ const pathname = usePathname();
                 <span className="mr-1.5">{item.icon}</span>{item.label}
               </Link>
             ))}
-              <Link
-                key="home"
-                href="/"
-                className={`px-3 py-1.5 rounded text-xs font-medium tracking-wider uppercase whitespace-nowrap transition-all shrink-0`}
-              >
-                <span className="mr-1.5">⬅️</span>Retour
-              </Link>
+
           </div>
           
         </div>
