@@ -369,7 +369,7 @@ export default function ConstellationsPage() {
             const season = SEASON_CONFIG[c.bestSeason as keyof typeof SEASON_CONFIG];
 
             return (
-              <Link key={c.id} href={`/solar-system/stars/star/${c.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+              <Link key={c.id} href={`/solar-system/stars/constellations/${c.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                 <div
                   className="const-card"
                   style={{ animationDelay: `${idx * 0.04}s`, borderColor: hoveredId === c.id ? `${c.color}30` : undefined }}
@@ -531,7 +531,7 @@ export default function ConstellationsPage() {
                 </div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
                   {list.map(c => (
-                    <Link key={c.id} href={`/solar-system/stars/star/${c.id}`} style={{
+                    <Link key={c.id} href={`/solar-system/stars/constellations/${c.id}`} style={{
                       fontSize: 13,
                       color: 'rgba(255,255,255,0.5)',
                       textDecoration: 'none',

@@ -125,6 +125,8 @@ export default async function ConstellationPage({ params }: { params: Promise<{ 
           <span className="text-gray-700">›</span>
           <Link href="/solar-system/stars" className="text-gray-500 hover:text-white transition-colors shrink-0">✨ Carte du Ciel</Link>
           <span className="text-gray-700">›</span>
+          <Link href="/solar-system/stars/constellations" className="text-gray-600 hover:text-white transition-colors shrink-0">🔭 Constellations </Link>
+          <span className="text-gray-700">›</span>
           <span style={{ color: constellation.color }}>{constellation.nameFr}</span>
         </div>
       </nav>
@@ -236,7 +238,7 @@ export default async function ConstellationPage({ params }: { params: Promise<{ 
         {/* ── Navigation ── */}
         <div className="flex justify-between items-center pt-4 border-t border-white/8">
           {prev ? (
-            <Link href={`/solar-system/stars/${prev.id}`}
+            <Link href={`/solar-system/stars/constellations/${prev.id}`}
               className="flex items-center gap-3 px-5 py-3 rounded-xl border border-white/8 bg-white/3 hover:bg-white/6 transition-all group">
               <span className="text-2xl">{prev.emoji}</span>
               <div>
@@ -247,7 +249,7 @@ export default async function ConstellationPage({ params }: { params: Promise<{ 
           ) : <div />}
           <Link href="/solar-system/stars" className="text-sm text-gray-600 hover:text-white transition-colors font-mono">✨ Carte</Link>
           {next ? (
-            <Link href={`/solar-system/stars/${next.id}`}
+            <Link href={`/solar-system/stars/constellations/${next.id}`}
               className="flex items-center gap-3 text-right px-5 py-3 rounded-xl border border-white/8 bg-white/3 hover:bg-white/6 transition-all group">
               <div>
                 <div className="text-xs text-gray-600">Suivante →</div>

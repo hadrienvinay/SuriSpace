@@ -19,9 +19,9 @@ export default function Home() {
           Bienvenue sur <span className="text-blue-600">Suri's Page</span>
         </h1>
         <p className="mt-6 text-xl max-w-3xl mx-auto">
-          Un blog permettant de centraliser mes projets, idées et avancées 
-          Fait avec le Framework NextJs, Prisma pour la base de donnée, NextAuth pour l'authentification
-          Utilisation de diverses API : MapBox, Météo, Ratp, Bourses, LLM
+          Un blog permettant de centraliser mes projets, idées et avancées<br></br>
+          Réalisé avec le Framework NextJs, Prisma pour la base de donnée, NextAuth pour l'authentification et
+          utilisation de diverses API : MapBox, Météo, Ratp, Bourses, LLM
         </p>
         <p className="mt-6 text-l max-w-6xl mx-auto justify italic">
           <b>Citation du jour : </b>"Pour découvrir les meilleures règles de société qui conviennent aux nations, il faudrait une intelligence supérieure qui vît toutes les passions des hommes
