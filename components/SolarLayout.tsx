@@ -7,8 +7,9 @@ const navItems = [
   { href: '/solar-system', label: 'Carte interactive', icon: '🗺️' },
   { href: '/solar-system/bodys', label: 'Corps du système solaire', icon: '🌍' },
   { href: '/solar-system/missions', label: 'Missions & Sondes', icon: '🚀' },
+  { href: '/solar-system/stars', label: 'Carte du ciel', icon: '⭐' },
   { href: '/atoms', label: 'Atomes', icon: '⚛️' },
-  { href: '/', label: 'Retour', icon: '⬅️' },
+  { href: '/', label: 'Retour au blog', icon: '⬅️' },
 
 ];
 
@@ -23,7 +24,7 @@ export default function SolarLayout({ children }: { children: React.ReactNode })
       {/* Deep space background */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 space-background"
           style={{
             background:
               'radial-gradient(ellipse at 20% 50%, rgba(30,58,138,0.18) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(88,28,135,0.12) 0%, transparent 50%)',
@@ -57,7 +58,7 @@ export default function SolarLayout({ children }: { children: React.ReactNode })
         <div className="max-w-screen-2xl mx-auto px-5 py-3.5 flex items-center gap-3 overflow-x-auto">
           <Link href="/solar-system" className="flex items-center gap-2.5 mr-4 shrink-0 group">
             <span className="text-2xl group-hover:scale-110 transition-transform">🌌</span>
-            <span className="text-sm font-bold text-gray-400 uppercase tracking-widest hidden sm:block group-hover:text-white transition-colors">
+            <span className="text-md font-bold text-gray-400 uppercase tracking-widest hidden sm:block group-hover:text-white transition-colors">
               Système Solaire
             </span>
           </Link>
@@ -81,7 +82,7 @@ export default function SolarLayout({ children }: { children: React.ReactNode })
         </div>
       </nav>
 
-      <div className="relative z-10 pt-10">{children}</div>
+      <div className="relative z-10 pt-10 md:pt-8">{children}</div>
     </div>
   );
 }

@@ -41,7 +41,7 @@ export default async function Projects() {
         </div>
         <div className=" mx-auto p-16">  
           <div className="sm:grid lg:grid-cols-3 sm:grid-cols-2 gap-10">
-            <a href={`/projects/gameoflife`} key="gameoflife" className="hover:bg-gray-900 hover:text-white transition duration-300 max-w-sm rounded overflow-hidden shadow-lg">
+            <a href={`/projects/gameoflife`} key="gameoflife" className="project-card bg-gray-900 hover:bg-gray-800 hover:text-white hover:scale-[1.04] hover:shadow-2xl transition duration-300 max-w-sm rounded overflow-hidden shadow-lg">
                         
             <Image
                 src="/uploads/gameoflife.jpg" 
@@ -63,7 +63,7 @@ export default async function Projects() {
           
           {projects.map((project) => (
 
-            <a href={`/projects/${project.id}`} key={project.id} className="hover:bg-gray-900 hover:text-white transition duration-300 max-w-sm rounded overflow-hidden shadow-lg">
+            <a href={`/projects/${project.id}`} key={project.id} className="project-card bg-gray-900 hover:bg-gray-800 hover:text-white hover:scale-[1.04] hover:shadow-2xl transition duration-300 max-w-sm rounded overflow-hidden shadow-lg">
             
               <Image
                   src={project.image? project.image: "/python_img.webp"}

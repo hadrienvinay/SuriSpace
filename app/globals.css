@@ -12,7 +12,7 @@
 }
 .light body {
     --background: #F2FFFC; /* blanc */
-    --foreground: #141313; /* noir */
+    --foreground: #020817; /* noir */
 }
 
 .light nav{
@@ -20,7 +20,7 @@
 }
 
 .light nav a:hover{
-  background-color : #ded6d6;
+  background-color : #7e28c4;
 }
 
 .dark #mobile-menu-button{
@@ -45,7 +45,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #3038524a;
+    --background: #020817;
     --foreground: #ededed;
   }
 }
@@ -97,6 +97,9 @@ main{
 }
 
 
+.light .project-card{
+  background-color: #999;
+}
 .evg_page {
   font-family: 'Pokémon Solid', sans-serif;
   background: linear-gradient(135deg, var(--pokemon-red), var(--pokemon-blue));

@@ -128,7 +128,7 @@ const linkData =  [
     description: "Interview, articles économie, société, politique ",
     image: "/default.png",
     tag: "Education, Economie",
-    link: "https://www.elucid-media.fr"
+    link: "https://elucid.media/"
   },
   {
     title: "Idriss Aberkane",

@@ -1,4 +1,4 @@
-// pages//solar-system/page.tsx
+// app/solar-system/page.tsx
 'use client';
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
@@ -83,13 +83,12 @@ export default function SolarSystemMap() {
   return (
     <SolarLayout>
       <div className="max-w-screen-2xl mx-auto px-4 py-8">
-
         {/* ── Header ────────────────────────────────────────────── */}
         <div className="mb-6">
           <h1 className="text-4xl font-bold text-white mb-1" style={{ fontFamily: "'Exo 2', sans-serif", letterSpacing: '-0.5px' }}>
             Système Solaire
           </h1>
-          <p className="text-base text-gray-500">Carte interactive · Échelle logarithmique · Cliquer sur une planète ou une sonde</p>
+          <p className="text-base text-gray-500">Carte interactive · Échelle logarithmique · Cliquer sur une planète ou une sonde pour voir le détail</p>
         </div>
 
         <div className="flex flex-col xl:flex-row gap-6">
@@ -379,7 +378,7 @@ export default function SolarSystemMap() {
 
           {/* ── Right Panel ─────────────────────────────────────────── */}
           <div className="xl:w-88" style={{ width: undefined }}>
-            <div className="xl:sticky xl:top-20 space-y-4" style={{ maxWidth: 360 }}>
+            <div className="xl:sticky xl:top-20 space-y-4" style={{ maxWidth: 600 }}>
 
               {/* PLANET panel */}
               {selectedBodyData && !selectedProbe && (
@@ -500,7 +499,7 @@ export default function SolarSystemMap() {
                     </div>
                   )}
 
-                  <Link href={`/solar-system//mission/${selectedProbe.id}`}
+                  <Link href={`/solar-system/missions/${selectedProbe.id}`}
                     className="block text-center py-2.5 rounded-xl text-sm font-bold uppercase tracking-wider transition-all hover:brightness-110"
                     style={{ background: selectedProbe.color + '28', border: `1px solid ${selectedProbe.color}50`, color: selectedProbe.color }}>
                     Page mission complète →
@@ -524,10 +523,22 @@ export default function SolarSystemMap() {
                       </button>
                     ))}
                   </div>
+                  <div className="mt-5 pt-4 border-white/8">
+                    <Link href="/solar-system/bodys"
+                      className="block text-center py-3 rounded-xl text-sm font-bold uppercase tracking-wider border border-blue-700/40 text-blue-400 hover:bg-blue-900/20 transition-all">
+                      🪐 Toutes les planètes
+                    </Link>
+                  </div>
                   <div className="mt-5 pt-4 border-t border-white/8">
                     <Link href="/solar-system/missions"
                       className="block text-center py-3 rounded-xl text-sm font-bold uppercase tracking-wider border border-violet-700/40 text-violet-400 hover:bg-violet-900/20 transition-all">
                       🚀 Toutes les missions
+                    </Link>
+                  </div>
+                  <div className="mt-5 pt-4 border-t border-white/8">
+                    <Link href="/solar-system/stars"
+                      className="block text-center py-3 rounded-xl text-sm font-bold uppercase tracking-wider border border-green-700/40 text-green-400 hover:bg-green-900/20 transition-all">
+                      🔭 Carte du ciel
                     </Link>
                   </div>
                 </div>

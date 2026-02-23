@@ -25,9 +25,9 @@ export default async function Posts() {
           Les articles de <span className="text-blue-600">Suri</span>
         </h1>
 
-        <div className="max-w-screen-xl mx-auto p-16">
+        <div className="max-w-7xl mx-auto p-16">
           <div className="sm:grid lg:grid-cols-3 sm:grid-cols-2 gap-10">
-            <a href="/posts/algoculture" key="algo" className="hover:bg-gray-900 hover:text-white transition duration-300 max-w-sm rounded overflow-hidden shadow-lg">
+            <a href="/posts/algoculture" key="algo" className="hover:bg-gray-900 hover:text-white hover:scale-[1.04] hover:shadow-2xl transition duration-300 max-w-sm rounded overflow-hidden shadow-lg">
               <Image
                   src="/uploads/image-1769438168655-893060458.jpg"
                   width={300}
@@ -45,7 +45,7 @@ export default async function Posts() {
                 &nbsp;<span className="text-xs text-gray-500">2025</span>
               </div>
             </a>
-            <a href="/posts/negative" key="cosmo" className="hover:bg-gray-900 hover:text-white transition duration-300 max-w-sm rounded overflow-hidden shadow-lg">
+            <a href="/posts/negative" key="cosmo" className="hover:bg-gray-900 hover:text-white hover:scale-[1.04] hover:shadow-2xl transition duration-300 max-w-sm rounded overflow-hidden shadow-lg">
               <Image
                   src="/univers.webp"
                   width={300}
@@ -62,7 +62,7 @@ export default async function Posts() {
                 &nbsp;<span className="text-xs text-gray-500">2026</span>
               </div>
             </a>
-            <a href="/posts/space" key="space" className="hover:bg-gray-900 hover:text-white transition duration-300 max-w-sm rounded overflow-hidden shadow-lg">
+            <a href="/posts/space" key="space" className="hover:bg-gray-900 hover:text-white hover:scale-[1.04] hover:shadow-2xl transition duration-300 max-w-sm rounded overflow-hidden shadow-lg">
               <Image
                   src="/artemis.jpg"
                   width={300}
@@ -82,7 +82,7 @@ export default async function Posts() {
 
             {posts.map((post) => (
 
-              <div key={post.id} className="hover:bg-gray-900 hover:text-white transition duration-300 max-w-sm rounded overflow-hidden shadow-lg">
+              <div key={post.id} className="hover:bg-gray-900 hover:text-white hover:scale-[1.04] hover:shadow-2xl transition duration-300 max-w-sm rounded overflow-hidden shadow-lg">
                 {session && (
                 <div className="absolute">
                   <DeletePostButton postId={post.id} />

@@ -86,7 +86,7 @@ export  default async function ElementPage({ params }: { params: Promise<{ id: s
     <AtomicLayout>
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-xs text-gray-600 mb-6">
+        <div className="flex items-center gap-2 text-md text-gray-600 mb-6">
           <Link href="/atoms/tableau" className="hover:text-white transition-colors">Tableau périodique</Link>
           <span>›</span>
           <span style={{ color }}>{element.nameFr}</span>
@@ -101,22 +101,22 @@ export  default async function ElementPage({ params }: { params: Promise<{ id: s
           }}>
           <div className="flex flex-col sm:flex-row items-start gap-6">
             {/* Big symbol + Bohr model */}
-            <div className="flex-shrink-0 text-center">
+            <div className="shrink-0 text-center">
               <div className="w-24 h-24 rounded-2xl border-2 flex flex-col items-center justify-center mb-3"
                 style={{ borderColor: color, background: `${color}15` }}>
-                <span className="text-[10px] text-gray-500">{element.number}</span>
+                <span className="text-[12px] text-gray-500">{element.number}</span>
                 <span className="text-4xl font-bold" style={{ color }}>{element.symbol}</span>
-                <span className="text-[10px] text-gray-500">{element.mass}</span>
+                <span className="text-[12px] text-gray-500">{element.mass}</span>
               </div>
               <BohrAtom element={element} color={color} />
             </div>
 
             <div className="flex-1">
-              <div className="text-sm mb-1" style={{ color }}>{CATEGORY_LABELS[element.category]}</div>
+              <div className="text-md mb-1" style={{ color }}>{CATEGORY_LABELS[element.category]}</div>
               <h1 className="text-3xl sm:text-4xl font-bold text-white mb-1">{element.nameFr}</h1>
-              <p className="text-gray-500 text-sm mb-1 font-mono">{element.name}</p>
-              <p className="text-gray-500 text-xs mb-4 font-mono">{element.electronConfig}</p>
-              <p className="text-gray-300 text-sm leading-relaxed">{element.description}</p>
+              <p className="text-gray-500 text-md mb-1 font-mono">{element.name}</p>
+              <p className="text-gray-500 text-md mb-4 font-mono">{element.electronConfig}</p>
+              <p className="text-gray-300 text-md leading-relaxed">{element.description}</p>
             </div>
           </div>
         </div>
@@ -135,8 +135,8 @@ export  default async function ElementPage({ params }: { params: Promise<{ id: s
             { label: 'Densité', value: element.density ? `${element.density} g/cm³` : '—' },
           ].map(stat => (
             <div key={stat.label} className="rounded-xl bg-white/5 border border-white/8 p-3">
-              <div className="text-[10px] uppercase tracking-wider text-gray-600 mb-1">{stat.label}</div>
-              <div className="text-sm font-mono text-white whitespace-pre-line">{stat.value}</div>
+              <div className="text-[12px] uppercase tracking-wider text-gray-600 mb-1">{stat.label}</div>
+              <div className="text-md font-mono text-white whitespace-pre-line">{stat.value}</div>
             </div>
           ))}
         </div>
@@ -144,11 +144,11 @@ export  default async function ElementPage({ params }: { params: Promise<{ id: s
         {/* Abundance + Origin */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
           <div className="rounded-xl border p-4" style={{ borderColor: '#A78BFA33', background: '#A78BFA08' }}>
-            <div className="text-[10px] uppercase tracking-wider text-violet-500 mb-2">Abondance</div>
+            <div className="text-[12px] uppercase tracking-wider text-violet-500 mb-2">Abondance</div>
             <div className="space-y-2">
               <div>
-                <div className="text-[10px] text-gray-600 mb-1">🌌 Univers</div>
-                <div className="font-mono text-sm text-white">
+                <div className="text-[12px] text-gray-600 mb-1">🌌 Univers</div>
+                <div className="font-mono text-md text-white">
                   {element.abundanceUniverse != null ? `${element.abundanceUniverse} ppm` : 'Artificiel / Traces'}
                 </div>
                 {element.abundanceUniverse && (
@@ -161,8 +161,8 @@ export  default async function ElementPage({ params }: { params: Promise<{ id: s
                 )}
               </div>
               <div>
-                <div className="text-[10px] text-gray-600 mb-1">🌍 Croûte Terrestre</div>
-                <div className="font-mono text-sm text-white">
+                <div className="text-[12px] text-gray-600 mb-1">🌍 Croûte Terrestre</div>
+                <div className="font-mono text-md text-white">
                   {element.abundanceEarth != null ? `${element.abundanceEarth} ppm` : 'Artificiel / Traces'}
                 </div>
                 {element.abundanceEarth && (
@@ -178,9 +178,9 @@ export  default async function ElementPage({ params }: { params: Promise<{ id: s
           </div>
 
           <div className="rounded-xl border p-4" style={{ borderColor: '#FB923C33', background: '#FB923C08' }}>
-            <div className="text-[10px] uppercase tracking-wider text-orange-400 mb-2">Origine Cosmique</div>
-            <p className="text-sm text-gray-300">{element.origin}</p>
-            <div className="mt-3 text-[10px] text-gray-600">
+            <div className="text-[12px] uppercase tracking-wider text-orange-400 mb-2">Origine Cosmique</div>
+            <p className="text-md text-gray-300">{element.origin}</p>
+            <div className="mt-3 text-[12px] text-gray-600">
               Découvert par {element.discoveredBy}
               {element.yearDiscovered ? ` — ${element.yearDiscovered}` : ' (Antiquité/Préhistoire)'}
             </div>
@@ -190,10 +190,10 @@ export  default async function ElementPage({ params }: { params: Promise<{ id: s
         {/* Uses */}
         {element.uses?.length > 0 && (
           <div className="rounded-xl border border-white/10 p-5 mb-6">
-            <div className="text-[10px] uppercase tracking-wider text-gray-600 mb-3">Utilisations principales</div>
+            <div className="text-[12px] uppercase tracking-wider text-gray-600 mb-3">Utilisations principales</div>
             <div className="flex flex-wrap gap-2">
               {element.uses.map(use => (
-                <span key={use} className="px-3 py-1.5 rounded-lg text-sm border border-white/10 bg-white/5 text-gray-300">
+                <span key={use} className="px-3 py-1.5 rounded-lg text-md border border-white/10 bg-white/5 text-gray-300">
                   {use}
                 </span>
               ))}
@@ -207,15 +207,15 @@ export  default async function ElementPage({ params }: { params: Promise<{ id: s
             <Link href={`/atoms/element/${prev.symbol.toLowerCase()}`}
               className="flex items-center gap-3 group rounded-xl border border-white/10 bg-white/5 px-4 py-3 hover:bg-white/10 transition-all">
               <div>
-                <div className="text-[10px] text-gray-600">← Précédent</div>
+                <div className="text-[12px] text-gray-600">← Précédent</div>
                 <div className="font-mono font-bold" style={{ color: CATEGORY_COLORS[prev.category] }}>{prev.symbol}</div>
-                <div className="text-xs text-gray-500">{prev.nameFr}</div>
+                <div className="text-md text-gray-500">{prev.nameFr}</div>
               </div>
             </Link>
           ) : <div />}
 
           <Link href="/atoms/tableau"
-            className="text-xs text-gray-600 hover:text-white transition-colors">
+            className="text-md text-gray-600 hover:text-white transition-colors">
             Tableau complet
           </Link>
 
@@ -223,9 +223,9 @@ export  default async function ElementPage({ params }: { params: Promise<{ id: s
             <Link href={`/atoms/element/${next.symbol.toLowerCase()}`}
               className="flex items-center gap-3 text-right group rounded-xl border border-white/10 bg-white/5 px-4 py-3 hover:bg-white/10 transition-all">
               <div>
-                <div className="text-[10px] text-gray-600">Suivant →</div>
+                <div className="text-[12px] text-gray-600">Suivant →</div>
                 <div className="font-mono font-bold" style={{ color: CATEGORY_COLORS[next.category] }}>{next.symbol}</div>
-                <div className="text-xs text-gray-500">{next.nameFr}</div>
+                <div className="text-md text-gray-500">{next.nameFr}</div>
               </div>
             </Link>
           ) : <div />}

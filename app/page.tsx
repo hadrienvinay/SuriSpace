@@ -11,7 +11,7 @@ export default function Home() {
     //console.log(user)
   
   return (
-    <section className="max-w-7xl mx-auto space-y-16">
+    <section className="max-w-7xl mx-auto space-y-16 space-background">
       {/* HERO */}
       <div className="text-center mt-10">
         
@@ -40,8 +40,7 @@ export default function Home() {
       </div>
 
       {/* FEATURED CARDS */}
-      <div className="grid md:grid-cols-3 gap-8 mt-12">
-        
+      <div className="grid md:grid-cols-3 gap-8 mt-12 ml-2">
         <div className="p-6 border rounded-xl shadow hover:shadow-lg transition">
           <h3 className="text-xl font-bold">🌅​ Météo</h3>
           <div className="mt-2">
@@ -68,7 +67,7 @@ export default function Home() {
               <div className=" sm:w-5/11 w-full ">
                 <div className="myclass bg-blue-100 rounded flex h-full items-center">
                     <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3"
-                        className="text-indigo-500 w-6 h-6 flex-shrink-0 mr-2" viewBox="0 0 24 24">
+                        className="text-indigo-500 w-6 h-6 shrink-0 mr-2" viewBox="0 0 24 24">
                         <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
                         <path d="M22 4L12 14.01l-3-3"></path>
                     </svg>
@@ -78,7 +77,7 @@ export default function Home() {
                 <div className=" sm:w-5/11 w-full">
                   <div className="myclass bg-blue-100 rounded flex h-full items-center">
                       <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3"
-                          className="text-indigo-500 w-6 h-6 flex-shrink-0 mr-2" viewBox="0 0 24 24">
+                          className="text-indigo-500 w-6 h-6 shrink-0 mr-2" viewBox="0 0 24 24">
                           <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
                           <path d="M22 4L12 14.01l-3-3"></path>
                       </svg>
@@ -88,7 +87,7 @@ export default function Home() {
                 <div className=" sm:w-5/11 w-full">
                   <div className="myclass bg-blue-100 rounded flex h-full items-center">
                       <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3"
-                          className="text-indigo-500 w-6 h-6 flex-shrink-0 mr-2" viewBox="0 0 24 24">
+                          className="text-indigo-500 w-6 h-6 shrink-0 mr-2" viewBox="0 0 24 24">
                           <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
                           <path d="M22 4L12 14.01l-3-3"></path>
                       </svg>
@@ -98,7 +97,7 @@ export default function Home() {
                 <div className=" sm:w-5/11 w-full">
                   <div className="myclass bg-blue-100 rounded flex h-full items-center">
                       <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3"
-                          className="text-indigo-500 w-6 h-6 flex-shrink-0 mr-2" viewBox="0 0 24 24">
+                          className="text-indigo-500 w-6 h-6 shrink-0 mr-2" viewBox="0 0 24 24">
                           <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
                           <path d="M22 4L12 14.01l-3-3"></path>
                       </svg>
@@ -108,7 +107,7 @@ export default function Home() {
                 <div className=" sm:w-5/11 w-full">
                   <div className="myclass bg-blue-100 rounded flex h-full items-center">
                       <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3"
-                          className="text-indigo-500 w-6 h-6 flex-shrink-0 mr-2" viewBox="0 0 24 24">
+                          className="text-indigo-500 w-6 h-6 shrink-0 mr-2" viewBox="0 0 24 24">
                           <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
                           <path d="M22 4L12 14.01l-3-3"></path>
                       </svg>
@@ -118,7 +117,7 @@ export default function Home() {
                 <div className=" sm:w-5/11 w-full">
                   <div className="myclass bg-blue-100 rounded flex h-full items-center">
                       <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3"
-                          className="text-indigo-500 w-6 h-6 flex-shrink-0 mr-2" viewBox="0 0 24 24">
+                          className="text-indigo-500 w-6 h-6 shrink-0 mr-2" viewBox="0 0 24 24">
                           <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
                           <path d="M22 4L12 14.01l-3-3"></path>
                       </svg>
@@ -132,7 +131,7 @@ export default function Home() {
       </div>
 
          
-      <div className="max-w-screen-xl mx-auto py-4 px-2 lg:py-16 lg:px-6 border-t border-gray-200 dark:border-gray-700">
+      <div className="max-w-7xl mx-auto py-4 px-2 lg:py-16 lg:px-6 border-t border-gray-200 dark:border-gray-700">
         <div className="text-center mb-10">
             <h2 className="text-4xl tracking-tight font-bold text-primary-800">Projets récents</h2>
         </div>
@@ -179,7 +178,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="max-w-screen-xl mx-auto py-4 px-2 lg:py-16 lg:px-6 border-t border-gray-200 dark:border-gray-700">
+      <div className="max-w-7xl mx-auto py-4 px-2 lg:py-16 lg:px-6 border-t border-gray-200 dark:border-gray-700">
         <div className="text-center mb-10">
             <h2 className="text-4xl tracking-tight font-bold text-primary-800">Médias et ressources utiles</h2>
         </div>  

@@ -5,7 +5,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import SolarLayout from '@/components/SolarLayout';
-import { solarSystem } from '@/data/solar-system';
+import { planets, solarSystem } from '@/data/solar-system';
 
 // ─── Real NASA / Wikimedia photo URLs ────────────────────────────────────────
 const BODY_PHOTOS: Record<string, { src: string; credit: string }> = {
@@ -106,7 +106,7 @@ function BodyCard({ id, onSelect }: { id: string; onSelect: (id: string) => void
   return (
     <button
       onClick={() => onSelect(id)}
-      className="group relative overflow-hidden rounded-2xl border text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl focus:outline-none"
+      className="group relative overflow-hidden rounded-2xl border text-left transition-all duration-300 cursor-pointer hover:scale-[1.02] hover:shadow-2xl focus:outline-none"
       style={{
         borderColor: `${body.color}30`,
         background: '#0a0f1e',
@@ -378,19 +378,30 @@ export default function BodiesGallery() {
       <div className="max-w-7xl mx-auto px-5 py-10">
 
         {/* ── Header ─────────────────────────────────────────────── */}
-        <div className="mb-10">
-          <div className="text-xs font-mono uppercase tracking-widest text-blue-500 mb-2">Système Solaire</div>
-          <h1
-            className="text-5xl sm:text-6xl font-bold text-white mb-3"
-            style={{ fontFamily: "'Cinzel', serif", letterSpacing: '-0.01em' }}
-          >
-            Corps Célestes
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-white mb-1" style={{ fontFamily: "'Exo 2', sans-serif" }}>
+            Notre système solaire 
           </h1>
-          <p className="text-lg text-gray-400 max-w-2xl" style={{ fontFamily: "'Raleway', sans-serif", fontWeight: 300 }}>
-            Photographies réelles et données scientifiques du Soleil, des 8 planètes, de Pluton et des principales lunes du Système Solaire.
+          <p className="text-gray-500 text-base font-mono">
+            Une étoile : le soleil · 8 planètes : 4 telluriques et 4 gazeuses · Plus de 220 lunes
           </p>
         </div>
 
+        {/* Summary stats */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+          {[
+            { label: 'Etoiles', count: 1, color: '#4ade80', icon: '🌟' },
+            { label: 'Planètes', count: 8, color: '#fdee00', icon: '🪐' },
+            { label: 'Lunes', count: 220, color: '#60A5FA', icon: '🌑' },
+            { label: 'Age en Ma', count: 4.6, color: '#F472B6', icon: '📅' },
+          ].map(s => (
+            <div key={s.label} className="rounded-xl border border-white/8 bg-white/3 p-4 text-center">
+              <div className="text-2xl mb-1">{s.icon}</div>
+              <div className="text-2xl font-bold" style={{ color: s.color }}>{s.count}</div>
+              <div className="text-xs text-gray-600 uppercase tracking-wider">{s.label}</div>
+            </div>
+          ))}
+        </div>
         {/* ── Filters ─────────────────────────────────────────────── */}
         <div className="flex flex-wrap items-center gap-3 mb-8">
           {/* Type filters */}
@@ -426,6 +437,8 @@ export default function BodiesGallery() {
 
           <div className="text-sm text-gray-600 font-mono">{totalVisible} corps</div>
         </div>
+
+               
 
         {/* ── Gallery ─────────────────────────────────────────────── */}
         {visibleGroups.map(group => (
