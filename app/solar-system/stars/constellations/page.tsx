@@ -138,14 +138,8 @@ export default function ConstellationsPage() {
 
   return (
     <SolarLayout>
-    <div style={{
-      minHeight: '100vh',
-      background: 'linear-gradient(160deg, #01040e 0%, #020810 60%, #010208 100%)',
-      color: '#e8eaf6',
-      fontFamily: "'Outfit', sans-serif",
-    }}>
+    <div style={{ minHeight: '100vh', color: '#e8eaf6', fontFamily: "'Exo 2', sans-serif" }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap');
 
         .const-card {
           background: rgba(255,255,255,0.02);
@@ -185,7 +179,7 @@ export default function ConstellationsPage() {
           cursor: pointer;
           transition: all 0.15s;
           white-space: nowrap;
-          font-family: 'Outfit', sans-serif;
+          font-family: 'Exo 2', sans-serif;
         }
         .filter-btn:hover { border-color: rgba(255,255,255,0.3); color: rgba(255,255,255,0.9); }
         .filter-btn.active { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.08); color: #fff; }
@@ -196,7 +190,7 @@ export default function ConstellationsPage() {
           border-radius: 12px;
           padding: 10px 16px 10px 40px;
           color: #fff;
-          font-family: 'Outfit', sans-serif;
+          font-family: 'Exo 2', sans-serif;
           font-size: 14px;
           outline: none;
           width: 100%;
@@ -218,7 +212,7 @@ export default function ConstellationsPage() {
           color: rgba(255,255,255,0.5);
           cursor: pointer;
           transition: all 0.15s;
-          font-family: 'Outfit', sans-serif;
+          font-family: 'Exo 2', sans-serif;
         }
         .season-tab:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.04); }
         .season-tab.active { color: #fff; background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.15); }
@@ -258,7 +252,7 @@ export default function ConstellationsPage() {
               Atlas des constellations
             </div>
             <h1 style={{
-              fontFamily: "'Spectral', serif",
+              fontFamily: "'Exo 2', sans-serif",
               fontSize: 'clamp(28px, 5vw, 48px)',
               fontWeight: 600,
               margin: 0,
@@ -390,7 +384,7 @@ export default function ConstellationsPage() {
                           <span style={{ fontSize: 22 }}>{c.emoji}</span>
                           <div>
                             <div style={{
-                              fontFamily: "'Spectral', serif",
+                              fontFamily: "'Exo 2', sans-serif",
                               fontSize: 20,
                               fontWeight: 600,
                               color: '#fff',

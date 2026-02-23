@@ -175,7 +175,7 @@ function BodyCard({ id, onSelect }: { id: string; onSelect: (id: string) => void
       <div className="p-4">
         <h3
           className="text-xl font-bold text-white mb-1 group-hover:underline transition-all"
-          style={{ fontFamily: "'Cinzel', 'Exo 2', serif", letterSpacing: '0.03em' }}
+          style={{ fontFamily: "'Exo 2', sans-serif", letterSpacing: '0.03em' }}
         >
           {body.nameFr}
         </h3>
@@ -264,7 +264,7 @@ function BodyModal({ id, onClose }: { id: string; onClose: () => void }) {
             <div className="text-xs uppercase tracking-widest font-bold mb-1" style={{ color: body.color }}>
               {body.type === 'star' ? 'Étoile' : body.type === 'planet' ? 'Planète' : body.type === 'dwarf-planet' ? 'Planète naine' : `Lune de ${body.parent}`}
             </div>
-            <h2 className="text-4xl font-bold text-white" style={{ fontFamily: "'Cinzel', serif" }}>{body.nameFr}</h2>
+            <h2 className="text-4xl font-bold text-white" style={{ fontFamily: "'Exo 2', sans-serif" }}>{body.nameFr}</h2>
             {photo && !imgError && <div className="text-xs text-white/30 mt-1 font-mono">{photo.credit}</div>}
           </div>
         </div>
@@ -446,7 +446,7 @@ export default function BodiesGallery() {
             {/* Section header */}
             <div className="flex items-center gap-4 mb-5">
               <div className="w-1 h-7 rounded-full shrink-0" style={{ background: group.accent }} />
-              <h2 className="text-xl font-bold text-white" style={{ fontFamily: "'Cinzel', serif" }}>
+              <h2 className="text-xl font-bold text-white" style={{ fontFamily: "'Exo 2', sans-serif" }}>
                 {group.label}
               </h2>
               <div className="flex-1 h-px" style={{ background: `linear-gradient(to right, ${group.accent}30, transparent)` }} />

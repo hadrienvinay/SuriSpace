@@ -118,14 +118,8 @@ export default function CataloguePage() {
 
   return (
     <SolarLayout>
-    <div style={{
-      minHeight: '100vh',
-      background: 'linear-gradient(135deg, #01040e 0%, #030812 50%, #010309 100%)',
-      color: '#e8eaf6',
-      fontFamily: "'Outfit', sans-serif",
-    }}>
+    <div style={{ minHeight: '100vh', color: '#e8eaf6', fontFamily: "'Exo 2', sans-serif" }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap');
 
         .catalogue-card {
           background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
@@ -160,7 +154,7 @@ export default function CataloguePage() {
           cursor: pointer;
           transition: all 0.15s;
           white-space: nowrap;
-          font-family: 'Outfit', sans-serif;
+          font-family: 'Exo 2', sans-serif;
         }
         .filter-btn:hover { border-color: rgba(255,255,255,0.3); color: rgba(255,255,255,0.9); }
         .filter-btn.active { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.08); color: #fff; }
@@ -171,7 +165,7 @@ export default function CataloguePage() {
           border-radius: 12px;
           padding: 10px 16px 10px 40px;
           color: #fff;
-          font-family: 'Outfit', sans-serif;
+          font-family: 'Exo 2', sans-serif;
           font-size: 17px;
           outline: none;
           width: 100%;
@@ -186,7 +180,7 @@ export default function CataloguePage() {
           border-radius: 8px;
           padding: 6px 10px;
           color: rgba(255,255,255,0.7);
-          font-family: 'Outfit', sans-serif;
+          font-family: 'Exo 2', sans-serif;
           font-size: 15px;
           outline: none;
           cursor: pointer;
@@ -229,7 +223,7 @@ export default function CataloguePage() {
           border: none;
           color: rgba(255,255,255,0.5);
           cursor: pointer;
-          font-family: 'Outfit', sans-serif;
+          font-family: 'Exo 2', sans-serif;
           font-size: 11px;
           font-weight: 600;
           letter-spacing: 0.08em;
@@ -258,7 +252,7 @@ export default function CataloguePage() {
           background: none;
           border: none;
           color: rgba(255,255,255,0.5);
-          font-family: 'Outfit', sans-serif;
+          font-family: 'Exo 2', sans-serif;
           font-size: 15px;
           cursor: pointer;
           transition: all 0.15s;
@@ -283,7 +277,7 @@ export default function CataloguePage() {
               Catalogue stellaire
             </div>
             <h1 style={{
-              fontFamily: "'Spectral', serif",
+              fontFamily: "'Exo 2', sans-serif",
               fontSize: 'clamp(28px, 5vw, 48px)',
               fontWeight: 600,
               margin: 0,
@@ -438,7 +432,7 @@ export default function CataloguePage() {
 
                       {/* Name */}
                       <div style={{ marginBottom: 4 }}>
-                        <div style={{ fontFamily: "'Spectral', serif", fontSize: 18, fontWeight: 600, color: '#fff' }}>
+                        <div style={{ fontFamily: "'Exo 2', sans-serif", fontSize: 18, fontWeight: 600, color: '#fff' }}>
                           {star.nameFr ?? star.name}
                         </div>
                         {star.bayerDesignation && (

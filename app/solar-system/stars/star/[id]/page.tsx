@@ -135,8 +135,8 @@ export default async function StarPage({ params }: { params: Promise<{ id: strin
   return (
     <SolarLayout>
 
-    <div className="min-h-screen text-white" style={{ background: '#01040e', fontFamily: "'Outfit', 'Exo 2', sans-serif" }}>
-      <style>{`@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Spectral:wght@300;400;600&display=swap');
+    <div className="min-h-screen text-white" style={{ fontFamily: "'Exo 2', sans-serif" }}>
+      <style>{`
         @keyframes orbit { from { transform: rotate(0deg) translateX(var(--orb-r)) rotate(0deg); } to { transform: rotate(360deg) translateX(var(--orb-r)) rotate(-360deg); } }
       `}</style>
 
@@ -207,11 +207,11 @@ export default async function StarPage({ params }: { params: Promise<{ id: strin
             </div>
 
             <h1 className="text-5xl sm:text-6xl font-bold text-white mb-2 leading-none"
-              style={{ fontFamily: "'Spectral', serif" }}>
+              style={{ fontFamily: "'Exo 2', sans-serif" }}>
               {star.nameFr ?? star.name}
             </h1>
             {star.bayerDesignation && (
-              <div className="text-lg text-gray-500 font-mono mb-1" style={{ fontFamily: "'Spectral', serif", fontStyle: 'italic' }}>
+              <div className="text-lg text-gray-500 font-mono mb-1" style={{ fontFamily: "'Exo 2', sans-serif", fontStyle: 'italic' }}>
                 {star.bayerDesignation}
               </div>
             )}
@@ -261,7 +261,7 @@ export default async function StarPage({ params }: { params: Promise<{ id: strin
         {star.exoplanets && star.exoplanets.length > 0 && (
           <div className="rounded-2xl border mb-6 p-6"
             style={{ borderColor: '#22d3ee30', background: 'rgba(8,40,50,0.4)' }}>
-            <h2 className="text-lg font-bold text-white mb-5" style={{ fontFamily: "'Spectral', serif" }}>
+            <h2 className="text-lg font-bold text-white mb-5" style={{ fontFamily: "'Exo 2', sans-serif" }}>
               🪐 Exoplanètes ({star.exoplanets.length})
             </h2>
 
@@ -352,7 +352,7 @@ export default async function StarPage({ params }: { params: Promise<{ id: strin
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-8">
           {star.features && star.features.length > 0 && (
             <div className="rounded-2xl border border-white/8 p-5 bg-white/2">
-              <h3 className="text-base font-bold text-white mb-4" style={{ fontFamily: "'Spectral', serif" }}>✦ Caractéristiques</h3>
+              <h3 className="text-base font-bold text-white mb-4" style={{ fontFamily: "'Exo 2', sans-serif" }}>✦ Caractéristiques</h3>
               <div className="space-y-2">
                 {star.features.map((f, i) => (
                   <div key={i} className="flex items-start gap-2 text-base text-gray-300">
@@ -365,7 +365,7 @@ export default async function StarPage({ params }: { params: Promise<{ id: strin
 
           {star.mythology && (
             <div className="rounded-2xl border border-white/8 p-5 bg-white/2">
-              <h3 className="text-base font-bold text-white mb-4" style={{ fontFamily: "'Spectral', serif" }}>📖 Mythologie</h3>
+              <h3 className="text-base font-bold text-white mb-4" style={{ fontFamily: "'Exo 2', sans-serif" }}>📖 Mythologie</h3>
               <p className="text-base text-gray-300 leading-relaxed">{star.mythology}</p>
             </div>
           )}

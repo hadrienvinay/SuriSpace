@@ -1,19 +1,17 @@
-'use client'
-// components/SolarLayout.tsx
+'use client';
+// components/ScienceLayout.tsx
 import Link from 'next/link';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 const navItems = [
-  { href: '/solar-system', label: 'Carte interactive', icon: '🗺️' },
-  { href: '/solar-system/bodys', label: 'Corps du système solaire', icon: '🌍' },
-  { href: '/solar-system/missions', label: 'Missions & Sondes', icon: '🚀' },
-  { href: '/solar-system/stars', label: 'Carte du ciel', icon: '⭐' },
+  { href: '/sciences', label: 'Timeline', icon: '⏱️' },
+  { href: '/sciences/scientists', label: 'Scientifiques', icon: '🔬' },
+  { href: '/solar-system', label: 'Système Solaire', icon: '🪐' },
   { href: '/atoms', label: 'Atomes', icon: '⚛️' },
-  { href: '/sciences', label: 'Sciences', icon: '🔬' },
   { href: '/', label: 'Retour au blog', icon: '⬅️' },
 ];
 
-export default function SolarLayout({ children }: { children: React.ReactNode }) {
+export default function ScienceLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   return (
@@ -24,10 +22,10 @@ export default function SolarLayout({ children }: { children: React.ReactNode })
       {/* Deep space background */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div
-          className="absolute inset-0 space-background"
+          className="absolute inset-0"
           style={{
             background:
-              'radial-gradient(ellipse at 20% 50%, rgba(30,58,138,0.18) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(88,28,135,0.12) 0%, transparent 50%)',
+              'radial-gradient(ellipse at 15% 40%, rgba(99,102,241,0.14) 0%, transparent 55%), radial-gradient(ellipse at 85% 70%, rgba(168,85,247,0.10) 0%, transparent 50%), radial-gradient(ellipse at 50% 10%, rgba(34,211,238,0.06) 0%, transparent 40%)',
           }}
         />
         {Array.from({ length: 80 }, (_, i) => (
@@ -37,16 +35,16 @@ export default function SolarLayout({ children }: { children: React.ReactNode })
             style={{
               width: i % 5 === 0 ? 2.5 : 1.5,
               height: i % 5 === 0 ? 2.5 : 1.5,
-              background: `rgba(255,255,255,${0.15 + ((i * 37) % 60) / 100})`,
-              left: `${(i * 17.3) % 100}%`,
-              top: `${(i * 11.7) % 100}%`,
-              boxShadow: i % 6 === 0 ? '0 0 4px rgba(255,255,255,0.4)' : 'none',
+              background: `rgba(255,255,255,${0.12 + ((i * 41) % 55) / 100})`,
+              left: `${(i * 13.7) % 100}%`,
+              top: `${(i * 7.3) % 100}%`,
+              boxShadow: i % 7 === 0 ? '0 0 4px rgba(255,255,255,0.3)' : 'none',
             }}
           />
         ))}
       </div>
 
-      {/* Top nav — taller, bigger text */}
+      {/* Top nav */}
       <nav
         className="fixed top-0 left-0 right-0 z-50"
         style={{
@@ -56,12 +54,13 @@ export default function SolarLayout({ children }: { children: React.ReactNode })
         }}
       >
         <div className="max-w-screen-2xl mx-auto px-5 py-3.5 flex items-center gap-3 overflow-x-auto">
-          <Link href="/solar-system" className="flex items-center gap-2.5 mr-4 shrink-0 group">
-            <span className="text-2xl group-hover:scale-110 transition-transform">🌌</span>
+          <Link href="/sciences" className="flex items-center gap-2.5 mr-4 shrink-0 group">
+            <span className="text-2xl group-hover:scale-110 transition-transform">🔬</span>
             <span className="text-md font-bold text-gray-400 uppercase tracking-widest hidden sm:block group-hover:text-white transition-colors">
-              Système Solaire
+              Sciences
             </span>
           </Link>
+
           <span className="text-gray-700 text-base">›</span>
           <div className="flex gap-1.5 ml-1">
             {navItems.map((item) => (
@@ -70,7 +69,7 @@ export default function SolarLayout({ children }: { children: React.ReactNode })
                 href={item.href}
                 className={`px-4 py-2 rounded-lg text-sm font-semibold tracking-wide transition-all shrink-0 flex items-center gap-2 ${
                   pathname === item.href
-                    ? 'bg-blue-900/50 text-blue-200 border border-blue-700/50'
+                    ? 'bg-indigo-900/50 text-indigo-200 border border-indigo-700/50'
                     : 'text-gray-500 hover:text-white hover:bg-white/6 border border-transparent'
                 }`}
               >

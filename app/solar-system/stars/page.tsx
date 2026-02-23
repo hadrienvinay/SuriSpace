@@ -87,7 +87,6 @@ export default function StarMap() {
     <div className="min-h-screen" >
       {/* Google Fonts */}
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Spectral:wght@300;400;600&display=swap');
         @keyframes twinkle { 0%,100%{opacity:1} 50%{opacity:.5} }
         @keyframes pulse-ring { 0%{r:12;opacity:.6} 100%{r:20;opacity:0} }
         .star-twinkle { animation: twinkle 2s infinite; }
@@ -120,7 +119,7 @@ export default function StarMap() {
 
         {/* Header */}
         <div className="mb-6">
-          <h1 className="text-5xl font-bold text-white mb-2" style={{ fontFamily: "'Spectral', serif", fontWeight: 600 }}>
+          <h1 className="text-4xl font-bold text-white mb-2" style={{ fontFamily: "'Exo 2', sans-serif", letterSpacing: '-0.5px' }}>
             Carte du Ciel
           </h1>
           <p className="text-base text-gray-500">Étoiles et constellations visibles · Cliquer pour explorer · Hémisphère nord</p>
@@ -285,7 +284,7 @@ export default function StarMap() {
                       <text x={pos.px} y={pos.py}
                         textAnchor="middle"
                         fontSize={isActive ? 12 : 10}
-                        fontFamily="'Spectral', serif"
+                        fontFamily="'Exo 2', sans-serif"
                         fontWeight={isActive ? '600' : '300'}
                         fill={isActive ? c.color : 'rgba(180,200,255,0.35)'}
                         style={{ letterSpacing: '0.12em', textTransform: 'uppercase' }}
@@ -342,7 +341,7 @@ export default function StarMap() {
                       {showLabels && (star.magnitude < 2.5 || isHov || isSel) && (
                         <text x={px + r + 4} y={py + 4}
                           fontSize={isSel ? 12 : isHov ? 11 : 9.5}
-                          fontFamily="'Outfit', sans-serif"
+                          fontFamily="monospace"
                           fontWeight={isSel ? '600' : '400'}
                           fill={isSel ? col : isHov ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.45)'}>
                           {star.nameFr ?? star.name}
@@ -361,7 +360,7 @@ export default function StarMap() {
                     y={cy + Number(dy) * (mapR + 16) + 4}
                     textAnchor="middle"
                     fontSize={12}
-                    fontFamily="'Outfit', monospace"
+                    fontFamily="monospace"
                     fill="rgba(100,140,255,0.4)"
                     fontWeight="500">
                     {label}
@@ -434,7 +433,7 @@ export default function StarMap() {
                             style={{ color: SPECTRAL_COLORS[selectedStar.spectralClass] }}>
                             {selectedStar.spectralType} · {selectedStar.starType.replace('-', ' ')}
                           </div>
-                          <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "'Spectral', serif" }}>
+                          <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "'Exo 2', sans-serif" }}>
                             {selectedStar.nameFr ?? selectedStar.name}
                           </h2>
                           {selectedStar.bayerDesignation && (
@@ -519,7 +518,7 @@ export default function StarMap() {
                       <div className="text-4xl">{selectedConstellation.emoji}</div>
                       <div>
                         <div className="text-xs uppercase tracking-widest text-gray-500 mb-0.5">Constellation</div>
-                        <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "'Spectral', serif" }}>
+                        <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "'Exo 2', sans-serif" }}>
                           {selectedConstellation.nameFr}
                         </h2>
                         <div className="text-xs text-gray-500 font-mono">{selectedConstellation.name} · {selectedConstellation.abbreviation}</div>
@@ -555,7 +554,7 @@ export default function StarMap() {
               {/* DEFAULT PANEL */}
               {!selectedStar && !selectedConstellation && (
                 <div className="rounded-2xl border border-white/8 p-5" style={{ background: 'rgba(255,255,255,0.02)' }}>
-                  <h2 className="text-base font-bold text-gray-300 mb-4 uppercase tracking-wider" style={{ fontFamily: "'Spectral', serif" }}>
+                  <h2 className="text-base font-bold text-gray-300 mb-4 uppercase tracking-wider" style={{ fontFamily: "'Exo 2', sans-serif" }}>
                     Constellations
                   </h2>
                   <div className="space-y-1.5 max-h-80 overflow-y-auto pr-1">

@@ -112,11 +112,7 @@ export default async function ConstellationPage({ params }: { params: Promise<{ 
   return (
     <SolarLayout>
 
-    <div className="min-h-screen text-white" style={{
-      background: '#01040e',
-      fontFamily: "'Outfit', 'Exo 2', sans-serif",
-    }}>
-      <style>{`@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Spectral:wght@300;400;600&display=swap');`}</style>
+    <div className="min-h-screen text-white" style={{ fontFamily: "'Exo 2', sans-serif" }}>
 
       {/* Nav */}
       <nav className="border-b border-white/6" style={{ background: 'rgba(1,4,14,0.95)', backdropFilter: 'blur(12px)' }}>
@@ -149,10 +145,10 @@ export default async function ConstellationPage({ params }: { params: Promise<{ 
             <div className="flex-1">
               <div className="text-xs uppercase tracking-widest text-gray-600 mb-2 font-semibold">Constellation · {constellation.abbreviation}</div>
               <h1 className="text-5xl font-bold text-white mb-2"
-                style={{ fontFamily: "'Spectral', serif" }}>
+                style={{ fontFamily: "'Exo 2', sans-serif" }}>
                 {constellation.emoji} {constellation.nameFr}
               </h1>
-              <div className="text-lg text-gray-400 mb-4 italic" style={{ fontFamily: "'Spectral', serif" }}>{constellation.name}</div>
+              <div className="text-lg text-gray-400 mb-4 italic" style={{ fontFamily: "'Exo 2', sans-serif" }}>{constellation.name}</div>
 
               <div className="flex flex-wrap gap-2 mb-5">
                 <span className="px-3 py-1.5 rounded-xl text-sm font-semibold"
@@ -175,14 +171,14 @@ export default async function ConstellationPage({ params }: { params: Promise<{ 
 
         {/* ── Mythology ── */}
         <div className="rounded-2xl border border-white/8 p-6 mb-6" style={{ background: 'rgba(255,255,255,0.02)' }}>
-          <h2 className="text-lg font-bold text-white mb-3" style={{ fontFamily: "'Spectral', serif" }}>📖 Mythologie</h2>
+          <h2 className="text-lg font-bold text-white mb-3" style={{ fontFamily: "'Exo 2', sans-serif" }}>📖 Mythologie</h2>
           <p className="text-base text-gray-300 leading-relaxed">{constellation.mythology}</p>
         </div>
 
         {/* ── Stars ── */}
         {constellationStars.length > 0 && (
           <div className="mb-6">
-            <h2 className="text-lg font-bold text-white mb-4" style={{ fontFamily: "'Spectral', serif" }}>
+            <h2 className="text-lg font-bold text-white mb-4" style={{ fontFamily: "'Exo 2', sans-serif" }}>
               ✦ Étoiles principales ({constellationStars.length})
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -223,7 +219,7 @@ export default async function ConstellationPage({ params }: { params: Promise<{ 
         {constellation.deepSkyObjects && constellation.deepSkyObjects.length > 0 && (
           <div className="rounded-2xl border p-6 mb-8"
             style={{ borderColor: `${constellation.color}25`, background: `${constellation.color}06` }}>
-            <h2 className="text-lg font-bold text-white mb-4" style={{ fontFamily: "'Spectral', serif" }}>🔭 Objets du ciel profond</h2>
+            <h2 className="text-lg font-bold text-white mb-4" style={{ fontFamily: "'Exo 2', sans-serif" }}>🔭 Objets du ciel profond</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {constellation.deepSkyObjects.map((obj, i) => (
                 <div key={i} className="flex items-start gap-2 p-3 rounded-xl bg-white/4">

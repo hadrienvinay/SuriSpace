@@ -8,7 +8,9 @@ const navItems = [
   { href: '/atoms/nucleosynthese', label: 'Nucléosynthèse', icon: '💥' },
   { href: '/atoms/abondance', label: 'Abondance', icon: '📊' },
   { href: '/atoms/histoire', label: 'Histoire', icon: '🌌' },
+  { href: '/atoms/particules', label: 'Particules', icon: '✴️' },
   { href: '/solar-system', label: 'Systeme solaire', icon: '🗺️' },
+  { href: '/sciences', label: 'Sciences', icon: '🔬' },
   { href: '/', label: 'Retour au blog', icon: '⬅️' },
 
 
@@ -65,6 +67,7 @@ const pathname = usePathname();
               Atoms
             </span>
           </Link>
+          <span className="text-gray-700 text-base">›</span>
           <div className="flex gap-1 overflow-x-auto scrollbar-hide">
             {navItems.slice(1).map(item => (
               <Link
