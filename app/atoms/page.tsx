@@ -57,7 +57,7 @@ export default function AtomsHome() {
         {/* Hero */}
         <div className="text-center mb-20">
           <div className="relative inline-block mb-6">
-            <div className="text-8xl animate-pulse" style={{ filter: 'drop-shadow(0 0 30px #7C3AED)' }}>⚛️</div>
+            <div className="text-7xl animate-pulse" style={{ filter: 'drop-shadow(0 0 30px #7C3AED)' }}>⚛️</div>
           </div>
           <h1 className="text-4xl sm:text-6xl font-bold mb-4 tracking-tight"
             style={{

@@ -1,0 +1,948 @@
+// data/physics.ts
+
+export interface FormulaVariable {
+  symbol: string;
+  meaning: string;
+  unit?: string;
+}
+
+export interface Formula {
+  id: string;
+  name: string;
+  formula: string;       // Unicode display string
+  description: string;
+  variables: FormulaVariable[];
+  domain: string;
+  color: string;
+  scientistIds?: string[];   // IDs from scientists.ts
+  year?: number;
+  keyFact?: string;
+}
+
+export interface PhysicsCategory {
+  id: string;
+  label: string;
+  icon: string;
+  color: string;
+  description: string;
+  formulas: Formula[];
+}
+
+export interface PhysicsConstant {
+  id: string;
+  symbol: string;
+  nameFr: string;
+  value: string;
+  unit: string;
+  description: string;
+  color: string;
+  exact?: boolean;
+  scientistIds?: string[];
+  year?: number;
+  category: 'fondamentale' | 'electromag' | 'thermo' | 'mecanique';
+}
+
+export interface SIUnit {
+  symbol: string;
+  nameFr: string;
+  quantityFr: string;
+  definition: string;
+  icon: string;
+  color: string;
+}
+
+export interface DerivedUnit {
+  symbol: string;
+  name: string;
+  quantity: string;
+  inBase: string;
+  color: string;
+  namedAfter?: string;
+}
+
+// ─── Formulas ─────────────────────────────────────────────────────────────────
+
+export const PHYSICS_CATEGORIES: PhysicsCategory[] = [
+  {
+    id: 'mecanique',
+    label: 'Mécanique',
+    icon: '⚙️',
+    color: '#60A5FA',
+    description: 'Les lois du mouvement et des forces — de Newton à Archimède.',
+    formulas: [
+      {
+        id: 'newton2',
+        name: '2ᵉ loi de Newton',
+        formula: 'F = m · a',
+        description: 'La force résultante exercée sur un corps est égale au produit de sa masse par son accélération. Pierre angulaire de la mécanique classique, valable pour v << c.',
+        variables: [
+          { symbol: 'F', meaning: 'Force résultante', unit: 'N' },
+          { symbol: 'm', meaning: 'Masse', unit: 'kg' },
+          { symbol: 'a', meaning: 'Accélération', unit: 'm/s²' },
+        ],
+        domain: 'Mécanique',
+        color: '#60A5FA',
+        scientistIds: ['newton'],
+        year: 1687,
+        keyFact: 'Publiée dans les Principia Mathematica — l\'un des ouvrages scientifiques les plus influents.',
+      },
+      {
+        id: 'ekin',
+        name: 'Énergie cinétique',
+        formula: 'Eₖ = ½ · m · v²',
+        description: 'L\'énergie que possède un objet en raison de son mouvement. Doubler la vitesse multiplie l\'énergie par 4 — d\'où la dangerosité à haute vitesse.',
+        variables: [
+          { symbol: 'Eₖ', meaning: 'Énergie cinétique', unit: 'J' },
+          { symbol: 'm', meaning: 'Masse', unit: 'kg' },
+          { symbol: 'v', meaning: 'Vitesse', unit: 'm/s' },
+        ],
+        domain: 'Mécanique',
+        color: '#60A5FA',
+        scientistIds: ['newton'],
+        year: 1686,
+      },
+      {
+        id: 'momentum',
+        name: 'Quantité de mouvement',
+        formula: 'p = m · v',
+        description: 'La quantité de mouvement est conservée en l\'absence de force extérieure. Ce principe explique les collisions, les explosions et les propulseurs de fusée.',
+        variables: [
+          { symbol: 'p', meaning: 'Quantité de mouvement', unit: 'kg·m/s' },
+          { symbol: 'm', meaning: 'Masse', unit: 'kg' },
+          { symbol: 'v', meaning: 'Vitesse', unit: 'm/s' },
+        ],
+        domain: 'Mécanique',
+        color: '#60A5FA',
+        scientistIds: ['newton'],
+        year: 1687,
+      },
+      {
+        id: 'work',
+        name: 'Travail d\'une force',
+        formula: 'W = F · d · cos(θ)',
+        description: 'Le travail mesure l\'effet mécanique d\'une force sur un déplacement. Nul si la force est perpendiculaire au déplacement (ex : la force centripète).',
+        variables: [
+          { symbol: 'W', meaning: 'Travail', unit: 'J' },
+          { symbol: 'F', meaning: 'Force', unit: 'N' },
+          { symbol: 'd', meaning: 'Déplacement', unit: 'm' },
+          { symbol: 'θ', meaning: 'Angle entre F et d', unit: '°' },
+        ],
+        domain: 'Mécanique',
+        color: '#60A5FA',
+        scientistIds: ['newton'],
+      },
+      {
+        id: 'archimedes',
+        name: 'Poussée d\'Archimède',
+        formula: 'Fₐ = ρₗ · V · g',
+        description: 'Tout corps immergé dans un fluide subit une poussée vers le haut égale au poids du fluide déplacé. Si Fₐ > poids → flottaison.',
+        variables: [
+          { symbol: 'Fₐ', meaning: 'Poussée d\'Archimède', unit: 'N' },
+          { symbol: 'ρₗ', meaning: 'Masse volumique du fluide', unit: 'kg/m³' },
+          { symbol: 'V', meaning: 'Volume immergé', unit: 'm³' },
+          { symbol: 'g', meaning: 'Accélération gravitationnelle', unit: 'm/s²' },
+        ],
+        domain: 'Mécanique',
+        color: '#60A5FA',
+        scientistIds: ['archimedes'],
+        year: -250,
+        keyFact: 'Découverte légendairement dans un bain — "Εὕρηκα !" (Eurêka).',
+      },
+      {
+        id: 'hooke',
+        name: 'Loi de Hooke',
+        formula: 'F = −k · x',
+        description: 'La force de rappel d\'un ressort est proportionnelle à son allongement et opposée au déplacement. Modèle fondamental des oscillateurs.',
+        variables: [
+          { symbol: 'F', meaning: 'Force de rappel', unit: 'N' },
+          { symbol: 'k', meaning: 'Constante de raideur', unit: 'N/m' },
+          { symbol: 'x', meaning: 'Allongement depuis la position d\'équilibre', unit: 'm' },
+        ],
+        domain: 'Mécanique',
+        color: '#60A5FA',
+        year: 1660,
+      },
+      {
+        id: 'bernoulli',
+        name: 'Équation de Bernoulli',
+        formula: 'P + ½ρv² + ρgh = cste',
+        description: 'Dans un écoulement idéal, la somme des pressions statique, dynamique et hydrostatique est constante. Explique la portance des ailes d\'avion.',
+        variables: [
+          { symbol: 'P', meaning: 'Pression statique', unit: 'Pa' },
+          { symbol: 'ρ', meaning: 'Masse volumique du fluide', unit: 'kg/m³' },
+          { symbol: 'v', meaning: 'Vitesse d\'écoulement', unit: 'm/s' },
+          { symbol: 'h', meaning: 'Hauteur', unit: 'm' },
+          { symbol: 'g', meaning: 'Accélération gravitationnelle', unit: 'm/s²' },
+        ],
+        domain: 'Mécanique',
+        color: '#60A5FA',
+        year: 1738,
+        keyFact: 'La surpression sous une aile et la dépression dessus créent la portance.',
+      },
+    ],
+  },
+  {
+    id: 'gravitation',
+    label: 'Gravitation',
+    icon: '🌍',
+    color: '#F59E0B',
+    description: 'De Kepler à Einstein — les lois qui régissent l\'attraction universelle.',
+    formulas: [
+      {
+        id: 'gravity',
+        name: 'Gravitation universelle',
+        formula: 'F = G · m₁ · m₂ / r²',
+        description: 'Chaque corps attire tout autre avec une force proportionnelle au produit de leurs masses et inversement proportionnelle au carré de leur distance.',
+        variables: [
+          { symbol: 'F', meaning: 'Force gravitationnelle', unit: 'N' },
+          { symbol: 'G', meaning: 'Constante gravitationnelle', unit: '≈ 6.674×10⁻¹¹ N·m²/kg²' },
+          { symbol: 'm₁, m₂', meaning: 'Masses des corps', unit: 'kg' },
+          { symbol: 'r', meaning: 'Distance entre les centres', unit: 'm' },
+        ],
+        domain: 'Gravitation',
+        color: '#F59E0B',
+        scientistIds: ['newton'],
+        year: 1687,
+        keyFact: 'Valable de la chute d\'une pomme à l\'attraction entre galaxies.',
+      },
+      {
+        id: 'gravitational-field',
+        name: 'Champ gravitationnel',
+        formula: 'g = G · M / r²',
+        description: 'L\'accélération gravitationnelle produite par un corps de masse M à distance r. Sur Terre : g ≈ 9.81 m/s².',
+        variables: [
+          { symbol: 'g', meaning: 'Champ gravitationnel', unit: 'm/s²' },
+          { symbol: 'G', meaning: 'Constante gravitationnelle', unit: 'N·m²/kg²' },
+          { symbol: 'M', meaning: 'Masse du corps source', unit: 'kg' },
+          { symbol: 'r', meaning: 'Distance au centre', unit: 'm' },
+        ],
+        domain: 'Gravitation',
+        color: '#F59E0B',
+        scientistIds: ['newton'],
+        year: 1687,
+      },
+      {
+        id: 'kepler3',
+        name: '3ᵉ loi de Kepler',
+        formula: 'T² / a³ = 4π² / (GM)',
+        description: 'Le carré de la période orbitale est proportionnel au cube du demi-grand axe. Kepler l\'établit empiriquement, Newton la démontra théoriquement.',
+        variables: [
+          { symbol: 'T', meaning: 'Période de révolution', unit: 's' },
+          { symbol: 'a', meaning: 'Demi-grand axe', unit: 'm' },
+          { symbol: 'G', meaning: 'Constante gravitationnelle', unit: 'N·m²/kg²' },
+          { symbol: 'M', meaning: 'Masse du corps central', unit: 'kg' },
+        ],
+        domain: 'Gravitation',
+        color: '#F59E0B',
+        scientistIds: ['kepler', 'newton'],
+        year: 1619,
+        keyFact: 'Permet de calculer la masse du Soleil connaissant la période terrestre.',
+      },
+      {
+        id: 'escape-velocity',
+        name: 'Vitesse de libération',
+        formula: 'vₑ = √(2GM / r)',
+        description: 'Vitesse minimale pour s\'échapper du champ gravitationnel d\'un corps. Terre : 11.2 km/s. Trou noir : > c (lumière incapable de s\'échapper).',
+        variables: [
+          { symbol: 'vₑ', meaning: 'Vitesse de libération', unit: 'm/s' },
+          { symbol: 'G', meaning: 'Constante gravitationnelle', unit: 'N·m²/kg²' },
+          { symbol: 'M', meaning: 'Masse du corps', unit: 'kg' },
+          { symbol: 'r', meaning: 'Rayon du corps', unit: 'm' },
+        ],
+        domain: 'Gravitation',
+        color: '#F59E0B',
+        scientistIds: ['newton', 'hawking'],
+        year: 1728,
+        keyFact: 'Le rayon de Schwarzschild Rs = 2GM/c² donne la taille d\'un trou noir.',
+      },
+      {
+        id: 'potential-gravity',
+        name: 'Énergie potentielle gravitationnelle',
+        formula: 'Eₚ = −G · M · m / r',
+        description: 'Énergie d\'un corps de masse m dans le champ d\'un corps M. Négative car il faut fournir de l\'énergie pour éloigner les corps.',
+        variables: [
+          { symbol: 'Eₚ', meaning: 'Énergie potentielle', unit: 'J' },
+          { symbol: 'G', meaning: 'Constante gravitationnelle', unit: 'N·m²/kg²' },
+          { symbol: 'M, m', meaning: 'Masses des corps', unit: 'kg' },
+          { symbol: 'r', meaning: 'Distance entre les centres', unit: 'm' },
+        ],
+        domain: 'Gravitation',
+        color: '#F59E0B',
+        scientistIds: ['newton'],
+        year: 1687,
+      },
+    ],
+  },
+  {
+    id: 'electromagnetisme',
+    label: 'Électromagnétisme',
+    icon: '⚡',
+    color: '#FB923C',
+    description: 'De Coulomb à Maxwell — électricité, magnétisme et lumière unifiés.',
+    formulas: [
+      {
+        id: 'coulomb',
+        name: 'Loi de Coulomb',
+        formula: 'F = k · |q₁ · q₂| / r²',
+        description: 'Force entre deux charges électriques ponctuelles. Même forme mathématique que la gravitation, mais peut être attractive ou répulsive.',
+        variables: [
+          { symbol: 'F', meaning: 'Force électrostatique', unit: 'N' },
+          { symbol: 'k', meaning: 'Constante de Coulomb ≈ 8.99×10⁹', unit: 'N·m²/C²' },
+          { symbol: 'q₁, q₂', meaning: 'Charges électriques', unit: 'C' },
+          { symbol: 'r', meaning: 'Distance', unit: 'm' },
+        ],
+        domain: 'Électromagnétisme',
+        color: '#FB923C',
+        year: 1785,
+      },
+      {
+        id: 'ohm',
+        name: 'Loi d\'Ohm',
+        formula: 'U = R · I',
+        description: 'La tension aux bornes d\'un conducteur ohmique est proportionnelle au courant qui le traverse. Fondement de l\'électrotechnique.',
+        variables: [
+          { symbol: 'U', meaning: 'Tension (d.d.p.)', unit: 'V' },
+          { symbol: 'R', meaning: 'Résistance', unit: 'Ω' },
+          { symbol: 'I', meaning: 'Intensité du courant', unit: 'A' },
+        ],
+        domain: 'Électromagnétisme',
+        color: '#FB923C',
+        year: 1827,
+      },
+      {
+        id: 'faraday',
+        name: 'Induction de Faraday',
+        formula: 'ε = −dΦ / dt',
+        description: 'Une variation du flux magnétique induit une force électromotrice. Fondement des générateurs, alternateurs et transformateurs.',
+        variables: [
+          { symbol: 'ε', meaning: 'Force électromotrice induite', unit: 'V' },
+          { symbol: 'Φ', meaning: 'Flux magnétique (B·A·cosθ)', unit: 'Wb' },
+          { symbol: 't', meaning: 'Temps', unit: 's' },
+        ],
+        domain: 'Électromagnétisme',
+        color: '#FB923C',
+        scientistIds: ['maxwell'],
+        year: 1831,
+        keyFact: 'Le signe − (loi de Lenz) : le courant induit s\'oppose à la cause qui lui donne naissance.',
+      },
+      {
+        id: 'lorentz',
+        name: 'Force de Lorentz',
+        formula: 'F = q(E + v × B)',
+        description: 'Force totale sur une charge dans un champ électromagnétique. Somme de la force électrique (qE) et de la force magnétique (qv×B).',
+        variables: [
+          { symbol: 'F', meaning: 'Force de Lorentz', unit: 'N' },
+          { symbol: 'q', meaning: 'Charge électrique', unit: 'C' },
+          { symbol: 'E', meaning: 'Champ électrique', unit: 'V/m' },
+          { symbol: 'v', meaning: 'Vitesse de la charge', unit: 'm/s' },
+          { symbol: 'B', meaning: 'Champ magnétique', unit: 'T' },
+        ],
+        domain: 'Électromagnétisme',
+        color: '#FB923C',
+        scientistIds: ['maxwell'],
+        year: 1895,
+      },
+      {
+        id: 'em-wave',
+        name: 'Onde électromagnétique',
+        formula: 'c = λ · ν',
+        description: 'La vitesse de la lumière est le produit de la longueur d\'onde et de la fréquence. Toutes les ondes EM voyagent à c dans le vide.',
+        variables: [
+          { symbol: 'c', meaning: 'Vitesse de la lumière', unit: '≈ 3×10⁸ m/s' },
+          { symbol: 'λ', meaning: 'Longueur d\'onde', unit: 'm' },
+          { symbol: 'ν', meaning: 'Fréquence', unit: 'Hz' },
+        ],
+        domain: 'Électromagnétisme',
+        color: '#FB923C',
+        scientistIds: ['maxwell', 'einstein'],
+        year: 1865,
+      },
+      {
+        id: 'electric-power',
+        name: 'Puissance électrique',
+        formula: 'P = U · I = R · I² = U² / R',
+        description: 'Puissance dissipée ou transmise — trois formes équivalentes via la loi d\'Ohm. La forme RI² explique l\'effet Joule (échauffement).',
+        variables: [
+          { symbol: 'P', meaning: 'Puissance', unit: 'W' },
+          { symbol: 'U', meaning: 'Tension', unit: 'V' },
+          { symbol: 'I', meaning: 'Courant', unit: 'A' },
+          { symbol: 'R', meaning: 'Résistance', unit: 'Ω' },
+        ],
+        domain: 'Électromagnétisme',
+        color: '#FB923C',
+        year: 1841,
+      },
+    ],
+  },
+  {
+    id: 'thermodynamique',
+    label: 'Thermodynamique',
+    icon: '🔥',
+    color: '#F472B6',
+    description: 'Chaleur, énergie et entropie — les lois fondamentales de Carnot à Boltzmann.',
+    formulas: [
+      {
+        id: '1st-law',
+        name: '1ᵉʳ principe de la thermodynamique',
+        formula: 'ΔU = Q + W',
+        description: 'La variation d\'énergie interne d\'un système est la somme de la chaleur reçue et du travail reçu. L\'énergie se conserve — elle ne se crée ni ne se détruit.',
+        variables: [
+          { symbol: 'ΔU', meaning: 'Variation d\'énergie interne', unit: 'J' },
+          { symbol: 'Q', meaning: 'Chaleur échangée avec le milieu', unit: 'J' },
+          { symbol: 'W', meaning: 'Travail reçu par le système', unit: 'J' },
+        ],
+        domain: 'Thermodynamique',
+        color: '#F472B6',
+        year: 1850,
+        keyFact: 'L\'énergie de l\'univers est constante — un moteur à mouvement perpétuel est impossible.',
+      },
+      {
+        id: 'ideal-gas',
+        name: 'Équation des gaz parfaits',
+        formula: 'PV = nRT',
+        description: 'Relie pression, volume, quantité et température d\'un gaz idéal. Très précise pour les gaz à basse pression et haute température.',
+        variables: [
+          { symbol: 'P', meaning: 'Pression', unit: 'Pa' },
+          { symbol: 'V', meaning: 'Volume', unit: 'm³' },
+          { symbol: 'n', meaning: 'Quantité de matière', unit: 'mol' },
+          { symbol: 'R', meaning: 'Constante des gaz ≈ 8.314', unit: 'J/(mol·K)' },
+          { symbol: 'T', meaning: 'Température', unit: 'K' },
+        ],
+        domain: 'Thermodynamique',
+        color: '#F472B6',
+        year: 1834,
+        keyFact: 'Combine les lois de Boyle-Mariotte, Charles et Gay-Lussac.',
+      },
+      {
+        id: 'boltzmann-entropy',
+        name: 'Entropie de Boltzmann',
+        formula: 'S = k_B · ln(Ω)',
+        description: 'L\'entropie est proportionnelle au logarithme du nombre d\'états microscopiques. Gravée sur la tombe de Boltzmann à Vienne — un symbole du désordre.',
+        variables: [
+          { symbol: 'S', meaning: 'Entropie', unit: 'J/K' },
+          { symbol: 'k_B', meaning: 'Constante de Boltzmann ≈ 1.38×10⁻²³', unit: 'J/K' },
+          { symbol: 'Ω', meaning: 'Nombre de micro-états accessibles', unit: '—' },
+        ],
+        domain: 'Thermodynamique',
+        color: '#F472B6',
+        year: 1877,
+      },
+      {
+        id: 'carnot',
+        name: 'Rendement de Carnot',
+        formula: 'η = 1 − Tf / Tc',
+        description: 'Rendement maximal d\'une machine thermique idéale entre une source chaude Tc et froide Tf. Aucune machine réelle ne peut l\'atteindre.',
+        variables: [
+          { symbol: 'η', meaning: 'Rendement thermique (entre 0 et 1)', unit: '—' },
+          { symbol: 'Tf', meaning: 'Température de la source froide', unit: 'K' },
+          { symbol: 'Tc', meaning: 'Température de la source chaude', unit: 'K' },
+        ],
+        domain: 'Thermodynamique',
+        color: '#F472B6',
+        year: 1824,
+        keyFact: 'Le 2ᵉ principe interdit un rendement de 100 % — l\'entropie augmente toujours.',
+      },
+      {
+        id: 'stefan-boltzmann',
+        name: 'Loi de Stefan-Boltzmann',
+        formula: 'P = σ · A · T⁴',
+        description: 'La puissance rayonnée par un corps noir est proportionnelle à la 4ᵉ puissance de sa température. Double T → puissance × 16.',
+        variables: [
+          { symbol: 'P', meaning: 'Puissance rayonnée', unit: 'W' },
+          { symbol: 'σ', meaning: 'Constante de Stefan-Boltzmann ≈ 5.67×10⁻⁸', unit: 'W·m⁻²·K⁻⁴' },
+          { symbol: 'A', meaning: 'Surface rayonnante', unit: 'm²' },
+          { symbol: 'T', meaning: 'Température', unit: 'K' },
+        ],
+        domain: 'Thermodynamique',
+        color: '#F472B6',
+        year: 1879,
+      },
+    ],
+  },
+  {
+    id: 'relativite',
+    label: 'Relativité',
+    icon: '✨',
+    color: '#A78BFA',
+    description: 'La révolution d\'Einstein — espace, temps et énergie dans un cadre unifié.',
+    formulas: [
+      {
+        id: 'mass-energy',
+        name: 'Équivalence masse-énergie',
+        formula: 'E = m · c²',
+        description: 'La masse est une forme d\'énergie concentrée. 1 gramme de matière équivaut à ~90 térajoules — l\'énergie d\'une bombe atomique.',
+        variables: [
+          { symbol: 'E', meaning: 'Énergie au repos', unit: 'J' },
+          { symbol: 'm', meaning: 'Masse au repos', unit: 'kg' },
+          { symbol: 'c', meaning: 'Vitesse de la lumière ≈ 3×10⁸', unit: 'm/s' },
+        ],
+        domain: 'Relativité',
+        color: '#A78BFA',
+        scientistIds: ['einstein'],
+        year: 1905,
+        keyFact: 'La formule la plus connue de la physique — annus mirabilis 1905.',
+      },
+      {
+        id: 'lorentz-factor',
+        name: 'Facteur de Lorentz',
+        formula: 'γ = 1 / √(1 − v²/c²)',
+        description: 'Facteur central de la relativité restreinte. γ = 1 à v = 0, γ → ∞ quand v → c. Gouverne tous les effets relativistes.',
+        variables: [
+          { symbol: 'γ', meaning: 'Facteur de Lorentz (≥ 1)', unit: '—' },
+          { symbol: 'v', meaning: 'Vitesse relative', unit: 'm/s' },
+          { symbol: 'c', meaning: 'Vitesse de la lumière', unit: 'm/s' },
+        ],
+        domain: 'Relativité',
+        color: '#A78BFA',
+        scientistIds: ['einstein'],
+        year: 1905,
+      },
+      {
+        id: 'time-dilation',
+        name: 'Dilatation du temps',
+        formula: 'Δt\' = γ · Δt',
+        description: 'Un objet en mouvement rapide vieillit plus lentement. Les horloges atomiques des satellites GPS doivent corriger cet effet — sans ça, les GPS seraient faux de 10 km/jour.',
+        variables: [
+          { symbol: 'Δt\'', meaning: 'Durée mesurée par l\'observateur stationnaire', unit: 's' },
+          { symbol: 'γ', meaning: 'Facteur de Lorentz', unit: '—' },
+          { symbol: 'Δt', meaning: 'Durée propre (mesurée par l\'objet)', unit: 's' },
+        ],
+        domain: 'Relativité',
+        color: '#A78BFA',
+        scientistIds: ['einstein'],
+        year: 1905,
+        keyFact: 'Un astronaute voyageant à 0.99c vieillit 7× plus lentement qu\'un terrestre.',
+      },
+      {
+        id: 'length-contraction',
+        name: 'Contraction des longueurs',
+        formula: 'L\' = L / γ',
+        description: 'Un objet en mouvement rapide apparaît contracté dans la direction du mouvement. À v = 0.99c, un objet semble 7× plus court.',
+        variables: [
+          { symbol: 'L\'', meaning: 'Longueur mesurée par l\'observateur stationnaire', unit: 'm' },
+          { symbol: 'L', meaning: 'Longueur propre (au repos)', unit: 'm' },
+          { symbol: 'γ', meaning: 'Facteur de Lorentz', unit: '—' },
+        ],
+        domain: 'Relativité',
+        color: '#A78BFA',
+        scientistIds: ['einstein'],
+        year: 1905,
+      },
+      {
+        id: 'relativistic-energy',
+        name: 'Énergie totale relativiste',
+        formula: 'E² = (pc)² + (m₀c²)²',
+        description: 'Énergie totale d\'une particule relativiste. Pour les photons (masse nulle) : E = pc. Pour les particules lentes : retrouve E = m₀c² + ½m₀v².',
+        variables: [
+          { symbol: 'E', meaning: 'Énergie totale', unit: 'J' },
+          { symbol: 'p', meaning: 'Quantité de mouvement relativiste', unit: 'kg·m/s' },
+          { symbol: 'm₀', meaning: 'Masse au repos', unit: 'kg' },
+          { symbol: 'c', meaning: 'Vitesse de la lumière', unit: 'm/s' },
+        ],
+        domain: 'Relativité',
+        color: '#A78BFA',
+        scientistIds: ['einstein'],
+        year: 1905,
+      },
+    ],
+  },
+  {
+    id: 'quantique',
+    label: 'Physique quantique',
+    icon: '🔮',
+    color: '#34D399',
+    description: 'L\'infiniment petit — Planck, Heisenberg, Schrödinger et le monde quantique.',
+    formulas: [
+      {
+        id: 'planck-photon',
+        name: 'Énergie d\'un photon',
+        formula: 'E = h · ν = hc / λ',
+        description: 'L\'énergie de la lumière est quantifiée — elle arrive en paquets discrets (photons). Fondement de toute la physique quantique.',
+        variables: [
+          { symbol: 'E', meaning: 'Énergie du photon', unit: 'J' },
+          { symbol: 'h', meaning: 'Constante de Planck ≈ 6.626×10⁻³⁴', unit: 'J·s' },
+          { symbol: 'ν', meaning: 'Fréquence de l\'onde', unit: 'Hz' },
+          { symbol: 'λ', meaning: 'Longueur d\'onde', unit: 'm' },
+        ],
+        domain: 'Physique quantique',
+        color: '#34D399',
+        scientistIds: ['einstein'],
+        year: 1900,
+        keyFact: 'Einstein appliqua cette relation à l\'effet photoélectrique → Prix Nobel 1921.',
+      },
+      {
+        id: 'heisenberg',
+        name: 'Principe d\'incertitude',
+        formula: 'Δx · Δp ≥ ħ / 2',
+        description: 'Il est fondamentalement impossible de connaître simultanément et précisément la position et la quantité de mouvement. Ce n\'est pas une limite technique — c\'est la nature elle-même.',
+        variables: [
+          { symbol: 'Δx', meaning: 'Incertitude sur la position', unit: 'm' },
+          { symbol: 'Δp', meaning: 'Incertitude sur la quantité de mouvement', unit: 'kg·m/s' },
+          { symbol: 'ħ', meaning: 'Constante de Planck réduite h/2π ≈ 1.055×10⁻³⁴', unit: 'J·s' },
+        ],
+        domain: 'Physique quantique',
+        color: '#34D399',
+        scientistIds: ['heisenberg'],
+        year: 1927,
+        keyFact: 'Remet en cause le déterminisme classique de Laplace.',
+      },
+      {
+        id: 'debroglie',
+        name: 'Dualité onde-corpuscule',
+        formula: 'λ = h / p',
+        description: 'Toute particule matérielle est associée à une longueur d\'onde. Les électrons, protons, voire les molécules présentent des phénomènes d\'interférence.',
+        variables: [
+          { symbol: 'λ', meaning: 'Longueur d\'onde de de Broglie', unit: 'm' },
+          { symbol: 'h', meaning: 'Constante de Planck', unit: 'J·s' },
+          { symbol: 'p', meaning: 'Quantité de mouvement', unit: 'kg·m/s' },
+        ],
+        domain: 'Physique quantique',
+        color: '#34D399',
+        year: 1924,
+      },
+      {
+        id: 'bohr-energy',
+        name: 'Niveaux d\'énergie de Bohr',
+        formula: 'Eₙ = −13.6 / n² eV',
+        description: 'Les électrons de l\'atome d\'hydrogène occupent des niveaux discrets. La transition entre niveaux émet ou absorbe un photon d\'énergie hν = |ΔE|.',
+        variables: [
+          { symbol: 'Eₙ', meaning: 'Énergie du niveau n', unit: 'eV' },
+          { symbol: 'n', meaning: 'Nombre quantique principal (1, 2, 3...)', unit: '—' },
+        ],
+        domain: 'Physique quantique',
+        color: '#34D399',
+        scientistIds: ['bohr'],
+        year: 1913,
+        keyFact: 'État fondamental (n=1) : E₁ = −13.6 eV. Ionisation : 13.6 eV nécessaires.',
+      },
+      {
+        id: 'schrodinger',
+        name: 'Équation de Schrödinger',
+        formula: 'iħ · ∂ψ/∂t = Ĥψ',
+        description: 'L\'équation fondamentale de la mécanique quantique. La fonction d\'onde ψ contient toute l\'information sur l\'état quantique. |ψ|² donne la densité de probabilité.',
+        variables: [
+          { symbol: 'i', meaning: 'Unité imaginaire', unit: '—' },
+          { symbol: 'ħ', meaning: 'Constante de Planck réduite', unit: 'J·s' },
+          { symbol: 'ψ', meaning: 'Fonction d\'onde', unit: '—' },
+          { symbol: 'Ĥ', meaning: 'Opérateur hamiltonien (énergie totale)', unit: 'J' },
+        ],
+        domain: 'Physique quantique',
+        color: '#34D399',
+        year: 1926,
+        keyFact: 'La physique quantique est probabiliste — pas déterministe.',
+      },
+      {
+        id: 'photoelectric',
+        name: 'Effet photoélectrique',
+        formula: 'Eₖ = h · ν − φ',
+        description: 'L\'énergie cinétique des électrons arrachés dépend de la fréquence, non de l\'intensité. Preuve décisive de la quantification de la lumière.',
+        variables: [
+          { symbol: 'Eₖ', meaning: 'Énergie cinétique de l\'électron', unit: 'J' },
+          { symbol: 'h', meaning: 'Constante de Planck', unit: 'J·s' },
+          { symbol: 'ν', meaning: 'Fréquence du photon incident', unit: 'Hz' },
+          { symbol: 'φ', meaning: 'Travail d\'extraction du métal', unit: 'J' },
+        ],
+        domain: 'Physique quantique',
+        color: '#34D399',
+        scientistIds: ['einstein'],
+        year: 1905,
+        keyFact: 'Prix Nobel d\'Einstein 1921 — pas pour la relativité !',
+      },
+    ],
+  },
+  {
+    id: 'optique',
+    label: 'Optique & Ondes',
+    icon: '🌈',
+    color: '#22D3EE',
+    description: 'La nature de la lumière et des ondes — de Snell à Doppler.',
+    formulas: [
+      {
+        id: 'snell',
+        name: 'Loi de Snell-Descartes',
+        formula: 'n₁ · sin(θ₁) = n₂ · sin(θ₂)',
+        description: 'Loi de réfraction à l\'interface entre deux milieux. L\'indice n mesure le ralentissement de la lumière. Ibn al-Haytham avait décrit ce phénomène au XIᵉ s.',
+        variables: [
+          { symbol: 'n₁, n₂', meaning: 'Indices de réfraction', unit: '—' },
+          { symbol: 'θ₁', meaning: 'Angle d\'incidence', unit: '°' },
+          { symbol: 'θ₂', meaning: 'Angle de réfraction', unit: '°' },
+        ],
+        domain: 'Optique',
+        color: '#22D3EE',
+        scientistIds: ['ibn-al-haytham'],
+        year: 1621,
+      },
+      {
+        id: 'doppler',
+        name: 'Effet Doppler',
+        formula: 'f\' = f · (c ± vᵣ) / (c ∓ vₛ)',
+        description: 'La fréquence perçue change selon le mouvement relatif source/observateur. Sirènes, radar, et preuve de l\'expansion de l\'univers (décalage vers le rouge).',
+        variables: [
+          { symbol: 'f\'', meaning: 'Fréquence perçue', unit: 'Hz' },
+          { symbol: 'f', meaning: 'Fréquence émise', unit: 'Hz' },
+          { symbol: 'c', meaning: 'Vitesse de propagation de l\'onde', unit: 'm/s' },
+          { symbol: 'vᵣ', meaning: 'Vitesse de l\'observateur', unit: 'm/s' },
+          { symbol: 'vₛ', meaning: 'Vitesse de la source', unit: 'm/s' },
+        ],
+        domain: 'Optique',
+        color: '#22D3EE',
+        year: 1842,
+        keyFact: 'Le redshift des galaxies prouva l\'expansion de l\'Univers à Hubble.',
+      },
+      {
+        id: 'diffraction',
+        name: 'Réseau de diffraction',
+        formula: 'd · sin(θ) = m · λ',
+        description: 'Condition d\'interférence constructive pour un réseau. Utilisé pour analyser les spectres lumineux et identifier la composition chimique des étoiles.',
+        variables: [
+          { symbol: 'd', meaning: 'Espacement du réseau', unit: 'm' },
+          { symbol: 'θ', meaning: 'Angle de diffraction', unit: '°' },
+          { symbol: 'm', meaning: 'Ordre de diffraction (0, ±1, ±2...)', unit: '—' },
+          { symbol: 'λ', meaning: 'Longueur d\'onde', unit: 'm' },
+        ],
+        domain: 'Optique',
+        color: '#22D3EE',
+        year: 1801,
+      },
+      {
+        id: 'thin-lens',
+        name: 'Lentilles minces (relation conjuguée)',
+        formula: '1/f = 1/v − 1/u',
+        description: 'Relation entre la focale d\'une lentille, la distance objet et la distance image. Fondement de l\'optique géométrique des lunettes, télescopes et microscopes.',
+        variables: [
+          { symbol: 'f', meaning: 'Distance focale', unit: 'm' },
+          { symbol: 'v', meaning: 'Distance image (lentille → image)', unit: 'm' },
+          { symbol: 'u', meaning: 'Distance objet (lentille → objet)', unit: 'm' },
+        ],
+        domain: 'Optique',
+        color: '#22D3EE',
+        scientistIds: ['ibn-al-haytham'],
+        year: 1758,
+      },
+    ],
+  },
+];
+
+// ─── Physical Constants ────────────────────────────────────────────────────────
+
+export const PHYSICS_CONSTANTS: PhysicsConstant[] = [
+  {
+    id: 'c',
+    symbol: 'c',
+    nameFr: 'Vitesse de la lumière',
+    value: '299 792 458',
+    unit: 'm/s',
+    description: 'Vitesse maximale de propagation dans l\'univers. Définie exacte depuis 1983 — sert à définir le mètre.',
+    color: '#A78BFA',
+    exact: true,
+    scientistIds: ['maxwell', 'einstein'],
+    year: 1905,
+    category: 'fondamentale',
+  },
+  {
+    id: 'G',
+    symbol: 'G',
+    nameFr: 'Constante gravitationnelle',
+    value: '6.674 30 × 10⁻¹¹',
+    unit: 'N·m²·kg⁻²',
+    description: 'Mesure l\'intensité de la gravitation. L\'une des constantes physiques les moins bien mesurées — son origine reste mystérieuse.',
+    color: '#F59E0B',
+    scientistIds: ['newton'],
+    year: 1687,
+    category: 'mecanique',
+  },
+  {
+    id: 'h',
+    symbol: 'h',
+    nameFr: 'Constante de Planck',
+    value: '6.626 07 × 10⁻³⁴',
+    unit: 'J·s',
+    description: 'Quantum d\'action — granularité fondamentale de la nature. Exacte depuis la redéfinition du SI en 2019.',
+    color: '#34D399',
+    exact: true,
+    year: 1900,
+    category: 'fondamentale',
+  },
+  {
+    id: 'hbar',
+    symbol: 'ħ',
+    nameFr: 'Constante de Planck réduite',
+    value: '1.054 57 × 10⁻³⁴',
+    unit: 'J·s',
+    description: 'h / 2π. Apparaît naturellement dans les équations quantiques (Schrödinger, Heisenberg, Dirac).',
+    color: '#34D399',
+    exact: true,
+    scientistIds: ['heisenberg'],
+    category: 'fondamentale',
+  },
+  {
+    id: 'kB',
+    symbol: 'k_B',
+    nameFr: 'Constante de Boltzmann',
+    value: '1.380 65 × 10⁻²³',
+    unit: 'J/K',
+    description: 'Relie l\'énergie thermique microscopique à la température macroscopique. Exacte depuis 2019 — sert à définir le kelvin.',
+    color: '#F472B6',
+    exact: true,
+    year: 1877,
+    category: 'thermo',
+  },
+  {
+    id: 'e',
+    symbol: 'e',
+    nameFr: 'Charge élémentaire',
+    value: '1.602 18 × 10⁻¹⁹',
+    unit: 'C',
+    description: 'La plus petite charge libre. Portée par le proton (+e) et l\'électron (−e). Exacte depuis 2019 — sert à définir l\'ampère.',
+    color: '#FB923C',
+    exact: true,
+    year: 1897,
+    category: 'electromag',
+  },
+  {
+    id: 'NA',
+    symbol: 'N_A',
+    nameFr: 'Nombre d\'Avogadro',
+    value: '6.022 14 × 10²³',
+    unit: 'mol⁻¹',
+    description: 'Nombre d\'entités dans une mole. Exacte depuis 2019 — sert à redéfinir la mole.',
+    color: '#22D3EE',
+    exact: true,
+    year: 1811,
+    category: 'fondamentale',
+  },
+  {
+    id: 'eps0',
+    symbol: 'ε₀',
+    nameFr: 'Permittivité du vide',
+    value: '8.854 19 × 10⁻¹²',
+    unit: 'F/m',
+    description: 'Capacité du vide à transmettre les champs électriques. Liée à c et μ₀ : ε₀ = 1/(μ₀c²).',
+    color: '#FB923C',
+    year: 1865,
+    category: 'electromag',
+  },
+  {
+    id: 'mu0',
+    symbol: 'μ₀',
+    nameFr: 'Perméabilité du vide',
+    value: '1.256 64 × 10⁻⁶',
+    unit: 'T·m/A',
+    description: 'Résistance du vide à la création de champs magnétiques. Relie ε₀, μ₀ et c : c = 1/√(ε₀μ₀).',
+    color: '#FB923C',
+    scientistIds: ['maxwell'],
+    category: 'electromag',
+  },
+  {
+    id: 'R',
+    symbol: 'R',
+    nameFr: 'Constante des gaz parfaits',
+    value: '8.314 46',
+    unit: 'J/(mol·K)',
+    description: 'R = N_A · k_B. Apparaît dans PV = nRT et les équations d\'Arrhenius. Exacte car dérivée de N_A et k_B.',
+    color: '#F472B6',
+    exact: true,
+    year: 1834,
+    category: 'thermo',
+  },
+  {
+    id: 'alpha',
+    symbol: 'α',
+    nameFr: 'Constante de structure fine',
+    value: '≈ 1 / 137.036',
+    unit: '—',
+    description: 'Constante sans dimension mesurant l\'intensité de l\'électromagnétisme. Son origine reste l\'un des grands mystères de la physique fondamentale.',
+    color: '#A78BFA',
+    year: 1916,
+    category: 'fondamentale',
+  },
+  {
+    id: 'sigma',
+    symbol: 'σ',
+    nameFr: 'Constante de Stefan-Boltzmann',
+    value: '5.670 37 × 10⁻⁸',
+    unit: 'W·m⁻²·K⁻⁴',
+    description: 'Intervient dans le rayonnement du corps noir : P = σAT⁴. Dérivée de h, c et k_B.',
+    color: '#F472B6',
+    year: 1879,
+    category: 'thermo',
+  },
+];
+
+// ─── SI Units ─────────────────────────────────────────────────────────────────
+
+export const SI_BASE_UNITS: SIUnit[] = [
+  {
+    symbol: 'm',
+    nameFr: 'mètre',
+    quantityFr: 'Longueur',
+    definition: 'Distance parcourue par la lumière dans le vide en 1 / 299 792 458 seconde',
+    icon: '📏',
+    color: '#60A5FA',
+  },
+  {
+    symbol: 'kg',
+    nameFr: 'kilogramme',
+    quantityFr: 'Masse',
+    definition: 'Défini par la valeur exacte de h = 6.626 × 10⁻³⁴ J·s',
+    icon: '⚖️',
+    color: '#F59E0B',
+  },
+  {
+    symbol: 's',
+    nameFr: 'seconde',
+    quantityFr: 'Temps',
+    definition: '9 192 631 770 périodes de la radiation hyperfine du césium-133',
+    icon: '⏱️',
+    color: '#34D399',
+  },
+  {
+    symbol: 'A',
+    nameFr: 'ampère',
+    quantityFr: 'Courant électrique',
+    definition: 'Défini par la valeur exacte de e = 1.602 × 10⁻¹⁹ C',
+    icon: '⚡',
+    color: '#FB923C',
+  },
+  {
+    symbol: 'K',
+    nameFr: 'kelvin',
+    quantityFr: 'Température',
+    definition: 'Défini par la valeur exacte de k_B = 1.381 × 10⁻²³ J/K',
+    icon: '🌡️',
+    color: '#F472B6',
+  },
+  {
+    symbol: 'mol',
+    nameFr: 'mole',
+    quantityFr: 'Quantité de matière',
+    definition: 'Exactement 6.022 × 10²³ entités élémentaires (atomes, molécules...)',
+    icon: '🧪',
+    color: '#A78BFA',
+  },
+  {
+    symbol: 'cd',
+    nameFr: 'candela',
+    quantityFr: 'Intensité lumineuse',
+    definition: 'Flux lumineux de 1/683 W·sr⁻¹ à la fréquence 540 THz (lumière verte)',
+    icon: '💡',
+    color: '#FDE68A',
+  },
+];
+
+export const SI_DERIVED_UNITS: DerivedUnit[] = [
+  { symbol: 'N',  name: 'newton',  quantity: 'Force',               inBase: 'kg·m·s⁻²',         color: '#60A5FA', namedAfter: 'Isaac Newton' },
+  { symbol: 'J',  name: 'joule',   quantity: 'Énergie / Travail',   inBase: 'kg·m²·s⁻²',        color: '#F59E0B', namedAfter: 'James P. Joule' },
+  { symbol: 'W',  name: 'watt',    quantity: 'Puissance',           inBase: 'kg·m²·s⁻³',        color: '#FB923C', namedAfter: 'James Watt' },
+  { symbol: 'Pa', name: 'pascal',  quantity: 'Pression',            inBase: 'kg·m⁻¹·s⁻²',       color: '#34D399', namedAfter: 'Blaise Pascal' },
+  { symbol: 'Hz', name: 'hertz',   quantity: 'Fréquence',           inBase: 's⁻¹',               color: '#22D3EE', namedAfter: 'Heinrich Hertz' },
+  { symbol: 'V',  name: 'volt',    quantity: 'Tension électrique',  inBase: 'kg·m²·A⁻¹·s⁻³',   color: '#FB923C', namedAfter: 'Alessandro Volta' },
+  { symbol: 'Ω',  name: 'ohm',     quantity: 'Résistance',          inBase: 'kg·m²·A⁻²·s⁻³',   color: '#F472B6', namedAfter: 'Georg Simon Ohm' },
+  { symbol: 'F',  name: 'farad',   quantity: 'Capacité électrique', inBase: 'kg⁻¹·m⁻²·A²·s⁴',  color: '#A78BFA', namedAfter: 'Michael Faraday' },
+  { symbol: 'T',  name: 'tesla',   quantity: 'Induction magnétique',inBase: 'kg·A⁻¹·s⁻²',       color: '#818CF8', namedAfter: 'Nikola Tesla' },
+  { symbol: 'C',  name: 'coulomb', quantity: 'Charge électrique',   inBase: 'A·s',               color: '#FB923C', namedAfter: 'C.-A. de Coulomb' },
+  { symbol: 'Wb', name: 'weber',   quantity: 'Flux magnétique',     inBase: 'kg·m²·A⁻¹·s⁻²',   color: '#818CF8', namedAfter: 'Wilhelm Weber' },
+  { symbol: 'lm', name: 'lumen',   quantity: 'Flux lumineux',       inBase: 'cd·sr',             color: '#FDE68A' },
+  { symbol: 'Gy', name: 'gray',    quantity: 'Dose absorbée',       inBase: 'm²·s⁻²',            color: '#86EFAC', namedAfter: 'Louis H. Gray' },
+  { symbol: 'Bq', name: 'becquerel',quantity: 'Radioactivité',      inBase: 's⁻¹',               color: '#86EFAC', namedAfter: 'Henri Becquerel' },
+];

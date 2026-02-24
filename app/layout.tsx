@@ -42,13 +42,14 @@ export default function RootLayout({
         ))}
       </div>
         {/* HEADER */}
-        <header className="fixed top-0 left-0 right-0 backdrop-blur bg-white/70 border-b border-gray-200/40 dark:border-gray-700/40 z-50">
+        <header className="fixed top-0 left-0 right-0 z-50"
+          style={{ background: 'rgba(2,8,23,0.92)', backdropFilter: 'blur(16px)', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
           <NavBar/>            
         </header>
 
 
         {/* CONTENT */}
-        <main className="flex-1 md:px-0 sm:px-0 pt-10 pb-2 ">
+        <main className="flex-1 md:px-0 sm:px-0 pt-16 pb-2 ">
           {children}
         </main>
 

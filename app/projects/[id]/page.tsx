@@ -1,145 +1,154 @@
-import Link from "next/link";
-import prisma from '@/lib/prisma'
-import Image from 'next/image'
-import { notFound } from "next/navigation";
-import { auth } from "@/lib/auth";
-import DeleteProjectButton from "@/components/DeleteProjectButton";
+// app/projects/[id]/page.tsx
+import Link from 'next/link';
+import Image from 'next/image';
+import prisma from '@/lib/prisma';
+import { notFound } from 'next/navigation';
+import { auth } from '@/lib/auth';
+import DeleteProjectButton from '@/components/DeleteProjectButton';
 
 export default async function ProjectPage({ params }: { params: Promise<{ id: string }> }) {
-  const session = await auth()
   const { id } = await params;
-  const project = await prisma.project.findUnique({
-    where: { id: parseInt(id) },
+  const session = await auth();
+  const project = await prisma.project.findUnique({ where: { id: parseInt(id) } });
+  if (!project) notFound();
+
+  const dateStr = project.createdAt.toLocaleDateString('fr-FR', {
+    day: '2-digit', month: 'long', year: 'numeric',
   });
 
-  if (!project) {
-    notFound();
-  }
   return (
-    <section className="space-y-16">
+    <div
+      className="max-w-4xl mx-auto px-4 py-12"
+      style={{ fontFamily: "'Exo 2', 'Space Grotesk', sans-serif" }}
+    >
+      {/* Header bar */}
+      <div className="flex items-center justify-between mb-10">
+        <Link
+          href="/projects"
+          className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
+        >
+          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
+          Projets
+        </Link>
 
-        <div className="max-w-5xl px-4 pt-6 lg:pt-10 pb-12 sm:px-6 lg:px-8 mx-auto">
-        <div className="">
-            <div className="flex justify-between items-center mb-6">
-            <div className="flex w-full sm:items-center gap-x-5 sm:gap-x-3">
-                <div className="shrink-0">
-                    <Image
-                    src="/python_img.webp"
-                    width={100}
-                    height={100}
-                    alt="image"
-                    className="size-12 rounded-full"
-                    />
-                </div>
+        <div className="flex items-center gap-3">
+          <span className="text-xs text-gray-600 font-mono">{dateStr}</span>
 
-                <div className="grow">
-                    <div className="flex justify-between items-center gap-x-2">
-                    <div>
-                        <div className="hs-tooltip [--trigger:hover] [--placement:bottom] inline-block">
-                            <div className="hs-tooltip-toggle sm:mb-1 block text-start cursor-pointer">
-                                <span className="font-semibold">
-                                    Hadrien Vinay
-                                </span>
-                                <div className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 max-w-xs cursor-default bg-gray-900 divide-y divide-gray-700 shadow-lg rounded-xl " role="tooltip">
-                                    <div className="p-4 sm:p-5">
-                                        <div className="mb-2 flex w-full sm:items-center gap-x-5 sm:gap-x-3">
-                                            <div className="shrink-0">
-                                            <Image
-                                                src={project.image? `${project.image}` : "/python_img.webp"}
-                                                width={100}
-                                                height={100}
-                                                alt="image"
-                                                className="size-8 rounded-full"
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
+          {/* GitHub link */}
+          {project.link && (
+            <Link
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-xl text-sm font-semibold border border-white/10 text-gray-300 hover:text-white hover:bg-white/6 transition-all"
+            >
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.373 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.6.113.82-.258.82-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
+              </svg>
+              GitHub
+            </Link>
+          )}
 
-                    <ul className="text-xs">
-                        <li className="inline-block relative pe-6 last:pe-0 last-of-type:before:hidden before:absolute before:top-1/2 before:end-2 before:-translate-y-1/2 before:size-1 before:bg-gray-300 before:rounded-full">
-                        {project.createdAt.toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' })}
-                        </li>
-                        <li className="inline-block relative pe-6 last:pe-0 last-of-type:before:hidden before:absolute before:top-1/2 before:end-2 before:-translate-y-1/2 before:size-1 before:bg-gray-300 before:rounded-full">
-                        Web Development - C++
-                        </li>
-                    </ul>
-                </div>
-                <div className="">
-                    <Link href={project.link || ""} className="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 mb-2">
-                        <svg className="w-5 h-5 me-2 -ms-1 text-green-600" aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                        viewBox="0 0 24 24">
-                        <path fillRule="evenodd"
-                        d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" 
-                        clipRule="evenodd" />
-                        </svg>
-                        Projet sur Github 
-                    </Link>
-                    {session && (
-                        <div className="absolute ">
-                            <DeleteProjectButton projectId={project.id} />
-                        <a className="p-2 bg-blue-400 hover:bg-blue-500 cursor-pointer rounded ml-2" href={`/projects/${project.id}/edit`}>
-                            Modifier
-                        </a>
-                        </div>
-                        )}
-                </div>
-                </div>
+          {/* Admin actions */}
+          {session && (
+            <div className="flex items-center gap-2">
+              <Link
+                href={`/projects/${project.id}/edit`}
+                className="px-3 py-1.5 rounded-xl text-sm font-semibold border border-blue-500/30 text-blue-400 hover:bg-blue-500/10 transition-all"
+              >
+                Modifier
+              </Link>
+              <DeleteProjectButton projectId={project.id} />
             </div>
+          )}
         </div>
+      </div>
 
-        <div className="space-y-5 md:space-y-8">
-        <div className="space-y-3">
-            <h2 className="text-2xl font-bold md:text-3xl">{project.title}</h2>
+      {/* Title */}
+      <h1
+        className="text-3xl sm:text-4xl font-bold text-white mb-4 leading-tight"
+        style={{ letterSpacing: '-0.5px' }}
+      >
+        {project.title}
+      </h1>
 
-            <p className="text-lg">{project.resume}</p>
+      {/* Resume */}
+      {project.resume && (
+        <p className="text-lg text-gray-400 leading-relaxed mb-8 border-l-2 border-emerald-500/60 pl-4">
+          {project.resume}
+        </p>
+      )}
+
+      <div className="h-px bg-white/8 mb-8" />
+
+      {/* Content block 1 */}
+      {project.content && (
+        <div className="text-gray-300 text-base leading-relaxed space-y-4 mb-8 whitespace-pre-wrap">
+          {project.content}
         </div>
+      )}
 
-        <p className="text-lg">{project.content}</p>
-
-        <figure>
+      {/* Image 1 */}
+      {project.image && (
+        <figure className="mb-10">
+          <div className="relative w-full rounded-2xl overflow-hidden border border-white/8">
             <Image
-                src={project.image? `${project.image}`: "/python_img.webp"}
-                width={100}
-                height={100}
-                alt="image"
-                className="w-full object-cover rounded-xl"
-                unoptimized
-                />
-            <figcaption className="mt-3 text-sm text-center">
-                {project.imageTitle}
+              src={project.image}
+              width={1200}
+              height={600}
+              alt={project.imageTitle || project.title}
+              className="w-full object-cover"
+              unoptimized
+            />
+          </div>
+          {project.imageTitle && (
+            <figcaption className="mt-2 text-sm text-center text-gray-500">
+              {project.imageTitle}
             </figcaption>
+          )}
         </figure>
+      )}
 
-        { project.content2 ? (
-            <div className="space-y-3">
-            <p className="text-lg">{project.content2}</p>
-            <figure>
-                <Image
-                    src={`${project.image2}`|| "/python_img.webp"}
-                    width={200}
-                    height={100}
-                    alt="image"
-                    className="w-full object-cover rounded-xl"
-                    unoptimized
-                    />
-                <figcaption className="mt-3 text-sm text-center">
-                    {project.image2Title}
-                </figcaption>
-            </figure>   
-            </div>  ) : null   
-        
-        }
-        
+      {/* Content block 2 + image 2 */}
+      {project.content2 && (
+        <div className="text-gray-300 text-base leading-relaxed space-y-4 mb-8 whitespace-pre-wrap">
+          {project.content2}
         </div>
+      )}
+      {project.image2 && (
+        <figure className="mb-10">
+          <div className="relative w-full rounded-2xl overflow-hidden border border-white/8">
+            <Image
+              src={project.image2}
+              width={1200}
+              height={600}
+              alt={project.image2Title || project.title}
+              className="w-full object-cover"
+              unoptimized
+            />
+          </div>
+          {project.image2Title && (
+            <figcaption className="mt-2 text-sm text-center text-gray-500">
+              {project.image2Title}
+            </figcaption>
+          )}
+        </figure>
+      )}
 
-</div>
-    </section>
-
+      {/* Back link */}
+      <div className="mt-12 pt-8 border-t border-white/8">
+        <Link
+          href="/projects"
+          className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
+        >
+          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
+          Retour aux projets
+        </Link>
+      </div>
+    </div>
   );
 }

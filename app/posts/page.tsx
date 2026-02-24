@@ -1,123 +1,161 @@
-import Link from "next/link";
-import prisma from '@/lib/prisma'
-import Image from 'next/image'
-import { format } from "path";
+// app/posts/page.tsx
+import Link from 'next/link';
+import Image from 'next/image';
+import prisma from '@/lib/prisma';
 import DeletePostButton from '@/components/DeletePostButton';
-import { auth } from "@/lib/auth";
+import { auth } from '@/lib/auth';
+
+const STATIC_POSTS = [
+  {
+    href: '/posts/algoculture',
+    image: '/uploads/image-1769438168655-893060458.jpg',
+    title: "L'algoculture",
+    excerpt: "La culture des algues est vieille de plusieurs siècles, mais connaît aujourd'hui une croissance rapide à l'échelle mondiale.",
+    tag: 'Environnement',
+    year: '2025',
+    color: 'border-emerald-500/30',
+    accent: 'text-emerald-400',
+    tagBg: 'bg-emerald-500/10',
+  },
+  {
+    href: '/posts/negative',
+    image: '/univers.webp',
+    title: 'La masse négative',
+    excerpt: "Réfutée dans les années 50, l'hypothèse de la masse négative pourrait s'avérer un candidat sérieux pour expliquer la structure de l'univers.",
+    tag: 'Physique',
+    year: '2026',
+    color: 'border-violet-500/30',
+    accent: 'text-violet-400',
+    tagBg: 'bg-violet-500/10',
+  },
+  {
+    href: '/posts/space',
+    image: '/artemis.jpg',
+    title: "L'actualité spatiale 2026",
+    excerpt: "Un panorama des dernières nouvelles et missions prévues pour le spatial en 2026.",
+    tag: 'Espace',
+    year: '2026',
+    color: 'border-blue-500/30',
+    accent: 'text-blue-400',
+    tagBg: 'bg-blue-500/10',
+  },
+];
 
 export default async function Posts() {
-  const posts = await prisma.post.findMany();
+  const posts = await prisma.post.findMany({ orderBy: { createdAt: 'desc' } });
   const session = await auth();
-  
-  
+
   return (
-    <section className="space-y-16">
-      {session && (
-      <div className="fixed top-40 right-40">
-        <Link href="/posts/new" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full shadow-lg">
-          + Nouvel Article 
-        </Link>
-      </div>)}
+    <div
+      className="max-w-7xl mx-auto px-4 py-12"
+      style={{ fontFamily: "'Exo 2', 'Space Grotesk', sans-serif" }}
+    >
 
-      {/* HERO */}
-      <div className="text-center mt-10">
-        <h1 className="text-5xl font-extrabold tracking-tight leading-tight md:text-6xl">
-          Les articles de <span className="text-blue-600">Suri</span>
+      {/* Hero */}
+      <div className="text-center mb-12">
+        <div className="text-6xl mb-4" style={{ filter: 'drop-shadow(0 0 24px #6366F1)' }}>📝</div>
+        <h1
+          className="text-5xl sm:text-6xl font-extrabold tracking-tight mb-3"
+          style={{
+            background: 'linear-gradient(135deg, #60A5FA, #A78BFA)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+          }}
+        >
+          Articles
         </h1>
-
-        <div className="max-w-7xl mx-auto p-16">
-          <div className="sm:grid lg:grid-cols-3 sm:grid-cols-2 gap-10">
-            <a href="/posts/algoculture" key="algo" className="hover:bg-gray-900 hover:text-white hover:scale-[1.04] hover:shadow-2xl transition duration-300 max-w-sm rounded overflow-hidden shadow-lg">
-              <Image
-                  src="/uploads/image-1769438168655-893060458.jpg"
-                  width={300}
-                  height={300}
-                  alt="image"
-                  className="w-100"
-                />
-              <div className="py-4 px-8">
-                <h4 className="text-lg mb-3 font-semibold">L'algoculture</h4>
-                <p className="mb-2 text-sm text-gray-600">
-                  La culture des algues — ou algoculture — est une activité vieille de plusieurs siècles, mais elle connaît aujourd’hui une croissance rapide à l’échelle mondiale.
-                </p>
-
-                <span className="text-xs">ARTICLE</span>
-                &nbsp;<span className="text-xs text-gray-500">2025</span>
-              </div>
-            </a>
-            <a href="/posts/negative" key="cosmo" className="hover:bg-gray-900 hover:text-white hover:scale-[1.04] hover:shadow-2xl transition duration-300 max-w-sm rounded overflow-hidden shadow-lg">
-              <Image
-                  src="/univers.webp"
-                  width={300}
-                  height={300}
-                  alt="image"
-                  className="w-100"
-                />
-              <div className="py-4 px-8">
-                <h4 className="text-lg mb-3 font-semibold">La masse négative</h4>
-                <p className="mb-2 text-sm text-gray-600">
-                  Rapidement réfuté par les scientifiques dans les années 50, l'hypothèse de l'existence de la masse négative attise la curiosité et pourrait s'avérer un candidat sérieux pour expliquer la structure et le comportement des masses de notre univers
-                </p>
-                <span className="text-xs">ARTICLE</span>
-                &nbsp;<span className="text-xs text-gray-500">2026</span>
-              </div>
-            </a>
-            <a href="/posts/space" key="space" className="hover:bg-gray-900 hover:text-white hover:scale-[1.04] hover:shadow-2xl transition duration-300 max-w-sm rounded overflow-hidden shadow-lg">
-              <Image
-                  src="/artemis.jpg"
-                  width={300}
-                  height={300}
-                  alt="image"
-                  className="w-100"
-                />
-              <div className="py-4 px-8">
-                <h4 className="text-lg mb-3 font-semibold">L'actualité spatiale 2026</h4>
-                <p className="mb-2 text-sm text-gray-600">
-                  Un panorama des dernières nouvelles et missions prévues pour le spatial en 2026                
-                </p>
-                <span className="text-xs">ARTICLE</span>
-                &nbsp;<span className="text-xs text-gray-500">2026</span>
-              </div>
-            </a>
-
-            {posts.map((post) => (
-
-              <div key={post.id} className="hover:bg-gray-900 hover:text-white hover:scale-[1.04] hover:shadow-2xl transition duration-300 max-w-sm rounded overflow-hidden shadow-lg">
-                {session && (
-                <div className="absolute">
-                  <DeletePostButton postId={post.id} />
-                </div>
-                )}
-                <Image
-                    src={post.image || "/python_img.webp"}
-                    width={300}
-                    height={300}
-                    alt="image"
-                    className="w-100"
-                  />
-                <div className="py-4 px-8">
-                  <a href={`/posts/${post.id}`}>
-                      <h4 className="text-lg mb-3 font-semibold">{post.title}</h4>
-                  </a>
-                  <p className="mb-2 text-sm text-gray-600">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting
-                    industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-                  </p>
-
-                  <span className="text-xs">ARTICLE</span>
-                  &nbsp;<span className="text-xs text-gray-500">{ post.createdAt.getUTCFullYear() }</span>
-                </div>
-              </div>
-            
-            ))}
-
-          </div>
-        </div>
+        <p className="text-gray-400 text-lg max-w-xl mx-auto">
+          Explorations scientifiques, technologiques et culturelles.
+        </p>
       </div>
 
-    </section>
+      {/* New post button (admin only) */}
+      {session && (
+        <div className="flex justify-end mb-6">
+          <Link
+            href="/posts/new"
+            className="px-5 py-2.5 rounded-xl font-semibold text-white text-sm transition-all hover:brightness-110"
+            style={{ background: 'linear-gradient(135deg, #3B82F6, #6366F1)' }}
+          >
+            + Nouvel article
+          </Link>
+        </div>
+      )}
 
-    
+      {/* Cards grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
+        {/* Static posts */}
+        {STATIC_POSTS.map((p) => (
+          <Link
+            key={p.href}
+            href={p.href}
+            className={`group relative block rounded-2xl border ${p.color} overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:brightness-110`}
+            style={{ background: 'rgba(255,255,255,0.02)', backdropFilter: 'blur(8px)' }}
+          >
+            <div className="relative h-44 w-full overflow-hidden">
+              <Image
+                src={p.image}
+                fill
+                sizes="(max-width: 768px) 100vw, 33vw"
+                alt={p.title}
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-linear-to-t from-black/70 to-transparent" />
+            </div>
+            <div className="p-5">
+              <div className="flex items-center gap-2 mb-2">
+                <span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${p.tagBg} ${p.accent} border ${p.color}`}>
+                  {p.tag}
+                </span>
+                <span className="text-xs text-gray-600 font-mono">{p.year}</span>
+              </div>
+              <h2 className="text-base font-bold text-white mb-1.5 leading-snug">{p.title}</h2>
+              <p className="text-sm text-gray-400 leading-relaxed line-clamp-3">{p.excerpt}</p>
+            </div>
+          </Link>
+        ))}
+
+        {/* Dynamic posts from DB */}
+        {posts.map((post) => (
+          <div
+            key={post.id}
+            className="relative group block rounded-2xl border border-white/8 overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:brightness-110"
+            style={{ background: 'rgba(255,255,255,0.02)', backdropFilter: 'blur(8px)' }}
+          >
+            {session && (
+              <div className="absolute top-3 right-3 z-10">
+                <DeletePostButton postId={post.id} />
+              </div>
+            )}
+            <Link href={`/posts/${post.id}`} className="block">
+              <div className="relative h-44 w-full overflow-hidden">
+                <Image
+                  src={post.image || '/python_img.webp'}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  alt={post.title}
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-linear-to-t from-black/70 to-transparent" />
+              </div>
+              <div className="p-5">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-gray-500/10 text-gray-400 border border-gray-500/20">
+                    Article
+                  </span>
+                  <span className="text-xs text-gray-600 font-mono">{post.createdAt.getUTCFullYear()}</span>
+                </div>
+                <h2 className="text-base font-bold text-white mb-1.5 leading-snug">{post.title}</h2>
+                <p className="text-sm text-gray-400 leading-relaxed line-clamp-3">
+                  Lire l&apos;article complet →
+                </p>
+              </div>
+            </Link>
+          </div>
+        ))}
+
+      </div>
+    </div>
   );
 }

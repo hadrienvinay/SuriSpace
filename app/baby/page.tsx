@@ -39,8 +39,8 @@ export default async function paris() {
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Parieur</th>
               <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Sexe</th>
-            <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Prénom</th>
-            <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Date de Naissance</th>
+              <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Prénom</th>
+              <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Date de Naissance</th>
               <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Poids (g)</th>
               <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Taille (cm)</th>
               <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">Yeux</th>

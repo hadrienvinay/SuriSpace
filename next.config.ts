@@ -6,7 +6,13 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         hostname: 'cdn.weatherapi.com',
-      }
+      },
+      {
+        hostname:  'upload.wikimedia.org'
+      },
+      {
+        hostname:  'commons.wikimedia.org'
+      },
     ],
 },
 
