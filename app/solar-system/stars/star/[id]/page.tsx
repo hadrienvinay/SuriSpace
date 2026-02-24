@@ -140,26 +140,26 @@ export default async function StarPage({ params }: { params: Promise<{ id: strin
         @keyframes orbit { from { transform: rotate(0deg) translateX(var(--orb-r)) rotate(0deg); } to { transform: rotate(360deg) translateX(var(--orb-r)) rotate(-360deg); } }
       `}</style>
 
-      {/* Nav */}
-      <nav className="border-b border-white/6" style={{ background: 'rgba(1,4,14,0.95)', backdropFilter: 'blur(12px)' }}>
-        <div className="max-w-7xl mx-auto px-5 py-3.5 flex items-center gap-2 text-md overflow-x-auto">
-          <Link href="/solar-system" className="text-gray-600 hover:text-white transition-colors shrink-0">💫 Système Solaire</Link>
-          <span className="text-gray-700">›</span>
-          <Link href="/solar-system/stars" className="text-gray-500 hover:text-white transition-colors shrink-0">✨ Carte</Link>
-          <span className="text-gray-700">›</span>
+      <div className="max-w-4xl mx-auto px-5 py-10">
+
+        {/* Breadcrumb */}
+        <div className="flex items-center gap-2 text-[16px] text-gray-600 font-mono mb-6">
+          <Link href="/solar-system" className="hover:text-white transition-colors">Espace</Link>
+          <span>›</span>
+          <Link href="/solar-system/stars" className="hover:text-white transition-colors">Étoiles</Link>
+          <span>›</span>
+          <Link href="/solar-system/stars/star" className="hover:text-white transition-colors">Catalogue</Link>
           {constellation && (
             <>
-              <Link href={`/solar-system/stars/constellations/${constellation.id}`} className="hover:text-white transition-colors shrink-0" style={{ color: constellation.color }}>
-                {constellation.emoji} {constellation.nameFr}
+              <span>›</span>
+              <Link href={`/solar-system/stars/constellations/${constellation.id}`} className="hover:text-white transition-colors" style={{ color: constellation.color }}>
+                {constellation.nameFr}
               </Link>
-              <span className="text-gray-700">›</span>
             </>
           )}
+          <span>›</span>
           <span style={{ color: col }}>{star.nameFr ?? star.name}</span>
         </div>
-      </nav>
-
-      <div className="max-w-4xl mx-auto px-5 py-10">
 
         {/* ── Hero ── */}
         <div className="relative rounded-3xl border overflow-hidden mb-8 p-8 sm:p-10"

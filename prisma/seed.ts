@@ -46,8 +46,8 @@ const userData: Prisma.UserCreateInput[] = [
           link: "https://github.com/hadrienvinay/SuriSpace",
           image: "/blog.png",
           imageTitle: "Capture d'écran du blog personnel",
-          image2: "/bdd.png",
-          image2Title: "Schéma de la base de données",
+          image2: "/atomes.png",
+          image2Title: "Tableau de Mendeleïev",
           createdAt: new Date('2026-01-15'),
 
         },

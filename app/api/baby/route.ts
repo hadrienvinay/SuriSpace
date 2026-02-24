@@ -18,7 +18,6 @@ export async function POST(request: NextRequest) {
   try {
 
     const formData = await request.formData();
-    console.log(formData)
     const date = formData.get('date') as string;
     const sexe = formData.get('sexe') as string;
     const poids = formData.get('poids') as string;

@@ -71,6 +71,15 @@ export default function Missions() {
   return (
     <SolarLayout>
       <div className="max-w-5xl mx-auto px-4 py-8">
+        {/* Breadcrumb */}
+        <div className="flex items-center gap-2 text-[16px] text-gray-600 font-mono mb-6">
+          <Link href="/solar-system" className="hover:text-white transition-colors">Espace</Link>
+          <span>›</span>
+          <Link href="/solar-system/carte" className="hover:text-white transition-colors">Système Solaire</Link>
+          <span>›</span>
+          <span className="text-gray-400">Missions</span>
+        </div>
+
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-white mb-1" style={{ fontFamily: "'Exo 2', sans-serif" }}>

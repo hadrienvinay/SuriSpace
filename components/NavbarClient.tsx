@@ -4,14 +4,11 @@ import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { useTheme } from 'next-themes';
 import { Session } from 'next-auth';
 
 /* ─── Nav data ────────────────────────────────────────────── */
-const MAIN_LINKS = [
-  { href: '/posts',    label: 'Articles' },
-  { href: '/projects', label: 'Projets'  },
-];
+//Nav on the left of the sidebar
+//const MAIN_LINKS = [];
 
 const DROPDOWNS = [
   {
@@ -19,12 +16,13 @@ const DROPDOWNS = [
     icon: '🪐',
     color: '#60A5FA',
     items: [
-      { href: '/solar-system',          label: 'Accueil',                  icon: '👾' },
-      { href: '/solar-system/carte',    label: 'Carte interactive',        icon: '🗺️' },
-      { href: '/solar-system/bodys',    label: 'Corps du système solaire', icon: '🌍' },
-      { href: '/solar-system/galaxies', label: 'Galaxies',                 icon: '🌌' },
-      { href: '/solar-system/missions', label: 'Missions & Sondes',        icon: '🚀' },
-      { href: '/solar-system/stars',    label: 'Carte du ciel',            icon: '⭐' },
+      { href: '/solar-system',           label: 'Accueil',                  icon: '👾' },
+      { href: '/solar-system/carte',     label: 'Carte interactive',        icon: '🗺️' },
+      { href: '/solar-system/bodys',     label: 'Corps du système solaire', icon: '🌍' },
+      { href: '/solar-system/galaxies',  label: 'Galaxies',                 icon: '🌌' },
+      { href: '/solar-system/missions',  label: 'Missions & Sondes',        icon: '🚀' },
+      { href: '/solar-system/astronomie',label: 'Astronomie',               icon: '🔭' },
+      { href: '/solar-system/stars',     label: 'Carte du ciel',            icon: '⭐' },
     ],
   },
   {
@@ -54,6 +52,8 @@ const DROPDOWNS = [
 ];
 
 const END_LINKS = [
+    { href: '/posts',    label: 'Articles' },
+  { href: '/projects', label: 'Projets'  },
   { href: '/about',   label: 'À propos' },
   { href: '/contact', label: 'Contact'  },
 ];
@@ -143,7 +143,6 @@ function Dropdown({
 /* ─── Navbar ──────────────────────────────────────────────── */
 export default function NavbarClient({ session }: { session: Session | null }) {
   const pathname = usePathname();
-  const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [expanded, setExpanded] = useState<string | null>(null);
@@ -168,9 +167,11 @@ export default function NavbarClient({ session }: { session: Session | null }) {
 
           {/* Desktop */}
           <div className="hidden md:flex items-center gap-0.5">
-            {MAIN_LINKS.map((l) => (
-              <Link key={l.href} href={l.href} className={linkCls(pathname === l.href)}>{l.label}</Link>
-            ))}
+            {session && (
+                 <Link key={"dashboard"} href={"/dashboard"} className={linkCls(pathname === "/dashboard")}>{"Dashboard"}</Link>
+
+              )}
+            {/*MAIN_LINKS.map((l) => ( <Link key={l.href} href={l.href} className={linkCls(pathname === l.href)}>{l.label}</Link>))*/}
 
             <span className="mx-2 text-gray-700 text-md">|</span>
 
@@ -184,7 +185,7 @@ export default function NavbarClient({ session }: { session: Session | null }) {
               <Link key={l.href} href={l.href} className={linkCls(pathname === l.href)}>{l.label}</Link>
             ))}
 
-            {/* Theme toggle */}
+            {/* Theme toggle 
             {mounted && (
               <button
                 onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
@@ -193,7 +194,7 @@ export default function NavbarClient({ session }: { session: Session | null }) {
               >
                 {theme === 'light' ? '🌙' : '☀️'}
               </button>
-            )}
+            )}*/}
 
             {/* Auth */}
             {session ? (
@@ -228,7 +229,7 @@ export default function NavbarClient({ session }: { session: Session | null }) {
         <div className="md:hidden border-t border-white/6"
           style={{ background: 'rgba(3,6,20,0.98)' }}>
           <div className="px-4 py-3 space-y-1" style={{ fontFamily: "'Exo 2', sans-serif" }}>
-            {MAIN_LINKS.map((l) => (
+            {/* COMMENTING FOR NOW MAIN_LINKS.map((l) => (
               <Link key={l.href} href={l.href} onClick={close}
                 className={`block px-3 py-2.5 rounded-xl text-md font-semibold transition-all ${
                   pathname === l.href
@@ -237,9 +238,16 @@ export default function NavbarClient({ session }: { session: Session | null }) {
                 }`}>
                 {l.label}
               </Link>
-            ))}
+            ))
 
-            <div className="h-px mx-1 my-2 bg-white/6" />
+            <div className="h-px mx-1 my-2 bg-white/6" />*/}
+            {session && (
+                 <Link key={"dashboard"} href={"/dashboard"} className={`block px-3 py-2.5 rounded-xl text-md font-semibold transition-all ${
+                  pathname === "/dashboard"
+                    ? 'bg-violet-800/70 text-white'
+                    : 'text-gray-400 hover:text-white hover:bg-violet-900/40'
+                }`}>Dashboard</Link>
+              )}
 
             {DROPDOWNS.map((d) => {
               const isExp = expanded === d.label;
@@ -294,12 +302,12 @@ export default function NavbarClient({ session }: { session: Session | null }) {
             ))}
 
             <div className="flex items-center justify-between pt-1">
-              {mounted && (
+              {/*mounted && (
                 <button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
                   className="px-3 py-2.5 rounded-xl text-md text-gray-400 hover:text-white hover:bg-violet-900/40 transition-all">
                   {theme === 'light' ? '🌙 Mode Sombre' : '☀️ Mode Clair'}
                 </button>
-              )}
+              )*/}
               {session && (
                 <Link href="/api/auth/signout" onClick={close}
                   className="text-xs px-3 py-2 rounded-lg bg-red-700/60 hover:bg-red-600 text-white transition-all">

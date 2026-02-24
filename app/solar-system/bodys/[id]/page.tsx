@@ -56,7 +56,11 @@ export default async function BodyPage({ params }: { params: Promise<{ id: strin
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-[16px] text-gray-600 font-mono mb-6">
-          <Link href="/solar-system/bodys" className="hover:text-white transition-colors">🚀 Corps du système solaire</Link>
+          <Link href="/solar-system" className="hover:text-white transition-colors">Espace</Link>
+          <span>›</span>
+          <Link href="/solar-system/carte" className="hover:text-white transition-colors">Système solaire</Link>
+          <span>›</span>
+          <Link href="/solar-system/bodys" className="hover:text-white transition-colors">Corps du système solaire</Link>
           {bodyData.parent && (
             <>
               <span>›</span>

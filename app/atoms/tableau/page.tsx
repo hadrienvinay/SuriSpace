@@ -138,6 +138,13 @@ export default function PeriodicTable() {
   return (
     <AtomicLayout>
       <div className="max-w-screen-2xl mx-auto px-2 sm:px-4 py-8">
+        {/* Breadcrumb */}
+        <div className="flex items-center gap-2 text-[16px] text-gray-600 font-mono mb-6">
+          <Link href="/atoms" className="hover:text-white transition-colors">Atomes</Link>
+          <span>›</span>
+          <span className="text-gray-400">Tableau périodique</span>
+        </div>
+
         <div className="mb-6 flex flex-col sm:flex-row sm:items-center gap-4">
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">Tableau Périodique</h1>

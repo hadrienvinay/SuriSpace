@@ -1,6 +1,7 @@
 'use client';
 // app/solar-system/galaxies/page.tsx
 import { useState, useEffect, useCallback } from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
 import SolarLayout from '@/components/SolarLayout';
 import { GALAXIES, GALAXY_TYPES, type Galaxy, type GalaxyType } from '@/data/galaxies';
@@ -61,7 +62,7 @@ function GalaxyCard({ galaxy, onClick }: { galaxy: Galaxy; onClick: () => void }
           </div>
         )}
         {/* Overlay gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#020817] via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-[#020817] via-transparent to-transparent" />
 
         {/* Badges */}
         <div className="absolute top-2 left-2 flex gap-1.5">
@@ -148,7 +149,7 @@ function GalaxyModal({ galaxy, onClose }: { galaxy: Galaxy; onClose: () => void 
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+      className="fixed inset-0 z-100 flex items-center justify-center p-4 mt-12"
       style={{ background: 'rgba(2,8,23,0.90)', backdropFilter: 'blur(12px)' }}
       onClick={onClose}
     >
@@ -178,7 +179,7 @@ function GalaxyModal({ galaxy, onClose }: { galaxy: Galaxy; onClose: () => void 
               <div className="absolute inset-0 flex items-center justify-center text-[7rem] opacity-20">🌌</div>
             </div>
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1e] via-[#0a0f1e]/30 to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-t from-[#0a0f1e] via-[#0a0f1e]/30 to-transparent" />
 
           {/* Close button */}
           <button
@@ -289,8 +290,8 @@ function MilkyWayHero({ onClick }: { onClick: () => void }) {
             <div className="absolute inset-0 flex items-center justify-center text-[8rem] opacity-10">🌌</div>
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#020817]/90 via-[#020817]/30 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#020817] via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-r from-[#020817]/90 via-[#020817]/30 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-[#020817] via-transparent to-transparent" />
 
         <div className="absolute inset-0 flex items-end p-6 sm:p-8">
           <div>
@@ -357,6 +358,13 @@ export default function GalaxiesPage() {
   return (
     <SolarLayout>
       <div className="max-w-screen-2xl mx-auto px-4 py-8">
+
+        {/* Breadcrumb */}
+        <div className="flex items-center gap-2 text-[16px] text-gray-600 font-mono mb-6">
+          <Link href="/solar-system" className="hover:text-white transition-colors">Espace</Link>
+          <span>›</span>
+          <span className="text-gray-400">Galaxies</span>
+        </div>
 
         {/* Header */}
         <div className="mb-7">

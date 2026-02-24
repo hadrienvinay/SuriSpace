@@ -1,5 +1,6 @@
 'use client'
 // pages/atoms/histoire.tsx
+import Link from 'next/link';
 import AtomicLayout from '@/components/AtomicLayout';
 
 const timeline = [
@@ -90,6 +91,13 @@ export default function Histoire() {
   return (
     <AtomicLayout>
       <div className="max-w-7xl mx-auto px-4 py-8">
+        {/* Breadcrumb */}
+        <div className="flex items-center gap-2 text-[16px] text-gray-600 font-mono mb-6">
+          <Link href="/atoms" className="hover:text-white transition-colors">Atomes</Link>
+          <span>›</span>
+          <span className="text-gray-400">Histoire</span>
+        </div>
+
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-white mb-2">Histoire Cosmique des Éléments</h1>
           <p className="text-gray-500 text-sm">13,8 milliards d'années en 9 étapes</p>

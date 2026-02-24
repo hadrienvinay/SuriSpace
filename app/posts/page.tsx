@@ -1,5 +1,17 @@
 // app/posts/page.tsx
+import type { Metadata } from 'next';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: 'Articles',
+  description: "Articles et explorations sur l'espace, la nature, les sciences et la culture — blog d'Hadrien Vinay.",
+  keywords: ['articles', 'blog', 'espace', 'sciences', 'culture', 'Hadrien Vinay'],
+  openGraph: {
+    title: 'Articles | Suri Space',
+    description: "Blog d'Hadrien Vinay — explorations et réflexions sur l'espace et les sciences.",
+    url: 'https://surispace.fr/posts',
+  },
+};
 import Image from 'next/image';
 import prisma from '@/lib/prisma';
 import DeletePostButton from '@/components/DeletePostButton';

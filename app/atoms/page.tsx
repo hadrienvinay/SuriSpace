@@ -1,5 +1,17 @@
 // pages/atoms/index.tsx
+import type { Metadata } from 'next';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: 'Atomes',
+  description: "Tableau périodique interactif, histoire de la physique atomique, nucléosynthèse stellaire et abondance des éléments dans l'Univers.",
+  keywords: ['atomes', 'tableau périodique', 'éléments chimiques', 'physique atomique', 'nucléosynthèse', 'chimie'],
+  openGraph: {
+    title: 'Atomes | Suri Space',
+    description: "Tableau périodique interactif et histoire de la physique atomique.",
+    url: 'https://surispace.fr/atoms',
+  },
+};
 import AtomicLayout from '@/components/AtomicLayout';
 
 const features = [
@@ -13,6 +25,15 @@ const features = [
     accent: 'text-blue-300',
   },
   {
+    href: '/atoms/particules',
+    icon: '☢️',
+    title: 'Particules Elémentaires', 
+    description: 'Les constituants fondamentaux de la matière',
+    gradient: 'from-yellow-600/20 to-orange-600/20',
+    border: 'border-yellow-500/30',
+    accent: 'text-yellow-300',
+  },
+  {
     href: '/atoms/nucleosynthese',
     icon: '💥',
     title: 'Nucléosynthèse',
@@ -24,7 +45,7 @@ const features = [
   {
     href: '/atoms/abondance',
     icon: '📊',
-    title: 'Abondance',
+    title: 'Répartition de la matière',
     description: 'L\'hydrogène domine l\'univers. Mais sur Terre? Comparaison cosmique vs terrestre.',
     gradient: 'from-emerald-600/20 to-teal-600/20',
     border: 'border-emerald-500/30',

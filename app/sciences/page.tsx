@@ -1,5 +1,17 @@
 // app/sciences/page.tsx
+import type { Metadata } from 'next';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: 'Sciences',
+  description: "Timeline des découvertes scientifiques, formules fondamentales, constantes physiques et portraits des grands scientifiques de l'histoire.",
+  keywords: ['sciences', 'physique', 'formules', 'constantes physiques', 'scientifiques', 'histoire des sciences'],
+  openGraph: {
+    title: 'Sciences | Suri Space',
+    description: "Timeline scientifique, formules, constantes et portraits des grands scientifiques.",
+    url: 'https://surispace.fr/sciences',
+  },
+};
 import ScienceLayout from '@/components/ScienceLayout';
 
 const sections = [

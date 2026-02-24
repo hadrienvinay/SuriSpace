@@ -1,6 +1,7 @@
 'use client';
 import AtomicLayout from '@/components/AtomicLayout';
 import { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
 
 // ─── DATA ─────────────────────────────────────────────────────────────────────
 
@@ -473,7 +474,7 @@ function DetailPanel({ p, onClose }: { p: Particle; onClose: () => void }) {
 export default function ParticulesPage() {
   const [selected, setSelected] = useState<Particle | null>(null);
   const [activeFamily, setActiveFamily] = useState<string>('all');
-  const [tab, setTab] = useState<'particles' | 'forces' | 'standard-model'>('particles');
+  const [tab, setTab] = useState<'particles' | 'forces' | 'standard-model' | 'structure-atome'>('particles');
 
   const quarks      = PARTICLES.filter(p => p.family === 'quark');
   const leptons     = PARTICLES.filter(p => p.family === 'lepton');
@@ -553,6 +554,13 @@ export default function ParticulesPage() {
 
         <div className="max-w-7xl mx-auto px-4 py-8">
 
+          {/* Breadcrumb */}
+          <div className="flex items-center gap-2 text-[16px] text-gray-600 font-mono mb-6">
+            <Link href="/atoms" className="hover:text-white transition-colors">Atomes</Link>
+            <span>›</span>
+            <span className="text-gray-400">Particules</span>
+          </div>
+
           {/* ── Hero ── */}
           <div className="mb-2">
             <span style={{ fontSize: 11, letterSpacing: '0.22em', color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase' }}>
@@ -569,10 +577,10 @@ export default function ParticulesPage() {
           {/* Summary stats */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
             {[
-              { label: 'Particules', count: 17, color: '#60A5FF', icon: '✴️' },
-              { label: 'Forces', count: 4, color: '#fce803', icon: '💪' },
-              { label: 'Théorie', count: 1, color: '#5a03fc', icon: '📖' },
-              { label: 'Découverte du proton', count: 1914, color: '#c41d7c', icon: '📆' },
+              { label: 'Particules Fondamentales', count: 17, color: '#86efac', icon: '✴️' },
+              { label: 'Forces', count: 4, color: '#e879f9', icon: '💪' },
+              { label: "Découverte de l'électron", count: 1899, color: '#a78bfa', icon: '📆' },
+              { label: 'Découverte du proton', count: 1914, color: '#38bdf8', icon: '📆' },
             ].map(s => (
               <div key={s.label} className="rounded-xl border border-white/8 bg-white/3 p-4 text-center">
                 <div className="text-2xl mb-1">{s.icon}</div>
@@ -586,6 +594,7 @@ export default function ParticulesPage() {
           <div style={{ display: 'flex', borderBottom: '1px solid rgba(255,255,255,0.08)', gap: 0, marginBottom: 0 }}>
             {[
               { id: 'particles',       label: 'Particules' },
+              { id: 'structure-atome', label: "Structure de l'Atome" },
               { id: 'standard-model',  label: 'Tableau du Modèle Standard' },
               { id: 'forces',          label: 'Les 4 Forces' },
             ].map(t => (
@@ -733,6 +742,251 @@ export default function ParticulesPage() {
                 ))}
                 <span style={{ marginLeft: 'auto', fontSize: 12 }}>Cliquer sur une particule pour plus de détails</span>
               </div>
+            </div>
+          )}
+
+          {/* ═══════════════════ TAB: STRUCTURE DE L'ATOME ════════════════ */}
+          {tab === 'structure-atome' && (
+            <div className="py-8 space-y-16">
+
+              {/* Intro */}
+              <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.55)', lineHeight: 1.75, maxWidth: 680 }}>
+                L&apos;atome est composé d&apos;un noyau central (protons + neutrons) entouré d&apos;électrons en mouvement.
+                Le photon, bien que non composant de l&apos;atome, en est le messager électromagnétique.
+                Voici les quatre particules fondamentales pour comprendre la matière ordinaire.
+              </p>
+
+              {/* ── TABLE ── */}
+              <section>
+                <div style={{ fontSize: 11, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.25)', marginBottom: 14 }}>
+                  Constituants fondamentaux
+                </div>
+                <div style={{ overflowX: 'auto' }}>
+                  <table style={{
+                    width: '100%', borderCollapse: 'collapse', fontSize: 14,
+                    fontFamily: "'Exo 2', sans-serif", minWidth: 640,
+                  }}>
+                    <thead>
+                      <tr>
+                        {['Particule', 'Symbole', 'Composition', 'Charge', 'Masse', 'Rôle'].map(h => (
+                          <th key={h} style={{
+                            padding: '10px 14px', textAlign: 'left',
+                            fontFamily: 'monospace', fontSize: 10, letterSpacing: '0.14em',
+                            textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)',
+                            borderBottom: '1px solid rgba(255,255,255,0.07)',
+                          }}>{h}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {[
+                        {
+                          name: 'Proton', symbol: 'p⁺', symbolColor: '#38bdf8',
+                          composition: '2 quarks up + 1 quark down  (uud)',
+                          charge: '+1', chargeColor: '#60a5fa',
+                          mass: '938.3 MeV/c²',
+                          role: 'Noyau — détermine l\'élément chimique (Z)',
+                        },
+                        {
+                          name: 'Neutron', symbol: 'n⁰', symbolColor: '#94a3b8',
+                          composition: '1 quark up + 2 quarks down  (udd)',
+                          charge: '0', chargeColor: 'rgba(255,255,255,0.35)',
+                          mass: '939.6 MeV/c²',
+                          role: 'Noyau — stabilise contre la répulsion des protons',
+                        },
+                        {
+                          name: 'Électron', symbol: 'e⁻', symbolColor: '#a78bfa',
+                          composition: 'Particule élémentaire (lepton)',
+                          charge: '−1', chargeColor: '#c084fc',
+                          mass: '0.511 MeV/c²',
+                          role: 'Couches électroniques — liaisons chimiques',
+                        },
+                        {
+                          name: 'Photon', symbol: 'γ', symbolColor: '#fde68a',
+                          composition: 'Particule élémentaire (boson de jauge)',
+                          charge: '0', chargeColor: 'rgba(255,255,255,0.35)',
+                          mass: '0 (sans masse)',
+                          role: 'Médiateur EM — émet/absorbe l\'énergie des électrons',
+                        },
+                      ].map((row, i) => (
+                        <tr key={row.name} style={{
+                          background: i % 2 === 0 ? 'rgba(255,255,255,0.015)' : 'transparent',
+                          transition: 'background 0.15s',
+                        }}>
+                          <td style={{ padding: '13px 14px', color: '#fff', fontWeight: 600 }}>{row.name}</td>
+                          <td style={{ padding: '13px 14px', fontFamily: 'monospace', fontSize: 18, fontWeight: 700, color: row.symbolColor, textShadow: `0 0 12px ${row.symbolColor}60` }}>{row.symbol}</td>
+                          <td style={{ padding: '13px 14px', color: 'rgba(255,255,255,0.5)', fontFamily: 'monospace', fontSize: 12 }}>{row.composition}</td>
+                          <td style={{ padding: '13px 14px', fontFamily: 'monospace', fontWeight: 700, color: row.chargeColor }}>{row.charge}</td>
+                          <td style={{ padding: '13px 14px', fontFamily: 'monospace', color: 'rgba(255,255,255,0.55)', fontSize: 13 }}>{row.mass}</td>
+                          <td style={{ padding: '13px 14px', color: 'rgba(255,255,255,0.45)', fontSize: 13, lineHeight: 1.5 }}>{row.role}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+
+              {/* ── SVG DIAGRAMS ── */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 28 }}>
+
+                {/* — Atom diagram — */}
+                <div style={{
+                  background: 'rgba(255,255,255,0.02)',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  borderRadius: 20, padding: '24px 20px',
+                }}>
+                  <div style={{ fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', marginBottom: 6 }}>
+                    Structure d&apos;un atome (ex. Hélium-4)
+                  </div>
+                  <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', marginBottom: 16, lineHeight: 1.5 }}>
+                    2 protons + 2 neutrons dans le noyau, 2 électrons en orbite
+                  </div>
+                  <svg viewBox="0 0 320 280" style={{ width: '100%', height: 'auto' }}>
+                    <defs>
+                      <radialGradient id="nucleus-glow" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stopColor="#60a5fa" stopOpacity="0.25" />
+                        <stop offset="100%" stopColor="#60a5fa" stopOpacity="0" />
+                      </radialGradient>
+                      <filter id="glow-blue">
+                        <feGaussianBlur stdDeviation="2.5" result="blur" />
+                        <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+                      </filter>
+                      <filter id="glow-violet">
+                        <feGaussianBlur stdDeviation="2" result="blur" />
+                        <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+                      </filter>
+                    </defs>
+
+                    {/* Nucleus glow halo */}
+                    <circle cx="160" cy="140" r="48" fill="url(#nucleus-glow)" />
+
+                    {/* Orbital rings */}
+                    <ellipse cx="160" cy="140" rx="105" ry="38" fill="none" stroke="rgba(167,139,250,0.2)" strokeWidth="1" strokeDasharray="4 3" />
+                    <ellipse cx="160" cy="140" rx="38" ry="105" fill="none" stroke="rgba(167,139,250,0.15)" strokeWidth="1" strokeDasharray="4 3" />
+
+                    {/* Proton 1 */}
+                    <circle cx="150" cy="133" r="15" fill="rgba(56,189,248,0.15)" stroke="#38bdf8" strokeWidth="1.5" filter="url(#glow-blue)" />
+                    <text x="150" y="138" textAnchor="middle" fill="#38bdf8" fontSize="11" fontFamily="monospace" fontWeight="bold">p⁺</text>
+
+                    {/* Proton 2 */}
+                    <circle cx="170" cy="148" r="15" fill="rgba(56,189,248,0.15)" stroke="#38bdf8" strokeWidth="1.5" filter="url(#glow-blue)" />
+                    <text x="170" y="153" textAnchor="middle" fill="#38bdf8" fontSize="11" fontFamily="monospace" fontWeight="bold">p⁺</text>
+
+                    {/* Neutron 1 */}
+                    <circle cx="148" cy="155" r="15" fill="rgba(148,163,184,0.12)" stroke="#94a3b8" strokeWidth="1.5" />
+                    <text x="148" y="160" textAnchor="middle" fill="#94a3b8" fontSize="11" fontFamily="monospace" fontWeight="bold">n⁰</text>
+
+                    {/* Neutron 2 */}
+                    <circle cx="172" cy="130" r="15" fill="rgba(148,163,184,0.12)" stroke="#94a3b8" strokeWidth="1.5" />
+                    <text x="172" y="135" textAnchor="middle" fill="#94a3b8" fontSize="11" fontFamily="monospace" fontWeight="bold">n⁰</text>
+
+                    {/* Electrons */}
+                    <circle cx="265" cy="140" r="7" fill="rgba(167,139,250,0.2)" stroke="#a78bfa" strokeWidth="1.5" filter="url(#glow-violet)" />
+                    <text x="265" y="160" textAnchor="middle" fill="#a78bfa" fontSize="10" fontFamily="monospace">e⁻</text>
+
+                    <circle cx="160" cy="35" r="7" fill="rgba(167,139,250,0.2)" stroke="#a78bfa" strokeWidth="1.5" filter="url(#glow-violet)" />
+                    <text x="180" y="38" textAnchor="middle" fill="#a78bfa" fontSize="10" fontFamily="monospace">e⁻</text>
+
+                    {/* Labels */}
+                    <text x="230" y="108" fill="rgba(255,255,255,0.25)" fontSize="10" fontFamily="monospace">Noyau</text>
+                    <line x1="210" y1="112" x2="185" y2="128" stroke="rgba(255,255,255,0.12)" strokeWidth="0.8" />
+                    <text x="2" y="148" fill="rgba(167,139,250,0.5)" fontSize="10" fontFamily="monospace">orbites</text>
+                  </svg>
+                </div>
+
+                {/* — Proton cross-section — */}
+                <div style={{
+                  background: 'rgba(255,255,255,0.02)',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  borderRadius: 20, padding: '24px 20px',
+                }}>
+                  <div style={{ fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', marginBottom: 6 }}>
+                    Coupe d&apos;un proton
+                  </div>
+                  <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', marginBottom: 16, lineHeight: 1.5 }}>
+                    3 quarks liés par des gluons (QCD) : 2 quarks up + 1 quark down
+                  </div>
+                  <svg viewBox="0 0 320 280" style={{ width: '100%', height: 'auto' }}>
+                    <defs>
+                      <radialGradient id="proton-bg" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.08" />
+                        <stop offset="80%" stopColor="#38bdf8" stopOpacity="0.03" />
+                        <stop offset="100%" stopColor="#38bdf8" stopOpacity="0" />
+                      </radialGradient>
+                      <filter id="qglow-r">
+                        <feGaussianBlur stdDeviation="3" result="blur" />
+                        <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+                      </filter>
+                      <filter id="qglow-b">
+                        <feGaussianBlur stdDeviation="3" result="blur" />
+                        <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+                      </filter>
+                    </defs>
+
+                    {/* Proton boundary */}
+                    <circle cx="160" cy="140" r="110" fill="url(#proton-bg)" stroke="#38bdf8" strokeWidth="1.5" strokeDasharray="6 4" opacity="0.5" />
+
+                    {/* Gluon lines (wavy approximated with path) */}
+                    {/* u1 (100,80) → d (220,80) */}
+                    <path d="M 107 95 Q 130 75 145 95 Q 160 115 175 95 Q 190 75 205 90"
+                      fill="none" stroke="#86efac" strokeWidth="2" opacity="0.6" />
+                    {/* u1 (100,80) → u2 (160,200) */}
+                    <path d="M 100 108 Q 90 130 103 152 Q 116 174 118 185"
+                      fill="none" stroke="#86efac" strokeWidth="2" opacity="0.6" />
+                    {/* d (220,80) → u2 (160,200) */}
+                    <path d="M 213 108 Q 224 130 215 152 Q 206 174 200 185"
+                      fill="none" stroke="#86efac" strokeWidth="2" opacity="0.6" />
+
+                    {/* Gluon label */}
+                    <text x="145" y="130" fill="#86efac" fontSize="10" fontFamily="monospace" opacity="0.7">g</text>
+                    <text x="82" y="148" fill="#86efac" fontSize="10" fontFamily="monospace" opacity="0.7">g</text>
+                    <text x="223" y="148" fill="#86efac" fontSize="10" fontFamily="monospace" opacity="0.7">g</text>
+
+                    {/* Quark up 1 — top-left */}
+                    <circle cx="100" cy="85" r="22" fill="rgba(251,146,60,0.2)" stroke="#fb923c" strokeWidth="2" filter="url(#qglow-r)" />
+                    <text x="100" y="82" textAnchor="middle" fill="#fb923c" fontSize="14" fontFamily="monospace" fontWeight="bold">u</text>
+                    <text x="100" y="96" textAnchor="middle" fill="#fb923c" fontSize="9" fontFamily="monospace" opacity="0.7">+²⁄₃</text>
+
+                    {/* Quark up 2 — top-right */}
+                    <circle cx="220" cy="85" r="22" fill="rgba(251,146,60,0.2)" stroke="#fb923c" strokeWidth="2" filter="url(#qglow-r)" />
+                    <text x="220" y="82" textAnchor="middle" fill="#fb923c" fontSize="14" fontFamily="monospace" fontWeight="bold">u</text>
+                    <text x="220" y="96" textAnchor="middle" fill="#fb923c" fontSize="9" fontFamily="monospace" opacity="0.7">+²⁄₃</text>
+
+                    {/* Quark down — bottom */}
+                    <circle cx="160" cy="200" r="22" fill="rgba(96,165,250,0.2)" stroke="#60a5fa" strokeWidth="2" filter="url(#qglow-b)" />
+                    <text x="160" y="197" textAnchor="middle" fill="#60a5fa" fontSize="14" fontFamily="monospace" fontWeight="bold">d</text>
+                    <text x="160" y="211" textAnchor="middle" fill="#60a5fa" fontSize="9" fontFamily="monospace" opacity="0.7">−¹⁄₃</text>
+
+                    {/* Legend */}
+                    <rect x="10" y="238" width="10" height="10" rx="2" fill="rgba(251,146,60,0.3)" stroke="#fb923c" strokeWidth="1" />
+                    <text x="26" y="248" fill="rgba(255,255,255,0.4)" fontSize="11" fontFamily="monospace">Quark up (u)</text>
+                    <rect x="140" y="238" width="10" height="10" rx="2" fill="rgba(96,165,250,0.3)" stroke="#60a5fa" strokeWidth="1" />
+                    <text x="156" y="248" fill="rgba(255,255,255,0.4)" fontSize="11" fontFamily="monospace">Quark down (d)</text>
+                    <line x1="10" y1="262" x2="20" y2="262" stroke="#86efac" strokeWidth="2" />
+                    <text x="26" y="266" fill="rgba(255,255,255,0.4)" fontSize="11" fontFamily="monospace">Gluon (g) — force forte</text>
+
+                    {/* Charge total */}
+                    <text x="160" y="22" textAnchor="middle" fill="rgba(56,189,248,0.7)" fontSize="12" fontFamily="monospace">
+                      charge totale : +²⁄₃ + ²⁄₃ − ¹⁄₃ = +1
+                    </text>
+                  </svg>
+                </div>
+              </div>
+
+              {/* Info box */}
+              <div style={{
+                padding: '20px 24px',
+                background: 'linear-gradient(135deg, rgba(56,189,248,0.06), rgba(167,139,250,0.04))',
+                border: '1px solid rgba(56,189,248,0.15)',
+                borderRadius: 16, fontSize: 14, lineHeight: 1.75,
+                color: 'rgba(255,255,255,0.5)',
+              }}>
+                <strong style={{ color: '#38bdf8' }}>⚛ Confinement des quarks</strong> — Les quarks ne peuvent jamais être observés isolément.
+                La force forte (médiée par les gluons) devient de plus en plus intense à mesure que les quarks s&apos;éloignent,
+                rendant impossible leur séparation : c&apos;est le <em style={{ color: 'rgba(255,255,255,0.7)' }}>confinement de couleur</em> (QCD).
+                À l&apos;inverse, à très courte distance, ils se comportent comme des particules libres — c&apos;est la <em style={{ color: 'rgba(255,255,255,0.7)' }}>liberté asymptotique</em>.
+              </div>
+
             </div>
           )}
 

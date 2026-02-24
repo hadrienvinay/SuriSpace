@@ -66,8 +66,9 @@ function ConstellationMiniMap({ c, size = 120 }: { c: Constellation; size?: numb
             key={i}
             x1={a.px} y1={a.py} x2={b.px} y2={b.py}
             stroke={c.color}
-            strokeWidth="0.8"
-            strokeOpacity="0.4"
+            strokeWidth="1.1"
+            strokeOpacity="0.65"
+            strokeLinecap="round"
           />
         );
       })}
@@ -75,13 +76,14 @@ function ConstellationMiniMap({ c, size = 120 }: { c: Constellation; size?: numb
       {/* Stars */}
       {constStars.map(s => {
         const { px, py } = toXY(s.ra, s.dec);
-        const r = Math.max(2, Math.min(5, 5.5 - s.magnitude * 0.35));
+        const r = Math.max(2.2, Math.min(5.5, 6 - s.magnitude * 0.38));
         const clr = SPECTRAL_COLORS[s.spectralClass] ?? '#fff';
         const isMain = c.brightestStar === s.id;
         return (
           <g key={s.id} filter={`url(#glow-${c.id})`}>
-            {isMain && <circle cx={px} cy={py} r={r * 2.5} fill={clr} opacity={0.12} />}
-            <circle cx={px} cy={py} r={r} fill={clr} opacity={isMain ? 1 : 0.7} />
+            {isMain && <circle cx={px} cy={py} r={r * 3} fill={clr} opacity={0.14} />}
+            <circle cx={px} cy={py} r={r * 1.8} fill={clr} opacity={0.1} />
+            <circle cx={px} cy={py} r={r} fill={clr} opacity={isMain ? 1 : 0.82} />
           </g>
         );
       })}
@@ -238,12 +240,14 @@ export default function ConstellationsPage() {
       `}</style>
 
       <div style={{ padding: '40px 40px 0', maxWidth: 1400, margin: '0 auto' }}>
-        {/* Nav */}
-        <nav style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 32, fontSize: 15, color: 'rgba(255,255,255,0.4)' }}>
-          <Link href="/solar-system/stars" style={{ color: 'rgba(255,255,255,0.4)', textDecoration: 'none' }}>✦ Carte du ciel</Link>
+        {/* Breadcrumb */}
+        <div className="flex items-center gap-2 text-[16px] text-gray-600 font-mono mb-6">
+          <Link href="/solar-system" className="hover:text-white transition-colors">Espace</Link>
           <span>›</span>
-          <span style={{ color: 'rgba(255,255,255,0.8)' }}>Constellations</span>
-        </nav>
+          <Link href="/solar-system/stars" className="hover:text-white transition-colors">Étoiles</Link>
+          <span>›</span>
+          <span className="text-gray-400">Constellations</span>
+        </div>
 
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: 20, marginBottom: 36 }}>

@@ -33,6 +33,13 @@ export default function FormulesPage() {
     <ScienceLayout>
       <div className="max-w-screen-2xl mx-auto px-4 py-8">
 
+        {/* Breadcrumb */}
+        <div className="flex items-center gap-2 text-[16px] text-gray-600 font-mono mb-6">
+          <Link href="/sciences" className="hover:text-white transition-colors">Sciences</Link>
+          <span>›</span>
+          <span className="text-gray-400">Formules</span>
+        </div>
+
         {/* ── Header ── */}
         <div className="mb-6">
           <h1

@@ -1,6 +1,7 @@
 'use client'
 // pages/atoms/nucleosynthese.tsx
 import { useState } from 'react';
+import Link from 'next/link';
 import AtomicLayout from '@/components/AtomicLayout';
 
 const events = [
@@ -287,6 +288,13 @@ export default function Nucleosynthese() {
   return (
     <AtomicLayout>
       <div className="max-w-7xl mx-auto px-4 py-8">
+        {/* Breadcrumb */}
+        <div className="flex items-center gap-2 text-[16px] text-gray-600 font-mono mb-6">
+          <Link href="/atoms" className="hover:text-white transition-colors">Atomes</Link>
+          <span>›</span>
+          <span className="text-gray-400">Nucléosynthèse</span>
+        </div>
+
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-white mb-2">Nucléosynthèse</h1>
           <p className="text-gray-500 text-sm">La forge cosmique des éléments — du Big Bang aux collisions d'étoiles</p>

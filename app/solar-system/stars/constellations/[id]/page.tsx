@@ -9,64 +9,146 @@ import {
   type Constellation, type Star,
 } from '@/data/stars';
 
-const MAG_TO_RADIUS = (mag: number) => Math.max(2, 10 - mag * 0.6);
+const MAG_TO_RADIUS = (mag: number) => Math.max(1.5, 8 - mag * 0.55);
 
-function MiniMap({ constellation }: { constellation: Constellation }) {
-  const size = 300;
-  const cx = size / 2, cy = size / 2;
-  const mapR = size * 0.44;
-  const conStars = getStarsByConstellation(constellation.id).concat(
-    constellation.mainStars.map(id => stars.find(s => s.id === id)).filter(Boolean) as Star[]
-  );
-  const uniqueStars = Array.from(new Map(conStars.map(s => [s.id, s])).values());
+// ─── Full-width adaptive constellation viewer ─────────────────────────────────
+function ConstellationViewer({ constellation }: { constellation: Constellation }) {
+  const W = 620;
+  const H = 340;
+  const pad = 52;
 
-  const getPos = (ra: number, dec: number) => {
-    const { x, y } = raDecToXY(ra, dec);
-    return { px: cx + x * mapR, py: cy + y * mapR * 0.9 };
-  };
+  // Collect all stars needed (for display + for lines)
+  const neededIds = new Set<string>([
+    ...getStarsByConstellation(constellation.id).map(s => s.id),
+    ...constellation.mainStars,
+    ...constellation.lines.flat(),
+  ]);
+  const starMap = new Map<string, Star>();
+  neededIds.forEach(id => {
+    const s = stars.find(st => st.id === id);
+    if (s) starMap.set(id, s);
+  });
+  const allStars = Array.from(starMap.values());
+
+  if (allStars.length === 0) {
+    return (
+      <div style={{ width: '100%', height: H, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 72, opacity: 0.6 }}>
+        {constellation.emoji}
+      </div>
+    );
+  }
+
+  // Normalize coordinates to fit the constellation snugly
+  const rawPos = allStars.map(s => { const { x, y } = raDecToXY(s.ra, s.dec); return { id: s.id, rx: x, ry: y }; });
+  const xs = rawPos.map(p => p.rx);
+  const ys = rawPos.map(p => p.ry);
+  const minX = Math.min(...xs), maxX = Math.max(...xs);
+  const minY = Math.min(...ys), maxY = Math.max(...ys);
+  const rangeX = Math.max(maxX - minX, 0.08);
+  const rangeY = Math.max(maxY - minY, 0.08);
+  const scaleX = (W - pad * 2) / rangeX;
+  const scaleY = (H - pad * 2) / rangeY;
+  const scale = Math.min(scaleX, scaleY);
+  const offX = W / 2 - ((minX + maxX) / 2) * scale;
+  const offY = H / 2 - ((minY + maxY) / 2) * scale;
+
+  const posMap = new Map(rawPos.map(p => [p.id, { px: p.rx * scale + offX, py: p.ry * scale + offY }]));
+
+  // Display stars (with magnitude info), sorted brightest first for layering
+  const displayStars = allStars.slice().sort((a, b) => b.magnitude - a.magnitude);
 
   return (
-    <svg width={size} height={size} className="mx-auto block">
+    <svg
+      viewBox={`0 0 ${W} ${H}`}
+      style={{ width: '100%', height: 'auto', display: 'block' }}
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <defs>
-        <radialGradient id="cmap-bg" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#0d1535" />
-          <stop offset="100%" stopColor="#04060f" />
+        <radialGradient id="cv-bg" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor={constellation.color} stopOpacity="0.09" />
+          <stop offset="65%" stopColor="#030c20" stopOpacity="1" />
+          <stop offset="100%" stopColor="#010610" stopOpacity="1" />
         </radialGradient>
+        <filter id="cv-glow-sm">
+          <feGaussianBlur stdDeviation="2" result="b" />
+          <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+        <filter id="cv-glow-lg">
+          <feGaussianBlur stdDeviation="4" result="b" />
+          <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
       </defs>
-      <circle cx={cx} cy={cy} r={mapR + 2} fill="url(#cmap-bg)" />
-      {/* BG micro stars */}
-      {Array.from({ length: 80 }, (_, i) => {
-        const a = (i * 137.5) % 360;
-        const r = Math.sqrt(i / 80) * mapR * 0.95;
-        return <circle key={i} cx={cx + r * Math.cos(a * Math.PI / 180)} cy={cy + r * Math.sin(a * Math.PI / 180)} r={0.5} fill={`rgba(200,220,255,${0.05 + (i % 5) * 0.04})`} />;
-      })}
-      {/* Lines */}
-      {constellation.lines.map(([id1, id2]) => {
-        const s1 = stars.find(s => s.id === id1);
-        const s2 = stars.find(s => s.id === id2);
-        if (!s1 || !s2) return null;
-        const p1 = getPos(s1.ra, s1.dec);
-        const p2 = getPos(s2.ra, s2.dec);
-        return <line key={`${id1}-${id2}`} x1={p1.px} y1={p1.py} x2={p2.px} y2={p2.py} stroke={constellation.color} strokeWidth={1.5} strokeOpacity={0.6} />;
-      })}
-      {/* Stars */}
-      {uniqueStars.map(star => {
-        const { px, py } = getPos(star.ra, star.dec);
-        const r = MAG_TO_RADIUS(star.magnitude);
-        const col = SPECTRAL_COLORS[star.spectralClass] ?? '#fff';
+
+      {/* Background */}
+      <rect width={W} height={H} fill="#010610" />
+      <rect width={W} height={H} fill="url(#cv-bg)" />
+
+      {/* Micro background stars (deterministic) */}
+      {Array.from({ length: 140 }, (_, i) => (
+        <circle
+          key={i}
+          cx={(i * 4733 + 271) % W}
+          cy={(i * 3177 + 941) % H}
+          r={(i % 5 === 0) ? 0.9 : 0.5}
+          fill={`rgba(200,215,255,${0.04 + (i % 6) * 0.025})`}
+        />
+      ))}
+
+      {/* Constellation lines — thin, precise */}
+      {constellation.lines.map(([id1, id2], i) => {
+        const p1 = posMap.get(id1);
+        const p2 = posMap.get(id2);
+        if (!p1 || !p2) return null;
         return (
-          <g key={star.id}>
-            <circle cx={px} cy={py} r={r * 2} fill={col} fillOpacity={0.1} />
-            <circle cx={px} cy={py} r={r} fill={col} />
-            {star.magnitude < 3 && (
-              <text x={px + r + 4} y={py + 4} fontSize={8} fill="rgba(255,255,255,0.55)" fontFamily="sans-serif">
+          <line
+            key={i}
+            x1={p1.px} y1={p1.py}
+            x2={p2.px} y2={p2.py}
+            stroke={constellation.color}
+            strokeWidth="0.75"
+            strokeOpacity="0.45"
+            strokeLinecap="round"
+          />
+        );
+      })}
+
+      {/* Stars */}
+      {displayStars.map(star => {
+        const pos = posMap.get(star.id);
+        if (!pos) return null;
+        const { px, py } = pos;
+        const r = MAG_TO_RADIUS(star.magnitude);
+        const col = SPECTRAL_COLORS[star.spectralClass] ?? '#ffffff';
+        const isBright = star.magnitude < 1.5;
+        const isVeryBright = star.magnitude < 0.5;
+        const showLabel = star.magnitude < 2.2 || constellation.mainStars.includes(star.id);
+        return (
+          <g key={star.id} filter={isBright ? 'url(#cv-glow-lg)' : 'url(#cv-glow-sm)'}>
+            {/* Halo layers */}
+            {isVeryBright && <circle cx={px} cy={py} r={r * 5} fill={col} fillOpacity={0.04} />}
+            <circle cx={px} cy={py} r={r * 2.8} fill={col} fillOpacity={0.07} />
+            <circle cx={px} cy={py} r={r * 1.6} fill={col} fillOpacity={0.13} />
+            {/* Star core */}
+            <circle cx={px} cy={py} r={r} fill={col} fillOpacity={isBright ? 1 : 0.85} />
+            {/* Label */}
+            {showLabel && (
+              <text
+                x={px + r + 5}
+                y={py + 4}
+                fontSize={9}
+                fill={`rgba(255,255,255,0.5)`}
+                fontFamily="monospace"
+                style={{ userSelect: 'none' }}
+              >
                 {star.nameFr ?? star.name}
               </text>
             )}
           </g>
         );
       })}
-      <circle cx={cx} cy={cy} r={mapR + 2} fill="none" stroke={`${constellation.color}40`} strokeWidth={1.5} />
+
+      {/* Subtle border */}
+      <rect width={W} height={H} fill="none" stroke={`${constellation.color}18`} strokeWidth="1" />
     </svg>
   );
 }
@@ -114,58 +196,60 @@ export default async function ConstellationPage({ params }: { params: Promise<{ 
 
     <div className="min-h-screen text-white" style={{ fontFamily: "'Exo 2', sans-serif" }}>
 
-      {/* Nav */}
-      <nav className="border-b border-white/6" style={{ background: 'rgba(1,4,14,0.95)', backdropFilter: 'blur(12px)' }}>
-        <div className="max-w-7xl mx-auto px-5 py-3.5 flex items-center gap-2 text-md overflow-x-auto">
-          <Link href="/solar-system" className="text-gray-600 hover:text-white transition-colors shrink-0">💫 Système solaire </Link>
-          <span className="text-gray-700">›</span>
-          <Link href="/solar-system/stars" className="text-gray-500 hover:text-white transition-colors shrink-0">✨ Carte du Ciel</Link>
-          <span className="text-gray-700">›</span>
-          <Link href="/solar-system/stars/constellations" className="text-gray-600 hover:text-white transition-colors shrink-0">🔭 Constellations </Link>
-          <span className="text-gray-700">›</span>
+      <div className="max-w-5xl mx-auto px-5 py-10">
+        {/* Breadcrumb */}
+        <div className="flex items-center gap-2 text-[16px] text-gray-600 font-mono mb-6">
+          <Link href="/solar-system" className="hover:text-white transition-colors">Espace</Link>
+          <span>›</span>
+          <Link href="/solar-system/stars" className="hover:text-white transition-colors">Étoiles</Link>
+          <span>›</span>
+          <Link href="/solar-system/stars/constellations" className="hover:text-white transition-colors">Constellations</Link>
+          <span>›</span>
           <span style={{ color: constellation.color }}>{constellation.nameFr}</span>
         </div>
-      </nav>
-
-      <div className="max-w-5xl mx-auto px-5 py-10">
 
         {/* ── Hero ── */}
-        <div className="relative rounded-3xl border overflow-hidden mb-8 p-8 sm:p-12"
+        <div className="relative rounded-3xl border overflow-hidden mb-8"
           style={{
             borderColor: `${constellation.color}30`,
-            background: `radial-gradient(ellipse at 25% 40%, ${constellation.color}12, rgba(1,4,14,0.98))`,
+            background: `radial-gradient(ellipse at 50% 30%, ${constellation.color}10, rgba(1,4,14,0.99))`,
           }}>
-          <div className="absolute top-0 right-0 w-72 h-72 pointer-events-none"
-            style={{ background: `radial-gradient(circle, ${constellation.color}10, transparent 70%)`, transform: 'translate(30%,-30%)' }} />
 
-          <div className="relative flex flex-col sm:flex-row gap-8">
-            <div className="shrink-0 mx-auto sm:mx-0">
-              <MiniMap constellation={constellation} />
+          {/* Full-width constellation viewer */}
+          <ConstellationViewer constellation={constellation} />
+
+          {/* Divider line */}
+          <div style={{ height: 1, background: `linear-gradient(90deg, transparent, ${constellation.color}30, transparent)` }} />
+
+          {/* Metadata below */}
+          <div className="p-8 sm:p-10">
+            <div className="text-xs uppercase tracking-widest text-gray-600 mb-2 font-semibold">
+              Constellation · {constellation.abbreviation}
             </div>
-            <div className="flex-1">
-              <div className="text-xs uppercase tracking-widest text-gray-600 mb-2 font-semibold">Constellation · {constellation.abbreviation}</div>
-              <h1 className="text-5xl font-bold text-white mb-2"
-                style={{ fontFamily: "'Exo 2', sans-serif" }}>
-                {constellation.emoji} {constellation.nameFr}
-              </h1>
-              <div className="text-lg text-gray-400 mb-4 italic" style={{ fontFamily: "'Exo 2', sans-serif" }}>{constellation.name}</div>
+            <h1 className="text-4xl sm:text-5xl font-bold text-white mb-1"
+              style={{ fontFamily: "'Exo 2', sans-serif" }}>
+              {constellation.emoji} {constellation.nameFr}
+            </h1>
+            <div className="text-lg text-gray-500 mb-5 italic"
+              style={{ fontFamily: "'Exo 2', sans-serif" }}>
+              {constellation.name}
+            </div>
 
-              <div className="flex flex-wrap gap-2 mb-5">
-                <span className="px-3 py-1.5 rounded-xl text-sm font-semibold"
-                  style={{ background: `${seasonColors[constellation.bestSeason]}18`, border: `1px solid ${seasonColors[constellation.bestSeason]}40`, color: seasonColors[constellation.bestSeason] }}>
-                  {seasonLabels[constellation.bestSeason]}
-                </span>
+            <div className="flex flex-wrap gap-2 mb-5">
+              <span className="px-3 py-1.5 rounded-xl text-sm font-semibold"
+                style={{ background: `${seasonColors[constellation.bestSeason]}18`, border: `1px solid ${seasonColors[constellation.bestSeason]}40`, color: seasonColors[constellation.bestSeason] }}>
+                {seasonLabels[constellation.bestSeason]}
+              </span>
+              <span className="px-3 py-1.5 rounded-xl text-sm border border-white/10 text-gray-400">
+                🌍 {constellation.hemisphere === 'north' ? 'Hémisphère Nord' : constellation.hemisphere === 'south' ? 'Hémisphère Sud' : 'Visible partout'}
+              </span>
+              {constellation.area && (
                 <span className="px-3 py-1.5 rounded-xl text-sm border border-white/10 text-gray-400">
-                  🌍 {constellation.hemisphere === 'north' ? 'Hémisphère Nord' : constellation.hemisphere === 'south' ? 'Hémisphère Sud' : 'Visible partout'}
+                  📐 {constellation.area} deg²
                 </span>
-                {constellation.area && (
-                  <span className="px-3 py-1.5 rounded-xl text-sm border border-white/10 text-gray-400">
-                    📐 {constellation.area} deg²
-                  </span>
-                )}
-              </div>
-              <p className="text-base text-gray-300 leading-relaxed">{constellation.description}</p>
+              )}
             </div>
+            <p className="text-base text-gray-300 leading-relaxed">{constellation.description}</p>
           </div>
         </div>
 

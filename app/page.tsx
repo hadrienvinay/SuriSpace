@@ -1,5 +1,17 @@
 // app/page.tsx
+import type { Metadata } from 'next';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: 'Suri Space',
+  description: "Portfolio et blog d'Hadrien Vinay — Espace, physique atomique, sciences, projets personnels et plus encore.",
+  keywords: ['portfolio', 'Hadrien Vinay', 'espace', 'sciences', 'astronomie', 'physique', 'aéronautique'],
+  openGraph: {
+    title: 'Suri Space — Portfolio d\'Hadrien Vinay',
+    description: "Explorez l'espace, la chimie atomique, les sciences et mes projets personnels.",
+    url: 'https://surispace.fr',
+  },
+};
 import Weather from '@/components/Weather';
 import Ratp from '@/components/Ratp';
 import Links from '@/components/ShowLinks';

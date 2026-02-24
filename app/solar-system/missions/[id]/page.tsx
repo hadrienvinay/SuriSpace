@@ -61,8 +61,12 @@ export default async function MissionPage({ params }: { params: Promise<{ id: st
       <div className="max-w-4xl mx-auto px-5 py-10">
 
         {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-sm text-gray-600 font-mono mb-8">
-          <Link href="/solar-system/missions" className="hover:text-white transition-colors">🚀 Missions</Link>
+        <div className="flex items-center gap-2 text-[16px] text-gray-600 font-mono mb-6">
+          <Link href="/solar-system" className="hover:text-white transition-colors">Espace</Link>
+          <span>›</span>
+          <Link href="/solar-system/carte" className="hover:text-white transition-colors">Système Solaire</Link>
+          <span>›</span>
+          <Link href="/solar-system/missions" className="hover:text-white transition-colors">Missions</Link>
           <span>›</span>
           <span style={{ color: mission.color }}>{mission.name}</span>
         </div>

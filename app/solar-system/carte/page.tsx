@@ -83,6 +83,13 @@ export default function SolarSystemMap() {
   return (
     <SolarLayout>
       <div className="max-w-screen-2xl mx-auto px-4 py-8">
+        {/* Breadcrumb */}
+        <div className="flex items-center gap-2 text-[16px] text-gray-600 font-mono mb-6">
+          <Link href="/solar-system" className="hover:text-white transition-colors">Espace</Link>
+          <span>›</span>
+          <span className="text-gray-400">Carte du ciel</span>
+        </div>
+
         {/* ── Header ────────────────────────────────────────────── */}
         <div className="mb-6">
           <h1 className="text-4xl font-bold text-white mb-1" style={{ fontFamily: "'Exo 2', sans-serif", letterSpacing: '-0.5px' }}>

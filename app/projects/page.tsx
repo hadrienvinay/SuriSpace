@@ -1,5 +1,17 @@
 // app/projects/page.tsx
+import type { Metadata } from 'next';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: 'Projets',
+  description: "Projets personnels et professionnels d'Hadrien Vinay — applications web, outils interactifs et expérimentations techniques.",
+  keywords: ['projets', 'développement web', 'Next.js', 'portfolio', 'Hadrien Vinay'],
+  openGraph: {
+    title: 'Projets | Suri Space',
+    description: "Applications web, outils et expérimentations techniques.",
+    url: 'https://surispace.fr/projects',
+  },
+};
 import Image from 'next/image';
 import prisma from '@/lib/prisma';
 import { auth } from '@/lib/auth';

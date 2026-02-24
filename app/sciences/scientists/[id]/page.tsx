@@ -34,8 +34,8 @@ export default async function ScientistPage({ params }: { params: Promise<{ id: 
       <div className="max-w-7xl mx-auto px-4 py-8">
 
         {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-sm text-gray-600 font-mono mb-6">
-          <Link href="/sciences" className="hover:text-white transition-colors">⏱️ Timeline</Link>
+        <div className="flex items-center gap-2 text-[16px] text-gray-600 font-mono mb-6">
+          <Link href="/sciences" className="hover:text-white transition-colors">Sciences</Link>
           <span>›</span>
           <Link href="/sciences/scientists" className="hover:text-white transition-colors">Scientifiques</Link>
           <span>›</span>

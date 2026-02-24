@@ -1,6 +1,7 @@
 'use client'
 // pages/atoms/abondance.tsx
 import { useState } from 'react';
+import Link from 'next/link';
 import AtomicLayout from '@/components/AtomicLayout';
 import { allElements, CATEGORY_COLORS } from '@/data/elements';
 
@@ -40,7 +41,7 @@ function BarChart({
     <div className="space-y-2">
       {data.map(el => {
         const value = (el[valueKey] ?? 0);
-        const pct = (value / maxValue) * 100;
+        const pct = (value ) / 10000;
         const color = colorFn(el);
         const formattedValue = value >= 1000
           ? `${(value / 1000).toFixed(1)}k ppm`
@@ -52,7 +53,7 @@ function BarChart({
             onMouseEnter={() => setTooltip(el.number.toString())}
             onMouseLeave={() => setTooltip(null)}>
             <div className="flex items-center gap-3">
-              <div className="w-8 text-right font-mono font-bold text-sm flex-shrink-0"
+              <div className="w-8 text-right font-mono font-bold text-sm shrink-0"
                 style={{ color }}>
                 {el.symbol}
               </div>
@@ -68,7 +69,7 @@ function BarChart({
                   <span className="text-xs text-white/80 font-mono">{formattedValue}</span>
                 </div>
               </div>
-              <div className="w-16 text-right text-xs text-gray-600 flex-shrink-0">
+              <div className="w-16 text-right text-xs text-gray-600 shrink-0">
                 {pct.toFixed(1)}%
               </div>
             </div>
@@ -84,10 +85,11 @@ function BarChart({
   );
 }
 
-function DonutChart({ data, total, colorFn }: {
+function DonutChart({ data, total, colorFn, valueKey }: {
   data: typeof universeTop;
   total: number;
   colorFn: (el: typeof data[0]) => string;
+  valueKey: 'abundanceUniverse' | 'abundanceEarth';
 }) {
   const size = 200;
   const cx = size / 2;
@@ -97,7 +99,7 @@ function DonutChart({ data, total, colorFn }: {
 
   let cumAngle = -Math.PI / 2;
   const slices = data.map(el => {
-    const frac = (el.abundanceUniverse ?? el.abundanceEarth ?? 0) / total;
+    const frac = (el[valueKey] ?? 0) / total;
     const angle = frac * 2 * Math.PI;
     const startAngle = cumAngle;
     cumAngle += angle;
@@ -148,7 +150,7 @@ function DonutChart({ data, total, colorFn }: {
       <div className="grid grid-cols-2 gap-x-4 gap-y-1 w-full max-w-xs">
         {slices.map(({ el, frac }) => (
           <div key={el.symbol} className="flex items-center gap-1.5">
-            <div className="w-2 h-2 rounded-sm flex-shrink-0"
+            <div className="w-2 h-2 rounded-sm shrink-0"
               style={{ background: colorFn(el) }} />
             <span className="text-xs text-gray-400 truncate">
               {el.symbol} <span className="text-gray-600">{(frac * 100).toFixed(1)}%</span>
@@ -169,6 +171,13 @@ export default function Abondance() {
   return (
     <AtomicLayout>
       <div className="max-w-7xl mx-auto px-4 py-8">
+        {/* Breadcrumb */}
+        <div className="flex items-center gap-2 text-[16px] text-gray-600 font-mono mb-6">
+          <Link href="/atoms" className="hover:text-white transition-colors">Atomes</Link>
+          <span>›</span>
+          <span className="text-gray-400">Abondance</span>
+        </div>
+
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-white mb-2">Abondance des Éléments</h1>
           <p className="text-gray-500 text-sm">Distribution en ppm (parties par million de masse)</p>
@@ -209,7 +218,7 @@ export default function Abondance() {
                 </p>
               </div>
             </div>
-            <DonutChart data={universeTopPie} total={universeTotal} colorFn={universeColorFn} />
+            <DonutChart data={universeTopPie} total={universeTotal} colorFn={universeColorFn} valueKey='abundanceUniverse'/>
           </div>
         )}
 
@@ -226,7 +235,7 @@ export default function Abondance() {
                 </p>
               </div>
             </div>
-            <DonutChart data={earthTopPie} total={earthTotal} colorFn={earthColorFn} />
+            <DonutChart data={earthTopPie} total={earthTotal} colorFn={earthColorFn} valueKey='abundanceEarth' />
           </div>
         )}
 
@@ -259,14 +268,14 @@ export default function Abondance() {
                     </div>
                     <div className="space-y-1.5">
                       <div className="flex items-center gap-2">
-                        <span className="text-[10px] text-gray-600 w-16 flex-shrink-0">🌌 Univers</span>
+                        <span className="text-[10px] text-gray-600 w-16 shrink-0">🌌 Univers</span>
                         <div className="flex-1 h-3 bg-white/5 rounded overflow-hidden">
                           <div className="h-full rounded" style={{ width: `${uPct}%`, background: '#A78BFA' }} />
                         </div>
                         <span className="text-[10px] font-mono text-gray-500 w-20 text-right">{d.univers} ppm</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="text-[10px] text-gray-600 w-16 flex-shrink-0">🌍 Terre</span>
+                        <span className="text-[10px] text-gray-600 w-16 shrink-0">🌍 Terre</span>
                         <div className="flex-1 h-3 bg-white/5 rounded overflow-hidden">
                           <div className="h-full rounded" style={{ width: `${ePct}%`, background: '#34D399' }} />
                         </div>

@@ -1,10 +1,36 @@
 import "./globals.css";
-import { ThemeProvider } from "@/components/ThemeProvider"
-import  NavBar from '@/components/Navbar'
+import type { Metadata } from 'next';
+import { ThemeProvider } from "@/components/ThemeProvider";
+import NavBar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
-export const metadata = {
-  title: "Suri Space",
-  description: "Blog Moderne realisé par Hadrien Vinay 2026",
+export const metadata: Metadata = {
+  metadataBase: new URL('https://suri-space.vercel.app'),
+  title: {
+    default: 'Suri Space',
+    template: '%s | Suri Space',
+  },
+  description: "Portfolio et blog d'Hadrien Vinay — Explorez l'espace, la physique, la chimie atomique, les projets et les sciences.",
+  keywords: ['portfolio', 'Hadrien Vinay', 'espace', 'astronomie', 'physique', 'chimie', 'tableau périodique', 'sciences', 'aéronautique'],
+  authors: [{ name: 'Hadrien Vinay' }],
+  creator: 'Hadrien Vinay',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true },
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'fr_FR',
+    siteName: 'Suri Space',
+    title: 'Suri Space',
+    description: "Portfolio et blog d'Hadrien Vinay — Espace, sciences et projets.",
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Suri Space',
+    description: "Portfolio et blog d'Hadrien Vinay — Espace, sciences et projets.",
+  },
 };
 
 export default function RootLayout({
@@ -18,47 +44,47 @@ export default function RootLayout({
       <body className="flex flex-col">
         <ThemeProvider attribute="class" defaultTheme="dark">
           {/* Deep space background */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        <div
-          className="absolute inset-0 space-background"
-          style={{
-            background:
-              'radial-gradient(ellipse at 20% 50%, rgba(30,58,138,0.18) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(88,28,135,0.12) 0%, transparent 50%)',
-          }}
-        />
-        {Array.from({ length: 80 }, (_, i) => (
-          <div
-            key={i}
-            className="absolute rounded-full"
-            style={{
-              width: i % 5 === 0 ? 2.5 : 1.5,
-              height: i % 5 === 0 ? 2.5 : 1.5,
-              background: `rgba(255,255,255,${0.15 + ((i * 37) % 60) / 100})`,
-              left: `${(i * 17.3) % 100}%`,
-              top: `${(i * 11.7) % 100}%`,
-              boxShadow: i % 6 === 0 ? '0 0 4px rgba(255,255,255,0.4)' : 'none',
-            }}
-          />
-        ))}
-      </div>
-        {/* HEADER */}
-        <header className="fixed top-0 left-0 right-0 z-50"
-          style={{ background: 'rgba(2,8,23,0.92)', backdropFilter: 'blur(16px)', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
-          <NavBar/>            
-        </header>
+          <div className="fixed inset-0 z-0 pointer-events-none">
+            <div
+              className="absolute inset-0 space-background"
+              style={{
+                background:
+                  'radial-gradient(ellipse at 20% 50%, rgba(30,58,138,0.18) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(88,28,135,0.12) 0%, transparent 50%)',
+              }}
+            />
+            {Array.from({ length: 80 }, (_, i) => (
+              <div
+                key={i}
+                className="absolute rounded-full"
+                style={{
+                  width: i % 5 === 0 ? 2.5 : 1.5,
+                  height: i % 5 === 0 ? 2.5 : 1.5,
+                  background: `rgba(255,255,255,${0.15 + ((i * 37) % 60) / 100})`,
+                  left: `${(i * 17.3) % 100}%`,
+                  top: `${(i * 11.7) % 100}%`,
+                  boxShadow: i % 6 === 0 ? '0 0 4px rgba(255,255,255,0.4)' : 'none',
+                }}
+              />
+            ))}
+          </div>
 
+          {/* HEADER */}
+          <header
+            className="fixed top-0 left-0 right-0 z-50"
+            style={{ background: 'rgba(2,8,23,0.92)', backdropFilter: 'blur(16px)', borderBottom: '1px solid rgba(255,255,255,0.07)' }}
+          >
+            <NavBar />
+          </header>
 
-        {/* CONTENT */}
-        <main className="flex-1 md:px-0 sm:px-0 pt-16 pb-2 ">
-          {children}
-        </main>
+          {/* CONTENT */}
+          <main className="flex-1 pt-16 pb-2 relative z-10">
+            {children}
+          </main>
 
+          {/* FOOTER */}
+          <Footer />
 
-        {/* FOOTER */}
-        <footer className="py-6 text-center text-gray-500 border-t ">
-          © Hadrien Vinay — Blog Page - {new Date().getFullYear()}
-        </footer>
-      </ThemeProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

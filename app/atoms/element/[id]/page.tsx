@@ -86,7 +86,9 @@ export  default async function ElementPage({ params }: { params: Promise<{ id: s
     <AtomicLayout>
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-md text-gray-600 mb-6">
+        <div className="flex items-center gap-2 text-[16px] text-gray-600 font-mono mb-6">
+          <Link href="/atoms" className="hover:text-white transition-colors">Atomes</Link>
+          <span>›</span>
           <Link href="/atoms/tableau" className="hover:text-white transition-colors">Tableau périodique</Link>
           <span>›</span>
           <span style={{ color }}>{element.nameFr}</span>

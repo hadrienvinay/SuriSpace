@@ -92,18 +92,13 @@ export default function StarMap() {
         .star-twinkle { animation: twinkle 2s infinite; }
       `}</style>
 
-      {/* Nav */}
-      <nav className="border-b border-white/6" style={{ background: 'rgba(1,4,14,0.95)', backdropFilter: 'blur(12px)' }}>
-        <div className="max-w-screen-2xl mx-auto px-5 py-3.5 flex items-center gap-3 overflow-x-auto">
-          <Link href="/solar-system" className="flex items-center gap-2 group shrink-0">
-            <span className="text-2xl">👩‍🚀</span>
-            <span className="text-sm font-semibold text-gray-500 group-hover:text-white transition-colors hidden sm:block">Système solaire</span>
-          </Link>
-          <span className="text-gray-700">›</span>
-          <Link href="/solar-system/stars" className="flex items-center gap-2 shrink-0 group">
-            <span className="text-xl">✨</span>
-            <span className="text-sm font-semibold text-blue-300 hidden sm:block">Carte du Ciel</span>
-          </Link>
+      <div className="max-w-screen-2xl mx-auto px-4 py-6">
+
+        {/* Breadcrumb */}
+        <div className="flex items-center gap-2 text-[16px] text-gray-600 font-mono mb-6">
+          <Link href="/solar-system" className="hover:text-white transition-colors">Espace</Link>
+          <span>›</span>
+          <span className="text-gray-400">Étoiles</span>
           <div className="ml-auto flex gap-2">
             <Link href="/solar-system/stars/constellations" className="px-3 py-1.5 rounded-lg text-md border border-white/10 text-gray-400 hover:text-white hover:bg-white/5 transition-all">
               🌟 Constellations
@@ -113,9 +108,6 @@ export default function StarMap() {
             </Link>
           </div>
         </div>
-      </nav>
-
-      <div className="max-w-screen-2xl mx-auto px-4 py-6">
 
         {/* Header */}
         <div className="mb-6">

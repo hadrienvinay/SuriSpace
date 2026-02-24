@@ -1,20 +1,32 @@
-// components/CreatePostForm.tsx
+// components/addMessage.tsx
 'use client';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
+
+const INPUT_STYLE = {
+  background: 'rgba(255,255,255,0.04)',
+  border: '1px solid rgba(255,255,255,0.10)',
+  color: '#F9FAFB',
+  fontFamily: "'Exo 2', sans-serif",
+} as React.CSSProperties;
+
+const INPUT_CLASS =
+  'w-full pl-10 pr-4 py-3 rounded-xl text-sm placeholder-gray-600 focus:outline-none focus:ring-1 transition-all duration-200';
 
 export default function CreateMessageForm() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [errorMsg, setErrorMsg] = useState('');
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setStatus('idle');
 
     try {
       const formData = new FormData();
@@ -28,83 +40,129 @@ export default function CreateMessageForm() {
       });
 
       if (response.ok) {
-        alert('Message envoyé avec succès !');
+        setStatus('success');
         setName('');
         setEmail('');
         setMessage('');
-        //router.refresh();
-        router.push('/');
+        setTimeout(() => router.push('/'), 2000);
       } else {
         const data = await response.json();
-        alert(`Erreur: ${data.error}`);
+        setErrorMsg(data.error ?? 'Une erreur est survenue.');
+        setStatus('error');
       }
-    } catch (error) {
-      console.error('Erreur:', error);
-      alert('Erreur lors de l\'envoi du message');
+    } catch {
+      setErrorMsg('Impossible d\'envoyer le message. Réessayez.');
+      setStatus('error');
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-        <form onSubmit={handleSubmit} className="myform rounded-xl p-5 transition-colors duration-300" id="contactForm">
-            <div className="mb-6">
-                <div className="relative">
-                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <i className="fas fa-user text-gray-500 dark:text-gray-400"></i>
-                    </div>
-                    <input
-                    type="text"
-                    name="name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                    placeholder="Nom"
-                    className="w-full pl-10 pr-3 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                    />
-                </div>
-            </div>
+    <form onSubmit={handleSubmit} className="space-y-5">
 
-            <div className="mb-6">
-                <div className="relative">
-                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <i className="fas fa-envelope text-gray-500 dark:text-gray-400"></i>
-                    </div>
-                    <input
-                    type="email"
-                    name="email"
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Adresse Email"
-                    className="w-full pl-10 pr-3 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                    required
-                    />
-                </div>
-            </div>
+      {/* Name */}
+      <div className="relative">
+        <span className="absolute inset-y-0 left-3 flex items-center text-gray-600 text-sm pointer-events-none">
+          👤
+        </span>
+        <input
+          type="text"
+          value={name}
+          onChange={e => setName(e.target.value)}
+          required
+          placeholder="Nom"
+          className={INPUT_CLASS}
+          style={{
+            ...INPUT_STYLE,
+            borderColor: 'rgba(255,255,255,0.10)',
+          }}
+          onFocus={e => { e.currentTarget.style.borderColor = 'rgba(99,102,241,0.5)'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(99,102,241,0.08)'; }}
+          onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.10)'; e.currentTarget.style.boxShadow = 'none'; }}
+        />
+      </div>
 
-            <div className="mb-6">
-                <div className="relative">
-                    <div className="absolute top-3 left-3 pointer-events-none">
-                    <i className="fas fa-comment text-gray-500 dark:text-gray-400"></i>
-                    </div>
-                    <textarea
-                    rows={6}
-                    name="message"
-                    placeholder="Votre message"
-                    onChange={(e) => setMessage(e.target.value)}
-                    className="w-full pl-10 pr-3 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                    required
-                    ></textarea>
-                </div>
-            </div>
+      {/* Email */}
+      <div className="relative">
+        <span className="absolute inset-y-0 left-3 flex items-center text-gray-600 text-sm pointer-events-none">
+          ✉️
+        </span>
+        <input
+          type="email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          required
+          placeholder="Adresse email"
+          className={INPUT_CLASS}
+          style={INPUT_STYLE}
+          onFocus={e => { e.currentTarget.style.borderColor = 'rgba(99,102,241,0.5)'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(99,102,241,0.08)'; }}
+          onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.10)'; e.currentTarget.style.boxShadow = 'none'; }}
+        />
+      </div>
 
-            <div>
-            <button type="submit" 
-            className="hover:cursor-pointer w-full p-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-colors"
-            disabled={isSubmitting}
-            >
-            {isSubmitting ? 'Envoi en cours...' : 'Envoyer'}
-            </button>
-            </div>
-            </form>
+      {/* Message */}
+      <div className="relative">
+        <span className="absolute top-3.5 left-3 text-gray-600 text-sm pointer-events-none">
+          💬
+        </span>
+        <textarea
+          rows={6}
+          value={message}
+          onChange={e => setMessage(e.target.value)}
+          required
+          placeholder="Votre message…"
+          className={`${INPUT_CLASS} resize-none`}
+          style={INPUT_STYLE}
+          onFocus={e => { e.currentTarget.style.borderColor = 'rgba(99,102,241,0.5)'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(99,102,241,0.08)'; }}
+          onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.10)'; e.currentTarget.style.boxShadow = 'none'; }}
+        />
+      </div>
+
+      {/* Feedback */}
+      {status === 'success' && (
+        <div
+          className="flex items-center gap-2.5 rounded-xl px-4 py-3 text-sm"
+          style={{ background: 'rgba(52,211,153,0.08)', border: '1px solid rgba(52,211,153,0.25)', color: '#6EE7B7' }}
+        >
+          <span>✓</span>
+          Message envoyé ! Redirection en cours…
+        </div>
+      )}
+      {status === 'error' && (
+        <div
+          className="flex items-center gap-2.5 rounded-xl px-4 py-3 text-sm"
+          style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.25)', color: '#FCA5A5' }}
+        >
+          <span>✕</span>
+          {errorMsg}
+        </div>
+      )}
+
+      {/* Submit */}
+      <button
+        type="submit"
+        disabled={isSubmitting}
+        className="w-full cursor-pointer py-3 rounded-xl text-sm font-semibold text-white transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed hover:brightness-110 hover:scale-[1.01] active:scale-[0.99]"
+        style={{
+          background: isSubmitting
+            ? 'rgba(99,102,241,0.4)'
+            : 'linear-gradient(135deg, #4F46E5, #7C3AED)',
+          boxShadow: isSubmitting ? 'none' : '0 0 20px rgba(99,102,241,0.25)',
+          fontFamily: "'Exo 2', sans-serif",
+        }}
+      >
+        {isSubmitting ? (
+          <span className="flex items-center justify-center gap-2">
+            <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+            </svg>
+            Envoi en cours…
+          </span>
+        ) : (
+          'Envoyer le message'
+        )}
+      </button>
+    </form>
   );
 }

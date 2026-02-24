@@ -1,12 +1,24 @@
 // app/solar-system/page.tsx
+import type { Metadata } from 'next';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: 'Espace',
+  description: "Explorez le système solaire, les galaxies, les missions spatiales, les étoiles et l'astronomie — données interactives et visualisations.",
+  keywords: ['espace', 'système solaire', 'astronomie', 'galaxies', 'missions spatiales', 'étoiles', 'constellations'],
+  openGraph: {
+    title: 'Espace | Suri Space',
+    description: "Du Soleil aux confins de l'univers — système solaire, galaxies, missions et carte du ciel.",
+    url: 'https://surispace.fr/solar-system',
+  },
+};
 import SolarLayout from '@/components/SolarLayout';
 
 const sections = [
   {
     href: '/solar-system/carte',
     icon: '🗺️',
-    title: 'Carte Interactive',
+    title: 'Système solaire',
     description: 'Système solaire en échelle logarithmique : planètes, sondes actives, zone habitable et distances en UA.',
     gradient: 'from-blue-600/20 to-cyan-600/20',
     border: 'border-blue-500/30',
@@ -42,12 +54,30 @@ const sections = [
   },
   {
     href: '/solar-system/stars',
-    icon: '⭐',
+    icon: '🗺️',
     title: 'Carte du Ciel',
     description: 'Étoiles voisines, types spectraux, constellations et nébuleuses — cartographie stellaire interactive.',
-    gradient: 'from-yellow-600/20 to-amber-600/20',
+    gradient: 'from-yellow-600/20 to-black-600/20',
     border: 'border-yellow-500/30',
     accent: 'text-yellow-300',
+  },
+  {
+    href: '/solar-system/stars/star',
+    icon: '⭐',
+    title: "Etoiles",
+    description: 'Informations et détails des principales étoiles de notre ciel (hémisphère nord pour le moment)',
+    gradient: 'from-yellow-400/40 to-amber-400/20',
+    border: 'border-yellow-500/30',
+    accent: 'text-yellow-300',
+  },
+  {
+    href: '/solar-system/astronomie',
+    icon: '🔭',
+    title: 'Astronomie',
+    description: 'Histoire de l\'astronomie, instruments à travers le temps, catalogue Messier (110 objets) et observatoires terrestres et spatiaux.',
+    gradient: 'from-indigo-600/20 to-violet-600/20',
+    border: 'border-indigo-500/30',
+    accent: 'text-indigo-300',
   },
 ];
 
