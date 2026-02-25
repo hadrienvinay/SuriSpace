@@ -173,15 +173,15 @@ export default function AstronomieHub() {
               style={{ background: `${item.color}08` }}
             >
               <div className="text-3xl mb-3">{item.icon}</div>
-              <h3 className="font-bold text-sm mb-2" style={{ color: item.color }}>{item.title}</h3>
-              <p className="text-xs text-gray-500 leading-relaxed">{item.text}</p>
+              <h3 className="font-bold text-xl mb-2" style={{ color: item.color }}>{item.title}</h3>
+              <p className="text-md text-gray-500 leading-relaxed">{item.text}</p>
             </div>
           ))}
         </div>
 
         {/* Timeline */}
         <div className="mb-14">
-          <h2 className="text-sm font-bold tracking-widest uppercase text-gray-500 mb-8">
+          <h2 className="text-md font-bold tracking-widest uppercase text-gray-500 mb-8">
             Histoire de l&apos;Astronomie
           </h2>
           <div className="space-y-8">
@@ -195,18 +195,18 @@ export default function AstronomieHub() {
                   >
                     {era.era}
                   </h3>
-                  <span className="text-xs text-gray-600 font-mono">{era.period}</span>
+                  <span className="text-sm text-gray-600 font-mono">{era.period}</span>
                 </div>
                 <div className="ml-5 border-l border-white/8 pl-5 space-y-3">
                   {era.events.map(ev => (
                     <div key={ev.text} className="flex gap-3 items-start">
                       <span
-                        className="text-xs font-mono shrink-0 mt-0.5"
+                        className="text-sm font-mono shrink-0 mt-0.5"
                         style={{ color: `${era.color}80`, minWidth: '7rem' }}
                       >
                         {ev.year}
                       </span>
-                      <p className="text-sm text-gray-400 leading-relaxed">{ev.text}</p>
+                      <p className="text-md text-gray-400 leading-relaxed">{ev.text}</p>
                     </div>
                   ))}
                 </div>
@@ -217,7 +217,7 @@ export default function AstronomieHub() {
 
         {/* Instruments through time */}
         <div className="mb-14">
-          <h2 className="text-sm font-bold tracking-widest uppercase text-gray-500 mb-8">
+          <h2 className="text-md font-bold tracking-widest uppercase text-gray-500 mb-8">
             Les Instruments à Travers le Temps
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -230,11 +230,11 @@ export default function AstronomieHub() {
                 <div className="flex items-center gap-3 mb-3">
                   <span className="text-2xl">{inst.icon}</span>
                   <div>
-                    <div className="font-bold text-sm text-white">{inst.name}</div>
-                    <div className="text-xs font-mono" style={{ color: `${inst.color}90` }}>{inst.period}</div>
+                    <div className="font-bold text-md text-white">{inst.name}</div>
+                    <div className="text-sm font-mono" style={{ color: `${inst.color}90` }}>{inst.period}</div>
                   </div>
                 </div>
-                <p className="text-xs text-gray-500 leading-relaxed">{inst.description}</p>
+                <p className="text-sm text-gray-500 leading-relaxed">{inst.description}</p>
               </div>
             ))}
           </div>
@@ -242,7 +242,7 @@ export default function AstronomieHub() {
 
         {/* Sub-section cards */}
         <div className="mb-10">
-          <h2 className="text-sm font-bold tracking-widest uppercase text-gray-500 mb-6">Explorer</h2>
+          <h2 className="text-md font-bold tracking-widest uppercase text-gray-500 mb-6">Explorer</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
 
             {/* Messier catalog */}
@@ -262,7 +262,7 @@ export default function AstronomieHub() {
               >
                 Catalogue Messier
               </h2>
-              <p className="text-gray-400 text-sm leading-relaxed mb-4">
+              <p className="text-gray-400 text-md leading-relaxed mb-4">
                 110 objets du ciel profond sélectionnés par Charles Messier en 1774 —
                 nébuleuses, amas d&apos;étoiles et galaxies observables aux jumelles ou au télescope amateur.
               </p>
@@ -270,14 +270,14 @@ export default function AstronomieHub() {
                 {['Galaxies', 'Amas globulaires', 'Nébuleuses', 'Amas ouverts'].map(tag => (
                   <span
                     key={tag}
-                    className="px-2 py-0.5 rounded-full text-xs border"
+                    className="px-2 py-0.5 rounded-full text-sm border"
                     style={{ background: 'rgba(99,102,241,0.15)', color: '#A5B4FC', borderColor: 'rgba(99,102,241,0.3)' }}
                   >
                     {tag}
                   </span>
                 ))}
               </div>
-              <div className="absolute bottom-5 right-5 opacity-0 group-hover:opacity-100 transition-opacity text-xs text-indigo-400">
+              <div className="absolute bottom-5 right-5 opacity-0 group-hover:opacity-100 transition-opacity text-sm text-indigo-400">
                 Explorer 110 objets →
               </div>
             </Link>
@@ -299,7 +299,7 @@ export default function AstronomieHub() {
               >
                 Observatoires
               </h2>
-              <p className="text-gray-400 text-sm leading-relaxed mb-4">
+              <p className="text-gray-400 text-md leading-relaxed mb-4">
                 Du miroir de 10 m du télescope Keck au miroir d&apos;or de 6,5 m du JWST —
                 les observatoires terrestres et spatiaux qui repoussent les frontières de notre connaissance.
               </p>
@@ -307,14 +307,14 @@ export default function AstronomieHub() {
                 {['Hubble', 'JWST', 'VLT · Chile', 'ALMA', 'ELT'].map(tag => (
                   <span
                     key={tag}
-                    className="px-2 py-0.5 rounded-full text-xs border"
+                    className="px-2 py-0.5 rounded-full text-sm border"
                     style={{ background: 'rgba(6,182,212,0.12)', color: '#67E8F9', borderColor: 'rgba(6,182,212,0.3)' }}
                   >
                     {tag}
                   </span>
                 ))}
               </div>
-              <div className="absolute bottom-5 right-5 opacity-0 group-hover:opacity-100 transition-opacity text-xs text-cyan-400">
+              <div className="absolute bottom-5 right-5 opacity-0 group-hover:opacity-100 transition-opacity text-sm text-cyan-400">
                 Voir les observatoires →
               </div>
             </Link>
@@ -326,7 +326,7 @@ export default function AstronomieHub() {
           className="rounded-2xl border border-white/8 p-6"
           style={{ background: 'rgba(255,255,255,0.015)' }}
         >
-          <h3 className="text-xs uppercase tracking-wider text-gray-500 mb-5">L&apos;Astronomie en chiffres</h3>
+          <h3 className="text-sm uppercase tracking-wider text-gray-500 mb-5">L&apos;Astronomie en chiffres</h3>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {[
               { value: '13,8 Ga', label: 'âge de l\'Univers' },
@@ -346,7 +346,7 @@ export default function AstronomieHub() {
                 >
                   {f.value}
                 </div>
-                <div className="text-xs text-gray-600 leading-tight">{f.label}</div>
+                <div className="text-sm text-gray-600 leading-tight">{f.label}</div>
               </div>
             ))}
           </div>

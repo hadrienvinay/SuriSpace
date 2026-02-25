@@ -1,83 +1,10 @@
 'use client';
 
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import MyMap from "@/components/Map_Suri";
 import { SportCarousel, TripCarousel } from "@/components/Carousel";
-
-// ─── CV Modal ─────────────────────────────────────────────────────────────────
-
-function CVModal({ onClose }: { onClose: () => void }) {
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [onClose]);
-
-  return (
-    <div
-      className="fixed inset-0 z-200 flex items-center justify-center mt-10"
-      style={{ background: 'rgba(0,0,8,0.88)', backdropFilter: 'blur(10px)' }}
-      onClick={onClose}
-    >
-      <div
-        className="relative w-full mx-4 rounded-2xl overflow-hidden flex flex-col"
-        style={{
-          maxWidth: 900, height: '90vh',
-          background: 'rgba(8,12,28,0.97)',
-          border: '1px solid rgba(255,255,255,0.1)',
-          boxShadow: '0 30px 90px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04)',
-        }}
-        onClick={e => e.stopPropagation()}
-      >
-        {/* Modal header */}
-        <div style={{
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          padding: '14px 24px', borderBottom: '1px solid rgba(255,255,255,0.07)',
-          flexShrink: 0,
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#60a5fa', boxShadow: '0 0 8px #60a5fa' }} />
-            <span style={{ color: '#fff', fontFamily: 'monospace', fontSize: 15, letterSpacing: '0.05em' }}>
-              CV — Hadrien Vinay
-            </span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <a
-              href="/Hadrien-Vinay-Resume.pdf"
-              download
-              style={{
-                fontSize: 15, padding: '6px 16px', borderRadius: 8, textDecoration: 'none',
-                background: 'rgba(59,130,246,0.18)', border: '1px solid rgba(59,130,246,0.35)',
-                color: '#60a5fa', transition: 'all 0.2s',
-              }}
-            >
-              ↓ Télécharger
-            </a>
-            <button
-              onClick={onClose}
-              style={{
-                background: 'none', border: 'none', cursor: 'pointer',
-                color: 'rgba(255,255,255,0.4)', fontSize: 24, lineHeight: 1,
-                padding: '0 4px', transition: 'color 0.2s',
-              }}
-              title="Fermer"
-            >
-              ×
-            </button>
-          </div>
-        </div>
-
-        {/* PDF viewer */}
-        <iframe
-          src="/Hadrien-Vinay-Resume.pdf"
-          style={{ flex: 1, border: 'none', minHeight: 0 }}
-          title="CV Hadrien Vinay"
-        />
-      </div>
-    </div>
-  );
-}
+import CVButton, { CVModal } from "@/components/CVButton";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -177,18 +104,7 @@ export default function About() {
 
         {/* ══ ACTION BUTTONS ════════════════════════════════════════════════════ */}
         <div className="flex flex-wrap gap-3 mb-12 px-1">
-          <button
-            onClick={() => setCvOpen(true)}
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-              padding: '9px 20px', borderRadius: 10, cursor: 'pointer',
-              background: 'rgba(59,130,20,0.15)', border: '1px solid rgba(59,130,246,0.38)',
-              color: '#60a5fa', fontSize: 14, fontWeight: 500,
-              transition: 'all 0.2s', fontFamily: 'inherit',
-            }}
-          >
-            👨‍🎓 Voir mon CV
-          </button>
+          <CVButton />
           <a
             href="https://www.linkedin.com/in/hadrien-vinay/"
             target="_blank" rel="noreferrer"

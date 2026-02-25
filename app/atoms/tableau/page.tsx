@@ -222,7 +222,7 @@ export default function PeriodicTable() {
 
         {/* Detail panel */}
         {selected && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 mt-20"
             style={{ background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(8px)' }}
             onClick={() => setSelected(null)}>
             <div

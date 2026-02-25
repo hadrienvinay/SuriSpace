@@ -15,6 +15,7 @@ export const metadata: Metadata = {
 import Weather from '@/components/Weather';
 import Ratp from '@/components/Ratp';
 import Links from '@/components/ShowLinks';
+import CVButton from '@/components/CVButton';
 
 const universeCards = [
   {
@@ -103,13 +104,7 @@ export default function Home() {
           <span className="text-gray-500 not-italic">— Rousseau, Du contrat social, 1762</span>
         </p>
         <div className="flex justify-center gap-4 flex-wrap">
-          <Link
-            href="/Hadrien-Vinay-Resume.pdf"
-            className="px-6 py-3 rounded-xl font-semibold text-white transition-all hover:brightness-110"
-            style={{ background: 'linear-gradient(135deg, #3B82F6, #6366F1)' }}
-          >
-            Voir mon CV
-          </Link>
+          <CVButton />
           <Link
             href="/about"
             className="px-6 py-3 rounded-xl font-semibold text-white border border-white/10 hover:bg-white/6 transition-all"
