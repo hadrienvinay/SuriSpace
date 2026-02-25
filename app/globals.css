@@ -10,11 +10,11 @@
   --pokemon-white: #ffffff;
   --pokemon-gray: #f5f5f5;
 }
+/*
 .light body {
-    --background: #F2FFFC; /* blanc */
-    --foreground: #020817; /* noir */
+    --background: #F2FFFC;
+    --foreground: #020817;
 }
-
 .light nav{
   background-color: #f9fafb;
 }
@@ -41,7 +41,7 @@
 .light form.myform{
   background-color: #d7e4f0;
 }
-
+*/
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -96,10 +96,6 @@ main{
   background-color: transparent;
 }
 
-
-.light .project-card{
-  background-color: #999;
-}
 .evg_page {
   font-family: 'Pokémon Solid', sans-serif;
   background: linear-gradient(135deg, var(--pokemon-red), var(--pokemon-blue));
