@@ -1,115 +1,62 @@
-// app/api/stocks/route.ts
-import { NextResponse } from 'next/server'
-
-let cache: { data: any[] | null; timestamp: number } = { data: null, timestamp: 0 }
-const CACHE_DURATION = 600000 // 10 minute
+import { NextResponse } from 'next/server';
+import prisma from '@/lib/prisma';
+import YahooFinance from 'yahoo-finance2';
+import { normalizeTicker } from '@/lib/normalizeTicker';
 
 export async function GET() {
   try {
-    const now = Date.now()
-    if (cache.data && (now - cache.timestamp) < CACHE_DURATION) {
-      //return NextResponse.json(cache.data)
-      console.log('Serving from cache')
+    const orders = await prisma.bourseOrder.findMany({ orderBy: { investmentDate: 'desc' } });
+    return NextResponse.json({ orders });
+  } catch (err) {
+    console.error('GET /api/bourse error', err);
+    return NextResponse.json({ error: 'Failed to fetch orders' }, { status: 500 });
+  }
+}
+
+export async function POST(req: Request) {
+  try {
+    const body = await req.json();
+    const { name, ticker, type, montant, investmentDate, prix } = body;
+
+    if (!name || !ticker || !type || !montant) {
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    const symbols = [
-      // CAC 40 - Actions PEA
-      'MC.PA', 'OR.PA', 'SAN.PA', 'AI.PA', 'BNP.PA',
-      'TTE.PA', 'SU.PA', 'EL.PA', 'SAF.PA', 'CS.PA',
-      'RMS.PA', 'DSY.PA', 'CAP.PA', 'DG.PA', 'RI.PA',
-      'KER.PA', 'EN.PA', 'SGO.PA', 'ALO.PA', 'URW.AS',
-      
-      // Autres européennes PEA
-      'ASML.AS', 'AD.AS', 'SIE.DE', 'SAP.DE', 'VOW3.DE',
-      'AIR.PA', 'ITX.MC', 'SAN.MC',
-      
-      // Actions US - Monde
-      'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'NVDA',
-      'META', 'TSLA', 'BRK-B', 'V', 'JPM',
-      'JNJ', 'WMT', 'MA', 'PG', 'UNH',
-      'HD', 'DIS', 'BAC', 'NFLX', 'ADBE',
-      'CRM', 'ORCL', 'CSCO', 'INTC', 'AMD',
-      'NKE', 'PFE', 'KO', 'PEP', 'MCD',
-    ]
-    
-    const stocksData = await Promise.all(
-      symbols.map(async (symbol) => {
-        try {
-          // 1. Prix et variation (chart API)
-          const chartUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1d`
-          const chartResponse = await fetch(chartUrl, {
-            headers: { 'User-Agent': 'Mozilla/5.0' }
-          })
-          const chartData = await chartResponse.json()
-          const result = chartData.chart.result[0]
-          const meta = result.meta
-          //console.log(result)
-          
-          const previousClose = meta.regularMarketPreviousClose || meta.previousClose
-          const currentPrice = meta.regularMarketPrice
-          
-          // 2. P/E ratio et autres métriques (quoteSummary API)
-          const summaryUrl = `https://query1.finance.yahoo.com/v10/finance/quoteSummary/${symbol}?modules=defaultKeyStatistics,summaryDetail,financialData`
-          const summaryResponse = await fetch(summaryUrl, {
-            headers: { 'User-Agent': 'Mozilla/5.0' }
-          })
-          const summaryData = await summaryResponse.json()
-          const quoteSummary = summaryData.quoteSummary?.result?.[0]
-          //console.log(quoteSummary)
-          // Extraire le P/E ratio
-          const peRatio = 
-            quoteSummary?.defaultKeyStatistics?.trailingPE?.raw ||
-            quoteSummary?.summaryDetail?.trailingPE?.raw ||
-            quoteSummary?.defaultKeyStatistics?.forwardPE?.raw ||
-            null
-          
-          // Autres métriques utiles
-          const dividendYield = quoteSummary?.summaryDetail?.dividendYield?.raw || null
-          const beta = quoteSummary?.defaultKeyStatistics?.beta?.raw || null
-          const eps = quoteSummary?.defaultKeyStatistics?.trailingEps?.raw || null
-          const marketCap = quoteSummary?.summaryDetail?.marketCap?.raw || 0
-          
-          // Déterminer la devise
-          let currency = '€'
-          if (!symbol.includes('.PA') && !symbol.includes('.AS') && 
-              !symbol.includes('.DE') && !symbol.includes('.MC')) {
-            currency = '$'
-          }
-          
-          return {
-            ticker: symbol,
-            name: meta.longName || meta.symbol,
-            price: currentPrice,
-            change: currentPrice - previousClose,
-            changePercent: ((currentPrice - previousClose) / previousClose) * 100,
-            volume: meta.regularMarketVolume || 0,
-            marketCap: marketCap,
-            pe: peRatio,
-            eps: eps,
-            dividendYield: dividendYield,
-            beta: beta,
-            currency: currency,
-            isPEA: symbol.includes('.PA') || symbol.includes('.AS') || 
-                   symbol.includes('.DE') || symbol.includes('.MC')
-          }
-        } catch (err) {
-          console.error(`Erreur pour ${symbol}:`, err)
-          return null
-        }
-      })
-    )
+    const normalizedTicker = normalizeTicker(ticker);
+    let prixAchat = prix ? Number(prix) : 0;
 
-    const validStocks = stocksData.filter(stock => stock !== null)
-
-    cache = {
-      data: validStocks,
-      timestamp: now
+    if (!prixAchat) {
+      try {
+        const yahooFinance = new YahooFinance({ suppressNotices: ['yahooSurvey'] });
+        const quote = await yahooFinance.quoteSummary(normalizedTicker, { modules: ['price'] });
+        prixAchat = quote.price?.regularMarketPrice || 0;
+      } catch (err) {
+        console.error(`Erreur Yahoo Finance pour ${ticker}:`, err);
+      }
     }
 
-    return NextResponse.json(validStocks)
-  } catch (error) {
-    console.error('Erreur API:', error)
-    const errorMessage = error instanceof Error ? error.message : String(error)
-    return NextResponse.json({ error: errorMessage }, { status: 500 })
+    if (!prixAchat) {
+      return NextResponse.json({ error: `Prix introuvable pour "${ticker}" (normalisé : "${normalizedTicker}"). Renseignez le prix manuellement.` }, { status: 422 });
+    }
+
+    const quantity = Number(montant) / prixAchat;
+
+    const order = await prisma.bourseOrder.create({
+      data: {
+        name: String(name),
+        ticker: normalizedTicker, // stocker le ticker normalisé
+        type: String(type),
+        montant: Number(montant),
+        prixAchat,
+        prixActuel: prixAchat,
+        quantity,
+        investmentDate: investmentDate ? new Date(investmentDate) : new Date(),
+      },
+    });
+
+    return NextResponse.json({ order }, { status: 201 });
+  } catch (err) {
+    console.error('POST /api/bourse error', err);
+    return NextResponse.json({ error: 'Failed to create order' }, { status: 500 });
   }
 }

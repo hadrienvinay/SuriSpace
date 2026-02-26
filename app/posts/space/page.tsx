@@ -35,7 +35,7 @@ export default function Space() {
             L&apos;actualité spatiale 2026
           </h1>
           <p className="text-lg leading-relaxed">
-            Voici un panorama des dernières nouvelles et tendances majeures du monde spatial en 2026 🌌.
+            Voici un panorama des dernières nouvelles et tendances majeures du monde spatial en 2026.
           </p>
           <p className="text-lg leading-relaxed">
             Elles couvrent l&apos;exploration humaine, les technologies spatiales, la compétition internationale et les projets scientifiques.
@@ -44,7 +44,7 @@ export default function Space() {
 
         {/* EXPLORATION HABITÉE */}
         <section className="space-y-4">
-          <h2 className="text-2xl font-semibold text-white">🚀 Exploration habitée</h2>
+          <h2 className="text-2xl font-semibold text-white">Exploration habitée</h2>
           <p className="text-lg leading-relaxed">
             Mission Artemis II : la NASA effectue les derniers tests avant la première mission habitée autour de la Lune depuis Apollo.
             Le lancement est prévu début février 2026, mais il a été temporairement retardé à cause du froid extrême sur la rampe de lancement en Floride.
@@ -82,7 +82,7 @@ export default function Space() {
 
         {/* LANCEURS */}
         <section className="space-y-4">
-          <h2 className="text-2xl font-semibold text-white">🛰️ Les lanceurs et infrastructures spatiales</h2>
+          <h2 className="text-2xl font-semibold text-white">Les lanceurs et infrastructures spatiales</h2>
           <p className="leading-relaxed">
             <strong className="text-white">Europe (Ariane) :</strong> l&apos;Agence spatiale européenne et l&apos;UE confient à la fusée Ariane 6 le lancement de satellites Galileo de nouvelle génération — un pas vers plus d&apos;autonomie européenne.
           </p>
@@ -93,7 +93,7 @@ export default function Space() {
 
         {/* COMPÉTITION */}
         <section className="space-y-4">
-          <h2 className="text-2xl font-semibold text-white">🌐 Compétition et économie spatiale</h2>
+          <h2 className="text-2xl font-semibold text-white">Compétition et économie spatiale</h2>
           <p className="leading-relaxed">
             <strong className="text-white">IA dans l&apos;espace :</strong> les applications d&apos;intelligence artificielle en orbite deviennent un marché en croissance, avec intégration sur satellites et infrastructures spatiales.
           </p>
@@ -104,7 +104,7 @@ export default function Space() {
 
         {/* SCIENCE */}
         <section className="space-y-4">
-          <h2 className="text-2xl font-semibold text-white">🔭 Science et observation</h2>
+          <h2 className="text-2xl font-semibold text-white">Science et observation</h2>
           <p className="leading-relaxed">Parmi les grandes missions scientifiques attendues en 2026 :</p>
           <p className="leading-relaxed">
             <strong className="text-white">Télescopes spatiaux :</strong> le Roman Space Telescope (NASA) et PLATO (ESA) sont prévus cette année pour explorer des exoplanètes et étudier l&apos;univers lointain.
@@ -116,7 +116,7 @@ export default function Space() {
 
         {/* TENDANCES */}
         <section className="space-y-4">
-          <h2 className="text-2xl font-semibold text-white">📡 Autres tendances en 2026</h2>
+          <h2 className="text-2xl font-semibold text-white">Autres tendances en 2026</h2>
           <p className="leading-relaxed">
             <strong className="text-white">New space &amp; tourisme spatial :</strong> certains projets privent l&apos;industrie des vols suborbitaux pour se concentrer sur des infrastructures lourdes (ex. Blue Origin recentrant ses efforts sur les capacités lunaires plutôt que les vols touristiques dans les deux prochaines années).
           </p>

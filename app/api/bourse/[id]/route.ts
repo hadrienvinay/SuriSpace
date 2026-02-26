@@ -5,10 +5,10 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
   try {
     const id = Number((await params).id);
     if (!id) return NextResponse.json({ error: 'Invalid id' }, { status: 400 });
-    await prisma.action.delete({ where: { id } });
+    await prisma.bourseOrder.delete({ where: { id } });
     return NextResponse.json({ success: true });
   } catch (err) {
-    console.error('DELETE /api/actions/[id] error', err);
+    console.error('DELETE /api/bourse/[id] error', err);
     return NextResponse.json({ error: 'Failed to delete' }, { status: 500 });
   }
 }
@@ -19,26 +19,29 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     if (!id) return NextResponse.json({ error: 'Invalid id' }, { status: 400 });
 
     const body = await req.json();
-    const { name, ticker, price, purchasePrice, quantity, pe, dividendYield, where } = body;
+    const { name, ticker, type, montant, prixAchat, prixActuel, quantity, investmentDate } = body;
 
-    if (!name || !ticker) return NextResponse.json({ error: 'Missing name or ticker' }, { status: 400 });
+    if (!name || !ticker || !type) {
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+    }
 
-    const updated = await prisma.action.update({
+    const updated = await prisma.bourseOrder.update({
       where: { id },
       data: {
         name,
         ticker,
-        price: Number(price || 0),
-        purchasePrice: Number(purchasePrice || 0),
-        quantity: Number(quantity || 1),
-        pe: pe != null ? Number(pe) : null,
-        dividendYield: dividendYield != null ? Number(dividendYield) : null,
-        where: where || null,
+        type,
+        montant: Number(montant),
+        prixAchat: Number(prixAchat),
+        prixActuel: Number(prixActuel),
+        quantity: Number(quantity),
+        investmentDate: investmentDate ? new Date(investmentDate) : undefined,
       },
     });
-    return NextResponse.json({ item: updated });
+
+    return NextResponse.json({ order: updated });
   } catch (err) {
-    console.error('Error updating action:', err);
+    console.error('PUT /api/bourse/[id] error', err);
     return NextResponse.json({ error: 'Failed to update' }, { status: 500 });
   }
 }

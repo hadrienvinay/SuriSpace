@@ -260,6 +260,203 @@ function GalaxyModal({ galaxy, onClose }: { galaxy: Galaxy; onClose: () => void 
   );
 }
 
+/* ─── Local Group Map ─────────────────────────────────────── */
+// Approximate angular positions (visual sky placement)
+const LOCAL_ANGLES: Record<string, number> = {
+  lmc:        195, // south (visible from southern hemisphere)
+  smc:        218, // south-southwest, near LMC
+  andromeda:   25, // northeast
+  triangulum:  52, // east-northeast, near Andromède
+};
+
+function LocalGroupMap({ galaxies, onSelect }: { galaxies: Galaxy[]; onSelect: (g: Galaxy) => void }) {
+  const local = galaxies.filter((g) => g.isLocal);
+  const cx = 300, cy = 192;
+  const SCALE = 112; // px per sqrt(M a.l.)
+
+  function pos(g: Galaxy) {
+    if (g.isMilkyWay) return { x: cx, y: cy };
+    const rad = ((LOCAL_ANGLES[g.id] ?? 0) * Math.PI) / 180;
+    const r = Math.sqrt(g.distance) * SCALE;
+    return { x: cx + r * Math.cos(rad), y: cy - r * Math.sin(rad) };
+  }
+
+  return (
+    <svg viewBox="0 0 600 384" className="w-full" style={{ maxHeight: 440, fontFamily: 'monospace' }}>
+      {/* Background stars */}
+      {Array.from({ length: 120 }, (_, i) => (
+        <circle
+          key={i}
+          cx={((i * 157.3 + i * i * 0.31) % 600)}
+          cy={((i * 89.7 + i * 23.1) % 384)}
+          r={0.4 + (i % 4) * 0.3}
+          fill="white"
+          opacity={0.04 + (i % 6) * 0.025}
+        />
+      ))}
+
+      {/* Distance rings (sqrt-scaled) */}
+      {[0.5, 1, 1.5, 2, 2.5, 3].map((d) => (
+        <circle
+          key={d}
+          cx={cx} cy={cy}
+          r={Math.sqrt(d) * SCALE}
+          fill="none"
+          stroke="rgba(255,255,255,0.05)"
+          strokeWidth={1}
+          strokeDasharray="3 7"
+        />
+      ))}
+
+
+      {/* Dashed lines from center */}
+      {local.filter((g) => !g.isMilkyWay).map((g) => {
+        const p = pos(g);
+        return (
+          <line key={g.id} x1={cx} y1={cy} x2={p.x} y2={p.y}
+            stroke={`${g.color}18`} strokeWidth={0.8} strokeDasharray="2 5" />
+        );
+      })}
+
+      {/* Galaxies */}
+      {local.map((g) => {
+        const { x, y } = pos(g);
+        const r = g.isMilkyWay ? 18 : Math.max(6, Math.sqrt(g.diameter / 10000));
+        return (
+          <g key={g.id} onClick={() => onSelect(g)} style={{ cursor: 'pointer' }}>
+            <circle cx={x} cy={y} r={r * 3} fill={g.color} opacity={0.05} />
+            <circle cx={x} cy={y} r={r * 1.7} fill={g.color} opacity={0.12} />
+            <circle cx={x} cy={y} r={r} fill={g.color} opacity={0.95} />
+            {g.isMilkyWay && (
+              <circle cx={x} cy={y} r={r} fill="none" stroke={g.color} strokeWidth={1.5} opacity={0.6}>
+                <animate attributeName="r" values={`${r};${r * 2.8};${r}`} dur="3.2s" repeatCount="indefinite" />
+                <animate attributeName="opacity" values="0.6;0;0.6" dur="3.2s" repeatCount="indefinite" />
+              </circle>
+            )}
+            <text x={x} y={y + r + 13} textAnchor="middle"
+              fill="rgba(255,255,255,0.72)" fontSize={g.isMilkyWay ? 11 : 9}
+              fontWeight={g.isMilkyWay ? 'bold' : 'normal'}>
+              {g.name}
+            </text>
+          </g>
+        );
+      })}
+
+      <text x={12} y={18} fill="rgba(255,255,255,0.22)" fontSize={12} fontWeight="bold" letterSpacing="0.12em">
+        GROUPE LOCAL · ÉCHELLE √DISTANCE
+      </text>
+    </svg>
+  );
+}
+
+/* ─── Cosmic Distance Map ──────────────────────────────────── */
+function CosmicDistanceMap({ galaxies, onSelect }: { galaxies: Galaxy[]; onSelect: (g: Galaxy) => void }) {
+  const W = 760, H = 270;
+  const PAD = { l: 62, r: 20, t: 40, b: 46 };
+  const plotW = W - PAD.l - PAD.r;
+  const plotH = H - PAD.t - PAD.b;
+
+  const nonMW = galaxies.filter((g) => !g.isMilkyWay);
+  const minLog = -1;           // 0.1 M a.l.
+  const maxLog = Math.log10(2000);
+
+  const xOf = (d: number) =>
+    PAD.l + ((Math.log10(Math.max(d, 0.05)) - minLog) / (maxLog - minLog)) * plotW;
+
+  const TYPE_FRAC: Record<string, number> = {
+    'barred-spiral': 0.12,
+    spiral:          0.30,
+    elliptical:      0.50,
+    irregular:       0.67,
+    lenticular:      0.80,
+    ring:            0.92,
+  };
+  const TYPE_LABELS: Record<string, string> = {
+    'barred-spiral': 'Barrées',
+    spiral:          'Spirales',
+    elliptical:      'Elliptiques',
+    irregular:       'Irrégulières',
+    lenticular:      'Lenticulaires',
+    ring:            'Anneaux',
+  };
+
+  const yOf = (g: Galaxy, i: number) => {
+    const frac = TYPE_FRAC[g.type] ?? 0.5;
+    const jitter = ((i * 41 + 7) % 100) / 1000 * 0.6;
+    return PAD.t + (frac + jitter) * plotH;
+  };
+
+  const xTicks = [0.1, 0.5, 1, 5, 10, 50, 100, 500, 1000];
+
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ maxHeight: 450, fontFamily: 'monospace' }}>
+      {/* Type rows */}
+      {Object.entries(TYPE_FRAC).map(([type, frac]) => {
+        const y = PAD.t + frac * plotH;
+        return (
+          <g key={type}>
+            <line x1={PAD.l} x2={W - PAD.r} y1={y} y2={y}
+              stroke="rgba(255,255,255,0.04)" strokeWidth={1} />
+            <text x={PAD.l - 5} y={y + 3} textAnchor="end" fill="rgba(255,255,255,0.2)" fontSize={9} >
+              {TYPE_LABELS[type]}
+            </text>
+          </g>
+        );
+      })}
+
+      {/* X axis */}
+      <line x1={PAD.l} x2={W - PAD.r} y1={H - PAD.b} y2={H - PAD.b}
+        stroke="rgba(255,255,255,0.15)" strokeWidth={1} />
+
+      {/* X ticks */}
+      {xTicks.map((t) => {
+        const x = xOf(t);
+        const label = t < 1 ? `${t}` : t >= 1000 ? `${t / 1000}k` : `${t}`;
+        return (
+          <g key={t}>
+            <line x1={x} x2={x} y1={H - PAD.b} y2={H - PAD.b + 4}
+              stroke="rgba(255,255,255,0.2)" strokeWidth={1} />
+            <text x={x} y={H - PAD.b + 13} textAnchor="middle" fill="rgba(255,255,255,0.28)" fontSize={7.5}>
+              {label} M a.l.
+            </text>
+          </g>
+        );
+      })}
+
+      {/* Milky Way reference line */}
+      <line x1={PAD.l} x2={PAD.l} y1={PAD.t} y2={H - PAD.b}
+        stroke="#60A5FA" strokeWidth={1} strokeDasharray="3 5" opacity={0.35} />
+      <text x={PAD.l} y={PAD.t - 5} textAnchor="middle" fill="#60A5FA" fontSize={10}  opacity={0.5}>
+        Voie Lactée
+      </text>
+
+      {/* Galaxy dots */}
+      {nonMW.map((g, i) => {
+        const x = xOf(g.distance);
+        const y = yOf(g, i);
+        const r = Math.max(4, Math.min(13, Math.sqrt(g.diameter / 8000)));
+        const label = g.name.length > 14 ? g.name.slice(0, 13) + '…' : g.name;
+        return (
+          <g key={g.id} onClick={() => onSelect(g)} style={{ cursor: 'pointer' }}>
+            <circle cx={x} cy={y} r={r * 2.5} fill={g.color} opacity={0.07} />
+            <circle cx={x} cy={y} r={r} fill={g.color} opacity={0.9} />
+            <text x={x} y={y - r - 3} textAnchor="middle" fill={g.color} fontSize={9}  opacity={0.75}>
+              {label}
+            </text>
+          </g>
+        );
+      })}
+
+      <text x={PAD.l + plotW / 2} y={H - 6} textAnchor="middle" fill="rgba(255,255,255,0.18)" fontSize={10} >
+        Distance (échelle logarithmique)
+      </text>
+      <text x={12} y={16} fill="rgba(255,255,255,0.22)" fontSize={12} fontWeight="bold" letterSpacing="0.1em">
+        CARTE DES DISTANCES · TOUTES LES GALAXIES
+      </text>
+    </svg>
+  );
+}
+
 /* ─── Featured Milky Way ──────────────────────────────────── */
 function MilkyWayHero({ onClick }: { onClick: () => void }) {
   const mw = GALAXIES.find((g) => g.isMilkyWay)!;
@@ -433,6 +630,42 @@ export default function GalaxiesPage() {
             ))}
           </div>
         )}
+
+        {/* ── Local Group Map ─────────────────── */}
+        <div
+          className="mt-10 rounded-2xl border border-white/6 p-5"
+          style={{ background: 'rgba(255,255,255,0.012)' }}
+        >
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-2xl font-bold text-white" style={{ fontFamily: "'Exo 2', sans-serif" }}>
+              Groupe Local
+            </h3>
+            <span className="text-xs text-gray-600 font-mono">~3 M a.l. · échelle √distance · cliquer pour détails</span>
+          </div>
+          <p className="text-xs text-gray-600 mb-4 leading-relaxed">
+            Une cinquantaine de galaxies gravitationnellement liées, dominées par la Voie Lactée et Andromède.
+            Le Grand et le Petit Nuage de Magellan sont nos voisins les plus proches.
+          </p>
+          <LocalGroupMap galaxies={GALAXIES} onSelect={setSelected} />
+        </div>
+
+        {/* ── Cosmic Distance Map ──────────────── */}
+        <div
+          className="mt-6 rounded-2xl border border-white/6 p-5"
+          style={{ background: 'rgba(255,255,255,0.012)' }}
+        >
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-2xl font-bold text-white" style={{ fontFamily: "'Exo 2', sans-serif" }}>
+              Distance des galaxies par rapport à la Voie Lactée
+            </h3>
+            <span className="text-xs text-gray-600 font-mono">jusqu&apos;à 1 040 M a.l. · log-échelle · cliquer pour détails</span>
+          </div>
+          <p className="text-xs text-gray-600 mb-4 leading-relaxed">
+            Toutes les galaxies du catalogue positionnées par distance depuis la Voie Lactée,
+            regroupées par type morphologique sur une échelle logarithmique.
+          </p>
+          <CosmicDistanceMap galaxies={GALAXIES} onSelect={setSelected} />
+        </div>
 
         {/* Stats bar */}
         <div

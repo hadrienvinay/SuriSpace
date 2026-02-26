@@ -131,8 +131,34 @@ model Pari {
   prenom  String
   cheveux String
   autres  String?
-  parieurName String    
+  parieurName String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Book {
+  id        Int      @id @default(autoincrement())
+  title     String
+  author    String
+  date      String
+  dateRead  String
+  rating    Int?
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model BourseOrder {
+  id             Int      @id @default(autoincrement())
+  name           String
+  ticker         String
+  type           String
+  montant        Float
+  prixAchat      Float
+  prixActuel     Float
+  quantity       Float
+  investmentDate DateTime @default(now())
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }

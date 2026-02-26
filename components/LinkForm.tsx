@@ -5,6 +5,12 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
+const LINK_TAGS = [
+  'Sciences', 'Education', 'Actualité', 'Economie',
+  'Religion', 'Musique', 'Politique', 'Maths',
+  'Technologie', 'Histoire', 'Philosophie', 'Sport',
+];
+
 interface LinkFormProps {
   initialData?: {
     id?: number
@@ -109,15 +115,16 @@ export default function CreateLinkForm({ initialData, mode }: LinkFormProps) {
         <label htmlFor="tag" className="block mb-2 font-medium">
           Tags
         </label>
-        <input
-          type="text"
+        <select
           id="tag"
           value={tag}
           onChange={(e) => setTag(e.target.value)}
           required
-          className="w-full px-4 py-2 border rounded-lg border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Tags"
-        />
+          className="w-full px-4 py-2 border rounded-lg border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+        >
+          <option value="" disabled>Choisir une catégorie…</option>
+          {LINK_TAGS.map(t => <option key={t} value={t}>{t}</option>)}
+        </select>
       </div>
 
       {/* Champ Lien */}

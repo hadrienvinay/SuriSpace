@@ -7,37 +7,51 @@ export async function GET(req: Request) {
     const actionsList = await prisma.action.findMany();
 
   for(const action of actionsList) {
-    if (action.where !== 'PEA') continue; // Ne mettre à jour que les actions du PEA
-    let actionPrice = action.price
-    let actionPe = action.pe
-    let actionDividend = action.dividendYield
-      try {
-          const yahooFinance = new YahooFinance({ suppressNotices: ['yahooSurvey'] });
-            const quote = await yahooFinance.quoteSummary(action.ticker, {
-            modules: ['price', 'summaryDetail', 'defaultKeyStatistics'],
-            });
-            const result = quote.price;
-            const summary = quote.summaryDetail;
-            const stats = quote.defaultKeyStatistics;
-            actionPrice = result?.regularMarketPrice || action.price
-            actionPe = summary?.trailingPE || action.pe
-            actionDividend = (summary?.dividendYield) || 0
+    if (action.where !== 'PEA' && action.where !== 'BINANCE') continue;
 
-          }catch (err) {
-            console.error(`Erreur pour ${action.ticker}:`, err);
-        }
+    let actionPrice = action.price;
+    let actionPe = action.pe;
+    let actionDividend = action.dividendYield;
 
-      const updated = await prisma.action.update({
-        where: { id: action.id },
+    try {
+      const yahooFinance = new YahooFinance({ suppressNotices: ['yahooSurvey'] });
 
-        data: {
-          price: Number(actionPrice || action.price),
-          purchasePrice: Number(action.purchasePrice || actionPrice),
-          pe: Number(actionPe || action.pe),
-          dividendYield: Number(actionDividend || 0),
-        },
-      })
+      if (action.where === 'BINANCE') {
+        // Pour les cryptos Binance, le ticker Yahoo Finance est de la forme "BTC-USD"
+        const cryptoTicker = action.ticker?.includes('-') ? action.ticker : `${action.ticker}-USD`;
+        const quote = await yahooFinance.quoteSummary(cryptoTicker, {
+          modules: ['price'],
+        });
+        actionPrice = quote.price?.regularMarketPrice || action.price;
+        // Pas de PE ni dividende pour les cryptos
+        actionPe = null;
+        actionDividend = null;
+      } else if (action.where === 'PEA'){
+        // PEA : logique existante
+        const quote = await yahooFinance.quoteSummary(action.ticker, {
+          modules: ['price', 'summaryDetail', 'defaultKeyStatistics'],
+        });
+        const result = quote.price;
+        const summary = quote.summaryDetail;
+        actionPrice = result?.regularMarketPrice || action.price;
+        actionPe = summary?.trailingPE || action.pe;
+        actionDividend = summary?.dividendYield || 0;
+      }
+    } catch (err) {
+      console.error(`Erreur pour ${action.ticker}:`, err);
     }
+
+    await prisma.action.update({
+      where: { id: action.id },
+      data: {
+        price: Number(actionPrice || action.price),
+        purchasePrice: Number(action.purchasePrice || actionPrice),
+        pe: action.where === 'BINANCE' ? null : Number(actionPe || action.pe),
+        dividendYield: action.where === 'BINANCE' ? null : Number(actionDividend || 0),
+      },
+    });
+  }
+    return NextResponse.json('Valeurs mises à jour')
 
     } catch (err) {
       console.error('UPDATE /api/actions error', err);
