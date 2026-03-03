@@ -152,7 +152,7 @@ export const GALAXIES: Galaxy[] = [
     discoverer: 'Giovanni Battista Hodierna',
     color: '#FCD34D',
     gradient: 'radial-gradient(ellipse, #78350f 0%, #92400e 40%, #2d1a06 80%, #020817 100%)',
-    photoUrl: undefined,
+    photoUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Triangulum_Galaxy_January_2013.jpg',
     description: 'La Galaxie du Triangle (M33) est le troisième membre majeur du Groupe Local. C\'est l\'un des objets les plus lointains visibles à l\'œil nu dans des conditions exceptionnelles. Elle présente deux bras spiraux bien définis et abrite NGC 604, l\'une des régions HII les plus lumineuses connues, 6 500 fois plus grande que la Nébuleuse d\'Orion.',
     features: [
       'Troisième plus grande galaxie du Groupe Local',
@@ -284,7 +284,7 @@ export const GALAXIES: Galaxy[] = [
     discoverer: 'Johann Elert Bode',
     color: '#EF4444',
     gradient: 'radial-gradient(ellipse, #7f1d1d 0%, #991b1b 40%, #2d0808 80%, #020817 100%)',
-    photoUrl: undefined,
+    photoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/M82_HST_ACS_2006-14-a-large_web.jpg/1280px-M82_HST_ACS_2006-14-a-large_web.jpg',
     description: 'La Galaxie du Cigare (M82) est la galaxie à sursaut de formation stellaire (starburst) la plus proche. Ses gaz ionisés sont expulsés en d\'immenses jets perpendiculaires à son disque, visibles en Hα. Cette activité intense est déclenchée par les interactions gravitationnelles avec sa voisine M81. SN 2014J, la supernova la plus proche observée depuis 1987, s\'y est produite.',
     features: [
       'Galaxie starburst la plus proche',
@@ -311,7 +311,7 @@ export const GALAXIES: Galaxy[] = [
     discoverer: 'John Herschel',
     color: '#818CF8',
     gradient: 'radial-gradient(ellipse, #312e81 0%, #3730a3 40%, #12104a 80%, #020817 100%)',
-    photoUrl: undefined,
+    photoUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Hubble2005-01-barred-spiral-galaxy-NGC1300.jpg',
     description: 'NGC 1300 est l\'un des plus beaux exemples de galaxie spirale barrée, rendu célèbre par une image spectaculaire du télescope spatial Hubble. Sa barre centrale mesure environ 33 000 a.l. et est flanquée de deux bras spiraux symétriques partant de ses extrémités. Au centre de la barre se trouve une petite structure spirale — une « spirale dans la spirale ».',
     features: [
       'Exemple prototype de spirale barrée',
@@ -417,7 +417,7 @@ export const GALAXIES: Galaxy[] = [
     discoverer: 'Edward Pigott',
     color: '#38BDF8',
     gradient: 'radial-gradient(ellipse, #0c4a6e 0%, #075985 40%, #042030 80%, #020817 100%)',
-    photoUrl: undefined,
+    photoUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Messier_64_HST.jpg',
     description: 'La Galaxie Œil Noir (M64) doit son surnom à la bande de poussières sombres qui obscurcit sa région intérieure, formant un "œil" frappant. Sa particularité unique : son halo extérieur tourne en sens inverse par rapport à son disque interne (rotation contra-rotative), témoignage d\'une fusion avec une petite galaxie satellite absorbée il y a environ un milliard d\'années.',
     features: [
       'Rotation contra-rotative : halo vs disque interne',

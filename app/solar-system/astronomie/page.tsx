@@ -179,67 +179,6 @@ export default function AstronomieHub() {
           ))}
         </div>
 
-        {/* Timeline */}
-        <div className="mb-14">
-          <h2 className="text-md font-bold tracking-widest uppercase text-gray-500 mb-8">
-            Histoire de l&apos;Astronomie
-          </h2>
-          <div className="space-y-8">
-            {TIMELINE.map(era => (
-              <div key={era.era}>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: era.color }} />
-                  <h3
-                    className="font-bold text-base"
-                    style={{ color: era.color, fontFamily: "'Exo 2', sans-serif" }}
-                  >
-                    {era.era}
-                  </h3>
-                  <span className="text-sm text-gray-600 font-mono">{era.period}</span>
-                </div>
-                <div className="ml-5 border-l border-white/8 pl-5 space-y-3">
-                  {era.events.map(ev => (
-                    <div key={ev.text} className="flex gap-3 items-start">
-                      <span
-                        className="text-sm font-mono shrink-0 mt-0.5"
-                        style={{ color: `${era.color}80`, minWidth: '7rem' }}
-                      >
-                        {ev.year}
-                      </span>
-                      <p className="text-md text-gray-400 leading-relaxed">{ev.text}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Instruments through time */}
-        <div className="mb-14">
-          <h2 className="text-md font-bold tracking-widest uppercase text-gray-500 mb-8">
-            Les Instruments à Travers le Temps
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {INSTRUMENTS.map(inst => (
-              <div
-                key={inst.name}
-                className="rounded-2xl border border-white/8 p-5 transition-all hover:border-white/15"
-                style={{ background: `${inst.color}06` }}
-              >
-                <div className="flex items-center gap-3 mb-3">
-                  <span className="text-2xl">{inst.icon}</span>
-                  <div>
-                    <div className="font-bold text-md text-white">{inst.name}</div>
-                    <div className="text-sm font-mono" style={{ color: `${inst.color}90` }}>{inst.period}</div>
-                  </div>
-                </div>
-                <p className="text-sm text-gray-500 leading-relaxed">{inst.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
         {/* Sub-section cards */}
         <div className="mb-10">
           <h2 className="text-md font-bold tracking-widest uppercase text-gray-500 mb-6">Explorer</h2>
@@ -318,6 +257,104 @@ export default function AstronomieHub() {
                 Voir les observatoires →
               </div>
             </Link>
+
+            {/* Etoiles et constellations */}
+            <Link
+              href="/solar-system/stars"
+              className="group relative block rounded-2xl border border-cyan-500/30 p-8 transition-all hover:scale-[1.02] hover:brightness-110 overflow-hidden"
+              style={{ background: 'linear-gradient(135deg, rgba(6,182,212,0.12), rgba(37,99,235,0.12))' }}
+            >
+              <div
+                className="absolute inset-0 opacity-10 pointer-events-none"
+                style={{ backgroundImage: 'radial-gradient(circle at 35% 50%, #22D3EE 0%, transparent 65%)' }}
+              />
+              <div className="text-5xl mb-4">🛸</div>
+              <h2
+                className="text-2xl font-bold text-cyan-300 mb-2"
+                style={{ fontFamily: "'Exo 2', sans-serif" }}
+              >
+                Etoiles
+              </h2>
+              <p className="text-gray-400 text-md leading-relaxed mb-4">
+                Du miroir de 10 m du télescope Keck au miroir d&apos;or de 6,5 m du JWST —
+                les observatoires terrestres et spatiaux qui repoussent les frontières de notre connaissance.
+              </p>
+              <div className="flex gap-2 flex-wrap">
+                {['Hubble', 'JWST', 'VLT · Chile', 'ALMA', 'ELT'].map(tag => (
+                  <span
+                    key={tag}
+                    className="px-2 py-0.5 rounded-full text-sm border"
+                    style={{ background: 'rgba(6,182,212,0.12)', color: '#67E8F9', borderColor: 'rgba(6,182,212,0.3)' }}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <div className="absolute bottom-5 right-5 opacity-0 group-hover:opacity-100 transition-opacity text-sm text-cyan-400">
+                Voir les étoiles →
+              </div>
+            </Link>
+          </div>
+        </div>
+
+        {/* Timeline */}
+        <div className="mb-14">
+          <h2 className="text-md font-bold tracking-widest uppercase text-gray-500 mb-8">
+            Histoire de l&apos;Astronomie
+          </h2>
+          <div className="space-y-8">
+            {TIMELINE.map(era => (
+              <div key={era.era}>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: era.color }} />
+                  <h3
+                    className="font-bold text-base"
+                    style={{ color: era.color, fontFamily: "'Exo 2', sans-serif" }}
+                  >
+                    {era.era}
+                  </h3>
+                  <span className="text-sm text-gray-600 font-mono">{era.period}</span>
+                </div>
+                <div className="ml-5 border-l border-white/8 pl-5 space-y-3">
+                  {era.events.map(ev => (
+                    <div key={ev.text} className="flex gap-3 items-start">
+                      <span
+                        className="text-sm font-mono shrink-0 mt-0.5"
+                        style={{ color: `${era.color}80`, minWidth: '7rem' }}
+                      >
+                        {ev.year}
+                      </span>
+                      <p className="text-md text-gray-400 leading-relaxed">{ev.text}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Instruments through time */}
+        <div className="mb-14">
+          <h2 className="text-md font-bold tracking-widest uppercase text-gray-500 mb-8">
+            Les Instruments à Travers le Temps
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {INSTRUMENTS.map(inst => (
+              <div
+                key={inst.name}
+                className="rounded-2xl border border-white/8 p-5 transition-all hover:border-white/15"
+                style={{ background: `${inst.color}06` }}
+              >
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-2xl">{inst.icon}</span>
+                  <div>
+                    <div className="font-bold text-md text-white">{inst.name}</div>
+                    <div className="text-sm font-mono" style={{ color: `${inst.color}90` }}>{inst.period}</div>
+                  </div>
+                </div>
+                <p className="text-sm text-gray-500 leading-relaxed">{inst.description}</p>
+              </div>
+            ))}
           </div>
         </div>
 

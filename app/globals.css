@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #252222;
+  --background: #020817;
+  --foreground: #ededed;
   --pokemon-red: #ff0000;
   --pokemon-blue: #0075be;
   --pokemon-yellow: #ffde00;
@@ -43,12 +43,6 @@
 }
 */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #020817;
-    --foreground: #ededed;
-  }
-}
 
 body {
   background: var(--background);

@@ -308,6 +308,7 @@ function InstrumentCard({ inst, onClick }: { inst: Instrument; onClick: () => vo
             src={inst.photoUrl}
             alt={inst.name}
             fill
+            unoptimized
             className="object-cover group-hover:scale-105 transition-transform duration-500"
             onError={() => setImgError(true)}
             sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 33vw"
@@ -401,6 +402,7 @@ function InstrumentModal({ inst, onClose }: { inst: Instrument; onClose: () => v
               src={inst.photoUrl}
               alt={inst.name}
               fill
+              unoptimized
               className="object-cover"
               onError={() => setImgError(true)}
               sizes="768px"

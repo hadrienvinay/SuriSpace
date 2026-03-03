@@ -54,6 +54,7 @@ function MessierModal({ obj, onClose }: { obj: MessierObject; onClose: () => voi
               src={obj.photoUrl}
               alt={obj.nameFr ?? obj.name ?? `M${obj.n}`}
               fill
+              unoptimized
               className="object-cover"
               onError={() => setImgError(true)}
               sizes="560px"
@@ -143,6 +144,7 @@ function MessierCard({ obj, onClick }: { obj: MessierObject; onClick: () => void
             src={obj.photoUrl}
             alt={obj.nameFr ?? `M${obj.n}`}
             fill
+            unoptimized
             className="object-cover group-hover:scale-105 transition-transform duration-500"
             onError={() => setImgError(true)}
             sizes="(max-width:640px) 50vw, (max-width:1024px) 33vw, 25vw"

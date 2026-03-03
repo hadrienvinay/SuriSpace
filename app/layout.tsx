@@ -1,6 +1,5 @@
 import "./globals.css";
 import type { Metadata } from 'next';
-import { ThemeProvider } from "@/components/ThemeProvider";
 import NavBar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
@@ -42,7 +41,6 @@ export default function RootLayout({
   return (
     <html lang="fr" className="scroll-smooth" suppressHydrationWarning>
       <body className="flex flex-col">
-        <ThemeProvider attribute="class" defaultTheme="dark">
           {/* Deep space background */}
           <div className="fixed inset-0 z-0 pointer-events-none">
             <div
@@ -84,7 +82,6 @@ export default function RootLayout({
           {/* FOOTER */}
           <Footer />
 
-        </ThemeProvider>
       </body>
     </html>
   );

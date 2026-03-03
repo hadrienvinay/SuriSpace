@@ -47,6 +47,7 @@ function GalaxyCard({ galaxy, onClick }: { galaxy: Galaxy; onClick: () => void }
             src={galaxy.photoUrl}
             alt={galaxy.name}
             fill
+            unoptimized
             className="object-cover group-hover:scale-105 transition-transform duration-500"
             onError={() => setImgError(true)}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -169,6 +170,7 @@ function GalaxyModal({ galaxy, onClose }: { galaxy: Galaxy; onClose: () => void 
               src={galaxy.photoUrl}
               alt={galaxy.name}
               fill
+              unoptimized
               className="object-cover"
               onError={() => setImgError(true)}
               sizes="(max-width: 768px) 100vw, 768px"
@@ -477,6 +479,7 @@ function MilkyWayHero({ onClick }: { onClick: () => void }) {
             src={mw.photoUrl}
             alt={mw.name}
             fill
+            unoptimized
             className="object-cover group-hover:scale-105 transition-transform duration-700"
             onError={() => setImgError(true)}
             sizes="100vw"
