@@ -467,9 +467,9 @@ export default function BodiesGallery() {
               className="grid gap-5"
               style={{
                 gridTemplateColumns: group.ids.length === 1
-                  ? 'minmax(0, 480px)'
+                  ? 'minmax(0, 360px)'
                   : group.ids.length === 2
-                  ? 'repeat(2, minmax(0, 1fr))'
+                  ? 'repeat(auto-fill, minmax(260px, 1fr))'
                   : group.ids.length >= 4
                   ? 'repeat(auto-fill, minmax(260px, 1fr))'
                   : 'repeat(auto-fill, minmax(280px, 1fr))',

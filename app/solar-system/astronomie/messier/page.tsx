@@ -1,7 +1,6 @@
 'use client';
 // app/solar-system/astronomie/messier/page.tsx
 import { useState, useEffect, useCallback } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import SolarLayout from '@/components/SolarLayout';
 import {
@@ -36,7 +35,7 @@ function MessierModal({ obj, onClose }: { obj: MessierObject; onClose: () => voi
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-lg rounded-2xl border overflow-hidden"
+        className="relative w-full max-w-xl rounded-2xl border overflow-hidden"
         style={{
           background: '#0a0f1e',
           borderColor: `${color}40`,
@@ -46,18 +45,16 @@ function MessierModal({ obj, onClose }: { obj: MessierObject; onClose: () => voi
       >
         {/* Header band */}
         <div
-          className="relative h-40 flex items-end p-5 overflow-hidden"
+          className="relative h-96 flex items-end p-5 overflow-hidden"
           style={{ background: obj.photoUrl && !imgError ? undefined : `linear-gradient(135deg, ${color}25, ${color}08)` }}
         >
           {obj.photoUrl && !imgError && (
-            <Image
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
               src={obj.photoUrl}
               alt={obj.nameFr ?? obj.name ?? `M${obj.n}`}
-              fill
-              unoptimized
-              className="object-cover"
+              className="absolute inset-0 w-full h-full object-cover"
               onError={() => setImgError(true)}
-              sizes="560px"
             />
           )}
           <div className="absolute inset-0 bg-linear-to-t from-[#0a0f1e] via-[#0a0f1e]/40 to-transparent" />
@@ -140,14 +137,12 @@ function MessierCard({ obj, onClick }: { obj: MessierObject; onClick: () => void
       {/* Image / gradient */}
       <div className="relative h-28 overflow-hidden">
         {obj.photoUrl && !imgError ? (
-          <Image
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
             src={obj.photoUrl}
             alt={obj.nameFr ?? `M${obj.n}`}
-            fill
-            unoptimized
-            className="object-cover group-hover:scale-105 transition-transform duration-500"
+            className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             onError={() => setImgError(true)}
-            sizes="(max-width:640px) 50vw, (max-width:1024px) 33vw, 25vw"
           />
         ) : (
           <div

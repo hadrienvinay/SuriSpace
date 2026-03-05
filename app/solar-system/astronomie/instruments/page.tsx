@@ -1,7 +1,6 @@
 'use client';
 // app/solar-system/astronomie/instruments/page.tsx
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import SolarLayout from '@/components/SolarLayout';
 
@@ -40,7 +39,7 @@ const INSTRUMENTS: Instrument[] = [
     wavelength: 'Visible · UV · IR proche',
     color: '#60A5FA',
     gradient: 'linear-gradient(135deg, #1e40af, #0e7490)',
-    photoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/HST-SM4.jpeg/800px-HST-SM4.jpeg',
+    photoUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/HST-SM4.jpeg',
     status: 'actif',
     headline: 'Plus de 30 ans de révolutions visuelles',
     description: 'Lancé en 1990 par la navette Discovery, Hubble a révolutionné l\'astronomie malgré un miroir initialement défectueux (corrigé en 1993). Ses images ont mesuré la constante de Hubble, confirmé l\'énergie noire et révélé des galaxies à des milliards d\'années-lumière.',
@@ -64,7 +63,7 @@ const INSTRUMENTS: Instrument[] = [
     wavelength: 'Infrarouge moyen et lointain',
     color: '#F59E0B',
     gradient: 'linear-gradient(135deg, #78350f, #b45309)',
-    photoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/NASA_Webb_Telescope_in_Space.jpg/800px-NASA_Webb_Telescope_in_Space.jpg',
+    photoUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/James_Webb_Space_Telescope_2009_top.jpg',
     status: 'actif',
     headline: 'Voir les premières lumières de l\'Univers',
     description: 'Successeur infrarouge de Hubble, JWST observe l\'Univers en infrarouge grâce à ses 18 segments hexagonaux en béryllium dorés. Placé au point L2, il est protégé par un écran solaire de la taille d\'un court de tennis. Il observe des galaxies formées 300 millions d\'années après le Big Bang.',
@@ -88,7 +87,7 @@ const INSTRUMENTS: Instrument[] = [
     wavelength: 'Rayons X',
     color: '#F472B6',
     gradient: 'linear-gradient(135deg, #831843, #9d174d)',
-    photoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Chandra_x-ray_telescope.jpg/800px-Chandra_x-ray_telescope.jpg',
+    photoUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Chandra_X-ray_Observatory.jpg',
     status: 'actif',
     headline: 'Explorer l\'Univers violent des rayons X',
     description: 'Chandra observe le cosmos dans les rayons X émis par les gaz ultra-chauds (millions de degrés). Il cartographie les trous noirs, restes de supernovae et plasma des amas de galaxies. Sa résolution angulaire est 8 fois supérieure à celle de ses prédécesseurs.',
@@ -111,6 +110,7 @@ const INSTRUMENTS: Instrument[] = [
     wavelength: 'Rayons gamma',
     color: '#A78BFA',
     gradient: 'linear-gradient(135deg, #4c1d95, #6d28d9)',
+    photoUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Fermi_Gamma-ray_Space_Telescope.jpg',
     status: 'actif',
     headline: 'Cartographier les sources d\'énergie extrême',
     description: 'Fermi cartographie le ciel en rayons gamma, les photons les plus énergétiques du spectre électromagnétique. Il détecte sursauts gamma (GRB), pulsars, noyaux actifs de galaxies (AGN) et cherche des signatures de matière noire.',
@@ -133,6 +133,7 @@ const INSTRUMENTS: Instrument[] = [
     wavelength: 'Visible · IR proche',
     color: '#34D399',
     gradient: 'linear-gradient(135deg, #064e3b, #065f46)',
+    photoUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Transiting_Exoplanet_Survey_Satellite_artist_concept.jpg',
     status: 'actif',
     headline: 'Chasseur d\'exoplanètes du voisinage solaire',
     description: 'Transiting Exoplanet Survey Satellite surveille 85% du ciel en détectant des transits planétaires. Son champ est 400 fois supérieur à Kepler, ciblant les étoiles brillantes proches pour faciliter le suivi spectroscopique.',
@@ -156,7 +157,7 @@ const INSTRUMENTS: Instrument[] = [
     wavelength: 'Visible · UV · IR',
     color: '#34D399',
     gradient: 'linear-gradient(135deg, #064e3b, #065f46)',
-    photoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/ESO-VLT-Laser-phot-0a-99.jpg/800px-ESO-VLT-Laser-phot-0a-99.jpg',
+    photoUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/ESO-VLT-Laser-phot-0a-99.jpg',
     status: 'actif',
     headline: 'Quatre miroirs géants sur le désert d\'Atacama',
     description: 'Le VLT de l\'ESO sur le Cerro Paranal est l\'observatoire optique le plus productif du monde en publications scientifiques. Ses quatre télescopes de 8,2 m peuvent être utilisés séparément ou combinés en interférométrie (VLTI) pour atteindre une résolution équivalente à un miroir de 130 m.',
@@ -179,7 +180,7 @@ const INSTRUMENTS: Instrument[] = [
     wavelength: 'Millimétrique · Submillimétrique',
     color: '#A78BFA',
     gradient: 'linear-gradient(135deg, #4c1d95, #5b21b6)',
-    photoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/ALMA_-_a_view_from_a_distance_to_the_antennas.jpg/800px-ALMA_-_a_view_from_a_distance_to_the_antennas.jpg',
+    photoUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/ALMA_Array.jpg',
     status: 'actif',
     headline: 'Voir la naissance des étoiles et planètes',
     description: 'L\'Atacama Large Millimeter/submillimeter Array est le plus grand radiotélescope millimétrique du monde. Situé sur le plus haut plateau sec de la Terre, il observe la poussière froide, les molécules organiques et les disques protoplanétaires avec une résolution sans précédent.',
@@ -203,7 +204,7 @@ const INSTRUMENTS: Instrument[] = [
     wavelength: 'Visible · IR · UV',
     color: '#FB923C',
     gradient: 'linear-gradient(135deg, #7c2d12, #92400e)',
-    photoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/The_Danish_1.54-metre_telescope_at_La_Silla.jpg/800px-The_Danish_1.54-metre_telescope_at_La_Silla.jpg',
+    photoUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/La_Silla_Observatory.jpg',
     status: 'actif',
     headline: 'Le pionnier des observatoires chiliens de l\'ESO',
     description: 'Premier observatoire de l\'ESO au Chili, La Silla abrite une douzaine de télescopes dont le NTT (New Technology Telescope, 3,5 m), pionnier en optique active. L\'instrument HARPS y a découvert des centaines d\'exoplanètes.',
@@ -226,7 +227,7 @@ const INSTRUMENTS: Instrument[] = [
     wavelength: 'Visible · IR',
     color: '#60A5FA',
     gradient: 'linear-gradient(135deg, #1e3a5f, #1d4ed8)',
-    photoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Keck_Observatory.jpg/800px-Keck_Observatory.jpg',
+    photoUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Keck_Observatory.jpg',
     status: 'actif',
     headline: 'Les miroirs segmentés pionniers du Mauna Kea',
     description: 'Les deux télescopes Keck avec leurs miroirs hexagonaux segmentés de 10 m ont été pendant deux décennies les plus grands télescopes optiques du monde. Ils utilisent l\'optique adaptative pour corriger la turbulence atmosphérique en temps réel.',
@@ -249,6 +250,7 @@ const INSTRUMENTS: Instrument[] = [
     wavelength: 'Visible · IR',
     color: '#F59E0B',
     gradient: 'linear-gradient(135deg, #78350f, #d97706)',
+    photoUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/ELT_rendering.jpg',
     status: 'construction',
     headline: 'Le plus grand œil jamais braqué vers le ciel',
     description: 'L\'ELT sera le plus grand télescope optique/IR terrestre jamais construit. Son miroir de 39 m composé de 798 segments hexagonaux lui donnera une puissance de collecte 13 fois supérieure au VLT. L\'optique adaptative à 5 miroirs permettra de dépasser la résolution du JWST.',
@@ -271,6 +273,7 @@ const INSTRUMENTS: Instrument[] = [
     wavelength: 'Millimétrique (1,3 mm)',
     color: '#FB923C',
     gradient: 'linear-gradient(135deg, #7c2d12, #c2410c)',
+    photoUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Black_hole_-_Messier_87_crop_max_res.jpg',
     status: 'actif',
     headline: 'Photographier l\'ombre d\'un trou noir',
     description: 'L\'EHT est un réseau mondial de radiotélescopes fonctionnant en interférométrie très longue base (VLBI). En combinant les signaux de 8 observatoires du Pôle Sud au Groenland, il crée effectivement un radiotélescope de la taille de la Terre.',
@@ -304,14 +307,12 @@ function InstrumentCard({ inst, onClick }: { inst: Instrument; onClick: () => vo
       {/* Image */}
       <div className="relative h-44 overflow-hidden rounded-t-2xl">
         {inst.photoUrl && !imgError ? (
-          <Image
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
             src={inst.photoUrl}
             alt={inst.name}
-            fill
-            unoptimized
-            className="object-cover group-hover:scale-105 transition-transform duration-500"
+            className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             onError={() => setImgError(true)}
-            sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 33vw"
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center" style={{ background: inst.gradient }}>
@@ -382,7 +383,7 @@ function InstrumentModal({ inst, onClose }: { inst: Instrument; onClose: () => v
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 mt-10"
       style={{ background: 'rgba(2,8,23,0.92)', backdropFilter: 'blur(12px)' }}
       onClick={onClose}
     >
@@ -398,15 +399,12 @@ function InstrumentModal({ inst, onClose }: { inst: Instrument; onClose: () => v
         {/* Hero image */}
         <div className="relative h-56 sm:h-72 overflow-hidden rounded-t-2xl">
           {inst.photoUrl && !imgError ? (
-            <Image
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
               src={inst.photoUrl}
               alt={inst.name}
-              fill
-              unoptimized
-              className="object-cover"
+              className="absolute inset-0 w-full h-full object-cover"
               onError={() => setImgError(true)}
-              sizes="768px"
-              priority
             />
           ) : (
             <div className="absolute inset-0 flex items-center justify-center" style={{ background: inst.gradient }}>
