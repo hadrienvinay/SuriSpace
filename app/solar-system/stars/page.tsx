@@ -12,9 +12,8 @@ import {
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 const MAG_TO_RADIUS = (mag: number): number => {
-  // Brighter (lower mag) = bigger dot
   const clamped = Math.max(-2, Math.min(14, mag));
-  return Math.max(1.5, 9.5 - clamped * 0.55);
+  return Math.max(1.0, 6.5 - clamped * 0.42);
 };
 
 // ─── StarMap Layout (inline, no external layout needed) ────────────────────
@@ -30,6 +29,32 @@ export default function StarMap() {
   const [filterType, setFilterType] = useState<'all' | 'naked-eye' | 'exoplanets' | 'nearest'>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [showGrid, setShowGrid] = useState(false);
+  const [zoom, setZoom] = useState(1);
+  const [pan, setPan] = useState({ x: 0, y: 0 });
+  const isDragging = useRef(false);
+  const dragStart  = useRef({ mx: 0, my: 0, px: 0, py: 0 });
+
+  const ZOOM_LEVELS = [1, 1.5, 2, 3];
+  const zoomIn  = () => { setZoom(z => { const i = ZOOM_LEVELS.indexOf(z); return ZOOM_LEVELS[Math.min(i + 1, ZOOM_LEVELS.length - 1)]; }); };
+  const zoomOut = () => { setZoom(z => { const i = ZOOM_LEVELS.indexOf(z); const nz = ZOOM_LEVELS[Math.max(i - 1, 0)]; if (nz === 1) setPan({ x: 0, y: 0 }); return nz; }); };
+
+  const onPointerDown = (e: React.PointerEvent) => {
+    if (zoom === 1) return;
+    isDragging.current = true;
+    dragStart.current = { mx: e.clientX, my: e.clientY, px: pan.x, py: pan.y };
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+  };
+  const onPointerMove = (e: React.PointerEvent) => {
+    if (!isDragging.current) return;
+    const dx = (e.clientX - dragStart.current.mx) / zoom;
+    const dy = (e.clientY - dragStart.current.my) / zoom;
+    const limit = (size / 2) * (1 - 1 / zoom);
+    setPan({
+      x: Math.max(-limit, Math.min(limit, dragStart.current.px - dx)),
+      y: Math.max(-limit, Math.min(limit, dragStart.current.py - dy)),
+    });
+  };
+  const onPointerUp = () => { isDragging.current = false; };
 
   useEffect(() => {
     const update = () => {
@@ -159,38 +184,68 @@ export default function StarMap() {
 
             {/* SVG Star Map */}
             <div ref={containerRef}
-              className="relative rounded-2xl overflow-hidden border border-white/6"
+              className="relative rounded-2xl overflow-hidden border border-white/6 flex justify-center"
               style={{ background: 'radial-gradient(circle at 50% 50%, #080d1e 0%, #010408 70%)' }}>
-              <svg ref={svgRef} width={size} height={size} className="block">
+
+              {/* Zoom controls */}
+              <div className="absolute top-3 left-3 z-10 flex items-center gap-1">
+                <button onClick={zoomOut} disabled={zoom === ZOOM_LEVELS[0]}
+                  className="w-8 h-8 rounded-lg border border-white/15 text-gray-300 hover:text-white hover:bg-white/10 transition-all disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-lg font-bold"
+                  style={{ background: 'rgba(5,8,25,0.80)' }}>−</button>
+                <span className="text-xs font-mono text-gray-500 px-1.5 tabular-nums"
+                  style={{ minWidth: '3ch', textAlign: 'center' }}>{zoom}×</span>
+                <button onClick={zoomIn} disabled={zoom === ZOOM_LEVELS[ZOOM_LEVELS.length - 1]}
+                  className="w-8 h-8 rounded-lg border border-white/15 text-gray-300 hover:text-white hover:bg-white/10 transition-all disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-lg font-bold"
+                  style={{ background: 'rgba(5,8,25,0.80)' }}>+</button>
+                {zoom !== 1 && (
+                  <button onClick={() => { setZoom(1); setPan({ x: 0, y: 0 }); }}
+                    className="px-2 h-8 rounded-lg border border-white/15 text-gray-500 hover:text-white hover:bg-white/10 transition-all text-xs font-mono"
+                    style={{ background: 'rgba(5,8,25,0.80)' }}>reset</button>
+                )}
+              </div>
+              <svg ref={svgRef} width={size} height={size}
+                className="block mx-auto"
+                style={{ cursor: zoom > 1 ? (isDragging.current ? 'grabbing' : 'grab') : 'default' }}
+                viewBox={`${cx - size / (2 * zoom) + pan.x} ${cy - size / (2 * zoom) + pan.y} ${size / zoom} ${size / zoom}`}
+                onPointerDown={onPointerDown}
+                onPointerMove={onPointerMove}
+                onPointerUp={onPointerUp}
+                onPointerLeave={onPointerUp}>
                 <defs>
                   {/* Deep space radial bg */}
                   <radialGradient id="sm-bg" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stopColor="#0d1535" />
-                    <stop offset="60%" stopColor="#06091a" />
-                    <stop offset="100%" stopColor="#010408" />
+                    <stop offset="0%"   stopColor="#0b1230" />
+                    <stop offset="45%"  stopColor="#070c22" />
+                    <stop offset="80%"  stopColor="#050918" />
+                    <stop offset="100%" stopColor="#030610" />
                   </radialGradient>
                   {/* Milky Way glow */}
                   <linearGradient id="sm-mw" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="rgba(100,120,200,0)" />
-                    <stop offset="30%" stopColor="rgba(120,140,220,0.04)" />
-                    <stop offset="50%" stopColor="rgba(140,160,240,0.07)" />
-                    <stop offset="70%" stopColor="rgba(120,140,220,0.04)" />
+                    <stop offset="0%"   stopColor="rgba(100,120,200,0)" />
+                    <stop offset="25%"  stopColor="rgba(130,150,230,0.05)" />
+                    <stop offset="50%"  stopColor="rgba(150,170,255,0.11)" />
+                    <stop offset="75%"  stopColor="rgba(130,150,230,0.05)" />
                     <stop offset="100%" stopColor="rgba(100,120,200,0)" />
                   </linearGradient>
+                  {/* Horizon ring glow */}
+                  <radialGradient id="sm-ring-glow" cx="50%" cy="50%" r="50%">
+                    <stop offset="88%" stopColor="rgba(90,120,255,0)" />
+                    <stop offset="96%" stopColor="rgba(90,120,255,0.15)" />
+                    <stop offset="100%" stopColor="rgba(90,120,255,0)" />
+                  </radialGradient>
                   {/* Clip circle */}
                   <clipPath id="sm-clip">
                     <circle cx={cx} cy={cy} r={mapR} />
                   </clipPath>
                   {/* Star glow filter */}
-                  <filter id="sm-glow" x="-100%" y="-100%" width="300%" height="300%">
-                    <feGaussianBlur stdDeviation="2.5" result="blur" />
+                  <filter id="sm-glow" x="-120%" y="-120%" width="340%" height="340%">
+                    <feGaussianBlur stdDeviation="3" result="blur" />
                     <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
                   </filter>
                   <filter id="sm-glow-lg" x="-150%" y="-150%" width="400%" height="400%">
-                    <feGaussianBlur stdDeviation="5" result="blur" />
+                    <feGaussianBlur stdDeviation="6" result="blur" />
                     <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
                   </filter>
-                  {/* Hovered star pulse */}
                   <filter id="sm-selected" x="-150%" y="-150%" width="400%" height="400%">
                     <feGaussianBlur stdDeviation="4" result="blur" />
                     <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
@@ -200,21 +255,23 @@ export default function StarMap() {
                 {/* Background */}
                 <circle cx={cx} cy={cy} r={mapR} fill="url(#sm-bg)" />
 
-                {/* Milky Way band */}
-                <ellipse cx={cx} cy={cy + mapR * 0.15} rx={mapR * 0.25} ry={mapR * 0.95}
+                {/* Milky Way band — slightly brighter */}
+                <ellipse cx={cx} cy={cy + mapR * 0.12} rx={mapR * 0.28} ry={mapR * 0.97}
                   fill="url(#sm-mw)" clipPath="url(#sm-clip)"
                   transform={`rotate(-30 ${cx} ${cy})`} />
 
-                {/* Background micro-stars (atmosphere) */}
-                {Array.from({ length: 200 }, (_, i) => {
+                {/* Background micro-stars — more density & variation */}
+                {Array.from({ length: 320 }, (_, i) => {
                   const angle = (i * 137.508) % 360;
-                  const r = Math.sqrt(i / 200) * mapR * 0.98;
+                  const r = Math.sqrt(i / 320) * mapR * 0.98;
                   const bx = cx + r * Math.cos(angle * Math.PI / 180);
                   const by = cy + r * Math.sin(angle * Math.PI / 180);
                   if (bx < cx - mapR || bx > cx + mapR || by < cy - mapR || by > cy + mapR) return null;
+                  const sz = i % 7 === 0 ? 1.0 : i % 3 === 0 ? 0.7 : 0.4;
+                  const op = 0.08 + (i % 6) * 0.04;
                   return (
-                    <circle key={`bg-${i}`} cx={bx} cy={by} r={0.5 + (i % 3) * 0.3}
-                      fill={`rgba(200,220,255,${0.1 + (i % 5) * 0.06})`} />
+                    <circle key={`bg-${i}`} cx={bx} cy={by} r={sz}
+                      fill={`rgba(210,225,255,${op})`} />
                   );
                 })}
 
@@ -257,9 +314,8 @@ export default function StarMap() {
                     return (
                       <line key={`${id1}-${id2}`}
                         x1={p1.px} y1={p1.py} x2={p2.px} y2={p2.py}
-                        stroke={isActive ? c.color : 'rgba(180,200,255,0.18)'}
-                        strokeWidth={isActive ? 1.5 : 0.7}
-                        strokeDasharray={isActive ? 'none' : 'none'}
+                        stroke={isActive ? c.color : 'rgba(180,205,255,0.26)'}
+                        strokeWidth={isActive ? 1.6 : 0.9}
                         clipPath="url(#sm-clip)"
                       />
                     );
@@ -275,23 +331,28 @@ export default function StarMap() {
                     <g key={`cname-${c.id}`} onClick={() => handleConstellationClick(c)} style={{ cursor: 'pointer' }}>
                       <text x={pos.px} y={pos.py}
                         textAnchor="middle"
-                        fontSize={isActive ? 12 : 10}
+                        fontSize={(isActive ? 12 : 10) / zoom}
                         fontFamily="'Exo 2', sans-serif"
-                        fontWeight={isActive ? '600' : '300'}
-                        fill={isActive ? c.color : 'rgba(180,200,255,0.35)'}
-                        style={{ letterSpacing: '0.12em', textTransform: 'uppercase' }}
+                        fontWeight={isActive ? '700' : '400'}
+                        fill={isActive ? c.color : 'rgba(190,210,255,0.48)'}
+                        style={{ letterSpacing: '0.14em', textTransform: 'uppercase' }}
                         clipPath="url(#sm-clip)">
                         {c.abbreviation}
                       </text>
                     </g>
                   );
                 })}
+                
+                {/* Horizon ring glow */}
+                <circle cx={cx} cy={cy} r={mapR} fill="url(#sm-ring-glow)" />
+                {/* Map border crisp */}
+                <circle cx={cx} cy={cy} r={mapR} fill="none" stroke="rgba(120,155,255,0.40)" strokeWidth={1.5} />
 
                 {/* ─── Stars ─── */}
                 {visibleStars.map(star => {
                   const { px, py } = getPos(star.ra, star.dec);
                   if (px < cx - mapR || px > cx + mapR || py < cy - mapR || py > cy + mapR) return null;
-                  const r = MAG_TO_RADIUS(star.magnitude);
+                  const r = MAG_TO_RADIUS(star.magnitude) / zoom;
                   const col = SPECTRAL_COLORS[star.spectralClass] ?? '#ffffff';
                   const isHov = hoveredId === star.id;
                   const isSel = selectedStar?.id === star.id;
@@ -304,23 +365,32 @@ export default function StarMap() {
                       onMouseLeave={() => setHoveredId(null)}
                       style={{ cursor: 'pointer' }}
                       clipPath="url(#sm-clip)">
+                      {/* Invisible hit area — ensures clickability regardless of star size */}
+                      <circle cx={px} cy={py} r={Math.max(10 / zoom, r + 5 / zoom)} fill="transparent" />
                       {/* Selection ring pulse */}
                       {isSel && (
-                        <circle cx={px} cy={py} r={r + 8} fill="none" stroke={col} strokeWidth={1} strokeOpacity={0.5}>
-                          <animate attributeName="r" values={`${r + 6};${r + 14};${r + 6}`} dur="2s" repeatCount="indefinite" />
+                        <circle cx={px} cy={py} r={r + 8 / zoom} fill="none" stroke={col} strokeWidth={1 / zoom} strokeOpacity={0.5}>
+                          <animate attributeName="r" values={`${r + 6 / zoom};${r + 14 / zoom};${r + 6 / zoom}`} dur="2s" repeatCount="indefinite" />
                           <animate attributeName="opacity" values="0.6;0;0.6" dur="2s" repeatCount="indefinite" />
                         </circle>
                       )}
                       {/* Exoplanet indicator */}
                       {hasExo && (
-                        <circle cx={px} cy={py} r={r + 4}
-                          fill="none" stroke="#22d3ee" strokeWidth={0.8} strokeOpacity={0.5}
+                        <circle cx={px} cy={py} r={r + 4 / zoom}
+                          fill="none" stroke="#22d3ee" strokeWidth={0.8 / zoom} strokeOpacity={0.5}
                           strokeDasharray="2 3" />
                       )}
-                      {/* Glow */}
+                      {/* Wide diffuse glow for bright stars */}
+                      {star.magnitude < 2.0 && (
+                        <circle cx={px} cy={py} r={r * (star.magnitude < 0.5 ? 5 : star.magnitude < 1.0 ? 3.5 : 2.5)}
+                          fill={col}
+                          fillOpacity={star.magnitude < 0.5 ? 0.10 : 0.07}
+                        />
+                      )}
+                      {/* Glow filter */}
                       {(isSel || isHov || star.magnitude < 1.5) && (
-                        <circle cx={px} cy={py} r={r * 2.5}
-                          fill={col} fillOpacity={0.12}
+                        <circle cx={px} cy={py} r={r * 2.8}
+                          fill={col} fillOpacity={isSel || isHov ? 0.18 : 0.13}
                           filter="url(#sm-glow)" />
                       )}
                       {/* Star body */}
@@ -329,13 +399,16 @@ export default function StarMap() {
                         fillOpacity={visibleStarIds.has(star.id) ? 1 : 0.3}
                         filter={star.magnitude < 0.5 ? 'url(#sm-glow-lg)' : undefined}
                       />
-                      {/* Name label */}
+                      {/* Name label with subtle background rect */}
                       {showLabels && (star.magnitude < 2.5 || isHov || isSel) && (
-                        <text x={px + r + 4} y={py + 4}
-                          fontSize={isSel ? 12 : isHov ? 11 : 9.5}
+                        <text x={px + r + 4 / zoom} y={py + 4 / zoom}
+                          fontSize={isSel ? 12 / zoom : isHov ? 11 / zoom : 9.5 / zoom}
                           fontFamily="monospace"
-                          fontWeight={isSel ? '600' : '400'}
-                          fill={isSel ? col : isHov ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.45)'}>
+                          fontWeight={isSel ? '700' : isHov ? '500' : '400'}
+                          fill={isSel ? col : isHov ? 'rgba(255,255,255,0.95)' : 'rgba(210,225,255,0.60)'}
+                          paintOrder="stroke"
+                          stroke="rgba(5,8,25,0.70)"
+                          strokeWidth={(isSel || isHov ? 3 : 2.5) / zoom}>
                           {star.nameFr ?? star.name}
                         </text>
                       )}
@@ -343,23 +416,30 @@ export default function StarMap() {
                   );
                 })}
 
-                {/* Map border + compass */}
-                <circle cx={cx} cy={cy} r={mapR} fill="none" stroke="rgba(100,140,255,0.2)" strokeWidth={1.5} />
-                {/* Cardinal directions */}
-                {[['N', 0, -1], ['S', 0, 1], ['E', 1, 0], ['O', -1, 0]].map(([label, dx, dy]) => (
-                  <text key={String(label)}
-                    x={cx + Number(dx) * (mapR + 16)}
-                    y={cy + Number(dy) * (mapR + 16) + 4}
-                    textAnchor="middle"
-                    fontSize={12}
-                    fontFamily="monospace"
-                    fill="rgba(100,140,255,0.4)"
-                    fontWeight="500">
-                    {label}
-                  </text>
+
+                {/* Cardinal tick marks */}
+                {([['N',0,-1],['S',0,1],['E',1,0],['O',-1,0]] as [string,number,number][]).map(([, dx, dy]) => (
+                  <line key={`tick-${dx}-${dy}`}
+                    x1={cx + dx * mapR} y1={cy + dy * mapR}
+                    x2={cx + dx * (mapR - 8)} y2={cy + dy * (mapR - 8)}
+                    stroke="rgba(150,180,255,0.55)" strokeWidth={1.5} />
                 ))}
+
+                {/* Cardinal labels with background discs */}
+                {([['N',0,-1,'#93C5FD'],['S',0,1,'rgba(200,215,255,0.80)'],['E',1,0,'rgba(200,215,255,0.80)'],['O',-1,0,'rgba(200,215,255,0.80)']] as [string,number,number,string][]).map(([label, dx, dy, col]) => {
+                  const lx = cx + dx * (mapR + 20), ly = cy + dy * (mapR + 20);
+                  return (
+                    <g key={`card-${label}`}>
+                      <circle cx={lx} cy={ly} r={12} fill="rgba(5,8,30,0.85)" stroke={col} strokeOpacity={0.3} strokeWidth={0.8} />
+                      <text x={lx} y={ly + 4} textAnchor="middle" fontSize={12} fontFamily="sans-serif" fontWeight="700" fill={col}>
+                        {label}
+                      </text>
+                    </g>
+                  );
+                })}
+
                 {/* Scale legend */}
-                <text x={cx - mapR + 8} y={cy + mapR - 8} fontSize={9} fill="rgba(255,255,255,0.2)" fontFamily="monospace">
+                <text x={cx - mapR + 10} y={cy + mapR - 10} fontSize={9} fill="rgba(180,200,255,0.25)" fontFamily="monospace">
                   Projection équatoriale · Hémisphère nord
                 </text>
               </svg>

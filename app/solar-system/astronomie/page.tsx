@@ -68,6 +68,93 @@ const TIMELINE = [
   },
 ];
 
+/* ── Éphémérides Mars 2026 ───────────────────────────────── */
+const MOON_PHASES = [
+  { icon: '🌑', phase: 'Nouvelle Lune',    date: '1 mars',  highlight: false },
+  { icon: '🌓', phase: 'Premier Quartier', date: '8 mars',  highlight: false },
+  { icon: '🌕', phase: 'Pleine Lune',      date: '14 mars', highlight: true,  name: 'Lune du Ver' },
+  { icon: '🌗', phase: 'Dernier Quartier', date: '22 mars', highlight: false },
+  { icon: '🌑', phase: 'Nouvelle Lune',    date: '30 mars', highlight: false },
+];
+
+const PLANETS_MARCH = [
+  { name: 'Mercure', symbol: '☿', visibility: 'Soir',  detail: 'Élongation max. le 12 mars (18° est) — bas à l\'ouest après le coucher du Soleil', color: '#A78BFA', mag: '+0,5' },
+  { name: 'Vénus',   symbol: '♀', visibility: 'Matin', detail: 'Étoile du matin, très brillante à l\'est avant l\'aurore', color: '#FBBF24', mag: '−4,2' },
+  { name: 'Mars',    symbol: '♂', visibility: 'Soir',  detail: 'Dans les Gémeaux, visible en début de nuit — en déclin post-opposition (jan. 2025)', color: '#F87171', mag: '+1,3' },
+  { name: 'Jupiter', symbol: '♃', visibility: 'Soir',  detail: 'Dans le Taureau, se couche vers 23h — encore bien placé', color: '#FB923C', mag: '−2,1' },
+  { name: 'Saturne', symbol: '♄', visibility: 'Matin', detail: 'Dans le Verseau, visible en fin de nuit, bas sur l\'horizon oriental', color: '#34D399', mag: '+1,2' },
+];
+
+const EVENTS_MARCH = [
+  { date: '1 mars',  icon: '🌑', text: 'Nouvelle Lune' },
+  { date: '8 mars',  icon: '🌓', text: 'Premier Quartier' },
+  { date: '12 mars', icon: '☿',  text: 'Élongation maximale est de Mercure — 18,1° du Soleil, visible le soir' },
+  { date: '14 mars', icon: '🌕', text: 'Pleine Lune "du Ver" — meilleure nuit pour observer les objets éclairés' },
+  { date: '20 mars', icon: '🌸', text: 'Équinoxe de printemps — 11h01 UTC · Jour et nuit égaux' },
+  { date: '22 mars', icon: '🌗', text: 'Dernier Quartier' },
+  { date: '30 mars', icon: '🌑', text: 'Nouvelle Lune — nuits idéales pour le ciel profond' },
+];
+
+/* ── Agenda 2026 ─────────────────────────────────────────── */
+const AGENDA_2026: { month: string; color: string; highlight?: boolean; events: { icon: string; text: string }[] }[] = [
+  {
+    month: 'Janv.',
+    color: '#60A5FA',
+    events: [
+      { icon: '🌠', text: 'Quadrantides : pic le 3–4 janvier (ZHR ~120) — pluie intense depuis le Bouvier' },
+    ],
+  },
+  {
+    month: 'Mars',
+    color: '#34D399',
+    events: [
+      { icon: '🌸', text: 'Équinoxe de printemps — 20 mars' },
+      { icon: '☿',  text: 'Élongation maximale de Mercure — 12 mars (18° est)' },
+    ],
+  },
+  {
+    month: 'Juin',
+    color: '#FBBF24',
+    events: [
+      { icon: '🌞', text: 'Solstice d\'été — 21 juin, nuit la plus courte de l\'année' },
+      { icon: '✨', text: 'Conjonction Vénus–Jupiter — spectaculaire dans le crépuscule (vers le 5 juin)' },
+    ],
+  },
+  {
+    month: 'Août',
+    color: '#F87171',
+    highlight: true,
+    events: [
+      { icon: '🌑', text: 'Éclipse solaire TOTALE — 12 août : tracé Russie · Islande · nord Espagne · Maroc' },
+      { icon: '🌠', text: 'Perséides : pic le 11–12 août (ZHR ~100) — nuit sans Lune !' },
+    ],
+  },
+  {
+    month: 'Sept.',
+    color: '#A78BFA',
+    events: [
+      { icon: '♄',  text: 'Opposition de Saturne (~21 sept.) — meilleure visibilité annuelle, anneaux inclinés' },
+      { icon: '🍂', text: 'Équinoxe d\'automne — 23 septembre' },
+    ],
+  },
+  {
+    month: 'Nov.',
+    color: '#FB923C',
+    events: [
+      { icon: '♃',  text: 'Opposition de Jupiter (~13 nov.) — visible toute la nuit dans les Gémeaux (mag. −2,9)' },
+      { icon: '🌠', text: 'Léonides : pic le 17–18 novembre' },
+    ],
+  },
+  {
+    month: 'Déc.',
+    color: '#F472B6',
+    events: [
+      { icon: '🌠', text: 'Géminides : pic le 13–14 déc. (ZHR ~150) — meilleure pluie annuelle !' },
+      { icon: '❄️', text: 'Solstice d\'hiver — 21 décembre' },
+    ],
+  },
+];
+
 const INSTRUMENTS = [
   {
     name: 'Œil nu',
@@ -142,6 +229,129 @@ export default function AstronomieHub() {
           <p className="text-gray-400 text-base max-w-2xl mx-auto leading-relaxed">
             La plus ancienne des sciences — l&apos;étude des corps célestes, de leurs mouvements, compositions et origines.
             De l&apos;œil nu de Galilée aux miroirs de 39 mètres de l&apos;ELT, l&apos;humanité n&apos;a cessé d&apos;agrandir sa fenêtre sur l&apos;univers.
+          </p>
+        </div>
+
+        {/* ── Éphémérides de Mars 2026 ────────────────────────── */}
+        <div className="mb-12">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-md font-bold tracking-widest uppercase text-gray-500">
+              Éphémérides · Mars 2026
+            </h2>
+            <span className="text-xs font-mono text-gray-600 border border-white/8 rounded-full px-3 py-1">
+              Heure UTC · Latitude France
+            </span>
+            <a href="/solar-system/astronomie/ciel"className="text-md font-bold tracking-widest uppercase text-purple-500">
+              Voir la carte du ciel du jour
+            </a>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+
+            {/* Phases lunaires */}
+            <div className="rounded-2xl border border-white/8 p-5" style={{ background: 'rgba(167,139,250,0.05)' }}>
+              <h3 className="text-xs uppercase tracking-wider text-gray-500 mb-4">Phases de la Lune</h3>
+              <div className="space-y-3">
+                {MOON_PHASES.map(p => (
+                  <div
+                    key={p.date}
+                    className="flex items-center gap-3 rounded-xl px-3 py-2"
+                    style={{ background: p.highlight ? 'rgba(167,139,250,0.12)' : 'transparent', border: p.highlight ? '1px solid rgba(167,139,250,0.25)' : '1px solid transparent' }}
+                  >
+                    <span className="text-2xl w-8 text-center">{p.icon}</span>
+                    <div className="flex-1">
+                      <div className="text-sm font-semibold text-white">{p.phase}</div>
+                      {'name' in p && <div className="text-xs text-purple-400">{p.name as string}</div>}
+                    </div>
+                    <span className="text-xs font-mono text-gray-500">{p.date}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Visibilité des planètes */}
+            <div className="rounded-2xl border border-white/8 p-5" style={{ background: 'rgba(251,146,60,0.04)' }}>
+              <h3 className="text-xs uppercase tracking-wider text-gray-500 mb-4">Planètes visibles</h3>
+              <div className="space-y-3">
+                {PLANETS_MARCH.map(p => (
+                  <div key={p.name} className="flex gap-3 items-start">
+                    <div
+                      className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm font-bold"
+                      style={{ background: `${p.color}18`, color: p.color, border: `1px solid ${p.color}30` }}
+                    >
+                      {p.symbol}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-0.5">
+                        <span className="text-sm font-semibold text-white">{p.name}</span>
+                        <span
+                          className="text-[10px] px-1.5 py-0.5 rounded-full font-mono"
+                          style={{ background: p.visibility === 'Matin' ? 'rgba(251,191,36,0.15)' : 'rgba(96,165,250,0.15)', color: p.visibility === 'Matin' ? '#FCD34D' : '#93C5FD' }}
+                        >
+                          {p.visibility}
+                        </span>
+                        <span className="text-[10px] font-mono text-gray-600">mag. {p.mag}</span>
+                      </div>
+                      <p className="text-xs text-gray-500 leading-relaxed">{p.detail}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Agenda du mois */}
+            <div className="rounded-2xl border border-white/8 p-5" style={{ background: 'rgba(52,211,153,0.04)' }}>
+              <h3 className="text-xs uppercase tracking-wider text-gray-500 mb-4">Agenda du mois</h3>
+              <div className="space-y-2.5">
+                {EVENTS_MARCH.map(ev => (
+                  <div key={ev.date} className="flex gap-3 items-start">
+                    <div className="flex flex-col items-center shrink-0 w-14">
+                      <span className="text-base">{ev.icon}</span>
+                      <span className="text-[10px] font-mono text-gray-600 text-center leading-tight">{ev.date}</span>
+                    </div>
+                    <p className="text-xs text-gray-400 leading-relaxed pt-0.5">{ev.text}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Agenda astronomique 2026 ─────────────────────────── */}
+        <div className="mb-14">
+          <h2 className="text-md font-bold tracking-widest uppercase text-gray-500 mb-6">
+            Agenda Astronomique 2026
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            {AGENDA_2026.map(month => (
+              <div
+                key={month.month}
+                className="rounded-2xl border p-4"
+                style={{
+                  background: month.highlight ? `${month.color}10` : 'rgba(255,255,255,0.02)',
+                  borderColor: month.highlight ? `${month.color}40` : 'rgba(255,255,255,0.07)',
+                  boxShadow: month.highlight ? `0 0 30px ${month.color}12` : 'none',
+                }}
+              >
+                <div
+                  className="text-xs font-bold font-mono uppercase tracking-widest mb-3 pb-2 border-b"
+                  style={{ color: month.color, borderColor: `${month.color}25` }}
+                >
+                  {month.highlight && '⭐ '}{month.month}
+                </div>
+                <div className="space-y-2.5">
+                  {month.events.map((ev, i) => (
+                    <div key={i} className="flex gap-2 items-start">
+                      <span className="text-sm shrink-0 mt-0.5">{ev.icon}</span>
+                      <p className="text-xs text-gray-400 leading-relaxed">{ev.text}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+          <p className="text-[11px] text-gray-700 mt-3 font-mono">
+            * Dates et magnitudes approximatives · ZHR = Zenithal Hourly Rate en conditions idéales
           </p>
         </div>
 
@@ -255,6 +465,43 @@ export default function AstronomieHub() {
               </div>
               <div className="absolute bottom-5 right-5 opacity-0 group-hover:opacity-100 transition-opacity text-sm text-cyan-400">
                 Voir les observatoires →
+              </div>
+            </Link>
+
+            {/* Carte du ciel */}
+            <Link
+              href="/solar-system/astronomie/ciel"
+              className="group relative block rounded-2xl border border-violet-500/30 p-8 transition-all hover:scale-[1.02] hover:brightness-110 overflow-hidden"
+              style={{ background: 'linear-gradient(135deg, rgba(139,92,246,0.12), rgba(30,10,60,0.12))' }}
+            >
+              <div
+                className="absolute inset-0 opacity-10 pointer-events-none"
+                style={{ backgroundImage: 'radial-gradient(circle at 50% 40%, #7C3AED 0%, transparent 65%)' }}
+              />
+              <div className="text-5xl mb-4">🌌</div>
+              <h2
+                className="text-2xl font-bold text-violet-300 mb-2"
+                style={{ fontFamily: "'Exo 2', sans-serif" }}
+              >
+                Carte du ciel
+              </h2>
+              <p className="text-gray-400 text-md leading-relaxed mb-4">
+                Carte interactive du ciel de nuit pour le 7 mars 2026 — projection stéréographique
+                depuis Paris avec les étoiles brillantes, les constellations et les planètes visibles.
+              </p>
+              <div className="flex gap-2 flex-wrap">
+                {['Étoiles', 'Constellations', 'Planètes', 'Temps réel'].map(tag => (
+                  <span
+                    key={tag}
+                    className="px-2 py-0.5 rounded-full text-sm border"
+                    style={{ background: 'rgba(139,92,246,0.15)', color: '#C4B5FD', borderColor: 'rgba(139,92,246,0.3)' }}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <div className="absolute bottom-5 right-5 opacity-0 group-hover:opacity-100 transition-opacity text-sm text-violet-400">
+                Voir la carte →
               </div>
             </Link>
 
