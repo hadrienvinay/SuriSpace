@@ -426,7 +426,7 @@ export default function AstronomieHub() {
                   </span>
                 ))}
               </div>
-              <div className="absolute bottom-5 right-5 opacity-0 group-hover:opacity-100 transition-opacity text-sm text-indigo-400">
+              <div className="absolute top-5 right-5 opacity-0 group-hover:opacity-100 transition-opacity text-sm text-indigo-400">
                 Explorer 110 objets →
               </div>
             </Link>
@@ -449,7 +449,7 @@ export default function AstronomieHub() {
                 Observatoires
               </h2>
               <p className="text-gray-400 text-md leading-relaxed mb-4">
-                Du miroir de 10 m du télescope Keck au miroir d&apos;or de 6,5 m du JWST —
+                Des champs d'antennes au sol au miroir d&apos;or de 6,5 m du JWST —
                 les observatoires terrestres et spatiaux qui repoussent les frontières de notre connaissance.
               </p>
               <div className="flex gap-2 flex-wrap">
@@ -463,7 +463,7 @@ export default function AstronomieHub() {
                   </span>
                 ))}
               </div>
-              <div className="absolute bottom-5 right-5 opacity-0 group-hover:opacity-100 transition-opacity text-sm text-cyan-400">
+              <div className="absolute top-5 right-5 opacity-0 group-hover:opacity-100 transition-opacity text-sm text-cyan-400">
                 Voir les observatoires →
               </div>
             </Link>
@@ -513,9 +513,9 @@ export default function AstronomieHub() {
             >
               <div
                 className="absolute inset-0 opacity-10 pointer-events-none"
-                style={{ backgroundImage: 'radial-gradient(circle at 35% 50%, #22D3EE 0%, transparent 65%)' }}
+                style={{ backgroundImage: 'radial-gradient(circle at 35% 50%, #ccee22 0%, transparent 65%)' }}
               />
-              <div className="text-5xl mb-4">🛸</div>
+              <div className="text-5xl mb-4">🌟</div>
               <h2
                 className="text-2xl font-bold text-cyan-300 mb-2"
                 style={{ fontFamily: "'Exo 2', sans-serif" }}
@@ -523,11 +523,10 @@ export default function AstronomieHub() {
                 Etoiles
               </h2>
               <p className="text-gray-400 text-md leading-relaxed mb-4">
-                Du miroir de 10 m du télescope Keck au miroir d&apos;or de 6,5 m du JWST —
-                les observatoires terrestres et spatiaux qui repoussent les frontières de notre connaissance.
+                13 Constellations et 96 étoiles cataloguées
               </p>
               <div className="flex gap-2 flex-wrap">
-                {['Hubble', 'JWST', 'VLT · Chile', 'ALMA', 'ELT'].map(tag => (
+                {['Betelgeuse', 'Proxima', 'Vega', 'Etoile Polaire', 'Sirius', 'Rigel'].map(tag => (
                   <span
                     key={tag}
                     className="px-2 py-0.5 rounded-full text-sm border"
@@ -537,7 +536,7 @@ export default function AstronomieHub() {
                   </span>
                 ))}
               </div>
-              <div className="absolute bottom-5 right-5 opacity-0 group-hover:opacity-100 transition-opacity text-sm text-cyan-400">
+              <div className="absolute top-5 right-5 opacity-0 group-hover:opacity-100 transition-opacity text-sm text-cyan-400">
                 Voir les étoiles →
               </div>
             </Link>

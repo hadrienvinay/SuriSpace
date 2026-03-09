@@ -62,7 +62,7 @@ export function CVModal({ onClose }: { onClose: () => void }) {
           </div>
         </div>
         <iframe
-          src="/Hadrien-Vinay-Resume.pdf"
+          src="/Hadrien-Vinay-CV.pdf"
           style={{ flex: 1, border: 'none', minHeight: 0 }}
           title="CV Hadrien Vinay"
         />

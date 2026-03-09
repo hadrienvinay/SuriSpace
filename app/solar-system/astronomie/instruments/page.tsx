@@ -383,7 +383,7 @@ function InstrumentModal({ inst, onClose }: { inst: Instrument; onClose: () => v
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 mt-10"
+      className="fixed mt-16 inset-0 z-50 flex items-center justify-center p-4 mt-10"
       style={{ background: 'rgba(2,8,23,0.92)', backdropFilter: 'blur(12px)' }}
       onClick={onClose}
     >

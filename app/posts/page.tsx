@@ -51,6 +51,28 @@ const STATIC_POSTS = [
     accent: 'text-blue-400',
     tagBg: 'bg-blue-500/10',
   },
+  {
+    href: '/posts/hydrogene',
+    image: '/hydrogene.png',
+    title: "L'hydrogène vert marin",
+    excerpt: "Produire de l'hydrogène grâce aux courants marins et à la houle : le potentiel des océans pour la transition énergétique.",
+    tag: 'Energie',
+    year: '2026',
+    color: 'border-yellow-500/30',
+    accent: 'text-yellow-400',
+    tagBg: 'bg-yellow-500/10',
+  },
+  {
+    href: '/posts/astro',
+    image: '/astro.jpg',
+    title: 'Le ciel en 2026',
+    excerpt: "Éclipses, comètes, étoiles filantes et rendez-vous planétaires : le calendrier astronomique complet de 2026.",
+    tag: 'Astronomie',
+    year: '2026',
+    color: 'border-indigo-500/30',
+    accent: 'text-indigo-400',
+    tagBg: 'bg-indigo-500/10',
+  },
 ];
 
 export default async function Posts() {
@@ -65,7 +87,6 @@ export default async function Posts() {
 
       {/* Hero */}
       <div className="text-center mb-12">
-        <div className="text-6xl mb-4" style={{ filter: 'drop-shadow(0 0 24px #6366F1)' }}>📝</div>
         <h1
           className="text-5xl sm:text-6xl font-extrabold tracking-tight mb-3"
           style={{
