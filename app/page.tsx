@@ -78,7 +78,7 @@ const projects = [
 export default function Home() {
   return (
     <div
-      className="max-w-7xl mx-auto px-4 py-10 space-y-20"
+      className="max-w-7xl mx-auto px-4 py-10 space-y-12"
       style={{ fontFamily: "'Exo 2', 'Space Grotesk', sans-serif" }}
     >
 

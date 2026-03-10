@@ -7,7 +7,9 @@ import {
   PHYSICS_CONSTANTS,
   SI_BASE_UNITS,
   SI_DERIVED_UNITS,
+  MATH_CONSTANTS,
   type PhysicsConstant,
+  type MathConstant,
 } from '@/data/physics';
 import { scientists } from '@/data/scientists';
 
@@ -25,11 +27,28 @@ const CATEGORY_COLORS: Record<PhysicsConstant['category'], string> = {
   mecanique:    '#60A5FA',
 };
 
+const MATH_CATEGORY_LABELS: Record<MathConstant['category'], string> = {
+  nombre:       'Nombre',
+  analyse:      'Analyse',
+  combinatoire: 'Combinatoire',
+  geometrie:    'Géométrie',
+};
+
+const MATH_CATEGORY_COLORS: Record<MathConstant['category'], string> = {
+  nombre:       '#F59E0B',
+  analyse:      '#A78BFA',
+  combinatoire: '#818CF8',
+  geometrie:    '#60A5FA',
+};
+
 export default function ConstantesPage() {
-  const [activeTab, setActiveTab] = useState<'constantes' | 'unites'>('constantes');
+  const [activeTab, setActiveTab] = useState<'constantes' | 'unites' | 'maths'>('constantes');
   const [search, setSearch] = useState('');
   const [selected, setSelected] = useState<PhysicsConstant | null>(null);
   const [catFilter, setCatFilter] = useState<PhysicsConstant['category'] | 'all'>('all');
+  const [selectedMath, setSelectedMath] = useState<MathConstant | null>(null);
+  const [mathCatFilter, setMathCatFilter] = useState<MathConstant['category'] | 'all'>('all');
+  const [mathSearch, setMathSearch] = useState('');
 
   const filtered = PHYSICS_CONSTANTS.filter(c => {
     const q = search.toLowerCase();
@@ -37,6 +56,17 @@ export default function ConstantesPage() {
     const matchesCat = catFilter === 'all' || c.category === catFilter;
     return matchesSearch && matchesCat;
   });
+
+  const filteredMath = MATH_CONSTANTS.filter(c => {
+    const q = mathSearch.toLowerCase();
+    const matchesSearch = !q || c.nameFr.toLowerCase().includes(q) || c.symbol.toLowerCase().includes(q);
+    const matchesCat = mathCatFilter === 'all' || c.category === mathCatFilter;
+    return matchesSearch && matchesCat;
+  });
+
+  const linkedMathScientists = selectedMath?.scientistIds
+    ?.map(id => scientists.find(s => s.id === id))
+    .filter(Boolean) ?? [];
 
   const linkedScientists = selected?.scientistIds
     ?.map(id => scientists.find(s => s.id === id))
@@ -62,7 +92,7 @@ export default function ConstantesPage() {
             Constantes & Unités
           </h1>
           <p className="text-base text-gray-500">
-            {PHYSICS_CONSTANTS.length} constantes physiques · 7 unités SI de base · {SI_DERIVED_UNITS.length} unités dérivées
+            {PHYSICS_CONSTANTS.length} constantes physiques · {MATH_CONSTANTS.length} constantes mathématiques · 7 unités SI de base · {SI_DERIVED_UNITS.length} unités dérivées
           </p>
         </div>
 
@@ -70,11 +100,12 @@ export default function ConstantesPage() {
         <div className="flex gap-2 mb-6">
           {([
             { id: 'constantes', label: 'Constantes physiques', icon: '∞' },
+            { id: 'maths',      label: 'Constantes mathématiques', icon: 'π' },
             { id: 'unites',     label: 'Unités SI',            icon: '📐' },
           ] as const).map(tab => (
             <button
               key={tab.id}
-              onClick={() => { setActiveTab(tab.id); setSelected(null); }}
+              onClick={() => { setActiveTab(tab.id); setSelected(null); setSelectedMath(null); }}
               className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold border transition-all ${
                 activeTab === tab.id
                   ? 'bg-indigo-900/40 text-indigo-200 border-indigo-700/50 scale-105'
@@ -325,6 +356,256 @@ export default function ConstantesPage() {
                       >
                         ∑ Formules physiques
                       </Link>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ══════════════ MATHS TAB ══════════════ */}
+        {activeTab === 'maths' && (
+          <div className="flex flex-col xl:flex-row gap-6">
+
+            {/* Left: grid */}
+            <div className="flex-1 min-w-0">
+              {/* Search + category filters */}
+              <div className="flex flex-wrap gap-3 mb-5 items-center">
+                <div className="relative">
+                  <input
+                    value={mathSearch}
+                    onChange={e => setMathSearch(e.target.value)}
+                    placeholder="Chercher une constante…"
+                    className="bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-indigo-600 w-52"
+                  />
+                  {mathSearch && (
+                    <button
+                      onClick={() => setMathSearch('')}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 hover:text-white text-xs"
+                    >✕</button>
+                  )}
+                </div>
+
+                {(['all', 'geometrie', 'analyse', 'combinatoire'] as const).map(cat => (
+                  <button
+                    key={cat}
+                    onClick={() => setMathCatFilter(cat)}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
+                      mathCatFilter === cat
+                        ? 'text-white border-white/30 scale-105'
+                        : 'border-white/10 text-gray-500 hover:text-white hover:border-white/20'
+                    }`}
+                    style={mathCatFilter === cat && cat !== 'all'
+                      ? { background: `${MATH_CATEGORY_COLORS[cat]}20`, borderColor: `${MATH_CATEGORY_COLORS[cat]}50`, color: MATH_CATEGORY_COLORS[cat] }
+                      : mathCatFilter === cat ? { background: 'rgba(255,255,255,0.08)' } : {}}
+                  >
+                    {cat === 'all' ? 'π Toutes' : MATH_CATEGORY_LABELS[cat]}
+                  </button>
+                ))}
+
+                <span className="text-sm text-gray-600 font-mono ml-auto">{filteredMath.length} constante{filteredMath.length > 1 ? 's' : ''}</span>
+              </div>
+
+              {/* Math constants grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {filteredMath.map(c => {
+                  const isSel = selectedMath?.id === c.id;
+                  return (
+                    <button
+                      key={c.id}
+                      onClick={() => setSelectedMath(prev => prev?.id === c.id ? null : c)}
+                      className="text-left rounded-2xl border p-4 transition-all duration-200 hover:scale-[1.01] focus:outline-none"
+                      style={{
+                        background: isSel ? `${c.color}10` : 'rgba(255,255,255,0.02)',
+                        borderColor: isSel ? `${c.color}50` : 'rgba(255,255,255,0.07)',
+                      }}
+                    >
+                      {/* Symbol + category badge */}
+                      <div className="flex items-start justify-between mb-3">
+                        <div
+                          className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl font-bold border shrink-0"
+                          style={{
+                            fontFamily: "'Courier New', monospace",
+                            background: `${c.color}15`,
+                            borderColor: `${c.color}35`,
+                            color: c.color,
+                          }}
+                        >
+                          {c.symbol}
+                        </div>
+                        <div className="text-right">
+                          <span
+                            className="inline-block px-2 py-0.5 rounded-full text-xs font-semibold"
+                            style={{
+                              background: `${MATH_CATEGORY_COLORS[c.category]}18`,
+                              color: MATH_CATEGORY_COLORS[c.category],
+                            }}
+                          >
+                            {MATH_CATEGORY_LABELS[c.category]}
+                          </span>
+                          {c.exact && (
+                            <div className="text-xs text-emerald-500/80 font-semibold mt-1">exacte</div>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Name */}
+                      <div className="text-sm font-semibold text-white mb-2">{c.nameFr}</div>
+
+                      {/* Value */}
+                      <div className="rounded-lg px-3 py-2 mb-2" style={{ background: 'rgba(255,255,255,0.04)' }}>
+                        <div
+                          className="text-sm font-bold font-mono"
+                          style={{ color: c.color }}
+                        >
+                          {c.value}
+                        </div>
+                        {c.fraction && (
+                          <div className="text-xs text-gray-500 font-mono mt-0.5">= {c.fraction}</div>
+                        )}
+                      </div>
+
+                      {/* Year */}
+                      {c.year && (
+                        <div className="text-xs text-gray-600 font-mono">{c.year < 0 ? `${Math.abs(c.year)} av. J.-C.` : c.year}</div>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {filteredMath.length === 0 && (
+                <div className="text-center py-16 text-gray-600">
+                  <div className="text-4xl mb-2">∅</div>
+                  Aucune constante ne correspond.
+                </div>
+              )}
+            </div>
+
+            {/* Right: detail panel */}
+            <div className="xl:w-[360px] shrink-0">
+              <div className="xl:sticky xl:top-20 space-y-4">
+                {selectedMath ? (
+                  <div
+                    className="rounded-2xl border p-5"
+                    style={{ background: `${selectedMath.color}0C`, borderColor: `${selectedMath.color}40` }}
+                  >
+                    {/* Symbol hero */}
+                    <div
+                      className="rounded-xl py-8 text-center mb-5"
+                      style={{ background: `${selectedMath.color}18` }}
+                    >
+                      <div
+                        className="text-5xl font-bold mb-1"
+                        style={{
+                          fontFamily: "'Courier New', monospace",
+                          color: selectedMath.color,
+                          textShadow: `0 0 30px ${selectedMath.color}55`,
+                        }}
+                      >
+                        {selectedMath.symbol}
+                      </div>
+                      {selectedMath.exact && (
+                        <div className="text-xs text-emerald-400 font-semibold uppercase tracking-wider">valeur exacte</div>
+                      )}
+                    </div>
+
+                    {/* Name */}
+                    <h2 className="text-xl font-bold text-white mb-3">{selectedMath.nameFr}</h2>
+
+                    {/* Value box */}
+                    <div
+                      className="rounded-xl p-4 mb-4"
+                      style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)' }}
+                    >
+                      <div className="text-xs uppercase tracking-wider text-gray-500 mb-1">Valeur</div>
+                      <div
+                        className="text-lg font-bold font-mono"
+                        style={{ color: selectedMath.color }}
+                      >
+                        {selectedMath.value}
+                      </div>
+                      {selectedMath.fraction && (
+                        <div className="mt-2 pt-2 border-t border-white/8">
+                          <div className="text-xs uppercase tracking-wider text-gray-500 mb-1">Expression</div>
+                          <div
+                            className="text-base font-bold font-mono"
+                            style={{ color: selectedMath.color }}
+                          >
+                            {selectedMath.symbol} = {selectedMath.fraction}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Meta */}
+                    <div className="flex gap-2 mb-4 flex-wrap">
+                      <span
+                        className="px-2.5 py-1 rounded-full text-xs font-semibold"
+                        style={{ background: `${MATH_CATEGORY_COLORS[selectedMath.category]}20`, color: MATH_CATEGORY_COLORS[selectedMath.category] }}
+                      >
+                        {MATH_CATEGORY_LABELS[selectedMath.category]}
+                      </span>
+                      {selectedMath.year && (
+                        <span className="px-2.5 py-1 rounded-full text-xs font-mono bg-white/6 text-gray-400">
+                          {selectedMath.year < 0 ? `${Math.abs(selectedMath.year)} av. J.-C.` : selectedMath.year}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Description */}
+                    <p className="text-sm text-gray-300 leading-relaxed mb-4">{selectedMath.description}</p>
+
+                    {/* Linked scientists */}
+                    {linkedMathScientists.length > 0 && (
+                      <div>
+                        <div className="text-xs uppercase tracking-wider text-gray-500 mb-2">Scientifiques associés</div>
+                        {linkedMathScientists.map(s => s && (
+                          <Link
+                            key={s.id}
+                            href={`/sciences/scientists/${s.id}`}
+                            className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-white/6 transition-all group"
+                          >
+                            <div
+                              className="w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0 border"
+                              style={{ background: `${s.color}18`, borderColor: `${s.color}40` }}
+                            >
+                              {s.emoji}
+                            </div>
+                            <div>
+                              <div className="text-sm font-semibold text-white group-hover:underline">{s.name}</div>
+                              <div className="text-xs text-gray-500">{s.domains[0]}</div>
+                            </div>
+                            <span className="ml-auto text-gray-600 text-xs">→</span>
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="rounded-2xl border border-white/8 p-5" style={{ background: 'rgba(255,255,255,0.02)' }}>
+                    <h2 className="text-base font-bold text-gray-300 mb-3 uppercase tracking-wider">Constantes mathématiques</h2>
+                    <p className="text-sm text-gray-500 leading-relaxed mb-4">
+                      Les constantes mathématiques apparaissent naturellement dans les structures fondamentales
+                      des mathématiques — géométrie, analyse, théorie des nombres — et souvent en physique.
+                    </p>
+                    <div className="space-y-2">
+                      {(['geometrie', 'analyse', 'combinatoire'] as const).map(cat => (
+                        <button
+                          key={cat}
+                          onClick={() => { setMathCatFilter(cat); setMathSearch(''); }}
+                          className="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/6 transition-all text-left"
+                        >
+                          <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: MATH_CATEGORY_COLORS[cat] }} />
+                          <span className="text-sm text-gray-400 hover:text-white transition-colors">
+                            {MATH_CATEGORY_LABELS[cat]}
+                          </span>
+                          <span className="ml-auto text-xs font-mono text-gray-600">
+                            {MATH_CONSTANTS.filter(c => c.category === cat).length}
+                          </span>
+                        </button>
+                      ))}
                     </div>
                   </div>
                 )}

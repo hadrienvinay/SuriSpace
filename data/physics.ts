@@ -946,3 +946,150 @@ export const SI_DERIVED_UNITS: DerivedUnit[] = [
   { symbol: 'Gy', name: 'gray',    quantity: 'Dose absorbée',       inBase: 'm²·s⁻²',            color: '#86EFAC', namedAfter: 'Louis H. Gray' },
   { symbol: 'Bq', name: 'becquerel',quantity: 'Radioactivité',      inBase: 's⁻¹',               color: '#86EFAC', namedAfter: 'Henri Becquerel' },
 ];
+
+// ─── Math Constants ──────────────────────────────────────────────────────────
+
+export interface MathConstant {
+  id: string;
+  symbol: string;
+  nameFr: string;
+  value: string;
+  fraction?: string;
+  description: string;
+  color: string;
+  category: 'nombre' | 'analyse' | 'combinatoire' | 'geometrie';
+  exact?: boolean;
+  scientistIds?: string[];
+  year?: number;
+}
+
+export const MATH_CONSTANTS: MathConstant[] = [
+  {
+    id: 'pi',
+    symbol: 'π',
+    nameFr: 'Pi',
+    value: '3.14159 26535 89793…',
+    fraction: 'C / d',
+    description: "Rapport entre la circonférence d'un cercle et son diamètre. Omniprésente en géométrie, trigonométrie, analyse complexe, probabilités et physique. Nombre irrationnel et transcendant.",
+    color: '#60A5FA',
+    category: 'geometrie',
+    year: -250,
+    scientistIds: ['archimede'],
+  },
+  {
+    id: 'e',
+    symbol: 'e',
+    nameFr: "Nombre d'Euler",
+    value: '2.71828 18284 59045…',
+    fraction: 'lim (1 + 1/n)ⁿ',
+    description: "Base du logarithme naturel. Unique nombre réel dont l'exponentielle est égale à sa propre dérivée. Fondamental en analyse, probabilités et croissance exponentielle.",
+    color: '#A78BFA',
+    category: 'analyse',
+    year: 1683,
+    scientistIds: ['euler'],
+  },
+  {
+    id: 'phi',
+    symbol: 'φ',
+    nameFr: 'Nombre d\'or',
+    value: '1.61803 39887 49894…',
+    fraction: '(1 + √5) / 2',
+    description: "Ratio tel que (a+b)/a = a/b. Égal à (1+√5)/2. Apparaît dans la suite de Fibonacci, la phyllotaxie, l'architecture et l'art. Nombre irrationnel algébrique.",
+    color: '#F59E0B',
+    category: 'geometrie',
+    exact: true,
+  },
+  {
+    id: 'sqrt2',
+    symbol: '√2',
+    nameFr: 'Racine carrée de 2',
+    value: '1.41421 35623 73095…',
+    description: "Diagonale d'un carré de côté 1. Premier nombre prouvé irrationnel (par les Pythagoriciens). Aussi appelé constante de Pythagore.",
+    color: '#34D399',
+    category: 'geometrie',
+    year: -500,
+  },
+  {
+    id: 'sqrt3',
+    symbol: '√3',
+    nameFr: 'Racine carrée de 3',
+    value: '1.73205 08075 68877…',
+    description: "Hauteur d'un triangle équilatéral de côté 2. Apparaît en trigonométrie (tan 60° = √3) et dans les réseaux cristallins hexagonaux.",
+    color: '#22D3EE',
+    category: 'geometrie',
+  },
+  {
+    id: 'gamma',
+    symbol: 'γ',
+    nameFr: 'Constante d\'Euler-Mascheroni',
+    value: '0.57721 56649 01532…',
+    fraction: 'lim (Hₙ − ln n)',
+    description: "Limite de la différence entre la série harmonique et le logarithme naturel. Apparaît en théorie des nombres, analyse et intégrales. On ignore encore si elle est irrationnelle.",
+    color: '#FB923C',
+    category: 'analyse',
+    year: 1735,
+    scientistIds: ['euler'],
+  },
+  {
+    id: 'ln2',
+    symbol: 'ln 2',
+    nameFr: 'Logarithme naturel de 2',
+    value: '0.69314 71805 59945…',
+    description: "Temps de doublement d'un processus de croissance exponentielle unitaire. Fondamental en théorie de l'information (conversion nats/bits) et en radioactivité (demi-vie).",
+    color: '#F472B6',
+    category: 'analyse',
+  },
+  {
+    id: 'tau',
+    symbol: 'τ',
+    nameFr: 'Tau (2π)',
+    value: '6.28318 53071 79586…',
+    fraction: '2π',
+    description: "Rapport entre la circonférence et le rayon d'un cercle (τ = 2π). Certains mathématiciens le considèrent comme la \"vraie\" constante du cercle, simplifiant beaucoup de formules.",
+    color: '#60A5FA',
+    category: 'geometrie',
+    exact: true,
+  },
+  {
+    id: 'catalan',
+    symbol: 'G',
+    nameFr: 'Constante de Catalan',
+    value: '0.91596 55941 77219…',
+    fraction: 'Σ (−1)ⁿ / (2n+1)²',
+    description: "Somme alternée des inverses des carrés impairs. Apparaît en combinatoire, en théorie des nombres et dans le calcul de certaines intégrales. Son irrationalité reste une conjecture ouverte.",
+    color: '#818CF8',
+    category: 'combinatoire',
+    year: 1865,
+  },
+  {
+    id: 'apery',
+    symbol: 'ζ(3)',
+    nameFr: 'Constante d\'Apéry',
+    value: '1.20205 69031 59594…',
+    fraction: 'Σ 1/n³',
+    description: "Valeur de la fonction zêta de Riemann en 3. Roger Apéry a prouvé son irrationalité en 1978, un résultat longtemps considéré comme inaccessible.",
+    color: '#86EFAC',
+    category: 'analyse',
+    year: 1978,
+  },
+  {
+    id: 'delta_feigenbaum',
+    symbol: 'δ',
+    nameFr: 'Constante de Feigenbaum',
+    value: '4.66920 16091 02990…',
+    description: "Taux de convergence des bifurcations dans les systèmes chaotiques. Universelle : elle apparaît dans toute transition vers le chaos par doublement de période.",
+    color: '#F87171',
+    category: 'analyse',
+    year: 1975,
+  },
+  {
+    id: 'khinchin',
+    symbol: 'K₀',
+    nameFr: 'Constante de Khintchine',
+    value: '2.68545 20010 65306…',
+    description: "Moyenne géométrique des termes de la fraction continue de presque tout nombre réel. Résultat remarquable de la théorie des fractions continues.",
+    color: '#FBBF24',
+    category: 'combinatoire',
+    year: 1934,
+  },
+];

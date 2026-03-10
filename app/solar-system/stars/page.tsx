@@ -475,8 +475,8 @@ export default function StarMap() {
           </div>
 
           {/* ─── RIGHT PANEL ─────────────────────────────────────── */}
-          <div className="xl:w-96">
-            <div className="xl:sticky xl:top-20 space-y-4">
+          <div className="xl:w-96 flex items-center">
+            <div className="xl:sticky xl:top-20 space-y-4 w-full">
 
               {/* STAR PANEL */}
               {selectedStar && (
