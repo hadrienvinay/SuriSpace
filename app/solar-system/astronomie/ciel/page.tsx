@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import SolarLayout from '@/components/SolarLayout';
+import EarthOrbitMap from '@/components/EarthOrbitMap';
 
 // ── Math helpers ─────────────────────────────────────────────────────────────
 const rad = (d: number) => d * Math.PI / 180;
@@ -647,6 +648,11 @@ export default function CielPage() {
             </div>
 
           </div>
+        </div>
+
+        {/* ── Carte orbitale ── */}
+        <div className="mt-10 mb-6">
+          <EarthOrbitMap />
         </div>
 
         {/* Footer note */}

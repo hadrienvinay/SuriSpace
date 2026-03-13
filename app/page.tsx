@@ -16,6 +16,7 @@ import Weather from '@/components/Weather';
 import Ratp from '@/components/Ratp';
 import Links from '@/components/ShowLinks';
 import CVButton from '@/components/CVButton';
+import { getCitationDuJour } from '@/data/citations';
 
 const universeCards = [
   {
@@ -76,6 +77,7 @@ const projects = [
 ];
 
 export default function Home() {
+  const citation = getCitationDuJour();
   return (
     <div
       className="max-w-7xl mx-auto px-4 py-10 space-y-12"
@@ -99,9 +101,8 @@ export default function Home() {
           Réalisé avec Next.js, Prisma, NextAuth et diverses API.
         </p>
         <p className="text-gray-600 text-sm max-w-3xl mx-auto italic mb-8 leading-relaxed">
-          &ldquo;Pour découvrir les meilleures règles de société qui conviennent aux nations, il faudrait une intelligence supérieure
-          qui vît toutes les passions des hommes et qui n&apos;en éprouvât aucune.&rdquo;{' '}
-          <span className="text-gray-500 not-italic">— Rousseau, Du contrat social, 1762</span>
+          &ldquo;{citation.texte}&rdquo;{' '}
+          <span className="text-gray-500 not-italic">— {citation.auteur}, {citation.ouvrage}, {citation.date}</span>
         </p>
         <div className="flex justify-center gap-4 flex-wrap">
           <CVButton />

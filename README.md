@@ -1,27 +1,66 @@
 First deployment of my blog with NextJs and Vercel
 
-Dependencies (prisma db, react map)
-npm install prisma tsx @types/pg --save-dev
-npm install @prisma/client @prisma/adapter-pg dotenv pg
-npm install react-map-gl react-icons --save
-npm install yahoo-finance2
+## Stack
+Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS v4 · Prisma (PostgreSQL) · next-auth v5 · recharts v3 · Mapbox GL · yahoo-finance2
 
+## Dependencies
+
+```bash
+# Core
+npm install next react react-dom
+
+# DB & Auth
+npm install @prisma/client @prisma/adapter-pg pg dotenv
+npm install @auth/prisma-adapter next-auth
+npm install prisma tsx @types/pg --save-dev
+
+# UI & Charts
+npm install react-map-gl mapbox-gl react-icons recharts
+npm install @headlessui/react next-themes
+
+# Data
+npm install yahoo-finance2 axios cheerio date-fns
+
+# Dev
+npm install tailwindcss @tailwindcss/postcss typescript @types/react @types/react-dom eslint eslint-config-next --save-dev
+```
+
+## PostgreSQL
+
+```bash
 brew services start postgresql
 brew services stop postgresql@14
+```
 
+## Prisma
 
-npx prisma migrate dev --name init
-npx prisma generate
-npx prisma db seed
-npx prisma studio
+```bash
+npx prisma generate          # Générer le client après changement de schéma
+npx prisma db push            # Synchroniser le schéma sans migration (préféré)
+npx prisma migrate dev --name init  # Créer une migration
+npx prisma migrate reset      # Reset complet de la DB
+npx prisma db seed             # Peupler la DB
+npx prisma studio              # Interface web pour explorer les données
+```
 
-npx prisma migrate reset
+## Scripts npm
 
-API : 
-weather : free
-mapbox : 50k free after pay
-ratp : free
-gold and silver : free
+```bash
+npm run dev       # Serveur de développement (http://localhost:3000)
+npm run build     # Build de production (prisma generate + next build)
+npm run start     # Serveur de production
+npm run lint      # ESLint
+```
+
+## API externes
+| Service | Coût | Usage |
+|---------|------|-------|
+| Weather | Gratuit | Météo Paris / Madrid / Arcachon |
+| Mapbox | 50k req gratuites puis payant | Cartes (orbitale, localisations) |
+| RATP | Gratuit | Transports en commun |
+| Gold/Silver | Gratuit | Cours des métaux |
+| Yahoo Finance | Gratuit | Cours actions, crypto, ETF |
+| Where The ISS At | Gratuit | Position ISS en temps réel |
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 

@@ -49,6 +49,16 @@ const DROPDOWNS = [
       { href: '/atoms/particules',     label: 'Particules',         icon: '✴️' },
     ],
   },
+  {
+    label: 'Nature',
+    icon: '🌿',
+    color: '#22C55E',
+    items: [
+      { href: '/nature', label: 'Jardinage & Plantes', icon: '🌱' },
+      { href: '/nature/mon-potager', label: 'Mon Potager', icon: '🏡' },
+      { href: '/nature/mon-potager/ce-mois', label: 'Ce mois-ci', icon: '📅' },
+    ],
+  },
 ];
 
 const END_LINKS = [
