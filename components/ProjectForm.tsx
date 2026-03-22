@@ -106,7 +106,7 @@ export default function CreateProjectForm() {
 
   return (
     <form onSubmit={handleSubmit} className="max-w-2xl mx-auto p-6 space-y-6">
-      <h2 className="text-2xl font-bold">Créer un nouvel projet</h2>
+      <h2 className="text-2xl font-bold">Créer un nouveau projet</h2>
 
       {/* Champ Titre */}
       <div>

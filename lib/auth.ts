@@ -6,7 +6,7 @@ import GitHub from 'next-auth/providers/github'
 // auth.ts
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
-  providers: [GitHub({ allowDangerousEmailAccountLinking: true })],
+  providers: [GitHub],
   session: {
     strategy: "database",
   },

@@ -18,16 +18,25 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const ALLOWED_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg'];
+    const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
+
     let imagePath = null;
 
     // Si une image est uploadée
     if (image && image.size > 0) {
+      const ext = path.extname(image.name).toLowerCase();
+      if (!ALLOWED_EXTENSIONS.includes(ext)) {
+        return NextResponse.json({ error: 'Extension de fichier non autorisée' }, { status: 400 });
+      }
+      if (image.size > MAX_FILE_SIZE) {
+        return NextResponse.json({ error: 'Fichier trop volumineux (max 5 Mo)' }, { status: 400 });
+      }
+
       const bytes = await image.arrayBuffer();
       const buffer = Buffer.from(bytes);
 
-      // Générer un nom unique pour l'image
       const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1E9)}`;
-      const ext = path.extname(image.name);
       const filename = `image-${uniqueSuffix}${ext}`;
       
       // Sauvegarder dans /public/uploads

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from "next/navigation";
 
 type Stored = ReturnType<Action['toJSON']> & { id: number; createdAt?: string };
-type SortField = 'ticker' | 'name' | 'price' | 'gain' | 'invested' | 'pe' | 'currentvalue' | 'dividendYield' | 'where';
+type SortField = 'ticker' | 'name' | 'price' | 'gain' | 'invested' | 'pe' | 'currentvalue' | 'dividendYield' | 'where' | 'purchasePrice';
 type SortDirection = 'asc' | 'desc';
 const STORAGE_KEY = 'suri_actions';
 
@@ -32,6 +32,8 @@ const LABEL_STYLE = {
 const COLUMNS: { label: string; field: SortField | null }[] = [
   { label: 'Action',      field: 'name'          },
   { label: 'Type',        field: 'where'         },
+  { label: 'Prix achat',  field: 'purchasePrice' },
+  { label: 'Prix actuel', field: 'price'         },
   { label: 'Gain',        field: 'gain'          },
   { label: 'P/E',         field: 'pe'            },
   { label: 'Dividende',   field: 'dividendYield' },
@@ -62,6 +64,7 @@ export default function ActionsManager() {
   const [form, setForm]                           = useState<Partial<ActionParams>>(EMPTY_FORM);
   const [usingServer, setUsingServer]             = useState(true);
   const [isDeleting, setIsDeleting]               = useState(false);
+  const [isUpdating, setIsUpdating]               = useState(false);
   const [modalOpen, setModalOpen]                 = useState(false);
   const [editingAction, setEditingAction]         = useState<Stored | null>(null);
   const [sortField, setSortField]                 = useState<SortField>('name');
@@ -79,6 +82,7 @@ const sortList = (items: Stored[]) => {
         case 'invested':      av = aA.purchasePrice * aA.quantity; bv = bA.purchasePrice * bA.quantity; break;
         case 'currentvalue':  av = aA.price * aA.quantity;         bv = bA.price * bA.quantity;         break;
         case 'price':         av = aA.price;                       bv = bA.price;                       break;
+        case 'purchasePrice': av = aA.purchasePrice;                bv = bA.purchasePrice;                break;
         case 'pe':            av = aA.pe || 0;                     bv = bA.pe || 0;                     break;
         case 'dividendYield': av = aA.dividendYield || 0;          bv = bA.dividendYield || 0;          break;
         // @ts-ignore
@@ -187,6 +191,7 @@ const sortList = (items: Stored[]) => {
   }
 
   async function updatePrices() {
+    setIsUpdating(true);
     try {
       const res = await fetch('/api/actions/update', { method: 'GET' });
       if (!res.ok) throw new Error('Failed to update prices');
@@ -195,6 +200,7 @@ const sortList = (items: Stored[]) => {
       router.push('/dashboard/actions');
       router.refresh();
     } catch { /* noop */ }
+    finally { setIsUpdating(false); }
   }
 
   async function handleDelete(id: number | string) {
@@ -269,10 +275,16 @@ const sortList = (items: Stored[]) => {
           <div className="flex items-center gap-3">
             <button
               onClick={updatePrices}
-              className="px-4 py-2 cursor-pointer rounded-xl text-sm font-semibold transition-all hover:brightness-110"
+              disabled={isUpdating}
+              className="px-4 py-2 cursor-pointer rounded-xl text-sm font-semibold transition-all hover:brightness-110 disabled:opacity-50 disabled:cursor-wait"
               style={{ background: 'rgba(96,165,250,0.12)', border: '1px solid rgba(96,165,250,0.25)', color: '#60A5FA' }}
             >
-              ↻ Mettre à jour les prix
+              {isUpdating ? (
+                <span className="inline-flex items-center gap-2">
+                  <span className="inline-block w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                  Mise à jour…
+                </span>
+              ) : '↻ Mettre à jour les prix'}
             </button>
             <button
               onClick={() => setModalOpen(true)}
@@ -396,6 +408,8 @@ const sortList = (items: Stored[]) => {
                   <span style={{ marginLeft: 6, opacity: 0.5 }}>({sortedList.length})</span>
                 </td>
                 <td className="px-4 py-3" />
+                <td className="px-4 py-3" />
+                <td className="px-4 py-3" />
                 <td className="px-4 py-3 font-semibold" style={{ color: filteredGain >= 0 ? '#34D399' : '#F87171', whiteSpace: 'nowrap' }}>
                   {filteredGain >= 0 ? '+' : ''}{filteredGain.toFixed(2)} €
                 </td>
@@ -435,6 +449,12 @@ const sortList = (items: Stored[]) => {
                           {item.where}
                         </span>
                       ) : <span style={{ color: 'rgba(255,255,255,0.2)' }}>—</span>}
+                    </td>
+                    <td className="px-4 py-3 font-mono" style={{ color: 'rgba(255,255,255,0.45)', fontSize: 12, whiteSpace: 'nowrap' }}>
+                      {a.purchasePrice.toFixed(2)} €
+                    </td>
+                    <td className="px-4 py-3 font-mono" style={{ color: 'rgba(255,255,255,0.45)', fontSize: 12, whiteSpace: 'nowrap' }}>
+                      {a.price.toFixed(2)} €
                     </td>
                     <td className="px-4 py-3 font-semibold" style={{ color: gain >= 0 ? '#34D399' : '#F87171', whiteSpace: 'nowrap' }}>
                       {gain >= 0 ? '+' : ''}{gain.toFixed(2)} €

@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import YahooFinance from 'yahoo-finance2';
 
-export async function GET(req: Request) {
+export async function GET() {
   try {
     const actionsList = await prisma.action.findMany();
 
@@ -51,7 +51,8 @@ export async function GET(req: Request) {
       },
     });
   }
-    return NextResponse.json('Valeurs mises à jour')
+    const items = await prisma.action.findMany({ orderBy: { createdAt: 'desc' } });
+    return NextResponse.json({ items })
 
     } catch (err) {
       console.error('UPDATE /api/actions error', err);

@@ -4,8 +4,6 @@ import { formatDistanceToNow } from 'date-fns';
 import { fr } from 'date-fns/locale';
 
 export async function GET() {
-  const API_KEY = process.env.WEATHER_API_KEY;
-  
   try {
 
     let subway_data = await fetch(
@@ -13,7 +11,7 @@ export async function GET() {
     {
     method: 'GET',
     headers: {
-        'apiKey': 'WfxAdqyUDcSKZQWkteHJJrCOUuOCfZXK'
+        'apiKey': process.env.RATP_API_KEY || ''
       }
     })
   let subway_10 = await subway_data.json()
