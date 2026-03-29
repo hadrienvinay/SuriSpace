@@ -185,6 +185,55 @@ const PLANET_BASE: { name: string; ra: number; dec: number; dRA: number; dDec: n
   { name: 'Mercure', ra: 22.35, dec: -13.2, dRA: -0.100, dDec:  0.05, color: '#A78BFA', mag:  0.5, symbol: '☿' },
 ];
 
+// ── Moon position (low-precision Meeus) ──────────────────────────────────────
+function moonPosition(date: Date): { ra: number; dec: number; phase: number; illumination: number } {
+  const jd = julianDate(date);
+  const T = (jd - 2451545.0) / 36525.0;
+
+  // Moon mean elements (degrees)
+  const Lp = (218.3165 + 481267.8813 * T) % 360;                // mean longitude
+  const D  = (297.8502 + 445267.1115 * T) % 360;                // mean elongation
+  const M  = (357.5291 +  35999.0503 * T) % 360;                // Sun mean anomaly
+  const Mp = (134.9634 + 477198.8676 * T) % 360;                // Moon mean anomaly
+  const F  = ( 93.2720 + 483202.0175 * T) % 360;                // argument of latitude
+
+  // Ecliptic longitude (principal terms)
+  const lon = Lp
+    + 6.289 * Math.sin(rad(Mp))
+    - 1.274 * Math.sin(rad(2 * D - Mp))
+    + 0.658 * Math.sin(rad(2 * D))
+    + 0.214 * Math.sin(rad(2 * Mp))
+    - 0.186 * Math.sin(rad(M))
+    - 0.114 * Math.sin(rad(2 * F));
+
+  // Ecliptic latitude
+  const lat = 5.128 * Math.sin(rad(F))
+    + 0.281 * Math.sin(rad(Mp + F))
+    + 0.278 * Math.sin(rad(Mp - F))
+    + 0.173 * Math.sin(rad(2 * D - F));
+
+  // Ecliptic → Equatorial
+  const eps = rad(23.4393 - 0.0130 * T);
+  const lonR = rad(lon), latR = rad(lat);
+  const raRad = Math.atan2(
+    Math.sin(lonR) * Math.cos(eps) - Math.tan(latR) * Math.sin(eps),
+    Math.cos(lonR)
+  );
+  const decRad = Math.asin(
+    Math.sin(latR) * Math.cos(eps) + Math.cos(latR) * Math.sin(eps) * Math.sin(lonR)
+  );
+
+  const raHours = ((deg(raRad) / 15) + 24) % 24;
+  const decDeg = deg(decRad);
+
+  // Phase angle (simplified) — 0=new, 0.5=full, 1=new
+  const phaseAngle = ((lon - (280.46 + 36000.77 * T)) % 360 + 360) % 360; // elongation from Sun
+  const illumination = (1 - Math.cos(rad(phaseAngle))) / 2;
+  const phase = phaseAngle / 360; // 0→1 cycle
+
+  return { ra: raHours, dec: decDeg, phase, illumination };
+}
+
 function starColor(spec: string) {
   switch (spec[0]) {
     case 'O': return '#9BB8FF';
@@ -223,7 +272,14 @@ export default function CielPage() {
   });
 
   const [dayOffset,  setDayOffset]  = useState(0);   // 0=today … 5
-  const [nightSlot,  setNightSlot]  = useState(4);   // 0=18h … 14=8h+1day  →  default 22h
+  const [nightSlot,  setNightSlot]  = useState(() => {
+    // Map current CET hour to a night slot, default to 20h (slot 2) if daytime
+    const nowCET = (new Date().getUTCHours() + TZ + 24) % 24;
+    // Night slots: 18h=0, 19h=1, … 23h=5, 00h=6, 01h=7, … 08h=14
+    if (nowCET >= 18) return nowCET - 18;       // 18h→0, 19h→1, … 23h→5
+    if (nowCET <= 8)  return nowCET + 6;         // 00h→6, 01h→7, … 08h→14
+    return 2;                                     // daytime → default 20h
+  });
   const [showConst,  setShowConst]  = useState(true);
   const [showLabels, setShowLabels] = useState(true);
   const [showPlanets,setShowPlanets]= useState(true);
@@ -262,6 +318,9 @@ export default function CielPage() {
       dec: p.dec + p.dDec * dayOffset,
     })),
   [dayOffset]);
+
+  // ── Moon position ──────────────────────────────────────────────────────
+  const moon = useMemo(() => moonPosition(obsDate), [obsDate]);
 
   // ── Canvas draw ──────────────────────────────────────────────────────────
   const draw = useCallback((canvas: HTMLCanvasElement) => {
@@ -410,6 +469,61 @@ export default function CielPage() {
       }
     }
 
+    // Moon
+    {
+      const { alt: moonAlt, az: moonAz } = altAz(moon.ra, moon.dec, LAT, lstDeg);
+      const mp = project(moonAlt, moonAz, cx, cy, R);
+      if (mp) {
+        const moonSize = 7;
+
+        // Outer glow
+        const mg = ctx.createRadialGradient(mp.x, mp.y, 0, mp.x, mp.y, moonSize * 5);
+        mg.addColorStop(0, 'rgba(240,232,200,0.25)');
+        mg.addColorStop(1, 'rgba(240,232,200,0)');
+        ctx.fillStyle = mg;
+        ctx.beginPath(); ctx.arc(mp.x, mp.y, moonSize * 5, 0, 2 * Math.PI); ctx.fill();
+
+        // Moon disc
+        ctx.fillStyle = '#F0E8C8';
+        ctx.beginPath(); ctx.arc(mp.x, mp.y, moonSize, 0, 2 * Math.PI); ctx.fill();
+
+        // Phase shadow — dark overlay on the unlit side
+        const ill = moon.illumination; // 0 = new (all dark), 1 = full (no shadow)
+        if (ill < 0.98) {
+          ctx.save();
+          ctx.beginPath(); ctx.arc(mp.x, mp.y, moonSize, 0, 2 * Math.PI); ctx.clip();
+          // Shadow covers from one side; the terminator is an ellipse
+          // phase 0–0.5 = waxing (shadow from left), 0.5–1 = waning (shadow from right)
+          const waxing = moon.phase < 0.5;
+          const terminatorX = moonSize * (2 * ill - 1); // -moonSize (new) to +moonSize (full)
+          ctx.fillStyle = 'rgba(8,12,28,0.85)';
+          ctx.beginPath();
+          if (waxing) {
+            // Shadow on the left side
+            ctx.arc(mp.x, mp.y, moonSize, Math.PI / 2, -Math.PI / 2, false); // left semicircle
+            ctx.ellipse(mp.x, mp.y, Math.abs(terminatorX), moonSize, 0, -Math.PI / 2, Math.PI / 2, terminatorX > 0);
+          } else {
+            // Shadow on the right side
+            ctx.arc(mp.x, mp.y, moonSize, -Math.PI / 2, Math.PI / 2, false); // right semicircle
+            ctx.ellipse(mp.x, mp.y, Math.abs(terminatorX), moonSize, 0, Math.PI / 2, -Math.PI / 2, terminatorX > 0);
+          }
+          ctx.fill();
+          ctx.restore();
+        }
+
+        // Label
+        const illPct = Math.round(ill * 100);
+        const moonLabel = `☽ Lune  ${Math.round(moonAlt)}°  ${illPct}%`;
+        ctx.font = '10px monospace';
+        const mlx = mp.x + moonSize + 6, mly = mp.y + 4;
+        ctx.fillStyle = 'rgba(10,14,40,0.75)';
+        ctx.fillRect(mlx - 2, mly - 10, ctx.measureText(moonLabel).width + 4, 13);
+        ctx.fillStyle = '#F0E8C8';
+        ctx.textAlign = 'left';
+        ctx.fillText(moonLabel, mlx, mly);
+      }
+    }
+
     ctx.restore();
 
     // Warm horizon glow near E (sunrise) and W (sunset) — March, ~E/W
@@ -447,7 +561,7 @@ export default function CielPage() {
     }
     ctx.textAlign = 'start'; ctx.textBaseline = 'alphabetic';
 
-  }, [obsDate, showConst, showLabels, showPlanets, planets]);
+  }, [obsDate, showConst, showLabels, showPlanets, planets, moon]);
 
   useEffect(() => {
     const canvas = canvasRef.current, container = containerRef.current;
@@ -602,10 +716,33 @@ export default function CielPage() {
               </div>
             </div>
 
-            {/* Planets status */}
+            {/* Planets & Moon status */}
             <div className="rounded-2xl border border-white/8 p-4" style={{ background: 'rgba(255,255,255,0.02)' }}>
-              <h3 className="text-xs uppercase tracking-wider text-gray-500 mb-3">Planètes</h3>
+              <h3 className="text-xs uppercase tracking-wider text-gray-500 mb-3">Lune & Planètes</h3>
               <div className="space-y-2.5">
+                {/* Moon */}
+                {(() => {
+                  const { alt: moonAlt } = altAz(moon.ra, moon.dec, LAT, lstNow);
+                  const moonVisible = moonAlt > 5;
+                  const illPct = Math.round(moon.illumination * 100);
+                  const phaseLabel = illPct < 5 ? 'Nouvelle' : illPct < 45 ? (moon.phase < 0.5 ? 'Croissant' : 'Décroissant') : illPct < 55 ? (moon.phase < 0.5 ? 'Premier quartier' : 'Dernier quartier') : illPct < 95 ? (moon.phase < 0.5 ? 'Gibbeuse croiss.' : 'Gibbeuse décroiss.') : 'Pleine';
+                  return (
+                    <div className="flex items-center gap-2">
+                      <div className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0"
+                        style={{ background: 'rgba(240,232,200,0.15)', color: '#F0E8C8', border: '1px solid rgba(240,232,200,0.35)' }}>
+                        ☽
+                      </div>
+                      <div className="flex-1">
+                        <span className="text-sm font-semibold" style={{ color: '#F0E8C8' }}>Lune</span>
+                        <span className="text-[10px] text-gray-600 font-mono ml-1">{illPct}% · {phaseLabel}</span>
+                      </div>
+                      <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono ${moonVisible ? 'bg-green-500/15 text-green-400' : 'bg-gray-700/40 text-gray-600'}`}>
+                        {moonVisible ? `↑ ${Math.round(moonAlt)}°` : 'sous l\'horizon'}
+                      </span>
+                    </div>
+                  );
+                })()}
+                <div className="border-t border-white/5 my-1" />
                 {planets.map(p => {
                   const { alt } = altAz(p.ra, p.dec, LAT, lstNow);
                   const visible = alt > 5;
