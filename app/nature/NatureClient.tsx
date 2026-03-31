@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import {
   Plant, PlantType,
@@ -105,11 +105,24 @@ function PlantCard({ plant, onClick, selected }: { plant: Plant; onClick: () => 
 
 function DetailPanel({ plant, onClose }: { plant: Plant; onClose: () => void }) {
   const typeColor = TYPE_COLORS[plant.type];
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [onClose]);
+
   return (
     <div
-      className="rounded-2xl border p-5 space-y-5"
-      style={{ background: `${plant.color}08`, borderColor: `${plant.color}35` }}
+      className="mt-10 fixed inset-0 z-50 flex items-center justify-center p-4"
+      style={{ background: 'rgba(0,0,8,0.55)', backdropFilter: 'blur(4px)' }}
+      onClick={onClose}
     >
+      <div
+        className="rounded-2xl border p-5 space-y-5 w-full max-w-lg max-h-[85vh] overflow-y-auto"
+        style={{ background: `rgba(8,12,28,0.97)`, borderColor: `${plant.color}35` }}
+        onClick={e => e.stopPropagation()}
+      >
       {/* Header */}
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-3">
@@ -224,6 +237,7 @@ function DetailPanel({ plant, onClose }: { plant: Plant; onClose: () => void }) 
         <div className="text-xs uppercase tracking-wider text-gray-500 mb-2">Conseils</div>
         <p className="text-sm text-gray-300 leading-relaxed">{plant.notes}</p>
       </div>
+      </div>
     </div>
   );
 }
@@ -282,6 +296,13 @@ export default function NatureClient({ plants }: { plants: Plant[] }) {
             <p className="text-gray-400 text-base max-w-2xl">
               Calendrier de plantation pour la France — {plants.length} plantes et arbres avec leurs besoins, durées de croissance et conseils de culture.
             </p>
+            <Link
+              href="/nature/saison"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold border transition-all hover:scale-105"
+              style={{ background: 'rgba(252,211,77,0.12)', borderColor: 'rgba(252,211,77,0.35)', color: '#FCD34D' }}
+            >
+              🍓 Fruits & Légumes de Saison
+            </Link>
             <Link
               href="/nature/mon-potager"
               className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold border transition-all hover:scale-105"
@@ -382,69 +403,29 @@ export default function NatureClient({ plants }: { plants: Plant[] }) {
           <span className="text-sm text-gray-600 font-mono ml-auto">{filtered.length} plante{filtered.length > 1 ? 's' : ''}</span>
         </div>
 
-        {/* Main layout */}
-        <div className="flex flex-col xl:flex-row gap-6">
-
-          {/* Grid */}
-          <div className="flex-1 min-w-0">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {filtered.map(p => (
-                <PlantCard
-                  key={p.id}
-                  plant={p}
-                  selected={selected?.id === p.id}
-                  onClick={() => setSelected(prev => prev?.id === p.id ? null : p)}
-                />
-              ))}
-            </div>
-
-            {filtered.length === 0 && (
-              <div className="text-center py-20 text-gray-600">
-                <div className="text-4xl mb-2">🌱</div>
-                Aucune plante ne correspond.
-              </div>
-            )}
-          </div>
-
-          {/* Detail panel */}
-          <div className="xl:w-[380px] shrink-0">
-            <div className="xl:sticky xl:top-20">
-              {selected ? (
-                <DetailPanel plant={selected} onClose={() => setSelected(null)} />
-              ) : (
-                <div className="rounded-2xl border border-white/8 p-5" style={{ background: 'rgba(255,255,255,0.02)' }}>
-                  <h2 className="text-base font-bold text-gray-300 mb-3 uppercase tracking-wider">Guide de culture</h2>
-                  <p className="text-sm text-gray-500 leading-relaxed mb-4">
-                    Cliquez sur une plante pour voir son calendrier complet, ses besoins en eau, sol, ensoleillement, les durées de germination et de croissance, et des conseils pratiques.
-                  </p>
-
-                  {/* Legend */}
-                  <div className="space-y-2 text-xs text-gray-500 mb-5">
-                    <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-sm inline-block" style={{ background: '#60A5FA' }} /> Semis sous abri / intérieur</div>
-                    <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-sm inline-block" style={{ background: '#34D399' }} /> Semis pleine terre</div>
-                    <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-sm inline-block" style={{ background: '#A78BFA' }} /> Plantation (plants, bulbes, boutures)</div>
-                    <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-sm inline-block" style={{ background: '#F59E0B' }} /> Période de récolte</div>
-                  </div>
-
-                  {/* Type stats */}
-                  <div className="space-y-1.5">
-                    {ALL_TYPES.map(t => (
-                      <button
-                        key={t}
-                        onClick={() => setTypeFilter(t === typeFilter ? 'all' : t)}
-                        className="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/5 transition-all text-left"
-                      >
-                        <div className="w-2 h-2 rounded-full shrink-0" style={{ background: TYPE_COLORS[t] }} />
-                        <span className="text-sm text-gray-400">{PLANT_TYPE_LABELS[t]}</span>
-                        <span className="ml-auto text-xs font-mono text-gray-600">{plants.filter(p => p.type === t).length}</span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
+        {/* Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+          {filtered.map(p => (
+            <PlantCard
+              key={p.id}
+              plant={p}
+              selected={false}
+              onClick={() => setSelected(p)}
+            />
+          ))}
         </div>
+
+        {filtered.length === 0 && (
+          <div className="text-center py-20 text-gray-600">
+            <div className="text-4xl mb-2">🌱</div>
+            Aucune plante ne correspond.
+          </div>
+        )}
+
+        {/* Modal */}
+        {selected && (
+          <DetailPanel plant={selected} onClose={() => setSelected(null)} />
+        )}
       </div>
     </div>
   );
