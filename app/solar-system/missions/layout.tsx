@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Missions Spatiales | Suri Space',
     description: "50+ missions historiques — de Spoutnik au James Webb Telescope.",
-    url: 'https://surispace.fr/solar-system/missions',
+    url: 'https://suri-space.vercel.app/solar-system/missions',
   },
 };
 

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Espace | Suri Space',
     description: "Du Soleil aux confins de l'univers — système solaire, galaxies, missions et carte du ciel.",
-    url: 'https://surispace.fr/solar-system',
+    url: 'https://suri-space.vercel.app/solar-system',
   },
 };
 import SolarLayout from '@/components/SolarLayout';

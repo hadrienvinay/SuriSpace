@@ -24,11 +24,16 @@ export const metadata: Metadata = {
     siteName: 'Suri Space',
     title: 'Suri Space',
     description: "Portfolio et blog d'Hadrien Vinay — Espace, sciences et projets.",
+    images: [{ url: '/blog.png', width: 1200, height: 630, alt: 'Suri Space — Portfolio Hadrien Vinay' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Suri Space',
     description: "Portfolio et blog d'Hadrien Vinay — Espace, sciences et projets.",
+    images: ['/blog.png'],
+  },
+  alternates: {
+    canonical: '/',
   },
 };
 
@@ -40,6 +45,10 @@ export default function RootLayout({
 
   return (
     <html lang="fr" className="scroll-smooth" suppressHydrationWarning>
+      <head>
+        <meta name="theme-color" content="#020817" />
+        <link rel="manifest" href="/manifest.json" />
+      </head>
       <body className="flex flex-col">
           {/* Deep space background */}
           <div className="fixed inset-0 z-0 pointer-events-none">

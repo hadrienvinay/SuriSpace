@@ -9,9 +9,10 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Suri Space — Portfolio d\'Hadrien Vinay',
     description: "Explorez l'espace, la chimie atomique, les sciences et mes projets personnels.",
-    url: 'https://surispace.fr',
+    url: 'https://suri-space.vercel.app',
   },
 };
+import { JsonLd } from '@/components/JsonLd';
 import Weather from '@/components/Weather';
 import Ratp from '@/components/Ratp';
 import Links from '@/components/ShowLinks';
@@ -83,6 +84,18 @@ export default function Home() {
       className="max-w-7xl mx-auto px-4 py-10 space-y-12"
       style={{ fontFamily: "'Exo 2', 'Space Grotesk', sans-serif" }}
     >
+      <JsonLd data={{
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: 'Suri Space',
+        url: 'https://suri-space.vercel.app',
+        description: "Portfolio et blog d'Hadrien Vinay — Espace, physique atomique, sciences et projets.",
+        author: {
+          '@type': 'Person',
+          name: 'Hadrien Vinay',
+          url: 'https://suri-space.vercel.app/about',
+        },
+      }} />
 
       {/* ── Hero ── */}
       <div className="text-center pt-6">

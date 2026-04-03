@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Articles | Suri Space',
     description: "Blog d'Hadrien Vinay — explorations et réflexions sur l'espace et les sciences.",
-    url: 'https://surispace.fr/posts',
+    url: 'https://suri-space.vercel.app/posts',
   },
 };
 import Image from 'next/image';

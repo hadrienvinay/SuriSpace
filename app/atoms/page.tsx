@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Atomes | Suri Space',
     description: "Tableau périodique interactif et histoire de la physique atomique.",
-    url: 'https://surispace.fr/atoms',
+    url: 'https://suri-space.vercel.app/atoms',
   },
 };
 import AtomicLayout from '@/components/AtomicLayout';

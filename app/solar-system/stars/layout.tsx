@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Carte du Ciel | Suri Space',
     description: "Étoiles, constellations et nébuleuses — cartographie stellaire interactive.",
-    url: 'https://surispace.fr/solar-system/stars',
+    url: 'https://suri-space.vercel.app/solar-system/stars',
   },
 };
 

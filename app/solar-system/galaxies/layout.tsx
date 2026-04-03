@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Galaxies | Suri Space',
     description: "Voie Lactée, Andromède et les galaxies les plus remarquables de l'univers observable.",
-    url: 'https://surispace.fr/solar-system/galaxies',
+    url: 'https://suri-space.vercel.app/solar-system/galaxies',
   },
 };
 

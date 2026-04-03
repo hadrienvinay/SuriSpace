@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Astronomie | Suri Space',
     description: "De Galilée au JWST — histoire, instruments et découvertes de l'astronomie.",
-    url: 'https://surispace.fr/solar-system/astronomie',
+    url: 'https://suri-space.vercel.app/solar-system/astronomie',
   },
 };
 import SolarLayout from '@/components/SolarLayout';

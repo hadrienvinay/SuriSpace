@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Tableau Périodique | Suri Space',
     description: "Tableau périodique interactif — propriétés et informations sur les 118 éléments.",
-    url: 'https://surispace.fr/atoms/tableau',
+    url: 'https://suri-space.vercel.app/atoms/tableau',
   },
 };
 

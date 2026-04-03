@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'À propos | Suri Space',
     description: "Parcours, activités et CV d'Hadrien Vinay — ingénieur passionné d'espace et d'aéronautique.",
-    url: 'https://surispace.fr/about',
+    url: 'https://suri-space.vercel.app/about',
   },
 };
 

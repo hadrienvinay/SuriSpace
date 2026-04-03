@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Observatoires | Suri Space',
     description: "Les grands télescopes terrestres et spatiaux — Hubble, JWST, VLT, ALMA et ELT.",
-    url: 'https://surispace.fr/solar-system/astronomie/instruments',
+    url: 'https://suri-space.vercel.app/solar-system/astronomie/instruments',
   },
 };
 

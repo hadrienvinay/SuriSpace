@@ -1,7 +1,20 @@
 // pages/atoms/element/[symbol].tsx
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import AtomicLayout from '@/components/AtomicLayout';
 import { allElements, CATEGORY_COLORS, CATEGORY_LABELS } from '@/data/elements';
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+  const el = allElements.find(e => String(e.number) === id || e.symbol.toLowerCase() === id.toLowerCase());
+  if (!el) return { title: 'Élément introuvable' };
+
+  return {
+    title: `${el.name} (${el.symbol}) — Élément n°${el.number}`,
+    description: `Propriétés de ${el.name} (${el.symbol}) : masse atomique ${el.mass}, catégorie ${el.category}. Tableau périodique interactif.`,
+    alternates: { canonical: `/atoms/element/${id}` },
+  };
+}
 
 // Simple Bohr atom visualizer via SVG
 function BohrAtom({ element, color }: { element: typeof allElements[0]; color: string }) {

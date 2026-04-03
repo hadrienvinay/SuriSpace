@@ -1,8 +1,29 @@
 // app/posts/[id]/page.tsx
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import prisma from '@/lib/prisma';
 import { notFound } from 'next/navigation';
+import { JsonLd } from '@/components/JsonLd';
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+  const post = await prisma.post.findUnique({ where: { id: parseInt(id) }, select: { title: true, resume: true, image: true } });
+  if (!post) return { title: 'Article introuvable' };
+
+  return {
+    title: post.title,
+    description: post.resume || `Article : ${post.title} — Suri Space`,
+    openGraph: {
+      title: post.title,
+      description: post.resume || `Article : ${post.title}`,
+      url: `https://suri-space.vercel.app/posts/${id}`,
+      type: 'article',
+      ...(post.image && { images: [{ url: post.image, alt: post.title }] }),
+    },
+    alternates: { canonical: `/posts/${id}` },
+  };
+}
 
 export default async function PostPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -18,6 +39,17 @@ export default async function PostPage({ params }: { params: Promise<{ id: strin
       className="max-w-3xl mx-auto px-4 py-12"
       style={{ fontFamily: "'Exo 2', 'Space Grotesk', sans-serif" }}
     >
+      <JsonLd data={{
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        headline: post.title,
+        description: post.resume || undefined,
+        datePublished: post.createdAt.toISOString(),
+        dateModified: post.updatedAt.toISOString(),
+        author: { '@type': 'Person', name: 'Hadrien Vinay' },
+        url: `https://suri-space.vercel.app/posts/${id}`,
+        ...(post.image && { image: post.image }),
+      }} />
       {/* Header bar */}
       <div className="flex items-center justify-between mb-10">
         <Link

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Projets | Suri Space',
     description: "Applications web, outils et expérimentations techniques.",
-    url: 'https://surispace.fr/projects',
+    url: 'https://suri-space.vercel.app/projects',
   },
 };
 import Image from 'next/image';

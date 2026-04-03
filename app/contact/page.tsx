@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Contact | Suri Space',
     description: "Envoyez un message à Hadrien Vinay — réponse sous 24h.",
-    url: 'https://surispace.fr/contact',
+    url: 'https://suri-space.vercel.app/contact',
   },
 };
 

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Sciences | Suri Space',
     description: "Timeline scientifique, formules, constantes et portraits des grands scientifiques.",
-    url: 'https://surispace.fr/sciences',
+    url: 'https://suri-space.vercel.app/sciences',
   },
 };
 import ScienceLayout from '@/components/ScienceLayout';

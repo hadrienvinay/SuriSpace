@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Catalogue Messier | Suri Space',
     description: "110 objets du ciel profond — nébuleuses, amas et galaxies de Charles Messier (1774).",
-    url: 'https://surispace.fr/solar-system/astronomie/messier',
+    url: 'https://suri-space.vercel.app/solar-system/astronomie/messier',
   },
 };
 
