@@ -47,6 +47,7 @@ export default function RootLayout({
     <html lang="fr" className="scroll-smooth" suppressHydrationWarning>
       <head>
         <meta name="theme-color" content="#020817" />
+        <meta name="google-site-verification" content="PqO9oQhvNlVwu7NcTg2wRbHE5iBzwN1UrF_-_xCzLM8" />
         <link rel="manifest" href="/manifest.json" />
       </head>
       <body className="flex flex-col">
