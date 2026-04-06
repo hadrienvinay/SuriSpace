@@ -2,12 +2,13 @@ import "./globals.css";
 import type { Metadata } from 'next';
 import NavBar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { JsonLd } from '@/components/JsonLd';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://suri-space.vercel.app'),
   title: {
-    default: 'Suri Space',
-    template: '%s | Suri Space',
+    default: 'Hadrien Vinay — Suri Space',
+    template: '%s | Hadrien Vinay — Suri Space',
   },
   description: "Portfolio et blog d'Hadrien Vinay — Explorez l'espace, la physique, la chimie atomique, les projets et les sciences.",
   keywords: ['portfolio', 'Hadrien Vinay', 'espace', 'astronomie', 'physique', 'chimie', 'tableau périodique', 'sciences', 'aéronautique'],
@@ -21,14 +22,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'fr_FR',
-    siteName: 'Suri Space',
-    title: 'Suri Space',
+    siteName: 'Hadrien Vinay — Suri Space',
+    title: 'Hadrien Vinay — Suri Space',
     description: "Portfolio et blog d'Hadrien Vinay — Espace, sciences et projets.",
     images: [{ url: '/blog.png', width: 1200, height: 630, alt: 'Suri Space — Portfolio Hadrien Vinay' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Suri Space',
+    title: 'Hadrien Vinay — Suri Space',
     description: "Portfolio et blog d'Hadrien Vinay — Espace, sciences et projets.",
     images: ['/blog.png'],
   },
@@ -51,6 +52,15 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
       </head>
       <body className="flex flex-col">
+          <JsonLd data={{
+            '@context': 'https://schema.org',
+            '@type': 'Person',
+            name: 'Hadrien Vinay',
+            url: 'https://suri-space.vercel.app',
+            jobTitle: 'Ingénieur aéronautique',
+            sameAs: [],
+            knowsAbout: ['aéronautique', 'espace', 'astronomie', 'physique', 'systèmes embarqués', 'développement web'],
+          }} />
           {/* Deep space background */}
           <div className="fixed inset-0 z-0 pointer-events-none">
             <div
