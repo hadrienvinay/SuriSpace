@@ -79,7 +79,7 @@ export default function CVButton() {
       {open && <CVModal onClose={() => setOpen(false)} />}
       <button
         onClick={() => setOpen(true)}
-        className="px-6 py-3 rounded-xl font-semibold text-white transition-all hover:brightness-110"
+        className="px-6 py-3 cursor-pointer rounded-xl font-semibold text-white transition-all hover:brightness-110"
         style={{ background: 'linear-gradient(135deg, #3B82F6, #6366F1)' }}
       >
         Voir mon CV

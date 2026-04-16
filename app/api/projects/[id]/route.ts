@@ -3,10 +3,14 @@ import { NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
 import { writeFile } from 'fs/promises';
 import path from 'path';
+import { auth } from '@/lib/auth';
 
-export async function DELETE(request: Request,{ params }: { params: Promise<{ id: string }> }) 
+export async function DELETE(request: Request,{ params }: { params: Promise<{ id: string }> })
 {
   console.log(request)
+  const session = await auth();
+  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
   try {
     // ✅ Await params
     const { id: idString } = await params
@@ -35,6 +39,9 @@ export async function DELETE(request: Request,{ params }: { params: Promise<{ id
 }
 
 export async function PUT(request:Request , { params }: { params: Promise<{ id: string }>}) {
+  const session = await auth();
+  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
   try {
     // ✅ Await params
     const { id: idString } = await params
@@ -58,6 +65,7 @@ export async function PUT(request:Request , { params }: { params: Promise<{ id: 
     const imageTitle = formData.get('imageTitle') as string| null;
     const image2Title = formData.get('imageTitle2') as string| null;
     const link = formData.get('link') as string| null;
+    const createdAtRaw = formData.get('createdAt') as string | null;
     
     const ALLOWED_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg'];
     const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
@@ -100,6 +108,7 @@ export async function PUT(request:Request , { params }: { params: Promise<{ id: 
         image2Title,
         link,
         authorId: 1,
+        ...(createdAtRaw && { createdAt: new Date(createdAtRaw) }),
       },
     });
 

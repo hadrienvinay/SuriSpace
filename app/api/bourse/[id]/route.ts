@@ -1,7 +1,11 @@
 import { NextResponse, NextRequest } from 'next/server';
 import prisma from '@/lib/prisma';
+import { auth } from '@/lib/auth';
 
 export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const session = await auth();
+  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
   try {
     const id = Number((await params).id);
     if (!id) return NextResponse.json({ error: 'Invalid id' }, { status: 400 });
@@ -14,6 +18,9 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
 }
 
 export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const session = await auth();
+  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
   try {
     const id = Number((await params).id);
     if (!id) return NextResponse.json({ error: 'Invalid id' }, { status: 400 });

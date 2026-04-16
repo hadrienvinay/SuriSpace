@@ -18,7 +18,8 @@ interface ProjectFormProps {
     imageTitle?: string
     imageTitle2?: string
     link: string
-}
+    createdAt?: string
+  }
 }
 
 export default function CreateProjectForm() {
@@ -31,6 +32,7 @@ export default function CreateProjectForm() {
   const [imageTitle, setImageTitle] = useState('');
   const [imageTitle2, setImageTitle2] = useState('');
   const [link, setLink] = useState('');
+  const [createdAt, setCreatedAt] = useState('');
   const [preview, setPreview] = useState<string | null>(null);
   const [preview2, setPreview2] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -74,6 +76,7 @@ export default function CreateProjectForm() {
       formData.append('content2', content2);
       formData.append('resume', resume);
       formData.append('link', link);
+      if (createdAt) formData.append('createdAt', createdAt);
       if (image) {
         formData.append('image', image);
         formData.append('imageTitle',imageTitle)
@@ -262,6 +265,20 @@ export default function CreateProjectForm() {
       </div>
 
 
+      {/* Champ Date de création */}
+      <div>
+        <label htmlFor="createdAt" className="block mb-2 font-medium">
+          Date de création
+        </label>
+        <input
+          type="date"
+          id="createdAt"
+          value={createdAt}
+          onChange={(e) => setCreatedAt(e.target.value)}
+          className="w-full px-4 py-2 border rounded-lg border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
       {/* Bouton Submit */}
       <button
         type="submit"
@@ -290,6 +307,7 @@ export  function EditProjectForm(props?: ProjectFormProps) {
   const [imageTitle, setImageTitle] = useState(props?.initialData?.imageTitle ??'');
   const [imageTitle2, setImageTitle2] = useState(props?.initialData?.imageTitle2 ?? '');
   const [link, setLink] = useState(props?.initialData?.link ??'');
+  const [createdAt, setCreatedAt] = useState(props?.initialData?.createdAt ?? '');
   const [preview, setPreview] = useState<string | null>(null);
   const [preview2, setPreview2] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -332,10 +350,10 @@ export  function EditProjectForm(props?: ProjectFormProps) {
       formData.append('content', content);
       formData.append('content2', content2);
       formData.append('resume', resume);
-      formData.append('resume', resume);
       formData.append('link', link);
       formData.append('imageTitle',imageTitle)
       formData.append('imageTitle2',imageTitle2)
+      if (createdAt) formData.append('createdAt', createdAt);
 
       if (image) {
         formData.append('image', image);
@@ -522,6 +540,19 @@ export  function EditProjectForm(props?: ProjectFormProps) {
         />
       </div>
 
+      {/* Champ Date de création */}
+      <div>
+        <label htmlFor="createdAt-edit" className="block mb-2 font-medium">
+          Date de création
+        </label>
+        <input
+          type="date"
+          id="createdAt-edit"
+          value={createdAt}
+          onChange={(e) => setCreatedAt(e.target.value)}
+          className="w-full px-4 py-2 border rounded-lg border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
 
       {/* Bouton Submit */}
       <button

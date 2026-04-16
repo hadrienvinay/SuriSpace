@@ -52,28 +52,60 @@ const universeCards = [
   },
 ];
 
-const skills = ['C / C++', 'Python', 'Next.js', 'SQL', 'Embarqué', 'Git','LLM'];
+const skills = ['C / C++', 'Python', 'Next.js', 'SQL', 'Embarqué', 'Git','LLM','HTML/CSS', 'Docker', 'CI/CD', 'PHP', 'JavaScript', 'TypeScript'];
 
 const projects = [
   {
-    title: 'Site Web dynamique',
-    desc: 'Site internet moderne en Next.js, mis à jour régulièrement.',
-    color: 'border-blue-500/40',
-  },
-  {
+    href: '/projects/2',
+    icon: '🃏',
     title: 'Belote Coinchée',
-    desc: 'Jeu de coinche en Python — entraînement contre l\'IA, bientôt multijoueur.',
-    color: 'border-violet-500/40',
+    desc: 'Jeu de coinche en Python — entraînement contre IA, moteur de règles complet.',
+    tags: ['Python', 'IA', 'Pygame'],
+    status: 'Terminé',
+    statusColor: 'text-emerald-400',
+    statusDot: 'bg-emerald-400',
+    border: 'border-violet-500/30',
+    gradient: 'from-violet-600/10 to-purple-600/10',
+    glow: '#A78BFA',
   },
   {
+    href: '/projects/1',
+    icon: '🪐',
     title: 'Simulation système solaire',
-    desc: 'Modèle gravitationnel 2D/3D avec les lois de Newton, système Terre-Lune et système solaire complet.',
-    color: 'border-cyan-500/40',
+    desc: 'Modèle gravitationnel 2D/3D avec les lois de Newton — système Terre-Lune et solaire complet.',
+    tags: ['Python', 'C++', 'OpenGL'],
+    status: 'Terminé',
+    statusColor: 'text-cyan-400',
+    statusDot: 'bg-cyan-400',
+    border: 'border-cyan-500/30',
+    gradient: 'from-cyan-600/10 to-teal-600/10',
+    glow: '#22D3EE',
   },
   {
+    href: '/projects/8',
+    icon: '📈',
     title: 'Bot de trading',
-    desc: 'En cours — reconnaissance de patterns sur or et argent.',
-    color: 'border-emerald-500/40',
+    desc: 'Reconnaissance de patterns chartistes sur métaux précieux — or et argent.',
+    tags: ['Python', 'ML', 'Finance'],
+    status: 'En cours',
+    statusColor: 'text-amber-400',
+    statusDot: 'bg-amber-400',
+    border: 'border-emerald-500/30',
+    gradient: 'from-emerald-600/10 to-green-600/10',
+    glow: '#34D399',
+  },
+  {
+    href: '/projects/10',
+    icon: '🌐',
+    title: 'Online Casino',
+    desc: 'Casino en ligne multijoueur — backend en Node.js, frontend React, WebSocket.',
+    tags: ['Next.js', 'React', 'WebSocket'],
+    status: 'En ligne',
+    statusColor: 'text-emerald-400',
+    statusDot: 'bg-emerald-400',
+    border: 'border-blue-500/30',
+    gradient: 'from-blue-600/10 to-cyan-600/10',
+    glow: '#60A5FA',
   },
 ];
 
@@ -119,10 +151,7 @@ export default function Home() {
         </p>
         <div className="flex justify-center gap-4 flex-wrap">
           <CVButton />
-          <Link
-            href="/about"
-            className="px-6 py-3 rounded-xl font-semibold text-white border border-white/10 hover:bg-white/6 transition-all"
-          >
+          <Link href="/about" className="px-6 py-3 rounded-xl font-semibold text-white border border-white/10 hover:bg-white/6 transition-all">
             Qui suis-je ?
           </Link>
         </div>
@@ -212,14 +241,51 @@ export default function Home() {
         </div>
         <div className="grid sm:grid-cols-2 gap-4">
           {projects.map((p) => (
-            <div
+            <Link
               key={p.title}
-              className={`p-5 rounded-2xl border ${p.color}`}
-              style={{ background: 'rgba(255,255,255,0.02)' }}
+              href={p.href}
+              className={`group relative p-5 rounded-2xl border ${p.border} bg-linear-to-br ${p.gradient} transition-all duration-300 hover:scale-[1.02] hover:brightness-110 overflow-hidden`}
+              style={{ backdropFilter: 'blur(8px)' }}
             >
-              <h3 className="text-base font-bold text-white mb-1">{p.title}</h3>
-              <p className="text-sm text-gray-400 leading-relaxed">{p.desc}</p>
-            </div>
+              {/* glow corner */}
+              <div
+                className="absolute -top-6 -right-6 w-24 h-24 rounded-full opacity-10 blur-2xl pointer-events-none"
+                style={{ background: p.glow }}
+              />
+
+              <div className="flex items-start justify-between mb-3">
+                <span
+                  className="text-3xl"
+                  style={{ filter: `drop-shadow(0 0 10px ${p.glow})` }}
+                >
+                  {p.icon}
+                </span>
+                <span className={`flex items-center gap-1.5 text-xs font-medium ${p.statusColor}`}>
+                  <span className={`w-1.5 h-1.5 rounded-full ${p.statusDot} animate-pulse`} />
+                  {p.status}
+                </span>
+              </div>
+
+              <h3 className="text-base font-bold text-white mb-1.5">{p.title}</h3>
+              <p className="text-sm text-gray-400 leading-relaxed mb-4">{p.desc}</p>
+
+              <div className="flex items-end justify-between">
+                <div className="flex flex-wrap gap-1.5">
+                  {p.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="px-2 py-0.5 rounded-md text-xs font-medium text-gray-300 border border-white/10"
+                      style={{ background: 'rgba(255,255,255,0.05)' }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <span className="text-xs text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity shrink-0 ml-3">
+                  Voir →
+                </span>
+              </div>
+            </Link>
           ))}
         </div>
       </div>

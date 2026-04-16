@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import prisma from '@/lib/prisma'; 
+import prisma from '@/lib/prisma';
 import { writeFile } from 'fs/promises';
 import path from 'path';
+import { auth } from '@/lib/auth';
 
 export async function POST(request: NextRequest) {
+  const session = await auth();
+  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
   try {
     const formData = await request.formData();
     const title = formData.get('title') as string;
@@ -15,6 +19,7 @@ export async function POST(request: NextRequest) {
     const imageTitle = formData.get('imageTitle') as string| null;
     const image2Title = formData.get('imageTitle2') as string| null;
     const link = formData.get('link') as string| null;
+    const createdAtRaw = formData.get('createdAt') as string | null;
 
     if (!title || !resume) {
       return NextResponse.json(
@@ -64,6 +69,7 @@ export async function POST(request: NextRequest) {
         image2Title,
         link,
         authorId: 1,
+        ...(createdAtRaw && { createdAt: new Date(createdAtRaw) }),
       },
     });
 

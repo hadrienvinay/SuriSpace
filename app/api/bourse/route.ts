@@ -2,8 +2,12 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import YahooFinance from 'yahoo-finance2';
 import { normalizeTicker } from '@/lib/normalizeTicker';
+import { auth } from '@/lib/auth';
 
 export async function GET() {
+  const session = await auth();
+  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
   try {
     const orders = await prisma.bourseOrder.findMany({ orderBy: { investmentDate: 'desc' } });
     return NextResponse.json({ orders });
@@ -14,6 +18,9 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
+  const session = await auth();
+  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
   try {
     const body = await req.json();
     const { name, ticker, type, montant, investmentDate, prix } = body;

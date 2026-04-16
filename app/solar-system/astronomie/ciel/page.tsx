@@ -93,14 +93,27 @@ function formatTime(d: Date | null, tzOffset = 1): string {
   return `${String(h).padStart(2, '0')}h${String(m).padStart(2, '0')}`;
 }
 
-// ── Night time slots: 18h→8h local CET (UTC+1) ───────────────────────────────
-// slot 0 = 18h CET = 17h UTC   slot 6 = 00h CET = 23h UTC (same day)
-// slot 7 = 01h CET = 00h UTC+1  slot 14 = 08h CET = 07h UTC+1
-const NIGHT_SLOTS = Array.from({ length: 15 }, (_, i) => ({
-  cetHour: (i + 18) % 24,
-  utcHour: (i + 17) % 24,
-  nextDay: i >= 7,   // crosses UTC midnight at slot 7 (01h CET)
-}));
+// Paris timezone offset: CET (+1) or CEST (+2)
+// EU DST: last Sunday of March 01:00 UTC → last Sunday of October 01:00 UTC
+function getParisOffset(date = new Date()): number {
+  const y = date.getUTCFullYear();
+  // Last Sunday of March: start from March 31 and go back to Sunday
+  const mar31 = new Date(Date.UTC(y, 2, 31));
+  const dstStart = new Date(Date.UTC(y, 2, 31 - mar31.getUTCDay(), 1, 0)); // 01:00 UTC
+  // Last Sunday of October
+  const oct31 = new Date(Date.UTC(y, 9, 31));
+  const dstEnd = new Date(Date.UTC(y, 9, 31 - oct31.getUTCDay(), 1, 0));   // 01:00 UTC
+  return (date >= dstStart && date < dstEnd) ? 2 : 1;
+}
+const TZ = getParisOffset();
+
+// ── Night time slots: 18h→8h local Paris time ────────────────────────────────
+const NIGHT_SLOTS = Array.from({ length: 15 }, (_, i) => {
+  const localHour = (i + 18) % 24;
+  const utcHour = (localHour - TZ + 24) % 24;
+  const nextDay = localHour < 18; // past local midnight → next calendar day
+  return { cetHour: localHour, utcHour, nextDay };
+});
 
 // ── Star catalog [name, ra_hours, dec_deg, magnitude, spectral] ───────────────
 const CATALOG: [string, number, number, number, string][] = [
@@ -249,7 +262,6 @@ function starColor(spec: string) {
 
 const LAT = 48.85;
 const LON = 2.35;
-const TZ  = 1; // CET = UTC+1 (March before DST switch)
 const DAY_RANGE = 6; // today + 5 days
 
 function addDays(d: Date, n: number) {

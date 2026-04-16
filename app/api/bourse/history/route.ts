@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import YahooFinance from 'yahoo-finance2';
 import { normalizeTicker } from '@/lib/normalizeTicker';
+import { auth } from '@/lib/auth';
 
 // Separate caches for daily and intraday
 let cacheDaily:   { data: any; timestamp: number } | null = null;
@@ -10,6 +11,9 @@ const CACHE_DAILY_MS    = 30 * 60 * 1000; //  30 min
 const CACHE_INTRADAY_MS =  5 * 60 * 1000; //   5 min
 
 export async function GET(req: Request) {
+  const session = await auth();
+  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
   try {
     const { searchParams } = new URL(req.url);
     const bypassCache = searchParams.has('t');

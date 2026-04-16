@@ -209,16 +209,20 @@ function getInstrumentPositions(date: Date): OrbitalObject[] {
   });
 }
 
-// ── ISS orbit trail (approximate future positions) ───────────────────────────
-function getISSTrail(currentLat: number, currentLng: number): [number, number][] {
-  const points: [number, number][] = [];
+// ── ISS orbit trail (future trajectory) ──────────────────────────────────────
+function getISSTrail(currentLat: number, currentLng: number, isAscending: boolean): [number, number][][] {
+  const segments: [number, number][][] = [];
+  let currentSegment: [number, number][] = [];
   const periodSec = 92.68 * 60;
   const inclination = 51.6;
 
-  // Estimate current phase from latitude
-  const phase0 = Math.asin(Math.max(-1, Math.min(1, currentLat / inclination)));
+  // Fix phase based on ascending/descending direction
+  const asinPhase = Math.asin(Math.max(-1, Math.min(1, currentLat / inclination)));
+  const phase0 = isAscending ? asinPhase : Math.PI - asinPhase;
 
-  for (let i = -30; i <= 30; i++) {
+  let prevLng: number | null = null;
+
+  for (let i = 0; i <= 60; i++) {
     const dt = (i / 60) * periodSec;
     const phase = phase0 + (dt / periodSec) * 2 * Math.PI;
     const lat = inclination * Math.sin(phase);
@@ -226,9 +230,19 @@ function getISSTrail(currentLat: number, currentLng: number): [number, number][]
     const orbitalLng = (dt / periodSec) * 360;
     let lng = currentLng + orbitalLng + lngDrift;
     lng = ((lng + 540) % 360) - 180;
-    points.push([lng, lat]);
+
+    // Split segment at antimeridian crossing to avoid cross-map line
+    if (prevLng !== null && Math.abs(lng - prevLng) > 180) {
+      segments.push(currentSegment);
+      currentSegment = [];
+    }
+
+    currentSegment.push([lng, lat]);
+    prevLng = lng;
   }
-  return points;
+
+  if (currentSegment.length > 0) segments.push(currentSegment);
+  return segments;
 }
 
 // ── Component ────────────────────────────────────────────────────────────────
@@ -238,7 +252,7 @@ export default function EarthOrbitMap() {
   const [instruments, setInstruments] = useState<OrbitalObject[]>([]);
   const [selectedObject, setSelectedObject] = useState<OrbitalObject | null>(null);
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
-  const [issTrail, setIssTrail] = useState<[number, number][]>([]);
+  const [issTrail, setIssTrail] = useState<[number, number][][]>([]);
 
   const updatePositions = useCallback(async () => {
     const now = new Date();
@@ -250,21 +264,23 @@ export default function EarthOrbitMap() {
     // Instruments
     setInstruments(getInstrumentPositions(now));
 
-    // ISS live
+    // ISS live — fetch 2 timestamps to determine ascending/descending
     try {
-      const res = await fetch('https://api.wheretheiss.at/v1/satellites/25544');
+      const ts = Math.floor(now.getTime() / 1000);
+      const res = await fetch(`https://api.wheretheiss.at/v1/satellites/25544/positions?timestamps=${ts - 10},${ts}`);
       if (res.ok) {
-        const data = await res.json();
-        const issLat = data.latitude;
-        const issLng = data.longitude;
+        const [prev, curr] = await res.json();
+        const issLat = curr.latitude;
+        const issLng = curr.longitude;
+        const isAscending = curr.latitude > prev.latitude;
         setIssPosition({ lat: issLat, lng: issLng });
-        setIssTrail(getISSTrail(issLat, issLng));
+        setIssTrail(getISSTrail(issLat, issLng, isAscending));
       }
     } catch {
       // Fallback: approximate ISS position
       const pos = getLEOPosition(now, 51.6, 92.68, 200);
       setIssPosition(pos);
-      setIssTrail(getISSTrail(pos.lat, pos.lng));
+      setIssTrail(getISSTrail(pos.lat, pos.lng, true));
     }
 
     setLastUpdate(now);
@@ -280,7 +296,7 @@ export default function EarthOrbitMap() {
     type: 'Feature' as const,
     properties: {},
     geometry: {
-      type: 'LineString' as const,
+      type: 'MultiLineString' as const,
       coordinates: issTrail,
     },
   };
