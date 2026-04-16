@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 
 const FIELD_STYLE = {
@@ -46,6 +46,8 @@ const EMPTY = { title: '', author: '', date: '', dateRead: '', rating: 0, notes:
 export default function BookFormModal({ isOpen, onClose, editBook, onSaved }: BookFormModalProps) {
   const [form, setForm] = useState(EMPTY);
   const [loading, setLoading] = useState(false);
+  const [scanning, setScanning] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -70,6 +72,46 @@ export default function BookFormModal({ isOpen, onClose, editBook, onSaved }: Bo
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [onClose]);
+
+  const handleScan = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setScanning(true);
+    try {
+      const reader = new FileReader();
+      const dataUrl = await new Promise<string>((resolve) => {
+        reader.onloadend = () => resolve(reader.result as string);
+        reader.readAsDataURL(file);
+      });
+
+      const res = await fetch('/api/books/scan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image: dataUrl }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        const titleCase = (s: string) =>
+          s.toLowerCase().replace(/(?:^|\s|-|')\S/g, c => c.toUpperCase());
+        setForm(prev => ({
+          ...prev,
+          title: data.title ? titleCase(data.title) : prev.title,
+          author: data.author ? titleCase(data.author) : prev.author,
+          date: data.date || prev.date,
+        }));
+      } else {
+        const data = await res.json();
+        alert(data.error ?? 'Erreur lors du scan');
+      }
+    } catch {
+      alert('Erreur lors de l\'analyse de la photo');
+    } finally {
+      setScanning(false);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
+  };
 
   if (!isOpen) return null;
 
@@ -100,6 +142,8 @@ export default function BookFormModal({ isOpen, onClose, editBook, onSaved }: Bo
   };
 
   return (
+    <>
+    <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
     <div
       className="fixed inset-0 z-[200] flex items-center justify-center"
       style={{ background: 'rgba(0,0,8,0.88)', backdropFilter: 'blur(10px)' }}
@@ -126,12 +170,56 @@ export default function BookFormModal({ isOpen, onClose, editBook, onSaved }: Bo
               {isEdit ? 'Modifier le livre' : 'Ajouter un livre'}
             </span>
           </div>
-          <button
-            onClick={onClose}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,0.4)', fontSize: 22, lineHeight: 1, padding: '0 4px' }}
-          >
-            ×
-          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            {!isEdit && (
+              <>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  capture="environment"
+                  onChange={handleScan}
+                  style={{ display: 'none' }}
+                />
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={scanning}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 6,
+                    background: scanning ? 'rgba(167,139,250,0.15)' : 'rgba(167,139,250,0.1)',
+                    border: '1px solid rgba(167,139,250,0.25)',
+                    color: '#a78bfa', borderRadius: 8, padding: '5px 12px', fontSize: 12,
+                    cursor: scanning ? 'not-allowed' : 'pointer', fontWeight: 600, whiteSpace: 'nowrap',
+                    transition: 'all 0.2s',
+                  }}
+                >
+                  {scanning ? (
+                    <>
+                      <svg style={{ width: 14, height: 14, animation: 'spin 1s linear infinite' }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                        <path d="M12 2v4m0 12v4m-7.07-3.93l2.83-2.83m8.48-8.48l2.83-2.83M2 12h4m12 0h4m-3.93 7.07l-2.83-2.83M7.76 7.76L4.93 4.93" />
+                      </svg>
+                      Analyse...
+                    </>
+                  ) : (
+                    <>
+                      <svg style={{ width: 14, height: 14 }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.9 47.9 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Z" />
+                      </svg>
+                      Scanner
+                    </>
+                  )}
+                </button>
+              </>
+            )}
+            <button
+              onClick={onClose}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,0.4)', fontSize: 22, lineHeight: 1, padding: '0 4px' }}
+            >
+              ×
+            </button>
+          </div>
         </div>
 
         {/* Form */}
@@ -243,5 +331,6 @@ export default function BookFormModal({ isOpen, onClose, editBook, onSaved }: Bo
         </form>
       </div>
     </div>
+    </>
   );
 }
