@@ -16,6 +16,7 @@ import Image from 'next/image';
 import prisma from '@/lib/prisma';
 import { auth } from '@/lib/auth';
 import DeleteProjectButton from '@/components/DeleteProjectButton';
+import { ToolsIcon, CodeIcon } from '@/components/ProjectsIcons';
 
 const STATIC_PROJECTS = [
   {
@@ -43,17 +44,24 @@ export default async function Projects() {
 
       {/* Hero */}
       <div className="text-center mb-12">
-        <div className="text-6xl mb-4" style={{ filter: 'drop-shadow(0 0 24px #34D399)' }}>🛠️</div>
-        <h1
-          className="text-5xl sm:text-6xl font-extrabold tracking-tight mb-3 pb-2"
-          style={{
-            background: 'linear-gradient(135deg, #34D399, #60A5FA)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-          }}
-        >
-          Projets
-        </h1>
+        <div className="flex items-center justify-center gap-5 mb-3">
+          <div style={{ filter: 'drop-shadow(0 0 18px #34D399)' }}>
+            <ToolsIcon size={80} />
+          </div>
+          <h1
+            className="text-5xl sm:text-6xl font-extrabold tracking-tight pb-2"
+            style={{
+              background: 'linear-gradient(135deg, #34D399, #60A5FA)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}
+          >
+            Projets
+          </h1>
+          <div style={{ filter: 'drop-shadow(0 0 18px #60A5FA)' }}>
+            <CodeIcon size={80} />
+          </div>
+        </div>
         <p className="text-gray-400 text-lg max-w-xl mx-auto">
           Simulations, outils et expérimentations développés au fil du temps.
         </p>

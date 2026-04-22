@@ -18,11 +18,13 @@ import Ratp from '@/components/Ratp';
 import Links from '@/components/ShowLinks';
 import CVButton from '@/components/CVButton';
 import { getCitationDuJour } from '@/data/citations';
+import { SolarSystemIcon, TelescopeIcon, AtomIcon } from '@/components/UniverseIcons';
+import { SunriseIcon, MetroIcon, SparkIcon } from '@/components/WidgetIcons';
 
 const universeCards = [
   {
     href: '/solar-system',
-    icon: '🪐',
+    Icon: SolarSystemIcon,
     title: 'Espace',
     description: 'Système solaire, galaxies, missions spatiales et carte du ciel.',
     gradient: 'from-blue-600/20 to-cyan-600/20',
@@ -32,7 +34,7 @@ const universeCards = [
   },
   {
     href: '/sciences',
-    icon: '🔬',
+    Icon: TelescopeIcon,
     title: 'Sciences',
     description: 'Timeline interactive, grands scientifiques, formules et constantes.',
     gradient: 'from-violet-600/20 to-purple-600/20',
@@ -42,7 +44,7 @@ const universeCards = [
   },
   {
     href: '/atoms',
-    icon: '⚛️',
+    Icon: AtomIcon,
     title: 'Atomes',
     description: 'Tableau périodique, nucléosynthèse, abondance et histoire cosmique.',
     gradient: 'from-emerald-600/20 to-teal-600/20',
@@ -171,13 +173,13 @@ export default function Home() {
               style={{ backdropFilter: 'blur(8px)' }}
             >
               <div
-                className="text-5xl mb-3"
+                className="mb-3 flex justify-center transition-transform duration-500 group-hover:scale-110"
                 style={{ filter: `drop-shadow(0 0 16px ${c.glow})` }}
               >
-                {c.icon}
+                <c.Icon />
               </div>
-              <h3 className={`text-xl font-bold mb-1.5 ${c.accent}`}>{c.title}</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">{c.description}</p>
+              <h3 className={`text-xl font-bold mb-1.5 text-center ${c.accent}`}>{c.title}</h3>
+              <p className="text-gray-400 text-sm leading-relaxed text-center">{c.description}</p>
               <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
                 <span className="text-xs text-gray-500">Explorer →</span>
               </div>
@@ -193,7 +195,10 @@ export default function Home() {
           className="p-5 rounded-2xl border border-white/8"
           style={{ background: 'rgba(255,255,255,0.02)' }}
         >
-          <h3 className="text-base font-bold text-gray-300 mb-3">🌅 Météo</h3>
+          <h3 className="text-base font-bold text-gray-300 mb-3 flex items-center gap-2">
+            <SunriseIcon size={22} />
+            <span>Météo</span>
+          </h3>
           <div className="space-y-2">
             <Weather city="Paris" />
             <Weather city="Madrid" />
@@ -206,7 +211,10 @@ export default function Home() {
           className="p-5 rounded-2xl border border-white/8"
           style={{ background: 'rgba(255,255,255,0.02)' }}
         >
-          <h3 className="text-base font-bold text-gray-300 mb-3">🚇 Transports</h3>
+          <h3 className="text-base font-bold text-gray-300 mb-3 flex items-center gap-2">
+            <MetroIcon size={22} />
+            <span>Transports</span>
+          </h3>
           <Ratp />
         </div>
 
@@ -215,15 +223,48 @@ export default function Home() {
           className="p-5 rounded-2xl border border-white/8"
           style={{ background: 'rgba(255,255,255,0.02)' }}
         >
-          <h3 className="text-base font-bold text-gray-300 mb-3">⚡ Compétences</h3>
+          <style>{`
+            @keyframes skillShimmer {
+              0%   { transform: translateX(-130%) skewX(-14deg); }
+              100% { transform: translateX(230%)  skewX(-14deg); }
+            }
+            .skill-badge {
+              position: relative;
+              overflow: hidden;
+              cursor: default;
+              transition: transform .28s ease, border-color .28s, color .28s, background .28s, box-shadow .28s;
+            }
+            .skill-badge:hover {
+              transform: translateY(-2px) scale(1.06);
+              border-color: rgba(196,181,253,0.75);
+              color: #fff;
+              background: rgba(139,92,246,0.22);
+              box-shadow: 0 10px 26px rgba(139,92,246,0.35), 0 0 0 1px rgba(196,181,253,0.15) inset;
+            }
+            .skill-shimmer {
+              position: absolute;
+              top: 0; bottom: 0; left: -20%; right: -20%;
+              background: linear-gradient(90deg, transparent 10%, rgba(245,243,255,0.45) 50%, transparent 90%);
+              transform: translateX(-130%) skewX(-14deg);
+              pointer-events: none;
+            }
+            .skill-badge:hover .skill-shimmer {
+              animation: skillShimmer .9s ease-out;
+            }
+          `}</style>
+          <h3 className="text-base font-bold text-gray-300 mb-3 flex items-center gap-2">
+            <SparkIcon size={22} />
+            <span>Compétences</span>
+          </h3>
           <div className="flex flex-wrap gap-2 mt-2">
             {skills.map((s) => (
               <span
                 key={s}
-                className="px-3 py-1.5 rounded-xl text-sm font-semibold border border-violet-500/30 text-violet-300"
+                className="skill-badge inline-flex items-center px-3 py-1.5 rounded-xl text-sm font-semibold border border-violet-500/30 text-violet-300"
                 style={{ background: 'rgba(139,92,246,0.10)' }}
               >
-                {s}
+                <span className="skill-shimmer" aria-hidden />
+                <span className="relative z-[1]">{s}</span>
               </span>
             ))}
           </div>

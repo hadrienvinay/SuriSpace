@@ -13,11 +13,19 @@ export const metadata: Metadata = {
   },
 };
 import AtomicLayout from '@/components/AtomicLayout';
+import {
+  FlaskIcon,
+  RadiationIcon,
+  ExplosionIcon,
+  BarChartIcon,
+  GalaxyIcon,
+} from '@/components/AtomsIcons';
+import { AtomIcon } from '@/components/UniverseIcons';
 
 const features = [
   {
     href: '/atoms/tableau',
-    icon: '🧪',
+    Icon: FlaskIcon,
     title: 'Tableau Périodique',
     description: 'Les 118 éléments classés, avec couleurs par catégorie et données complètes.',
     gradient: 'from-blue-600/20 to-cyan-600/20',
@@ -26,8 +34,8 @@ const features = [
   },
   {
     href: '/atoms/particules',
-    icon: '☢️',
-    title: 'Particules Elémentaires', 
+    Icon: RadiationIcon,
+    title: 'Particules Elémentaires',
     description: 'Les constituants fondamentaux de la matière',
     gradient: 'from-yellow-600/20 to-orange-600/20',
     border: 'border-yellow-500/30',
@@ -35,7 +43,7 @@ const features = [
   },
   {
     href: '/atoms/nucleosynthese',
-    icon: '💥',
+    Icon: ExplosionIcon,
     title: 'Nucléosynthèse',
     description: 'Du Big Bang aux collisions d\'étoiles à neutrons — comment les atomes naissent.',
     gradient: 'from-orange-600/20 to-red-600/20',
@@ -44,7 +52,7 @@ const features = [
   },
   {
     href: '/atoms/abondance',
-    icon: '📊',
+    Icon: BarChartIcon,
     title: 'Répartition de la matière',
     description: 'L\'hydrogène domine l\'univers. Mais sur Terre? Comparaison cosmique vs terrestre.',
     gradient: 'from-emerald-600/20 to-teal-600/20',
@@ -53,7 +61,7 @@ const features = [
   },
   {
     href: '/atoms/histoire',
-    icon: '🌌',
+    Icon: GalaxyIcon,
     title: 'Histoire Cosmique',
     description: 'Du Big Bang à aujourd\'hui — le voyage de 13.8 milliards d\'années des éléments.',
     gradient: 'from-violet-600/20 to-purple-600/20',
@@ -77,8 +85,8 @@ export default function AtomsHome() {
       <div className="max-w-7xl mx-auto px-4 py-16">
         {/* Hero */}
         <div className="text-center mb-20">
-          <div className="relative inline-block mb-6">
-            <div className="text-7xl animate-pulse" style={{ filter: 'drop-shadow(0 0 30px #7C3AED)' }}>⚛️</div>
+          <div className="mb-6 flex justify-center" style={{ filter: 'drop-shadow(0 0 30px #7C3AED)' }}>
+            <AtomIcon size={130} />
           </div>
           <h1 className="text-4xl sm:text-6xl font-bold mb-4 tracking-tight"
             style={{
@@ -100,9 +108,11 @@ export default function AtomsHome() {
             <Link key={f.href} href={f.href}
               className={`group relative block rounded-2xl border ${f.border} bg-gradient-to-br ${f.gradient} p-6 transition-all duration-300 hover:scale-[1.02] hover:brightness-110`}
               style={{ backdropFilter: 'blur(8px)' }}>
-              <div className="text-4xl mb-3">{f.icon}</div>
-              <h2 className={`text-xl font-bold mb-2 ${f.accent}`}>{f.title}</h2>
-              <p className="text-gray-400 text-sm leading-relaxed">{f.description}</p>
+              <div className="mb-3 flex justify-center transition-transform duration-500 group-hover:scale-110">
+                <f.Icon />
+              </div>
+              <h2 className={`text-xl font-bold mb-2 ${f.accent} text-center`}>{f.title}</h2>
+              <p className="text-gray-400 text-sm leading-relaxed text-center">{f.description}</p>
               <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
                 <span className="text-xs text-gray-500">Explorer →</span>
               </div>

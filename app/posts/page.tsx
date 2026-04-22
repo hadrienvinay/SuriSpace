@@ -16,6 +16,7 @@ import Image from 'next/image';
 import prisma from '@/lib/prisma';
 import DeletePostButton from '@/components/DeletePostButton';
 import { auth } from '@/lib/auth';
+import { QuillIcon, BookIcon } from '@/components/ArticlesIcons';
 
 const STATIC_POSTS = [
   {
@@ -87,16 +88,24 @@ export default async function Posts() {
 
       {/* Hero */}
       <div className="text-center mb-12">
-        <h1
-          className="text-5xl sm:text-6xl font-extrabold tracking-tight mb-3"
-          style={{
-            background: 'linear-gradient(135deg, #60A5FA, #A78BFA)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-          }}
-        >
-          Articles
-        </h1>
+        <div className="flex items-center justify-center gap-5 mb-3">
+          <div style={{ filter: 'drop-shadow(0 0 16px #6366F1)' }}>
+            <QuillIcon size={72} />
+          </div>
+          <h1
+            className="text-5xl sm:text-6xl font-extrabold tracking-tight pb-2"
+            style={{
+              background: 'linear-gradient(135deg, #60A5FA, #A78BFA)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}
+          >
+            Articles
+          </h1>
+          <div style={{ filter: 'drop-shadow(0 0 16px #818CF8)' }}>
+            <BookIcon size={72} />
+          </div>
+        </div>
         <p className="text-gray-400 text-lg max-w-xl mx-auto">
           Explorations scientifiques, technologiques et culturelles.
         </p>

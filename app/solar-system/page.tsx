@@ -13,11 +13,14 @@ export const metadata: Metadata = {
   },
 };
 import SolarLayout from '@/components/SolarLayout';
+import { MapIcon, EarthIcon, RocketIcon, StarIcon } from '@/components/SpaceIcons';
+import { GalaxyIcon } from '@/components/AtomsIcons';
+import { SolarSystemIcon, TelescopeIcon } from '@/components/UniverseIcons';
 
 const sections = [
   {
     href: '/solar-system/carte',
-    icon: '🗺️',
+    Icon: SolarSystemIcon,
     title: 'Système solaire',
     description: 'Système solaire en échelle logarithmique : planètes, sondes actives, zone habitable et distances en UA.',
     gradient: 'from-blue-600/20 to-cyan-600/20',
@@ -27,7 +30,7 @@ const sections = [
   },
   {
     href: '/solar-system/bodys',
-    icon: '🌍',
+    Icon: EarthIcon,
     title: 'Corps du Système Solaire',
     description: 'Soleil, planètes, lunes, astéroïdes et comètes — données physiques complètes et galerie illustrée.',
     gradient: 'from-orange-600/20 to-amber-600/20',
@@ -36,7 +39,7 @@ const sections = [
   },
   {
     href: '/solar-system/galaxies',
-    icon: '🌌',
+    Icon: GalaxyIcon,
     title: 'Galaxies',
     description: 'Notre Voie Lactée, Andromède et les 15 galaxies les plus remarquables de l\'univers observable.',
     gradient: 'from-violet-600/20 to-purple-600/20',
@@ -45,7 +48,7 @@ const sections = [
   },
   {
     href: '/solar-system/missions',
-    icon: '🚀',
+    Icon: RocketIcon,
     title: 'Missions & Sondes',
     description: 'Apollo, Voyager, James Webb, Perseverance… 50+ missions historiques et en cours depuis 1957.',
     gradient: 'from-emerald-600/20 to-teal-600/20',
@@ -54,7 +57,7 @@ const sections = [
   },
   {
     href: '/solar-system/stars',
-    icon: '🗺️',
+    Icon: MapIcon,
     title: 'Carte du Ciel',
     description: 'Étoiles voisines, types spectraux, constellations et nébuleuses — cartographie stellaire interactive.',
     gradient: 'from-yellow-600/20 to-black-600/20',
@@ -63,7 +66,7 @@ const sections = [
   },
   {
     href: '/solar-system/stars/star',
-    icon: '⭐',
+    Icon: StarIcon,
     title: "Etoiles",
     description: 'Informations et détails des principales étoiles de notre ciel (hémisphère nord pour le moment)',
     gradient: 'from-yellow-400/40 to-amber-400/20',
@@ -72,7 +75,7 @@ const sections = [
   },
   {
     href: '/solar-system/astronomie',
-    icon: '🔭',
+    Icon: TelescopeIcon,
     title: 'Astronomie',
     description: 'Histoire de l\'astronomie, instruments à travers le temps, catalogue Messier (110 objets) et observatoires terrestres et spatiaux.',
     gradient: 'from-indigo-600/20 to-violet-600/20',
@@ -104,8 +107,8 @@ export default function EspaceHome() {
 
         {/* Hero */}
         <div className="text-center mb-16">
-          <div className="text-8xl mb-6" style={{ filter: 'drop-shadow(0 0 40px #60A5FA)' }}>
-            🪐
+          <div className="mb-6 flex justify-center" style={{ filter: 'drop-shadow(0 0 40px #60A5FA)' }}>
+            <SolarSystemIcon size={140} />
           </div>
           <h1
             className="text-5xl sm:text-6xl font-bold mb-4 tracking-tight"
@@ -153,11 +156,13 @@ export default function EspaceHome() {
                   {s.badge}
                 </span>
               )}
-              <div className="text-4xl mb-3">{s.icon}</div>
-              <h2 className={`text-xl font-bold mb-2 ${s.accent}`} style={{ fontFamily: "'Exo 2', sans-serif" }}>
+              <div className="mb-3 flex justify-center transition-transform duration-500 group-hover:scale-110">
+                <s.Icon />
+              </div>
+              <h2 className={`text-xl font-bold mb-2 ${s.accent} text-center`} style={{ fontFamily: "'Exo 2', sans-serif" }}>
                 {s.title}
               </h2>
-              <p className="text-gray-400 text-sm leading-relaxed">{s.description}</p>
+              <p className="text-gray-400 text-sm leading-relaxed text-center">{s.description}</p>
               <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
                 <span className="text-xs text-gray-500">Explorer →</span>
               </div>

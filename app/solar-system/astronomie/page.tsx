@@ -13,6 +13,7 @@ export const metadata: Metadata = {
   },
 };
 import SolarLayout from '@/components/SolarLayout';
+import { computeMoonPhases, computePlanets, computeEvents, getCurrentMonthInfo } from '@/lib/ephemerides';
 
 const TIMELINE = [
   {
@@ -66,33 +67,6 @@ const TIMELINE = [
       { year: '2022', text: 'JWST révèle les premières images de galaxies formées 300 millions d\'années après le Big Bang.' },
     ],
   },
-];
-
-/* ── Éphémérides Mars 2026 ───────────────────────────────── */
-const MOON_PHASES = [
-  { icon: '🌑', phase: 'Nouvelle Lune',    date: '1 mars',  highlight: false },
-  { icon: '🌓', phase: 'Premier Quartier', date: '8 mars',  highlight: false },
-  { icon: '🌕', phase: 'Pleine Lune',      date: '14 mars', highlight: true,  name: 'Lune du Ver' },
-  { icon: '🌗', phase: 'Dernier Quartier', date: '22 mars', highlight: false },
-  { icon: '🌑', phase: 'Nouvelle Lune',    date: '30 mars', highlight: false },
-];
-
-const PLANETS_MARCH = [
-  { name: 'Mercure', symbol: '☿', visibility: 'Soir',  detail: 'Élongation max. le 12 mars (18° est) — bas à l\'ouest après le coucher du Soleil', color: '#A78BFA', mag: '+0,5' },
-  { name: 'Vénus',   symbol: '♀', visibility: 'Matin', detail: 'Étoile du matin, très brillante à l\'est avant l\'aurore', color: '#FBBF24', mag: '−4,2' },
-  { name: 'Mars',    symbol: '♂', visibility: 'Soir',  detail: 'Dans les Gémeaux, visible en début de nuit — en déclin post-opposition (jan. 2025)', color: '#F87171', mag: '+1,3' },
-  { name: 'Jupiter', symbol: '♃', visibility: 'Soir',  detail: 'Dans le Taureau, se couche vers 23h — encore bien placé', color: '#FB923C', mag: '−2,1' },
-  { name: 'Saturne', symbol: '♄', visibility: 'Matin', detail: 'Dans le Verseau, visible en fin de nuit, bas sur l\'horizon oriental', color: '#34D399', mag: '+1,2' },
-];
-
-const EVENTS_MARCH = [
-  { date: '1 mars',  icon: '🌑', text: 'Nouvelle Lune' },
-  { date: '8 mars',  icon: '🌓', text: 'Premier Quartier' },
-  { date: '12 mars', icon: '☿',  text: 'Élongation maximale est de Mercure — 18,1° du Soleil, visible le soir' },
-  { date: '14 mars', icon: '🌕', text: 'Pleine Lune "du Ver" — meilleure nuit pour observer les objets éclairés' },
-  { date: '20 mars', icon: '🌸', text: 'Équinoxe de printemps — 11h01 UTC · Jour et nuit égaux' },
-  { date: '22 mars', icon: '🌗', text: 'Dernier Quartier' },
-  { date: '30 mars', icon: '🌑', text: 'Nouvelle Lune — nuits idéales pour le ciel profond' },
 ];
 
 /* ── Agenda 2026 ─────────────────────────────────────────── */
@@ -201,6 +175,12 @@ const INSTRUMENTS = [
 ];
 
 export default function AstronomieHub() {
+  const now = new Date();
+  const { monthName, year } = getCurrentMonthInfo(now);
+  const moonPhases = computeMoonPhases(now);
+  const planets = computePlanets(now);
+  const events = computeEvents(now);
+
   return (
     <SolarLayout>
       <div className="max-w-6xl mx-auto px-4 py-8">
@@ -232,11 +212,11 @@ export default function AstronomieHub() {
           </p>
         </div>
 
-        {/* ── Éphémérides de Mars 2026 ────────────────────────── */}
+        {/* ── Éphémérides du mois courant ─────────────────────── */}
         <div className="mb-12">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-md font-bold tracking-widest uppercase text-gray-500">
-              Éphémérides · Mars 2026
+              Éphémérides · {monthName} {year}
             </h2>
             <span className="text-xs font-mono text-gray-600 border border-white/8 rounded-full px-3 py-1">
               Heure UTC · Latitude France
@@ -252,7 +232,7 @@ export default function AstronomieHub() {
             <div className="rounded-2xl border border-white/8 p-5" style={{ background: 'rgba(167,139,250,0.05)' }}>
               <h3 className="text-xs uppercase tracking-wider text-gray-500 mb-4">Phases de la Lune</h3>
               <div className="space-y-3">
-                {MOON_PHASES.map(p => (
+                {moonPhases.map(p => (
                   <div
                     key={p.date}
                     className="flex items-center gap-3 rounded-xl px-3 py-2"
@@ -273,7 +253,7 @@ export default function AstronomieHub() {
             <div className="rounded-2xl border border-white/8 p-5" style={{ background: 'rgba(251,146,60,0.04)' }}>
               <h3 className="text-xs uppercase tracking-wider text-gray-500 mb-4">Planètes visibles</h3>
               <div className="space-y-3">
-                {PLANETS_MARCH.map(p => (
+                {planets.map(p => (
                   <div key={p.name} className="flex gap-3 items-start">
                     <div
                       className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm font-bold"
@@ -303,8 +283,8 @@ export default function AstronomieHub() {
             <div className="rounded-2xl border border-white/8 p-5" style={{ background: 'rgba(52,211,153,0.04)' }}>
               <h3 className="text-xs uppercase tracking-wider text-gray-500 mb-4">Agenda du mois</h3>
               <div className="space-y-2.5">
-                {EVENTS_MARCH.map(ev => (
-                  <div key={ev.date} className="flex gap-3 items-start">
+                {events.map((ev, i) => (
+                  <div key={`${ev.date}-${i}`} className="flex gap-3 items-start">
                     <div className="flex flex-col items-center shrink-0 w-14">
                       <span className="text-base">{ev.icon}</span>
                       <span className="text-[10px] font-mono text-gray-600 text-center leading-tight">{ev.date}</span>

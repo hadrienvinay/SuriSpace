@@ -13,11 +13,18 @@ export const metadata: Metadata = {
   },
 };
 import ScienceLayout from '@/components/ScienceLayout';
+import {
+  ClockIcon,
+  ScientistIcon,
+  SigmaIcon,
+  InfinityIcon,
+  MicroscopeIcon,
+} from '@/components/SciencesIcons';
 
 const sections = [
   {
     href: '/sciences/timeline',
-    icon: '⏱️',
+    Icon: ClockIcon,
     title: 'Timeline Interactive',
     description: 'De l\'Antiquité à aujourd\'hui — révolutions scientifiques, grands scientifiques et découvertes sur une frise chronologique.',
     gradient: 'from-indigo-600/20 to-violet-600/20',
@@ -26,7 +33,7 @@ const sections = [
   },
   {
     href: '/sciences/scientists',
-    icon: '👨‍🔬',
+    Icon: ScientistIcon,
     title: 'Scientifiques',
     description: 'Portraits et biographies des plus grands esprits scientifiques — Newton, Einstein, Curie, Darwin et bien d\'autres.',
     gradient: 'from-purple-600/20 to-pink-600/20',
@@ -35,7 +42,7 @@ const sections = [
   },
   {
     href: '/sciences/formules',
-    icon: '∑',
+    Icon: SigmaIcon,
     title: 'Formules',
     description: 'Les équations fondamentales qui gouvernent l\'univers — mécanique, thermodynamique, électromagnétisme, relativité.',
     gradient: 'from-cyan-600/20 to-teal-600/20',
@@ -44,7 +51,7 @@ const sections = [
   },
   {
     href: '/sciences/constantes',
-    icon: '∞',
+    Icon: InfinityIcon,
     title: 'Constantes',
     description: 'Vitesse de la lumière, constante de Planck, nombre d\'Avogadro… les valeurs immuables qui structurent la physique.',
     gradient: 'from-emerald-600/20 to-green-600/20',
@@ -76,8 +83,8 @@ export default function SciencesHome() {
 
         {/* Hero */}
         <div className="text-center mb-16">
-          <div className="text-7xl mb-6" style={{ filter: 'drop-shadow(0 0 40px #A78BFA)' }}>
-            🔬
+          <div className="mb-6 flex justify-center" style={{ filter: 'drop-shadow(0 0 40px #A78BFA)' }}>
+            <MicroscopeIcon size={120} />
           </div>
           <h1
             className="text-5xl sm:text-6xl font-bold mb-4 tracking-tight"
@@ -120,11 +127,13 @@ export default function SciencesHome() {
               className={`group relative block rounded-2xl border ${s.border} bg-linear-to-br ${s.gradient} p-6 transition-all duration-300 hover:scale-[1.02] hover:brightness-110`}
               style={{ backdropFilter: 'blur(8px)' }}
             >
-              <div className="text-4xl mb-3">{s.icon}</div>
-              <h2 className={`text-xl font-bold mb-2 ${s.accent}`} style={{ fontFamily: "'Exo 2', sans-serif" }}>
+              <div className="mb-3 flex justify-center transition-transform duration-500 group-hover:scale-110">
+                <s.Icon />
+              </div>
+              <h2 className={`text-xl font-bold mb-2 ${s.accent} text-center`} style={{ fontFamily: "'Exo 2', sans-serif" }}>
                 {s.title}
               </h2>
-              <p className="text-gray-400 text-sm leading-relaxed">{s.description}</p>
+              <p className="text-gray-400 text-sm leading-relaxed text-center">{s.description}</p>
               <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
                 <span className="text-xs text-gray-500">Explorer →</span>
               </div>
