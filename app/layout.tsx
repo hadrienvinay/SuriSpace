@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata } from 'next';
 import NavBar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import ScrollToTop from '@/components/ScrollToTop';
 import { JsonLd } from '@/components/JsonLd';
 
 export const metadata: Metadata = {
@@ -96,6 +97,7 @@ export default function RootLayout({
 
           {/* CONTENT */}
           <main className="flex-1 pt-16 pb-2 relative z-10">
+            <ScrollToTop />
             {children}
           </main>
 

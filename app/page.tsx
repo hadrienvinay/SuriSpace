@@ -15,6 +15,7 @@ export const metadata: Metadata = {
 import { JsonLd } from '@/components/JsonLd';
 import Weather from '@/components/Weather';
 import Ratp from '@/components/Ratp';
+import Sncf from '@/components/Sncf';
 import Links from '@/components/ShowLinks';
 import CVButton from '@/components/CVButton';
 import { getCitationDuJour } from '@/data/citations';
@@ -216,6 +217,8 @@ export default function Home() {
             <span>Transports</span>
           </h3>
           <Ratp />
+          <div className="my-3 h-px" style={{ background: 'rgba(255,255,255,0.06)' }} />
+          <Sncf />
         </div>
 
         {/* Compétences */}
