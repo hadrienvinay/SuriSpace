@@ -44,7 +44,7 @@ export default async function Projects() {
 
       {/* Hero */}
       <div className="text-center mb-12">
-        <div className="flex items-center justify-center gap-5 mb-3">
+        <div className="flex items-center justify-between gap-4 mb-3 max-w-2xl mx-auto">
           <div style={{ filter: 'drop-shadow(0 0 18px #34D399)' }}>
             <ToolsIcon size={80} />
           </div>

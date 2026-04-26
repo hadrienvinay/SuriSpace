@@ -54,9 +54,11 @@ const DROPDOWNS = [
     icon: '🌿',
     color: '#22C55E',
     items: [
-      { href: '/nature', label: 'Jardinage & Plantes', icon: '🌱' },
-      { href: '/nature/mon-potager', label: 'Mon Potager', icon: '🏡' },
-      { href: '/nature/mon-potager/ce-mois', label: 'Ce mois-ci', icon: '📅' },
+      { href: '/nature',            label: 'Accueil',          icon: '🌿' },
+      { href: '/nature/plantes',    label: 'Plantes & Jardinage', icon: '🌱' },
+      { href: '/nature/mon-potager',label: 'Mon Potager',      icon: '🏡' },
+      { href: '/nature/saison',     label: 'Saisons',          icon: '☀️' },
+      { href: '/nature/nutrition',  label: 'Nutrition',        icon: '🍎' },
     ],
   },
 ];

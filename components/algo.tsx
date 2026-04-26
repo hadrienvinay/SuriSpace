@@ -62,7 +62,7 @@ export default function Algo() {
       {/* APPLICATIONS */}
       <section className="space-y-5">
         <h2 className="text-3xl font-semibold text-white">
-          🛠️ Applications : de l'alimentation aux biotechnologies
+          Applications : de l'alimentation aux biotechnologies
         </h2>
 
         <ul className="space-y-4 text-base">

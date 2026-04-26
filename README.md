@@ -52,6 +52,19 @@ npm run start     # Serveur de production
 npm run lint      # ESLint
 ```
 
+## Docker Container
+Dockerfile & .dockerignore files
+
+docker init
+docker build -t my-space .
+docker images
+docker compose up --build
+docker ps
+docker compose down
+
+
+
+| Service | Coût |
 ## API externes
 | Service | Coût | Usage |
 |---------|------|-------|

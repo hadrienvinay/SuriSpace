@@ -88,7 +88,7 @@ export default async function Posts() {
 
       {/* Hero */}
       <div className="text-center mb-12">
-        <div className="flex items-center justify-center gap-5 mb-3">
+        <div className="flex items-center justify-between gap-4 mb-3 max-w-2xl mx-auto">
           <div style={{ filter: 'drop-shadow(0 0 16px #6366F1)' }}>
             <QuillIcon size={72} />
           </div>
