@@ -1,0 +1,6 @@
+.git
+.results
+.claude
+scripts
+*Dockerfile*
+node_modules
