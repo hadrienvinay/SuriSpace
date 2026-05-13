@@ -71,11 +71,11 @@ const features = [
 ];
 
 const funFacts = [
-  { value: '99.9%', label: 'de la masse de l\'univers visible est H et He' },
-  { value: "4.6 Milliards d'années", label: 'âge du Système Solaire — nos atomes sont plus vieux' },
-  { value: "13.8 Milliards d'années", label: 'après le Big Bang, H et He sont nés en 3 minutes' },
+  { value: '+98%', label: 'de la masse de l\'univers visible est composé d\'Hydrogène et d\'Helium' },
+  { value: "4.6 Milliards d'années", label: 'âge de notre Système Solaire, nos atomes sont encore plus vieux' },
+  { value: "13.8 Milliards d'années", label: 'après le Big Bang, H et He ont été formés en 3 minutes' },
   { value: '~57kg', label: 'd\'or produit lors d\'une seule kilonova' },
-  { value: 'Fe', label: 'terminus de la fusion — le fer tue les étoiles massives' },
+  { value: 'Fe', label: 'dernière étape de la fusion au coeur d\'une étoile' },
   { value: '≈50%', label: 'des éléments >Fe viennent des collisions d\'étoiles à neutrons' },
 ];
 

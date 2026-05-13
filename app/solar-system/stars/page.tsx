@@ -119,17 +119,17 @@ export default function StarMap() {
 
       <div className="max-w-screen-2xl mx-auto px-4 py-6">
 
-        {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-[16px] text-gray-600 font-mono mb-6">
+        {/* Breadcrumb + nav links */}
+        <div className="flex flex-wrap items-center gap-x-2 gap-y-3 text-[16px] text-gray-600 font-mono mb-6">
           <Link href="/solar-system" className="hover:text-white transition-colors">Espace</Link>
           <span>›</span>
           <span className="text-gray-400">Étoiles</span>
-          <div className="ml-auto flex gap-2">
-            <Link href="/solar-system/stars/constellations" className="px-3 py-1.5 rounded-lg text-md border border-white/10 text-gray-400 hover:text-white hover:bg-white/5 transition-all">
+          <div className="flex gap-2 w-full sm:w-auto sm:ml-auto">
+            <Link href="/solar-system/stars/constellations" className="flex-1 sm:flex-none text-center px-3 py-1.5 rounded-lg text-md border border-white/10 text-gray-400 hover:text-white hover:bg-white/5 transition-all">
               🌟 Constellations
             </Link>
-            <Link href="/solar-system/stars/star" className="px-3 py-1.5 rounded-lg text-md border border-white/10 text-gray-400 hover:text-white hover:bg-white/5 transition-all">
-              📋 Catalogue
+            <Link href="/solar-system/stars/star" className="flex-1 sm:flex-none text-center px-3 py-1.5 rounded-lg text-md border border-white/10 text-gray-400 hover:text-white hover:bg-white/5 transition-all">
+              📋 Catalogue d'étoiles
             </Link>
           </div>
         </div>
@@ -445,7 +445,7 @@ export default function StarMap() {
               </svg>
 
               {/* ── Spectral Legend overlay ── */}
-              <div className="absolute bottom-3 right-3 bg-black/70 rounded-xl p-3 border border-white/8">
+              <div className="absolute bottom-3 right-3 bg-black/70 rounded-xl p-3 border border-white/8 hidden sm:block">
                 <div className="text-xs text-gray-600 uppercase tracking-wider mb-2 font-semibold">Classe spectrale</div>
                 <div className="flex flex-col gap-1">
                   {([['O', '> 30 000 K'], ['B', '10-30k K'], ['A', '7-10k K'], ['F', '6-7.5k K'], ['G', '5-6k K'], ['K', '3.5-5k K'], ['M', '< 3500 K']] as const).map(([cls, temp]) => (

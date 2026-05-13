@@ -150,14 +150,14 @@ function GalaxyModal({ galaxy, onClose }: { galaxy: Galaxy; onClose: () => void 
 
   return (
     <div
-      className="fixed inset-0 z-100 flex items-center justify-center p-4 mt-12"
+      className="fixed inset-0 z-100 flex items-center justify-center p-4 mt-15"
       style={{ background: 'rgba(2,8,23,0.90)', backdropFilter: 'blur(12px)' }}
       onClick={onClose}
     >
       <div
         className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl border"
         style={{
-          background: '#0a0f1e',
+          background: '#020202',
           borderColor: `${galaxy.color}40`,
           boxShadow: `0 0 80px ${galaxy.color}20, 0 0 0 1px ${galaxy.color}15`,
         }}
@@ -186,7 +186,7 @@ function GalaxyModal({ galaxy, onClose }: { galaxy: Galaxy; onClose: () => void 
           {/* Close button */}
           <button
             onClick={onClose}
-            className="absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center text-gray-400 hover:text-white transition-colors"
+            className="cursor-pointer absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center text-gray-400 hover:text-white transition-colors"
             style={{ background: 'rgba(2,8,23,0.7)', border: '1px solid rgba(255,255,255,0.12)' }}
           >
             ✕

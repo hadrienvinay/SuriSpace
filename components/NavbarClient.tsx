@@ -18,7 +18,7 @@ const DROPDOWNS = [
     items: [
       { href: '/solar-system',           label: 'Accueil',                  icon: '👾' },
       { href: '/solar-system/carte',     label: 'Carte interactive',        icon: '🗺️' },
-      { href: '/solar-system/bodys',     label: 'Corps du système solaire', icon: '🌍' },
+      { href: '/solar-system/bodys',     label: 'Corps célestes', icon: '🌍' },
       { href: '/solar-system/galaxies',  label: 'Galaxies',                 icon: '🌌' },
       { href: '/solar-system/missions',  label: 'Missions & Sondes',        icon: '🚀' },
       { href: '/solar-system/astronomie',label: 'Astronomie',               icon: '🔭' },

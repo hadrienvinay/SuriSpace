@@ -173,8 +173,8 @@ export default function About() {
               <span >systèmes embarqués</span>.
             </p>
             <p style={{ fontSize: 14.5, color: 'rgba(255,255,255,0.52)', lineHeight: 1.82, margin: '0 0 14px' }}>
-              Féru de connaissances, j&apos;ai à cœur de partager et de découvrir toujours de nouvelles idées, histoires
-              et actualités — de la physique nucléaire à la géopolitique.
+              Féru de connaissances, j&apos;ai à cœur de découvrir et de partager de nouvelles idées, opportunités, histoires
+              et actualités sur le monde passionant qui nous entoure.
             </p>
             <p style={{ fontSize: 14.5, color: 'rgba(255,255,255,0.52)', lineHeight: 1.82, margin: 0 }}>
               Je partage ici mes projets, idées, recherches, activités et voyages mais également des connaissances sur notre

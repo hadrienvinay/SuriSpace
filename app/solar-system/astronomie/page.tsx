@@ -14,6 +14,10 @@ export const metadata: Metadata = {
 };
 import SolarLayout from '@/components/SolarLayout';
 import { computeMoonPhases, computePlanets, computeEvents, getCurrentMonthInfo } from '@/lib/ephemerides';
+import { TelescopeIcon, AtomIcon } from '@/components/UniverseIcons';
+import { StarIcon, RocketIcon, MapIcon } from '@/components/SpaceIcons';
+import { GalaxyIcon } from '@/components/AtomsIcons';
+import { ClockIcon, SigmaIcon, LightbulbIcon } from '@/components/SciencesIcons';
 
 const TIMELINE = [
   {
@@ -129,46 +133,46 @@ const AGENDA_2026: { month: string; color: string; highlight?: boolean; events: 
   },
 ];
 
-const INSTRUMENTS = [
+const INSTRUMENTS: { name: string; period: string; Icon: React.ComponentType<{size?: number}>; color: string; description: string }[] = [
   {
     name: 'Œil nu',
     period: 'Préhistoire – 1608',
-    icon: '👁️',
+    Icon: StarIcon,
     color: '#F59E0B',
     description: 'Les civilisations anciennes cartographiaient le ciel avec une précision surprenante. Stonehenge, les pyramides et les observatoires aztèques témoignent d\'une astronomie sophistiquée sans optique.',
   },
   {
     name: 'Lunette astronomique',
     period: '1608 – 1800',
-    icon: '🔭',
+    Icon: TelescopeIcon,
     color: '#34D399',
     description: 'Inventée par Lipperhey en 1608, perfectionnée par Galilée. Elle révolutionne l\'astronomie : lunes de Jupiter, phases de Vénus, taches solaires. Les lunettes atteignent plusieurs mètres de longueur focale.',
   },
   {
     name: 'Télescope réflecteur',
     period: '1668 – aujourd\'hui',
-    icon: '🪞',
+    Icon: TelescopeIcon,
     color: '#60A5FA',
     description: 'Inventé par Newton en 1668, il utilise des miroirs au lieu de lentilles. Permet des diamètres bien plus grands : les télescopes modernes atteignent 10 m (Keck) et bientôt 39 m (ELT).',
   },
   {
     name: 'Spectroscopie & photographie',
     period: '1840 – 1960',
-    icon: '📷',
+    Icon: LightbulbIcon,
     color: '#F472B6',
     description: 'La spectroscopie analyse la composition chimique des étoiles à distance. La photographie remplace l\'observation visuelle et révèle des objets impossibles à voir à l\'œil nu lors de longues poses.',
   },
   {
     name: 'Radiotélescope',
     period: '1937 – aujourd\'hui',
-    icon: '📡',
+    Icon: AtomIcon,
     color: '#A78BFA',
     description: 'Grote Reber construit le premier radiotélescope en 1937. L\'astronomie radio révèle pulsars, quasars, CMB, et permet d\'imager le centre galactique caché par la poussière optique.',
   },
   {
     name: 'Télescopes spatiaux',
     period: '1990 – aujourd\'hui',
-    icon: '🛸',
+    Icon: RocketIcon,
     color: '#FB923C',
     description: 'Au-dessus de l\'atmosphère, les instruments observent en UV, X, infrarouge et gamma sans turbulence. Hubble (1990), Chandra (X), Spitzer (IR), Fermi (γ) et James Webb (IR, 2021) ont chacun redéfini l\'astronomie.',
   },
@@ -194,7 +198,9 @@ export default function AstronomieHub() {
 
         {/* Hero */}
         <div className="mb-12 text-center">
-          <div className="text-7xl mb-5" style={{ filter: 'drop-shadow(0 0 30px #A78BFA)' }}>🔭</div>
+          <div className="mb-5 flex justify-center" style={{ filter: 'drop-shadow(0 0 30px #A78BFA)' }}>
+            <TelescopeIcon size={120} />
+          </div>
           <h1
             className="text-4xl sm:text-5xl font-bold mb-4"
             style={{
@@ -337,32 +343,19 @@ export default function AstronomieHub() {
 
         {/* What is astronomy */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-14">
-          {[
-            {
-              icon: '🌌',
-              title: 'Science des distances',
-              text: 'L\'astronomie mesure des distances allant de quelques milliers à des milliards d\'années-lumière, en utilisant parallaxe, céphéides et supernovae comme échelle cosmique.',
-              color: '#60A5FA',
-            },
-            {
-              icon: '⚗️',
-              title: 'Astrophysique',
-              text: 'En combinant physique, chimie et mathématiques, l\'astrophysique explique la naissance des étoiles, la fusion nucléaire solaire et la formation des systèmes planétaires.',
-              color: '#34D399',
-            },
-            {
-              icon: '🕰️',
-              title: 'Machine à remonter le temps',
-              text: 'Regarder loin dans l\'espace, c\'est regarder loin dans le passé. Le JWST observe des galaxies telles qu\'elles étaient 13,6 milliards d\'années en arrière.',
-              color: '#A78BFA',
-            },
-          ].map(item => (
+          {([
+            { Icon: GalaxyIcon, title: 'Science des distances',      color: '#60A5FA', text: 'L\'astronomie mesure des distances allant de quelques milliers à des milliards d\'années-lumière, en utilisant parallaxe, céphéides et supernovae comme échelle cosmique.' },
+            { Icon: SigmaIcon,  title: 'Astrophysique',              color: '#34D399', text: 'En combinant physique, chimie et mathématiques, l\'astrophysique explique la naissance des étoiles, la fusion nucléaire solaire et la formation des systèmes planétaires.' },
+            { Icon: ClockIcon,  title: 'Machine à remonter le temps',color: '#A78BFA', text: 'Regarder loin dans l\'espace, c\'est regarder loin dans le passé. Le JWST observe des galaxies telles qu\'elles étaient 13,6 milliards d\'années en arrière.' },
+          ] as { Icon: React.ComponentType<{size?: number}>; title: string; color: string; text: string }[]).map(item => (
             <div
               key={item.title}
               className="rounded-2xl border border-white/8 p-5"
               style={{ background: `${item.color}08` }}
             >
-              <div className="text-3xl mb-3">{item.icon}</div>
+              <div className="mb-3 transition-transform duration-500 group-hover:scale-110">
+                <item.Icon size={52} />
+              </div>
               <h3 className="font-bold text-xl mb-2" style={{ color: item.color }}>{item.title}</h3>
               <p className="text-md text-gray-500 leading-relaxed">{item.text}</p>
             </div>
@@ -384,7 +377,9 @@ export default function AstronomieHub() {
                 className="absolute inset-0 opacity-10 pointer-events-none"
                 style={{ backgroundImage: 'radial-gradient(circle at 65% 40%, #818CF8 0%, transparent 65%)' }}
               />
-              <div className="text-5xl mb-4">🌠</div>
+              <div className="mb-4" style={{ filter: 'drop-shadow(0 0 12px #818CF8)' }}>
+                <StarIcon size={64} />
+              </div>
               <h2
                 className="text-2xl font-bold text-indigo-300 mb-2"
                 style={{ fontFamily: "'Exo 2', sans-serif" }}
@@ -421,7 +416,9 @@ export default function AstronomieHub() {
                 className="absolute inset-0 opacity-10 pointer-events-none"
                 style={{ backgroundImage: 'radial-gradient(circle at 35% 50%, #22D3EE 0%, transparent 65%)' }}
               />
-              <div className="text-5xl mb-4">🛸</div>
+              <div className="mb-4" style={{ filter: 'drop-shadow(0 0 12px #22D3EE)' }}>
+                <TelescopeIcon size={64} />
+              </div>
               <h2
                 className="text-2xl font-bold text-cyan-300 mb-2"
                 style={{ fontFamily: "'Exo 2', sans-serif" }}
@@ -458,7 +455,9 @@ export default function AstronomieHub() {
                 className="absolute inset-0 opacity-10 pointer-events-none"
                 style={{ backgroundImage: 'radial-gradient(circle at 50% 40%, #7C3AED 0%, transparent 65%)' }}
               />
-              <div className="text-5xl mb-4">🌌</div>
+              <div className="mb-4" style={{ filter: 'drop-shadow(0 0 12px #7C3AED)' }}>
+                <GalaxyIcon size={64} />
+              </div>
               <h2
                 className="text-2xl font-bold text-violet-300 mb-2"
                 style={{ fontFamily: "'Exo 2', sans-serif" }}
@@ -466,7 +465,7 @@ export default function AstronomieHub() {
                 Carte du ciel
               </h2>
               <p className="text-gray-400 text-md leading-relaxed mb-4">
-                Carte interactive du ciel de nuit pour le 7 mars 2026 — projection stéréographique
+                Carte interactive du ciel de nuit de la semaine — projection stéréographique
                 depuis Paris avec les étoiles brillantes, les constellations et les planètes visibles.
               </p>
               <div className="flex gap-2 flex-wrap">
@@ -495,7 +494,9 @@ export default function AstronomieHub() {
                 className="absolute inset-0 opacity-10 pointer-events-none"
                 style={{ backgroundImage: 'radial-gradient(circle at 35% 50%, #ccee22 0%, transparent 65%)' }}
               />
-              <div className="text-5xl mb-4">🌟</div>
+              <div className="mb-4" style={{ filter: 'drop-shadow(0 0 12px #FBBF24)' }}>
+                <MapIcon size={64} />
+              </div>
               <h2
                 className="text-2xl font-bold text-cyan-300 mb-2"
                 style={{ fontFamily: "'Exo 2', sans-serif" }}
@@ -572,7 +573,7 @@ export default function AstronomieHub() {
                 style={{ background: `${inst.color}06` }}
               >
                 <div className="flex items-center gap-3 mb-3">
-                  <span className="text-2xl">{inst.icon}</span>
+                  <inst.Icon size={32} />
                   <div>
                     <div className="font-bold text-md text-white">{inst.name}</div>
                     <div className="text-sm font-mono" style={{ color: `${inst.color}90` }}>{inst.period}</div>

@@ -241,7 +241,7 @@ export default async function ScientistPage({ params }: { params: Promise<{ id: 
                 ← Tous les scientifiques
               </Link>
               <Link
-                href="/sciences"
+                href="/sciences/timeline"
                 className="block text-center py-2.5 rounded-xl text-sm font-bold uppercase tracking-wider border border-indigo-800/40 text-indigo-400 hover:bg-indigo-900/20 transition-all"
               >
                 ⏱️ Voir la timeline
