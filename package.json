@@ -28,6 +28,7 @@
     "react-icons": "^5.5.0",
     "react-map-gl": "^8.1.0",
     "recharts": "^3.7.0",
+    "resend": "^6.12.3",
     "yahoo-finance2": "^3.13.0"
   },
   "devDependencies": {

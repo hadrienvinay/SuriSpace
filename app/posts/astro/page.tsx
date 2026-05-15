@@ -1,4 +1,25 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
+import { JsonLd } from '@/components/JsonLd';
+import ReadingProgress from '@/components/ReadingProgress';
+
+export const metadata: Metadata = {
+  title: 'Le ciel en 2026',
+  description: "Éclipses, comètes, étoiles filantes et rendez-vous planétaires : le calendrier astronomique complet de 2026.",
+  keywords: ['astronomie', 'calendrier astronomique', 'éclipse', 'étoiles filantes', 'perséides', '2026'],
+  openGraph: { title: 'Le ciel en 2026', description: "Le calendrier astronomique complet de 2026.", type: 'article', url: 'https://suri-space.vercel.app/posts/astro' },
+  alternates: { canonical: '/posts/astro' },
+};
+
+const JSONLD = {
+  '@context': 'https://schema.org', '@type': 'BlogPosting',
+  headline: 'Le ciel en 2026',
+  description: "Éclipses, comètes, étoiles filantes et rendez-vous planétaires : le calendrier astronomique complet de 2026.",
+  datePublished: '2026-03-09', inLanguage: 'fr',
+  author: { '@type': 'Person', name: 'Hadrien Vinay' },
+  url: 'https://suri-space.vercel.app/posts/astro',
+  isPartOf: { '@type': 'Blog', name: 'Suri Space', url: 'https://suri-space.vercel.app' },
+};
 
 export default function Astro() {
   return (
@@ -6,6 +27,8 @@ export default function Astro() {
       className="max-w-4xl mx-auto px-4 py-12"
       style={{ fontFamily: "'Exo 2', 'Space Grotesk', sans-serif" }}
     >
+      <ReadingProgress />
+      <JsonLd data={JSONLD} />
       {/* Header bar */}
       <div className="flex items-center justify-between mb-10">
         <Link

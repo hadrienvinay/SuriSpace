@@ -55,7 +55,11 @@ export default function Sncf() {
   }, []);
 
   if (loading) return <div className="text-xs text-gray-500 text-center py-2">Chargement Arcachon…</div>;
-  if (error)   return <div className="text-xs text-red-400 text-center py-2">{error}</div>;
+  if (error)   return (
+    <div className="text-xs text-gray-600 text-center py-2 italic">
+      {error.includes('SNCF_API_KEY') ? 'Clé SNCF non configurée — voir .env.example' : error}
+    </div>
+  );
   if (!departures || departures.length === 0)
     return <div className="text-xs text-gray-500 text-center py-2">Aucun train</div>;
 

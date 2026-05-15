@@ -5,6 +5,7 @@ import Image from 'next/image';
 import prisma from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import { JsonLd } from '@/components/JsonLd';
+import ReadingProgress, { readingTime } from '@/components/ReadingProgress';
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
@@ -33,12 +34,14 @@ export default async function PostPage({ params }: { params: Promise<{ id: strin
   const dateStr = post.createdAt.toLocaleDateString('fr-FR', {
     day: '2-digit', month: 'long', year: 'numeric',
   });
+  const mins = readingTime(`${post.title} ${post.resume ?? ''} ${post.content ?? ''}`);
 
   return (
     <div
       className="max-w-3xl mx-auto px-4 py-12"
       style={{ fontFamily: "'Exo 2', 'Space Grotesk', sans-serif" }}
     >
+      <ReadingProgress />
       <JsonLd data={{
         '@context': 'https://schema.org',
         '@type': 'BlogPosting',
@@ -62,7 +65,7 @@ export default async function PostPage({ params }: { params: Promise<{ id: strin
           Articles
         </Link>
         <span className="text-xs text-gray-600 font-mono">
-          Hadrien Vinay · {dateStr}
+          Hadrien Vinay · {dateStr} · {mins} min
         </span>
       </div>
 

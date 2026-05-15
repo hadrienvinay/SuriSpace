@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import NatureLayout from '@/components/NatureLayout';
 import { LeafIcon, SproutIcon, SunIcon, AppleIcon, GardenIcon } from '@/components/NatureIcons';
+import { JsonLd } from '@/components/JsonLd';
 
 export const metadata: Metadata = {
   title: 'Nature',
@@ -76,6 +77,15 @@ const highlights = [
 export default function NatureHome() {
   return (
     <NatureLayout>
+      <JsonLd data={{ '@context': 'https://schema.org', '@graph': [
+        { '@type': 'BreadcrumbList', itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://suri-space.vercel.app' },
+          { '@type': 'ListItem', position: 2, name: 'Nature', item: 'https://suri-space.vercel.app/nature' },
+        ]},
+        { '@type': 'CollectionPage', name: 'La Nature', url: 'https://suri-space.vercel.app/nature',
+          description: "Plantes, jardinage, saisons et nutrition — explorez le monde du vivant.",
+          inLanguage: 'fr', isPartOf: { '@type': 'WebSite', name: 'Suri Space', url: 'https://suri-space.vercel.app' } },
+      ]}} />
       <div className="max-w-7xl mx-auto px-4 py-12">
 
         {/* Hero */}

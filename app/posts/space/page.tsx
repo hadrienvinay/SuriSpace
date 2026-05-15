@@ -1,6 +1,27 @@
 // app/posts/space/page.tsx
+import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+import { JsonLd } from '@/components/JsonLd';
+import ReadingProgress from '@/components/ReadingProgress';
+
+export const metadata: Metadata = {
+  title: "L'actualité spatiale 2026",
+  description: "Un panorama des dernières nouvelles et missions prévues pour le spatial en 2026 : Artemis, SpaceX, JAXA et plus.",
+  keywords: ['espace', 'actualité spatiale', 'Artemis', 'missions spatiales', '2026'],
+  openGraph: { title: "L'actualité spatiale 2026", description: "Panorama des missions et actualités spatiales de 2026.", type: 'article', url: 'https://suri-space.vercel.app/posts/space' },
+  alternates: { canonical: '/posts/space' },
+};
+
+const JSONLD = {
+  '@context': 'https://schema.org', '@type': 'BlogPosting',
+  headline: "L'actualité spatiale 2026",
+  description: "Un panorama des dernières nouvelles et missions prévues pour le spatial en 2026.",
+  datePublished: '2026-01-15', inLanguage: 'fr',
+  author: { '@type': 'Person', name: 'Hadrien Vinay' },
+  url: 'https://suri-space.vercel.app/posts/space',
+  isPartOf: { '@type': 'Blog', name: 'Suri Space', url: 'https://suri-space.vercel.app' },
+};
 
 export default function Space() {
   return (
@@ -8,6 +29,8 @@ export default function Space() {
       className="max-w-4xl mx-auto px-4 py-12"
       style={{ fontFamily: "'Exo 2', 'Space Grotesk', sans-serif" }}
     >
+      <ReadingProgress />
+      <JsonLd data={JSONLD} />
       {/* Header bar */}
       <div className="flex items-center justify-between mb-10">
         <Link

@@ -1,6 +1,27 @@
 // app/posts/negative/page.tsx
+import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+import { JsonLd } from '@/components/JsonLd';
+import ReadingProgress from '@/components/ReadingProgress';
+
+export const metadata: Metadata = {
+  title: 'La masse négative',
+  description: "Réfutée dans les années 50, l'hypothèse de la masse négative pourrait s'avérer un candidat sérieux pour expliquer la structure de l'univers.",
+  keywords: ['masse négative', 'cosmologie', 'physique théorique', 'énergie noire', 'matière noire'],
+  openGraph: { title: 'La masse négative', description: "L'hypothèse de la masse négative et la structure de l'univers.", type: 'article', url: 'https://suri-space.vercel.app/posts/negative' },
+  alternates: { canonical: '/posts/negative' },
+};
+
+const JSONLD = {
+  '@context': 'https://schema.org', '@type': 'BlogPosting',
+  headline: 'La masse négative',
+  description: "L'hypothèse de la masse négative comme candidat pour expliquer la structure de l'univers.",
+  datePublished: '2026-02-01', inLanguage: 'fr',
+  author: { '@type': 'Person', name: 'Hadrien Vinay' },
+  url: 'https://suri-space.vercel.app/posts/negative',
+  isPartOf: { '@type': 'Blog', name: 'Suri Space', url: 'https://suri-space.vercel.app' },
+};
 
 export default function Negative() {
   return (
@@ -8,6 +29,8 @@ export default function Negative() {
       className="max-w-4xl mx-auto px-4 py-12"
       style={{ fontFamily: "'Exo 2', 'Space Grotesk', sans-serif" }}
     >
+      <ReadingProgress />
+      <JsonLd data={JSONLD} />
       {/* Header bar */}
       <div className="flex items-center justify-between mb-10">
         <Link

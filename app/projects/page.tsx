@@ -17,6 +17,7 @@ import prisma from '@/lib/prisma';
 import { auth } from '@/lib/auth';
 import DeleteProjectButton from '@/components/DeleteProjectButton';
 import { ToolsIcon, CodeIcon } from '@/components/ProjectsIcons';
+import { JsonLd } from '@/components/JsonLd';
 
 const STATIC_PROJECTS = [
   {
@@ -41,6 +42,15 @@ export default async function Projects() {
       className="max-w-7xl mx-auto px-4 py-12"
       style={{ fontFamily: "'Exo 2', 'Space Grotesk', sans-serif" }}
     >
+      <JsonLd data={{ '@context': 'https://schema.org', '@graph': [
+        { '@type': 'BreadcrumbList', itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://suri-space.vercel.app' },
+          { '@type': 'ListItem', position: 2, name: 'Projets', item: 'https://suri-space.vercel.app/projects' },
+        ]},
+        { '@type': 'CollectionPage', name: 'Projets — Suri Space', url: 'https://suri-space.vercel.app/projects',
+          description: "Projets personnels et professionnels — applications web, outils et expérimentations techniques.",
+          inLanguage: 'fr', isPartOf: { '@type': 'WebSite', name: 'Suri Space', url: 'https://suri-space.vercel.app' } },
+      ]}} />
 
       {/* Hero */}
       <div className="text-center mb-12">
@@ -114,7 +124,13 @@ export default async function Projects() {
           </Link>
         ))}
 
-        {/* Dynamic projects from DB */}
+        {/* Dynamic projects from DB — empty state */}
+        {projects.length === 0 && (
+          <div className="col-span-full rounded-2xl border border-white/6 p-10 text-center" style={{ background: 'rgba(255,255,255,0.01)' }}>
+            <div className="text-3xl mb-3 opacity-30">🔧</div>
+            <p className="text-sm text-gray-600">Aucun projet publié pour l&apos;instant.</p>
+          </div>
+        )}
         {projects.map((project) => (
           <div
             key={project.id}

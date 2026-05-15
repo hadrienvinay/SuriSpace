@@ -137,6 +137,13 @@ const SITE_SECTIONS = [
   { label: 'Projets',  href: '/projects',     pages: 5,  color: '#818CF8', Icon: CodeIcon        },
 ];
 
+// Uid-scoped wrappers — prevent SVG gradient id collisions when the same icon
+// renders twice on the dashboard (e.g. QuillIcon in stats + KB map).
+const QuillIconStat = (p: { size?: number }) => <QuillIcon {...p} uid="ds" />;
+const QuillIconKb   = (p: { size?: number }) => <QuillIcon {...p} uid="dk" />;
+const BookIconStat  = (p: { size?: number }) => <BookIcon  {...p} uid="ds" />;
+const BookIconNav   = (p: { size?: number }) => <BookIcon  {...p} uid="dn" />;
+
 const KB_ICON_MAP: Record<string, React.ComponentType<{ size?: number }>> = {
   star:       StarIcon,
   orbit:      SolarSystemIcon,
@@ -146,7 +153,7 @@ const KB_ICON_MAP: Record<string, React.ComponentType<{ size?: number }>> = {
   scientist:  ScientistIcon,
   atom:       AtomIcon,
   galaxy:     GalaxyIcon,
-  quote:      QuillIcon,
+  quote:      QuillIconKb,
   telescope:  TelescopeIcon,
 };
 
@@ -217,7 +224,7 @@ export default function DashboardClient({
       accent: 'text-emerald-300', glow: '#34D399', accentHex: '#34D399',
     },
     {
-      href: '/dashboard/books', Icon: BookIcon, label: 'Bibliothèque',
+      href: '/dashboard/books', Icon: BookIconNav, label: 'Bibliothèque',
       desc: 'Livres lus et notes', badge: bookCount, badgeLabel: 'livres',
       gradient: 'from-violet-600/20 to-purple-600/20', border: 'border-violet-500/30',
       accent: 'text-violet-300', glow: '#A78BFA', accentHex: '#A78BFA',
@@ -230,9 +237,9 @@ export default function DashboardClient({
     color: string; bg: string; border: string; hueRotate?: boolean;
   };
   const contentStats: ContentStat[] = [
-    { label: 'Articles',      value: articleCount,     Icon: QuillIcon,    color: '#A78BFA', bg: 'rgba(167,139,250,0.08)', border: 'rgba(167,139,250,0.2)'  },
-    { label: 'Projets',       value: projectCount,     Icon: CodeIcon,     color: '#60A5FA', bg: 'rgba(96,165,250,0.08)',  border: 'rgba(96,165,250,0.2)'   },
-    { label: 'Livres',        value: bookCount,        Icon: BookIcon,     color: '#FBBF24', bg: 'rgba(251,191,36,0.08)',  border: 'rgba(251,191,36,0.2)'   },
+    { label: 'Articles',      value: articleCount,     Icon: QuillIconStat, color: '#A78BFA', bg: 'rgba(167,139,250,0.08)', border: 'rgba(167,139,250,0.2)'  },
+    { label: 'Projets',       value: projectCount,     Icon: CodeIcon,      color: '#60A5FA', bg: 'rgba(96,165,250,0.08)',  border: 'rgba(96,165,250,0.2)'   },
+    { label: 'Livres',        value: bookCount,        Icon: BookIconStat,  color: '#FBBF24', bg: 'rgba(251,191,36,0.08)',  border: 'rgba(251,191,36,0.2)'   },
     { label: 'Messages',      value: messageCount,     Icon: null,         color: '#F472B6', bg: 'rgba(244,114,182,0.08)', border: 'rgba(244,114,182,0.2)'  },
     { label: 'Positions',     value: actionCount,      Icon: BarChartIcon, color: '#10B981', bg: 'rgba(16,185,129,0.08)',  border: 'rgba(16,185,129,0.2)'   },
     { label: 'Ordres Bourse', value: bourseOrderCount, Icon: BarChartIcon, color: '#22D3EE', bg: 'rgba(34,211,238,0.08)',  border: 'rgba(34,211,238,0.2)',  hueRotate: true },

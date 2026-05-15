@@ -1,4 +1,25 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
+import { JsonLd } from '@/components/JsonLd';
+import ReadingProgress from '@/components/ReadingProgress';
+
+export const metadata: Metadata = {
+  title: "L'hydrogène vert marin",
+  description: "Produire de l'hydrogène grâce aux courants marins et à la houle : le potentiel des océans pour la transition énergétique.",
+  keywords: ['hydrogène vert', 'énergie marine', 'transition énergétique', 'océan'],
+  openGraph: { title: "L'hydrogène vert marin", description: "Le potentiel des océans pour produire de l'hydrogène vert.", type: 'article', url: 'https://suri-space.vercel.app/posts/hydrogene' },
+  alternates: { canonical: '/posts/hydrogene' },
+};
+
+const JSONLD = {
+  '@context': 'https://schema.org', '@type': 'BlogPosting',
+  headline: "L'hydrogène vert marin",
+  description: "Produire de l'hydrogène grâce aux courants marins et à la houle.",
+  datePublished: '2026-01-20', inLanguage: 'fr',
+  author: { '@type': 'Person', name: 'Hadrien Vinay' },
+  url: 'https://suri-space.vercel.app/posts/hydrogene',
+  isPartOf: { '@type': 'Blog', name: 'Suri Space', url: 'https://suri-space.vercel.app' },
+};
 
 export default function Hydrogene() {
   return (
@@ -6,6 +27,8 @@ export default function Hydrogene() {
       className="max-w-4xl mx-auto px-4 py-12"
       style={{ fontFamily: "'Exo 2', 'Space Grotesk', sans-serif" }}
     >
+      <ReadingProgress />
+      <JsonLd data={JSONLD} />
       {/* Header bar */}
       <div className="flex items-center justify-between mb-10">
         <Link

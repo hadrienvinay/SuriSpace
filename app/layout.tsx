@@ -51,6 +51,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#020817" />
         <meta name="google-site-verification" content="PqO9oQhvNlVwu7NcTg2wRbHE5iBzwN1UrF_-_xCzLM8" />
         <link rel="manifest" href="/manifest.json" />
+        <link rel="alternate" type="application/rss+xml" title="Suri Space — Articles" href="/feed.xml" />
       </head>
       <body className="flex flex-col">
           <JsonLd data={{

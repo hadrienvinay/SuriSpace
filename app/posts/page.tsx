@@ -17,6 +17,7 @@ import prisma from '@/lib/prisma';
 import DeletePostButton from '@/components/DeletePostButton';
 import { auth } from '@/lib/auth';
 import { QuillIcon, BookIcon } from '@/components/ArticlesIcons';
+import { JsonLd } from '@/components/JsonLd';
 
 const STATIC_POSTS = [
   {
@@ -85,6 +86,15 @@ export default async function Posts() {
       className="max-w-7xl mx-auto px-4 py-12"
       style={{ fontFamily: "'Exo 2', 'Space Grotesk', sans-serif" }}
     >
+      <JsonLd data={{ '@context': 'https://schema.org', '@graph': [
+        { '@type': 'BreadcrumbList', itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://suri-space.vercel.app' },
+          { '@type': 'ListItem', position: 2, name: 'Articles', item: 'https://suri-space.vercel.app/posts' },
+        ]},
+        { '@type': 'Blog', name: 'Articles — Suri Space', url: 'https://suri-space.vercel.app/posts',
+          description: "Articles et explorations sur l'espace, la nature, les sciences et la culture.",
+          inLanguage: 'fr', isPartOf: { '@type': 'WebSite', name: 'Suri Space', url: 'https://suri-space.vercel.app' } },
+      ]}} />
 
       {/* Hero */}
       <div className="text-center mb-12">
@@ -158,7 +168,13 @@ export default async function Posts() {
           </Link>
         ))}
 
-        {/* Dynamic posts from DB */}
+        {/* Dynamic posts from DB — empty state */}
+        {posts.length === 0 && (
+          <div className="col-span-full rounded-2xl border border-white/6 p-10 text-center" style={{ background: 'rgba(255,255,255,0.01)' }}>
+            <div className="text-3xl mb-3 opacity-30">📝</div>
+            <p className="text-sm text-gray-600">Aucun article publié pour l&apos;instant.</p>
+          </div>
+        )}
         {posts.map((post) => (
           <div
             key={post.id}

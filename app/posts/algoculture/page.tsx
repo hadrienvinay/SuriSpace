@@ -1,6 +1,27 @@
 // app/posts/algoculture/page.tsx
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import Algo from '@/components/algo';
+import { JsonLd } from '@/components/JsonLd';
+import ReadingProgress from '@/components/ReadingProgress';
+
+export const metadata: Metadata = {
+  title: "L'algoculture",
+  description: "La culture des algues est vieille de plusieurs siècles, mais connaît aujourd'hui une croissance rapide à l'échelle mondiale.",
+  keywords: ['algoculture', 'algues', 'aquaculture', 'environnement', 'alimentation durable'],
+  openGraph: { title: "L'algoculture", description: "La culture des algues et son essor mondial.", type: 'article', url: 'https://suri-space.vercel.app/posts/algoculture' },
+  alternates: { canonical: '/posts/algoculture' },
+};
+
+const JSONLD = {
+  '@context': 'https://schema.org', '@type': 'BlogPosting',
+  headline: "L'algoculture",
+  description: "La culture des algues est vieille de plusieurs siècles, mais connaît aujourd'hui une croissance rapide à l'échelle mondiale.",
+  datePublished: '2025-11-10', inLanguage: 'fr',
+  author: { '@type': 'Person', name: 'Hadrien Vinay' },
+  url: 'https://suri-space.vercel.app/posts/algoculture',
+  isPartOf: { '@type': 'Blog', name: 'Suri Space', url: 'https://suri-space.vercel.app' },
+};
 
 export default function Algoculture() {
   return (
@@ -8,6 +29,8 @@ export default function Algoculture() {
       className="max-w-4xl mx-auto px-4 py-12"
       style={{ fontFamily: "'Exo 2', 'Space Grotesk', sans-serif" }}
     >
+      <ReadingProgress />
+      <JsonLd data={JSONLD} />
       {/* Header bar */}
       <div className="flex items-center justify-between mb-10">
         <Link

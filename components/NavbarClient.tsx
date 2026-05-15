@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Session } from 'next-auth';
+// import SearchModal from '@/components/SearchModal';
 import {
   NavPlanetIcon, NavScienceIcon, NavAtomIcon, NavLeafIcon,
   IcoHome, IcoMap, IcoGlobe, IcoGalaxy, IcoRocket, IcoTelescope, IcoStar,
@@ -200,6 +201,9 @@ export default function NavbarClient({ session }: { session: Session | null }) {
             {END_LINKS.map((l) => (
               <Link key={l.href} href={l.href} className={linkCls(pathname === l.href)}>{l.label}</Link>
             ))}
+
+            {/* <span className="mx-2 text-gray-700">|</span> */}
+            {/* <SearchModal /> */}
 
             {session && (
               <div className="flex items-center gap-2 ml-2">

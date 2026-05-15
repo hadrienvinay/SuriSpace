@@ -1,5 +1,4 @@
-'use client'
-// pages/atoms/histoire.tsx
+// app/atoms/histoire/page.tsx
 import Link from 'next/link';
 import AtomicLayout from '@/components/AtomicLayout';
 

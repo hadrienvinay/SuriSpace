@@ -1,5 +1,8 @@
-// app/api/metals/route.js
+// app/api/ratp/route.ts
 import { NextResponse } from 'next/server';
+
+// Cache the whole route response for 60 s — transit data doesn't need sub-minute freshness
+export const revalidate = 60;
 import { formatDistanceToNow } from 'date-fns';
 import { fr } from 'date-fns/locale';
 

@@ -16,6 +16,7 @@ import { JsonLd } from '@/components/JsonLd';
 import Weather from '@/components/Weather';
 import Ratp from '@/components/Ratp';
 import Sncf from '@/components/Sncf';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 import Links from '@/components/ShowLinks';
 import CVButton from '@/components/CVButton';
 import { getCitationDuJour } from '@/data/citations';
@@ -201,9 +202,9 @@ export default function Home() {
             <span>Météo</span>
           </h3>
           <div className="space-y-2">
-            <Weather city="Paris" />
-            <Weather city="Madrid" />
-            <Weather city="Arcachon" />
+            <ErrorBoundary label="Météo Paris">    <Weather city="Paris" />    </ErrorBoundary>
+            <ErrorBoundary label="Météo Madrid">   <Weather city="Madrid" />   </ErrorBoundary>
+            <ErrorBoundary label="Météo Arcachon"> <Weather city="Arcachon" /> </ErrorBoundary>
           </div>
         </div>
 
@@ -216,9 +217,9 @@ export default function Home() {
             <MetroIcon size={22} />
             <span>Transports</span>
           </h3>
-          <Ratp />
+          <ErrorBoundary label="Métro ligne 10"><Ratp /></ErrorBoundary>
           <div className="my-3 h-px" style={{ background: 'rgba(255,255,255,0.06)' }} />
-          <Sncf />
+          <ErrorBoundary label="Trains Arcachon"><Sncf /></ErrorBoundary>
         </div>
 
         {/* Compétences */}

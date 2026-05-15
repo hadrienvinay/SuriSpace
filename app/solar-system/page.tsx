@@ -16,6 +16,7 @@ import SolarLayout from '@/components/SolarLayout';
 import { MapIcon, EarthIcon, RocketIcon, StarIcon } from '@/components/SpaceIcons';
 import { GalaxyIcon } from '@/components/AtomsIcons';
 import { SolarSystemIcon, TelescopeIcon } from '@/components/UniverseIcons';
+import { JsonLd } from '@/components/JsonLd';
 
 const sections = [
   {
@@ -103,6 +104,15 @@ const highlights = [
 export default function EspaceHome() {
   return (
     <SolarLayout>
+      <JsonLd data={{ '@context': 'https://schema.org', '@graph': [
+        { '@type': 'BreadcrumbList', itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://suri-space.vercel.app' },
+          { '@type': 'ListItem', position: 2, name: 'Espace', item: 'https://suri-space.vercel.app/solar-system' },
+        ]},
+        { '@type': 'CollectionPage', name: "L'Espace", url: 'https://suri-space.vercel.app/solar-system',
+          description: "Explorez le système solaire, les galaxies, les missions spatiales, les étoiles et l'astronomie.",
+          inLanguage: 'fr', isPartOf: { '@type': 'WebSite', name: 'Suri Space', url: 'https://suri-space.vercel.app' } },
+      ]}} />
       <div className="max-w-7xl mx-auto px-4 py-12">
 
         {/* Hero */}

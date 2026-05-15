@@ -1,13 +1,15 @@
 // Animated SVG icons for the /posts (Articles) page.
 // Uses SMIL — no JS runtime.
+// uid prop makes gradient IDs unique when the same icon renders twice on one page.
 
-type IconProps = { size?: number };
+type IconProps = { size?: number; uid?: string };
 
-export function QuillIcon({ size = 64 }: IconProps) {
+export function QuillIcon({ size = 64, uid = 'q' }: IconProps) {
+  const gId = `quillFeather-${uid}`;
   return (
     <svg viewBox="0 0 100 100" width={size} height={size} xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="quillFeather" x1="0" y1="0" x2="1" y2="1">
+        <linearGradient id={gId} x1="0" y1="0" x2="1" y2="1">
           <stop offset="0%" stopColor="#C7D2FE" />
           <stop offset="100%" stopColor="#6366F1" />
         </linearGradient>
@@ -47,9 +49,9 @@ export function QuillIcon({ size = 64 }: IconProps) {
 
         {/* Feather vanes */}
         <path d="M -28 -44 Q -20 -42 -12 -38 Q -20 -34 -22 -28 Q -16 -26 -8 -22 Q -18 -20 -18 -12 Q -12 -10 -4 -4"
-              fill="url(#quillFeather)" stroke="#4F46E5" strokeWidth="0.8" strokeLinejoin="round" opacity="0.9" />
+              fill={`url(#${gId})`} stroke="#4F46E5" strokeWidth="0.8" strokeLinejoin="round" opacity="0.9" />
         <path d="M -28 -44 Q -34 -38 -36 -32 Q -30 -32 -26 -30 Q -30 -26 -30 -20 Q -26 -20 -22 -18"
-              fill="url(#quillFeather)" stroke="#4F46E5" strokeWidth="0.8" strokeLinejoin="round" opacity="0.7" />
+              fill={`url(#${gId})`} stroke="#4F46E5" strokeWidth="0.8" strokeLinejoin="round" opacity="0.7" />
 
         {/* Tip highlight */}
         <circle cx="-28" cy="-44" r="1.2" fill="#E0E7FF" />
@@ -64,15 +66,17 @@ export function QuillIcon({ size = 64 }: IconProps) {
   );
 }
 
-export function BookIcon({ size = 64 }: IconProps) {
+export function BookIcon({ size = 64, uid = 'b' }: IconProps) {
+  const pL = `pageL-${uid}`;
+  const pR = `pageR-${uid}`;
   return (
     <svg viewBox="0 0 100 100" width={size} height={size} xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="pageL" x1="0" y1="0" x2="1" y2="0">
+        <linearGradient id={pL} x1="0" y1="0" x2="1" y2="0">
           <stop offset="0%" stopColor="#F5F3FF" />
           <stop offset="100%" stopColor="#C7D2FE" />
         </linearGradient>
-        <linearGradient id="pageR" x1="0" y1="0" x2="1" y2="0">
+        <linearGradient id={pR} x1="0" y1="0" x2="1" y2="0">
           <stop offset="0%" stopColor="#C7D2FE" />
           <stop offset="100%" stopColor="#F5F3FF" />
         </linearGradient>
@@ -82,8 +86,7 @@ export function BookIcon({ size = 64 }: IconProps) {
       <ellipse cx="50" cy="78" rx="36" ry="4" fill="rgba(96,165,250,0.18)" />
 
       {/* Left page (static) */}
-      <path d="M 12 30 L 50 34 L 50 80 L 12 76 Z" fill="url(#pageL)" stroke="#818CF8" strokeWidth="0.8" strokeLinejoin="round" />
-      {/* Left page lines */}
+      <path d="M 12 30 L 50 34 L 50 80 L 12 76 Z" fill={`url(#${pL})`} stroke="#818CF8" strokeWidth="0.8" strokeLinejoin="round" />
       <line x1="18" y1="42" x2="46" y2="44" stroke="#A5B4FC" strokeWidth="0.7" />
       <line x1="18" y1="48" x2="44" y2="50" stroke="#A5B4FC" strokeWidth="0.7" />
       <line x1="18" y1="54" x2="46" y2="56" stroke="#A5B4FC" strokeWidth="0.7" />
@@ -91,7 +94,7 @@ export function BookIcon({ size = 64 }: IconProps) {
       <line x1="18" y1="66" x2="44" y2="68" stroke="#A5B4FC" strokeWidth="0.7" />
 
       {/* Right page (static back) */}
-      <path d="M 50 34 L 88 30 L 88 76 L 50 80 Z" fill="url(#pageR)" stroke="#818CF8" strokeWidth="0.8" strokeLinejoin="round" />
+      <path d="M 50 34 L 88 30 L 88 76 L 50 80 Z" fill={`url(#${pR})`} stroke="#818CF8" strokeWidth="0.8" strokeLinejoin="round" />
       <line x1="54" y1="44" x2="82" y2="42" stroke="#A5B4FC" strokeWidth="0.7" />
       <line x1="54" y1="50" x2="80" y2="48" stroke="#A5B4FC" strokeWidth="0.7" />
       <line x1="54" y1="56" x2="82" y2="54" stroke="#A5B4FC" strokeWidth="0.7" />
@@ -101,8 +104,8 @@ export function BookIcon({ size = 64 }: IconProps) {
       {/* Spine */}
       <line x1="50" y1="34" x2="50" y2="80" stroke="#4F46E5" strokeWidth="1.4" />
 
-      {/* Turning page (right → left arc) */}
-      <path d="M 50 34 L 86 30 L 86 76 L 50 80 Z" fill="url(#pageR)" stroke="#818CF8" strokeWidth="0.8" strokeLinejoin="round" opacity="0.95">
+      {/* Turning page */}
+      <path d="M 50 34 L 86 30 L 86 76 L 50 80 Z" fill={`url(#${pR})`} stroke="#818CF8" strokeWidth="0.8" strokeLinejoin="round" opacity="0.95">
         <animate attributeName="d"
           values="M 50 34 L 86 30 L 86 76 L 50 80 Z;
                   M 50 34 L 68 18 L 68 64 L 50 80 Z;

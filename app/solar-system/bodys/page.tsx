@@ -3,6 +3,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import SolarLayout from '@/components/SolarLayout';
 import { solarSystem } from '@/data/solar-system';
 
@@ -81,12 +82,13 @@ function BodyCard({ id, onSelect }: { id: string; onSelect: (id: string) => void
       {/* Photo */}
       <div className="relative w-full overflow-hidden" style={{ aspectRatio: '4/3' }}>
         {!imgError && photo ? (
-          <img
+          <Image
             src={photo.src}
             alt={body.nameFr}
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
             onError={() => setImgError(true)}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-            loading="lazy"
           />
         ) : (
           <div
@@ -196,7 +198,14 @@ function BodyModal({ id, onClose }: { id: string; onClose: () => void }) {
         {/* Hero */}
         <div className="relative w-full overflow-hidden rounded-t-3xl" style={{ height: 280 }}>
           {!imgError && photo ? (
-            <img src={photo.src} alt={body.nameFr} onError={() => setImgError(true)} className="w-full h-full object-cover" />
+            <Image
+              src={photo.src}
+              alt={body.nameFr}
+              fill
+              sizes="(max-width: 1024px) 100vw, 768px"
+              className="object-cover"
+              onError={() => setImgError(true)}
+            />
           ) : (
             <div className="w-full h-full flex items-center justify-center"
               style={{ background: `radial-gradient(ellipse at 35% 35%, ${body.colorGradient?.[0] ?? body.color}CC, ${body.color}55, #080d1a)` }}>

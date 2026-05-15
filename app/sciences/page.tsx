@@ -13,6 +13,7 @@ export const metadata: Metadata = {
   },
 };
 import ScienceLayout from '@/components/ScienceLayout';
+import { JsonLd } from '@/components/JsonLd';
 import {
   ClockIcon,
   ScientistIcon,
@@ -79,6 +80,15 @@ const highlights = [
 export default function SciencesHome() {
   return (
     <ScienceLayout>
+      <JsonLd data={{ '@context': 'https://schema.org', '@graph': [
+        { '@type': 'BreadcrumbList', itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://suri-space.vercel.app' },
+          { '@type': 'ListItem', position: 2, name: 'Sciences', item: 'https://suri-space.vercel.app/sciences' },
+        ]},
+        { '@type': 'CollectionPage', name: 'Sciences', url: 'https://suri-space.vercel.app/sciences',
+          description: 'Timeline des découvertes scientifiques, formules fondamentales, constantes physiques et portraits des grands scientifiques.',
+          inLanguage: 'fr', isPartOf: { '@type': 'WebSite', name: 'Suri Space', url: 'https://suri-space.vercel.app' } },
+      ]}} />
       <div className="max-w-7xl mx-auto px-4 py-12">
 
         {/* Hero */}

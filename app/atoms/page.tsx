@@ -13,6 +13,7 @@ export const metadata: Metadata = {
   },
 };
 import AtomicLayout from '@/components/AtomicLayout';
+import { JsonLd } from '@/components/JsonLd';
 import {
   FlaskIcon,
   RadiationIcon,
@@ -82,6 +83,15 @@ const funFacts = [
 export default function AtomsHome() {
   return (
     <AtomicLayout>
+      <JsonLd data={{ '@context': 'https://schema.org', '@graph': [
+        { '@type': 'BreadcrumbList', itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://suri-space.vercel.app' },
+          { '@type': 'ListItem', position: 2, name: 'Atomes', item: 'https://suri-space.vercel.app/atoms' },
+        ]},
+        { '@type': 'CollectionPage', name: "L'Univers des Atomes", url: 'https://suri-space.vercel.app/atoms',
+          description: "Tableau périodique interactif, histoire de la physique atomique, nucléosynthèse stellaire et abondance des éléments.",
+          inLanguage: 'fr', isPartOf: { '@type': 'WebSite', name: 'Suri Space', url: 'https://suri-space.vercel.app' } },
+      ]}} />
       <div className="max-w-7xl mx-auto px-4 py-16">
         {/* Hero */}
         <div className="text-center mb-20">

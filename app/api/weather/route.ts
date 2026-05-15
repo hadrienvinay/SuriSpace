@@ -7,7 +7,9 @@ export async function GET(request: Request) {
   const city = searchParams.get('city') || 'Paris';
   //const city = 'Paris';
   try {
-   let data = await fetch(`https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${encodeURIComponent(city)}&aqi=no`)
+   let data = await fetch(`https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${encodeURIComponent(city)}&aqi=no`, {
+      next: { revalidate: 300 }, // cache 5 min per city
+    })
     let weather = await data.json()
     let weather_temp = weather.current.temp_c
     let weather_icon = "https:" + weather.current.condition.icon
