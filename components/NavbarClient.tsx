@@ -5,72 +5,81 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Session } from 'next-auth';
+import {
+  NavPlanetIcon, NavScienceIcon, NavAtomIcon, NavLeafIcon,
+  IcoHome, IcoMap, IcoGlobe, IcoGalaxy, IcoRocket, IcoTelescope, IcoStar,
+  IcoClock, IcoUser, IcoSigma, IcoInfinity,
+  IcoFlask, IcoExplosion, IcoChart, IcoRadiation,
+  IcoLeaf, IcoHouse, IcoSun, IcoApple,
+} from '@/components/NavIcons';
+
+/* ─── Types ───────────────────────────────────────────────── */
+type ItemIcon = React.ComponentType<{ color: string }>;
+type NavItem = { href: string; label: string; Icon: ItemIcon };
+type TopIcon = React.ComponentType<{ size?: number; color?: string }>;
 
 /* ─── Nav data ────────────────────────────────────────────── */
-//Nav on the left of the sidebar
-//const MAIN_LINKS = [];
-
-const DROPDOWNS = [
+const DROPDOWNS: { label: string; Icon: TopIcon; color: string; items: NavItem[] }[] = [
   {
     label: 'Espace',
-    icon: '🪐',
+    Icon: NavPlanetIcon,
     color: '#60A5FA',
     items: [
-      { href: '/solar-system',           label: 'Accueil',                  icon: '👾' },
-      { href: '/solar-system/carte',     label: 'Carte interactive',        icon: '🗺️' },
-      { href: '/solar-system/bodys',     label: 'Corps célestes', icon: '🌍' },
-      { href: '/solar-system/galaxies',  label: 'Galaxies',                 icon: '🌌' },
-      { href: '/solar-system/missions',  label: 'Missions & Sondes',        icon: '🚀' },
-      { href: '/solar-system/astronomie',label: 'Astronomie',               icon: '🔭' },
-      { href: '/solar-system/stars',     label: 'Carte du ciel',            icon: '⭐' },
+      { href: '/solar-system',            label: 'Accueil',          Icon: IcoHome      },
+      { href: '/solar-system/carte',      label: 'Carte interactive', Icon: IcoMap      },
+      { href: '/solar-system/bodys',      label: 'Corps célestes',   Icon: IcoGlobe     },
+      { href: '/solar-system/galaxies',   label: 'Galaxies',         Icon: IcoGalaxy    },
+      { href: '/solar-system/missions',   label: 'Missions & Sondes',Icon: IcoRocket    },
+      { href: '/solar-system/astronomie', label: 'Astronomie',       Icon: IcoTelescope },
+      { href: '/solar-system/stars',      label: 'Carte du ciel',    Icon: IcoStar      },
     ],
   },
   {
     label: 'Sciences',
-    icon: '🔬',
+    Icon: NavScienceIcon,
     color: '#A78BFA',
     items: [
-      { href: '/sciences',            label: 'Accueil',        icon: '🔬' },
-      { href: '/sciences/timeline',   label: 'Timeline',       icon: '⏱️' },
-      { href: '/sciences/scientists', label: 'Scientifiques',  icon: '👨‍🔬' },
-      { href: '/sciences/formules',   label: 'Formules',       icon: '∑'  },
-      { href: '/sciences/constantes', label: 'Constantes',     icon: '∞'  },
+      { href: '/sciences',            label: 'Accueil',       Icon: IcoHome     },
+      { href: '/sciences/timeline',   label: 'Timeline',      Icon: IcoClock    },
+      { href: '/sciences/scientists', label: 'Scientifiques', Icon: IcoUser     },
+      { href: '/sciences/formules',   label: 'Formules',      Icon: IcoSigma    },
+      { href: '/sciences/constantes', label: 'Constantes',    Icon: IcoInfinity },
     ],
   },
   {
     label: 'Atomes',
-    icon: '⚛️',
+    Icon: NavAtomIcon,
     color: '#34D399',
     items: [
-      { href: '/atoms',                label: 'Accueil',            icon: '⚛️' },
-      { href: '/atoms/tableau',        label: 'Tableau périodique', icon: '🧪' },
-      { href: '/atoms/nucleosynthese', label: 'Nucléosynthèse',     icon: '💥' },
-      { href: '/atoms/abondance',      label: 'Abondance',          icon: '📊' },
-      { href: '/atoms/particules',     label: 'Particules',         icon: '✴️' },
+      { href: '/atoms',                label: 'Accueil',            Icon: IcoHome      },
+      { href: '/atoms/tableau',        label: 'Tableau périodique', Icon: IcoFlask     },
+      { href: '/atoms/nucleosynthese', label: 'Nucléosynthèse',     Icon: IcoExplosion },
+      { href: '/atoms/abondance',      label: 'Abondance',          Icon: IcoChart     },
+      { href: '/atoms/particules',     label: 'Particules',         Icon: IcoRadiation },
     ],
   },
   {
     label: 'Nature',
-    icon: '🌿',
+    Icon: NavLeafIcon,
     color: '#22C55E',
     items: [
-      { href: '/nature',            label: 'Accueil',          icon: '🌿' },
-      { href: '/nature/plantes',    label: 'Plantes & Jardinage', icon: '🌱' },
-      { href: '/nature/mon-potager',label: 'Mon Potager',      icon: '🏡' },
-      { href: '/nature/saison',     label: 'Saisons',          icon: '☀️' },
-      { href: '/nature/nutrition',  label: 'Nutrition',        icon: '🍎' },
+      { href: '/nature',             label: 'Accueil',             Icon: IcoHome   },
+      { href: '/nature/plantes',     label: 'Plantes & Jardinage', Icon: IcoLeaf   },
+      { href: '/nature/mon-potager', label: 'Mon Potager',         Icon: IcoHouse  },
+      { href: '/nature/saison',      label: 'Saisons',             Icon: IcoSun    },
+      { href: '/nature/nutrition',   label: 'Nutrition',           Icon: IcoApple  },
     ],
   },
 ];
 
 const END_LINKS = [
-    { href: '/posts',    label: 'Articles' },
+  { href: '/posts',    label: 'Articles' },
   { href: '/projects', label: 'Projets'  },
-  { href: '/about',   label: 'À propos' },
-  { href: '/contact', label: 'Contact'  },
+  { href: '/about',    label: 'À propos' },
+  { href: '/contact',  label: 'Contact'  },
 ];
 
-/* ─── Link styles (always dark) ──────────────────────────── */
+/* ─── Link styles ──────────────────────────────────────────── */
 const linkCls = (active: boolean) =>
   `px-3 py-2 rounded-lg text-md font-semibold tracking-wide transition-all ${
     active
@@ -78,24 +87,26 @@ const linkCls = (active: boolean) =>
       : 'text-gray-400 hover:text-white hover:bg-violet-900/40'
   }`;
 
-/* ─── Dropdown ────────────────────────────────────────────── */
-function Dropdown({
-  label, icon, color, items,
-}: {
-  label: string; icon: string; color: string;
-  items: { href: string; label: string; icon: string }[];
+/* ─── Dropdown ─────────────────────────────────────────────── */
+function Dropdown({ label, Icon: TopIcon, color, items }: {
+  label: string;
+  Icon: TopIcon;
+  color: string;
+  items: NavItem[];
 }) {
   const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+  const ref   = useRef<HTMLDivElement>(null);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pathname = usePathname();
   const isActive = items.some((i) => pathname === i.href || pathname.startsWith(i.href + '/'));
-  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const enter = () => { if (timer.current) clearTimeout(timer.current); setOpen(true); };
   const leave = () => { timer.current = setTimeout(() => setOpen(false), 120); };
 
   useEffect(() => {
-    const h = (e: MouseEvent) => { if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false); };
+    const h = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
     document.addEventListener('mousedown', h);
     return () => document.removeEventListener('mousedown', h);
   }, []);
@@ -110,7 +121,7 @@ function Dropdown({
             : 'text-gray-400 hover:text-white hover:bg-violet-900/40'
         }`}
       >
-        <span className="text-base">{icon}</span>
+        <TopIcon size={18} color={isActive ? color : undefined} />
         {label}
         <svg className={`w-3 h-3 transition-transform ${open ? 'rotate-180' : ''}`}
           fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -121,11 +132,7 @@ function Dropdown({
       {open && (
         <div
           className="absolute top-full left-0 mt-1.5 w-56 rounded-2xl border shadow-2xl py-1.5 z-50"
-          style={{
-            background: 'rgba(5,8,25,0.97)',
-            borderColor: 'rgba(255,255,255,0.08)',
-            backdropFilter: 'blur(16px)',
-          }}
+          style={{ background: 'rgba(5,8,25,0.97)', borderColor: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(16px)' }}
         >
           <div className="mx-3 mb-2 mt-1 h-px rounded-full" style={{ background: `${color}40` }} />
           {items.map((item) => {
@@ -141,7 +148,9 @@ function Dropdown({
                     : 'text-gray-400 hover:text-white hover:bg-violet-900/40'
                 }`}
               >
-                <span className="text-base w-5 text-center">{item.icon}</span>
+                <span className="shrink-0 w-4 flex items-center justify-center">
+                  <item.Icon color={active ? color : 'currentColor'} />
+                </span>
                 {item.label}
               </Link>
             );
@@ -152,14 +161,11 @@ function Dropdown({
   );
 }
 
-/* ─── Navbar ──────────────────────────────────────────────── */
+/* ─── Navbar ───────────────────────────────────────────────── */
 export default function NavbarClient({ session }: { session: Session | null }) {
-  const pathname = usePathname();
-  const [mounted, setMounted] = useState(false);
+  const pathname    = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [expanded, setExpanded] = useState<string | null>(null);
-
-  useEffect(() => { setMounted(true); }, []);
+  const [expanded,   setExpanded]   = useState<string | null>(null);
 
   const close = () => setMobileOpen(false);
 
@@ -171,45 +177,31 @@ export default function NavbarClient({ session }: { session: Session | null }) {
 
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 shrink-0 group" onClick={close}>
-            <Image src="/favicon.ico" alt="Logo" width={30} height={30} className="rounded shrink-0" />
+            <Image src="/icon.svg" alt="Logo" width={28} height={28} className="rounded shrink-0" />
             <span className="font-bold text-white text-xl hidden sm:block group-hover:text-violet-300 transition-colors">
-              Suri<span className="text-violet-400">'s Blog</span>
+              Suri<span className="text-violet-400">&apos;s Blog</span>
             </span>
           </Link>
 
           {/* Desktop */}
           <div className="hidden md:flex items-center gap-0.5">
             {session && (
-                 <Link key={"dashboard"} href={"/dashboard"} className={linkCls(pathname === "/dashboard")}>{"Dashboard"}</Link>
+              <Link href="/dashboard" className={linkCls(pathname === '/dashboard')}>Dashboard</Link>
+            )}
 
-              )}
-            {/*MAIN_LINKS.map((l) => ( <Link key={l.href} href={l.href} className={linkCls(pathname === l.href)}>{l.label}</Link>))*/}
-
-            <span className="mx-2 text-gray-700 text-md">|</span>
+            <span className="mx-2 text-gray-700">|</span>
 
             {DROPDOWNS.map((d) => (
-              <Dropdown key={d.label} label={d.label} icon={d.icon} color={d.color} items={d.items} />
+              <Dropdown key={d.label} label={d.label} Icon={d.Icon} color={d.color} items={d.items} />
             ))}
 
-            <span className="mx-2 text-gray-700 text-md">|</span>
+            <span className="mx-2 text-gray-700">|</span>
 
             {END_LINKS.map((l) => (
               <Link key={l.href} href={l.href} className={linkCls(pathname === l.href)}>{l.label}</Link>
             ))}
 
-            {/* Theme toggle 
-            {mounted && (
-              <button
-                onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                className="ml-1 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-violet-900/40 transition-all"
-                aria-label="Thème"
-              >
-                {theme === 'light' ? '🌙' : '☀️'}
-              </button>
-            )}*/}
-
-            {/* Auth */}
-            {session ? (
+            {session && (
               <div className="flex items-center gap-2 ml-2">
                 <span className="text-xs text-gray-600 hidden lg:block">
                   {session.user?.name || session.user?.email}
@@ -219,7 +211,7 @@ export default function NavbarClient({ session }: { session: Session | null }) {
                   Déco
                 </Link>
               </div>
-            ) : null}
+            )}
           </div>
 
           {/* Mobile burger */}
@@ -238,28 +230,17 @@ export default function NavbarClient({ session }: { session: Session | null }) {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden border-t border-white/6"
-          style={{ background: 'rgba(3,6,20,0.98)' }}>
+        <div className="md:hidden border-t border-white/6" style={{ background: 'rgba(3,6,20,0.98)' }}>
           <div className="px-4 py-3 space-y-1" style={{ fontFamily: "'Exo 2', sans-serif" }}>
-            {/* COMMENTING FOR NOW MAIN_LINKS.map((l) => (
-              <Link key={l.href} href={l.href} onClick={close}
-                className={`block px-3 py-2.5 rounded-xl text-md font-semibold transition-all ${
-                  pathname === l.href
-                    ? 'bg-violet-800/70 text-white'
-                    : 'text-gray-400 hover:text-white hover:bg-violet-900/40'
-                }`}>
-                {l.label}
-              </Link>
-            ))
 
-            <div className="h-px mx-1 my-2 bg-white/6" />*/}
             {session && (
-                 <Link key={"dashboard"} href={"/dashboard"} className={`block px-3 py-2.5 rounded-xl text-md font-semibold transition-all ${
-                  pathname === "/dashboard"
-                    ? 'bg-violet-800/70 text-white'
-                    : 'text-gray-400 hover:text-white hover:bg-violet-900/40'
-                }`}>Dashboard</Link>
-              )}
+              <Link href="/dashboard" onClick={close}
+                className={`block px-3 py-2.5 rounded-xl text-md font-semibold transition-all ${
+                  pathname === '/dashboard' ? 'bg-violet-800/70 text-white' : 'text-gray-400 hover:text-white hover:bg-violet-900/40'
+                }`}>
+                Dashboard
+              </Link>
+            )}
 
             {DROPDOWNS.map((d) => {
               const isExp = expanded === d.label;
@@ -269,12 +250,13 @@ export default function NavbarClient({ session }: { session: Session | null }) {
                   <button
                     onClick={() => setExpanded(isExp ? null : d.label)}
                     className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-md font-semibold transition-all ${
-                      isAct
-                        ? 'bg-violet-800/70 text-white'
-                        : 'text-gray-400 hover:text-white hover:bg-violet-900/40'
+                      isAct ? 'bg-violet-800/70 text-white' : 'text-gray-400 hover:text-white hover:bg-violet-900/40'
                     }`}
                   >
-                    <span className="flex items-center gap-2.5"><span>{d.icon}</span>{d.label}</span>
+                    <span className="flex items-center gap-2.5">
+                      <d.Icon size={18} color={isAct ? d.color : undefined} />
+                      {d.label}
+                    </span>
                     <svg className={`w-4 h-4 transition-transform ${isExp ? 'rotate-180' : ''}`}
                       fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
@@ -283,17 +265,20 @@ export default function NavbarClient({ session }: { session: Session | null }) {
 
                   {isExp && (
                     <div className="mt-1 ml-4 space-y-0.5 pb-1">
-                      {d.items.map((item) => (
-                        <Link key={item.href} href={item.href} onClick={close}
-                          className={`flex items-center gap-3 px-3 py-2 rounded-xl text-md font-medium transition-all ${
-                            pathname === item.href
-                              ? 'bg-violet-800/70 text-white'
-                              : 'text-gray-500 hover:text-white hover:bg-violet-900/40'
-                          }`}>
-                          <span>{item.icon}</span>
-                          {item.label}
-                        </Link>
-                      ))}
+                      {d.items.map((item) => {
+                        const active = pathname === item.href;
+                        return (
+                          <Link key={item.href} href={item.href} onClick={close}
+                            className={`flex items-center gap-3 px-3 py-2 rounded-xl text-md font-medium transition-all ${
+                              active ? 'bg-violet-800/70 text-white' : 'text-gray-500 hover:text-white hover:bg-violet-900/40'
+                            }`}>
+                            <span className="shrink-0 w-4 flex items-center justify-center">
+                              <item.Icon color={active ? d.color : 'currentColor'} />
+                            </span>
+                            {item.label}
+                          </Link>
+                        );
+                      })}
                     </div>
                   )}
                 </div>
@@ -305,28 +290,20 @@ export default function NavbarClient({ session }: { session: Session | null }) {
             {END_LINKS.map((l) => (
               <Link key={l.href} href={l.href} onClick={close}
                 className={`block px-3 py-2.5 rounded-xl text-md font-semibold transition-all ${
-                  pathname === l.href
-                    ? 'bg-violet-800/70 text-white'
-                    : 'text-gray-400 hover:text-white hover:bg-violet-900/40'
+                  pathname === l.href ? 'bg-violet-800/70 text-white' : 'text-gray-400 hover:text-white hover:bg-violet-900/40'
                 }`}>
                 {l.label}
               </Link>
             ))}
 
-            <div className="flex items-center justify-between pt-1">
-              {/*mounted && (
-                <button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                  className="px-3 py-2.5 rounded-xl text-md text-gray-400 hover:text-white hover:bg-violet-900/40 transition-all">
-                  {theme === 'light' ? '🌙 Mode Sombre' : '☀️ Mode Clair'}
-                </button>
-              )*/}
-              {session && (
+            {session && (
+              <div className="pt-1">
                 <Link href="/api/auth/signout" onClick={close}
-                  className="text-xs px-3 py-2 rounded-lg bg-red-700/60 hover:bg-red-600 text-white transition-all">
+                  className="text-xs px-3 py-2 rounded-lg bg-red-700/60 hover:bg-red-600 text-white transition-all inline-block">
                   Déconnexion
                 </Link>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
       )}

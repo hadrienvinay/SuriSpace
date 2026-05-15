@@ -62,8 +62,8 @@ export default async function Projects() {
             <CodeIcon size={80} />
           </div>
         </div>
-        <p className="text-gray-400 text-lg max-w-xl mx-auto">
-          Simulations, outils et expérimentations développés au fil du temps.
+        <p className="text-gray-400 text-lg max-w-3xl mx-auto">
+          Mes simulations, outils et expérimentations développés ces dernières années
         </p>
       </div>
 
