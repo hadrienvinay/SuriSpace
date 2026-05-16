@@ -66,6 +66,7 @@ export async function PUT(request:Request , { params }: { params: Promise<{ id: 
     const image2Title = formData.get('imageTitle2') as string| null;
     const link = formData.get('link') as string| null;
     const createdAtRaw = formData.get('createdAt') as string | null;
+    const tags = formData.getAll('tags') as string[];
     
     const ALLOWED_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg'];
     const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
@@ -102,10 +103,11 @@ export async function PUT(request:Request , { params }: { params: Promise<{ id: 
         resume,
         content,
         content2,
-        ...(imagePath && { image: imagePath }),     
+        ...(imagePath && { image: imagePath }),
         imageTitle,
-        ...(imagePath2 && { image2: imagePath2 }),     
+        ...(imagePath2 && { image2: imagePath2 }),
         image2Title,
+        tags,
         link,
         authorId: 1,
         ...(createdAtRaw && { createdAt: new Date(createdAtRaw) }),

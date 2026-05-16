@@ -34,6 +34,7 @@ export default async function EditProjectPage({ params }: { params: Promise<{ id
             imageTitle2: project.image2Title ?? undefined,
             link: project.link ?? "",
             createdAt: project.createdAt.toISOString().slice(0, 10),
+            tags: project.tags,
           }}
         />
         </div>

@@ -162,7 +162,16 @@ export default async function Projects() {
                 </div>
                 <h2 className="text-base font-bold text-white mb-1.5 leading-snug">{project.title}</h2>
                 {project.resume && (
-                  <p className="text-sm text-gray-400 leading-relaxed line-clamp-3">{project.resume}</p>
+                  <p className="text-sm text-gray-400 leading-relaxed line-clamp-2 mb-3">{project.resume}</p>
+                )}
+                {project.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5">
+                    {project.tags.map(tag => (
+                      <span key={tag} className="px-2 py-0.5 rounded-md text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 )}
               </div>
             </Link>

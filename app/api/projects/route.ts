@@ -20,6 +20,7 @@ export async function POST(request: NextRequest) {
     const image2Title = formData.get('imageTitle2') as string| null;
     const link = formData.get('link') as string| null;
     const createdAtRaw = formData.get('createdAt') as string | null;
+    const tags = formData.getAll('tags') as string[];
 
     if (!title || !resume) {
       return NextResponse.json(
@@ -67,6 +68,7 @@ export async function POST(request: NextRequest) {
         imageTitle,
         image2: imagePath2,
         image2Title,
+        tags,
         link,
         authorId: 1,
         ...(createdAtRaw && { createdAt: new Date(createdAtRaw) }),

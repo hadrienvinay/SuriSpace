@@ -48,6 +48,7 @@ model Project {
   image       String?
   image2Title String?
   imageTitle  String?
+  tags        String[] @default([])
   author      User     @relation(fields: [authorId], references: [id])
 }
 
@@ -119,22 +120,6 @@ model Action {
   userId        Int?      @default(1)
   where         String?
   dividendYield Float?
-}
-
-model Pari {
-  id      Int     @id @default(autoincrement())
-  date    String
-  sexe    String
-  poids   String
-  taille  String
-  yeux    String
-  prenom  String
-  cheveux String
-  autres  String?
-  parieurName String
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 model Book {

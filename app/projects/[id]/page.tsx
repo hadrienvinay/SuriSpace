@@ -74,6 +74,17 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
         {project.title}
       </h1>
 
+      {/* Tags */}
+      {project.tags.length > 0 && (
+        <div className="flex flex-wrap gap-2 mb-6">
+          {project.tags.map(tag => (
+            <span key={tag} className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
+
       {/* Resume */}
       {project.resume && (
         <p className="text-lg text-gray-400 leading-relaxed mb-8 border-l-2 border-emerald-500/60 pl-4">

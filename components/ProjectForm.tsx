@@ -19,7 +19,45 @@ interface ProjectFormProps {
     imageTitle2?: string
     link: string
     createdAt?: string
+    tags?: string[]
   }
+}
+
+function TagInput({ tags, onChange }: { tags: string[]; onChange: (tags: string[]) => void }) {
+  const [input, setInput] = useState('');
+
+  const add = (raw: string) => {
+    const trimmed = raw.trim().replace(/,+$/, '');
+    if (trimmed && !tags.includes(trimmed)) onChange([...tags, trimmed]);
+    setInput('');
+  };
+
+  const onKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' || e.key === ',') { e.preventDefault(); add(input); }
+    if (e.key === 'Backspace' && !input && tags.length) onChange(tags.slice(0, -1));
+  };
+
+  return (
+    <div className="flex flex-wrap gap-1.5 px-3 py-2 border rounded-lg border-gray-600 focus-within:ring-2 focus-within:ring-blue-500 min-h-[42px] cursor-text"
+      onClick={() => (document.getElementById('tag-input') as HTMLInputElement)?.focus()}>
+      {tags.map(t => (
+        <span key={t} className="flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-semibold bg-blue-500/15 text-blue-400 border border-blue-500/25">
+          {t}
+          <button type="button" onClick={() => onChange(tags.filter(x => x !== t))}
+            className="opacity-60 hover:opacity-100 leading-none">×</button>
+        </span>
+      ))}
+      <input
+        id="tag-input"
+        value={input}
+        onChange={e => setInput(e.target.value)}
+        onKeyDown={onKey}
+        onBlur={() => input.trim() && add(input)}
+        placeholder={tags.length === 0 ? 'Next.js, TypeScript… (Entrée pour valider)' : ''}
+        className="flex-1 min-w-[120px] bg-transparent outline-none text-sm text-white placeholder-gray-500"
+      />
+    </div>
+  );
 }
 
 export default function CreateProjectForm() {
@@ -33,6 +71,7 @@ export default function CreateProjectForm() {
   const [imageTitle2, setImageTitle2] = useState('');
   const [link, setLink] = useState('');
   const [createdAt, setCreatedAt] = useState('');
+  const [tags, setTags] = useState<string[]>([]);
   const [preview, setPreview] = useState<string | null>(null);
   const [preview2, setPreview2] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -79,12 +118,13 @@ export default function CreateProjectForm() {
       if (createdAt) formData.append('createdAt', createdAt);
       if (image) {
         formData.append('image', image);
-        formData.append('imageTitle',imageTitle)
-        if (image2) {
+        formData.append('imageTitle', imageTitle);
+      }
+      if (image2) {
         formData.append('image2', image2);
-        formData.append('imageTitle2',imageTitle2)
+        formData.append('imageTitle2', imageTitle2);
       }
-      }
+      tags.forEach(t => formData.append('tags', t));
 
       const response = await fetch('/api/projects', {
         method: 'POST',
@@ -279,6 +319,13 @@ export default function CreateProjectForm() {
         />
       </div>
 
+      {/* Tags */}
+      <div>
+        <label className="block mb-2 font-medium">Technologies utilisées</label>
+        <TagInput tags={tags} onChange={setTags} />
+        <p className="mt-1 text-xs text-gray-500">Entrée ou virgule pour valider chaque tag</p>
+      </div>
+
       {/* Bouton Submit */}
       <button
         type="submit"
@@ -308,6 +355,7 @@ export  function EditProjectForm(props?: ProjectFormProps) {
   const [imageTitle2, setImageTitle2] = useState(props?.initialData?.imageTitle2 ?? '');
   const [link, setLink] = useState(props?.initialData?.link ??'');
   const [createdAt, setCreatedAt] = useState(props?.initialData?.createdAt ?? '');
+  const [tags, setTags] = useState<string[]>(props?.initialData?.tags ?? []);
   const [preview, setPreview] = useState<string | null>(null);
   const [preview2, setPreview2] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -355,14 +403,9 @@ export  function EditProjectForm(props?: ProjectFormProps) {
       formData.append('imageTitle2',imageTitle2)
       if (createdAt) formData.append('createdAt', createdAt);
 
-      if (image) {
-        formData.append('image', image);
-        if (image2) {
-        formData.append('image2', image2);
-      }
-      }
-      console.log(formData)
-      console.log("/////////")
+      if (image) formData.append('image', image);
+      if (image2) formData.append('image2', image2);
+      tags.forEach(t => formData.append('tags', t));
 
       const response = await fetch(`/api/projects/${projectId}`, {
         method: 'PUT',
@@ -552,6 +595,13 @@ export  function EditProjectForm(props?: ProjectFormProps) {
           onChange={(e) => setCreatedAt(e.target.value)}
           className="w-full px-4 py-2 border rounded-lg border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
+      </div>
+
+      {/* Tags */}
+      <div>
+        <label className="block mb-2 font-medium">Technologies utilisées</label>
+        <TagInput tags={tags} onChange={setTags} />
+        <p className="mt-1 text-xs text-gray-500">Entrée ou virgule pour valider chaque tag</p>
       </div>
 
       {/* Bouton Submit */}

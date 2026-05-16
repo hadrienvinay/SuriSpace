@@ -26,6 +26,100 @@ const STATS = [
   { icon: '', label: 'Contact',      value: 'hadrien.vinay@yahoo.fr' },
 ];
 
+const TIMELINE = [
+  {
+    type: 'formation',
+    period: '2014 – 2019',
+    title: 'ECE Paris',
+    role: "École d'ingénieurs — Majeure Systèmes Embarqués",
+    desc: "Formation informatique et électronique : C, C++, Java, microcontrôleurs, DSP et temps réel.",
+    color: '#A78BFA',
+  },
+  {
+    type: 'pro',
+    period: 'Jan – Mai 2018',
+    title: 'SETEC ITS',
+    role: 'Ingénieur Mobilité — Stage',
+    desc: "Cabinet d'études transports à Paris. Rédaction d'un cahier des charges sur l'architecture embarquée de nouveaux bus RATP.",
+    color: '#38BDF8',
+  },
+  {
+    type: 'pro',
+    period: 'Jan – Juil 2019',
+    title: 'GALITT',
+    role: 'Ingénieur Logiciel R&D — Stage',
+    desc: "Conseil en système de paiement sécurisé. Étude Open Banking et automatisation de tests d'API sur Kanest.",
+    color: '#60A5FA',
+  },
+  {
+    type: 'pro',
+    period: 'Jan 2020 – Sep 2022',
+    title: 'SCALIAN · Dassault Aviation',
+    role: 'Ingénieur Systèmes Embarqués — CDI',
+    desc: "Mission avionique DO-178 : développement et maintenance de bancs de test, scripts C/Python, intégration continue et documentation technique.",
+    color: '#60A5FA',
+  },
+  {
+    type: 'projet',
+    period: '2023 – 2026',
+    title: 'Projets personnels',
+    role: 'Full-stack & Embarqué',
+    desc: "Portfolio web, simulation 3D du système solaire (Python/OpenGL), serveur home lab (Raspberry Pi, Docker), plateformes web Next.js et PostgreSQL.",
+    color: '#34D399',
+  },
+  {
+    type: 'pro',
+    period: 'Déc 2024 – Nov 2025',
+    title: "Vélos d'Albret",
+    role: 'Technicien Polyvalent — CDD',
+    desc: "Gestion autonome d'un magasin de vélos : mécanique cycle, relation clientèle et gestion des stocks.",
+    color: '#FB923C',
+  },
+];
+
+const TL_TYPE: Record<string, string> = { formation: 'Formation', pro: 'Pro', projet: 'Projet' };
+
+function TlCard({ item }: { item: (typeof TIMELINE)[0] }) {
+  return (
+    <div style={{
+      padding: '16px 18px',
+      background: 'rgba(255,255,255,0.025)',
+      border: `1px solid ${item.color}25`,
+      borderRadius: 14,
+    }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 8, flexWrap: 'wrap' }}>
+        <span style={{
+          fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.13em',
+          padding: '3px 8px', borderRadius: 5,
+          background: `${item.color}18`, color: item.color, border: `1px solid ${item.color}30`,
+        }}>
+          {TL_TYPE[item.type] ?? item.type}
+        </span>
+        <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.28)', fontFamily: 'monospace' }}>
+          {item.period}
+        </span>
+      </div>
+      <div style={{ fontSize: 16, fontWeight: 700, color: '#fff', marginBottom: 3 }}>{item.title}</div>
+      <div style={{ fontSize: 13, color: item.color, marginBottom: 8, fontWeight: 500 }}>{item.role}</div>
+      <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.42)', lineHeight: 1.72, margin: 0 }}>{item.desc}</p>
+    </div>
+  );
+}
+
+function TlDot({ color }: { color: string }) {
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center', paddingTop: 16 }}>
+      <div style={{
+        width: 13, height: 13, borderRadius: '50%', flexShrink: 0,
+        background: color,
+        border: '2.5px solid #020817',
+        boxShadow: `0 0 12px ${color}80`,
+        position: 'relative', zIndex: 2,
+      }} />
+    </div>
+  );
+}
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function About() {
@@ -228,6 +322,60 @@ export default function About() {
                 ))}
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* ══ TIMELINE ══════════════════════════════════════════════════════════ */}
+        <div style={{ marginBottom: 48 }}>
+          <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.22)', textTransform: 'uppercase', letterSpacing: '0.2em', marginBottom: 32 }}>
+            Parcours
+          </div>
+
+          <div style={{ position: 'relative' }}>
+            {/* Ligne verticale desktop (centrée) */}
+            <div className="hidden md:block" style={{
+              position: 'absolute', left: '50%', transform: 'translateX(-50%)',
+              top: 0, bottom: 0, width: 1,
+              background: 'linear-gradient(to bottom, #A78BFA55, #60A5FA55, #34D39955)',
+            }} />
+            {/* Ligne verticale mobile (gauche) */}
+            <div className="block md:hidden" style={{
+              position: 'absolute', left: 11, top: 0, bottom: 0, width: 1,
+              background: 'linear-gradient(to bottom, #A78BFA55, #60A5FA55, #34D39955)',
+            }} />
+
+            {TIMELINE.map((item, i) => {
+              const isEven = i % 2 === 0;
+              const periodLabel = (
+                <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.22)', fontFamily: 'monospace', paddingTop: 19, display: 'block' }}>
+                  {item.period}
+                </span>
+              );
+              return (
+                <div key={i} className="grid grid-cols-[24px_1fr] md:grid-cols-[1fr_24px_1fr] gap-x-4 md:gap-x-5 mb-5 items-start">
+                  {/* Desktop — colonne gauche */}
+                  <div className="hidden md:block">
+                    {isEven
+                      ? <TlCard item={item} />
+                      : <div style={{ textAlign: 'right' }}>{periodLabel}</div>
+                    }
+                  </div>
+
+                  {/* Point central */}
+                  <TlDot color={item.color} />
+
+                  {/* Colonne droite */}
+                  <div>
+                    {/* Mobile : toujours la carte */}
+                    <div className="block md:hidden"><TlCard item={item} /></div>
+                    {/* Desktop : carte pour odd, période pour even */}
+                    <div className="hidden md:block">
+                      {!isEven ? <TlCard item={item} /> : periodLabel}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
 
