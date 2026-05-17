@@ -58,7 +58,6 @@ export interface Constellation {
   area?: number;
   brightestStar?: string;
   deepSkyObjects?: string[];
-  emoji: string;
   color: string;
 }
 
@@ -1105,7 +1104,7 @@ export const constellations: Constellation[] = [
     bestSeason: 'winter', hemisphere: 'both', ra: 5.5, dec: 5.0, area: 594,
     brightestStar: 'rigel',
     deepSkyObjects: ["Grande Nébuleuse d'Orion (M42)","Nébuleuse Tête de Cheval","Nébuleuse de la Flamme","Trapèze d'Orion"],
-    emoji: '🏹', color: '#FB923C',
+    color: '#FB923C',
   },
   {
     id: 'ursa-major', name: 'Ursa Major', nameFr: 'Grande Ourse', abbreviation: 'UMa',
@@ -1124,7 +1123,7 @@ export const constellations: Constellation[] = [
     bestSeason: 'spring', hemisphere: 'north', ra: 11.3, dec: 55.0, area: 1280,
     brightestStar: 'alioth',
     deepSkyObjects: ["Galaxie du Tourbillon (M51)","Galaxie du Cigare (M82)","Galaxie de Bode (M81)","M101 Pinwheel"],
-    emoji: '🐻', color: '#60A5FA',
+    color: '#60A5FA',
   },
   {
     id: 'ursa-minor', name: 'Ursa Minor', nameFr: 'Petite Ourse', abbreviation: 'UMi',
@@ -1142,7 +1141,7 @@ export const constellations: Constellation[] = [
     description: "Constellation circumpolaire boréale. Le Petit Chariot se termine sur Polaris. Kochab et Pherkad forment les 'Gardes' de l'Étoile Polaire.",
     bestSeason: 'year-round', hemisphere: 'north', ra: 15.0, dec: 77.0, area: 256,
     brightestStar: 'polaris',
-    emoji: '🐻', color: '#A78BFA',
+    color: '#A78BFA',
   },
   {
     id: 'scorpius', name: 'Scorpius', nameFr: 'Scorpion', abbreviation: 'Sco',
@@ -1159,7 +1158,7 @@ export const constellations: Constellation[] = [
     bestSeason: 'summer', hemisphere: 'south', ra: 16.9, dec: -26.0, area: 497,
     brightestStar: 'antares',
     deepSkyObjects: ["Amas M6 (Papillon)","Amas M7 (Ptolémée)","Amas globulaire M80"],
-    emoji: '🦂', color: '#EF4444',
+    color: '#EF4444',
   },
   {
     id: 'leo', name: 'Leo', nameFr: 'Lion', abbreviation: 'Leo',
@@ -1177,7 +1176,7 @@ export const constellations: Constellation[] = [
     bestSeason: 'spring', hemisphere: 'both', ra: 10.7, dec: 13.0, area: 947,
     brightestStar: 'regulus',
     deepSkyObjects: ["Triplet du Lion (M65,M66,NGC3628)","Paire M95-M96"],
-    emoji: '🦁', color: '#FCD34D',
+    color: '#FCD34D',
   },
   {
     id: 'virgo', name: 'Virgo', nameFr: 'Vierge', abbreviation: 'Vir',
@@ -1191,7 +1190,7 @@ export const constellations: Constellation[] = [
     bestSeason: 'spring', hemisphere: 'both', ra: 13.4, dec: -4.0, area: 1294,
     brightestStar: 'spica',
     deepSkyObjects: ["Galaxie M87 (jet relativiste)","Galaxie M104 (Sombrero)","Superamas de la Vierge"],
-    emoji: '🌾', color: '#A7F3D0',
+    color: '#A7F3D0',
   },
   {
     id: 'gemini', name: 'Gemini', nameFr: 'Gémeaux', abbreviation: 'Gem',
@@ -1209,7 +1208,7 @@ export const constellations: Constellation[] = [
     bestSeason: 'winter', hemisphere: 'both', ra: 7.1, dec: 22.0, area: 514,
     brightestStar: 'pollux',
     deepSkyObjects: ["Nébuleuse de l'Eskimo (NGC 2392)","Amas M35"],
-    emoji: '♊', color: '#F472B6',
+    color: '#F472B6',
   },
   {
     id: 'taurus', name: 'Taurus', nameFr: 'Taureau', abbreviation: 'Tau',
@@ -1225,7 +1224,7 @@ export const constellations: Constellation[] = [
     bestSeason: 'winter', hemisphere: 'both', ra: 4.7, dec: 19.0, area: 797,
     brightestStar: 'aldebaran',
     deepSkyObjects: ["Nébuleuse du Crabe (M1) — SN 1054","Amas Hyades","Pléiades (M45)"],
-    emoji: '🐂', color: '#FB923C',
+    color: '#FB923C',
   },
   {
     id: 'cygnus', name: 'Cygnus', nameFr: 'Cygne', abbreviation: 'Cyg',
@@ -1241,7 +1240,7 @@ export const constellations: Constellation[] = [
     bestSeason: 'summer', hemisphere: 'north', ra: 20.6, dec: 44.0, area: 804,
     brightestStar: 'deneb',
     deepSkyObjects: ["Nébuleuse Nord-Amérique (NGC 7000)","Nébuleuse du Voile","Cygnus X-1 (trou noir)"],
-    emoji: '🦢', color: '#93C5FD',
+    color: '#93C5FD',
   },
   {
     id: 'lyra', name: 'Lyra', nameFr: 'Lyre', abbreviation: 'Lyr',
@@ -1256,7 +1255,7 @@ export const constellations: Constellation[] = [
     bestSeason: 'summer', hemisphere: 'north', ra: 18.9, dec: 36.0, area: 286,
     brightestStar: 'vega',
     deepSkyObjects: ["Nébuleuse de l'Anneau (M57)","Amas globulaire M56"],
-    emoji: '🎸', color: '#C4B5FD',
+    color: '#C4B5FD',
   },
   {
     id: 'aquila', name: 'Aquila', nameFr: 'Aigle', abbreviation: 'Aql',
@@ -1269,7 +1268,7 @@ export const constellations: Constellation[] = [
     description: "Altaïr — 3e sommet du Triangle d'Été — tourne si vite qu'il est aplati de 20%. Nova Aquilae 1918 fut la nova la plus brillante du 20e siècle.",
     bestSeason: 'summer', hemisphere: 'both', ra: 19.7, dec: 3.0, area: 652,
     brightestStar: 'altair',
-    emoji: '🦅', color: '#FDE68A',
+    color: '#FDE68A',
   },
   {
     id: 'bootes', name: 'Boötes', nameFr: 'Bouvier', abbreviation: 'Boo',
@@ -1286,7 +1285,7 @@ export const constellations: Constellation[] = [
     bestSeason: 'spring', hemisphere: 'north', ra: 14.7, dec: 31.0, area: 907,
     brightestStar: 'arcturus',
     deepSkyObjects: ["Grand Vide du Bouvier (supervide cosmique)"],
-    emoji: '🌾', color: '#FDBA74',
+    color: '#FDBA74',
   },
   {
     id: 'cassiopeia', name: 'Cassiopeia', nameFr: 'Cassiopée', abbreviation: 'Cas',
@@ -1302,7 +1301,7 @@ export const constellations: Constellation[] = [
     bestSeason: 'year-round', hemisphere: 'north', ra: 1.2, dec: 62.0, area: 598,
     brightestStar: 'schedar',
     deepSkyObjects: ["Reste de supernova Cassiopeia A","Amas double (NGC 869/884)","Nébuleuse du Cœur (IC 1805)"],
-    emoji: '👑', color: '#E879F9',
+    color: '#E879F9',
   },
   {
     id: 'perseus', name: 'Perseus', nameFr: 'Persée', abbreviation: 'Per',
@@ -1317,7 +1316,7 @@ export const constellations: Constellation[] = [
     bestSeason: 'autumn', hemisphere: 'north', ra: 3.2, dec: 45.0, area: 615,
     brightestStar: 'mirfak',
     deepSkyObjects: ["Amas double de Persée (NGC 869/884)","Nébuleuse de Californie (NGC 1499)"],
-    emoji: '⚔️', color: '#67E8F9',
+    color: '#67E8F9',
   },
   {
     id: 'auriga', name: 'Auriga', nameFr: 'Cocher', abbreviation: 'Aur',
@@ -1333,7 +1332,7 @@ export const constellations: Constellation[] = [
     bestSeason: 'winter', hemisphere: 'north', ra: 6.0, dec: 42.0, area: 657,
     brightestStar: 'capella',
     deepSkyObjects: ["Amas M36, M37, M38","Nébuleuse Flaming Star (IC 405)"],
-    emoji: '🏎️', color: '#FEF08A',
+    color: '#FEF08A',
   },
   {
     id: 'canis-major', name: 'Canis Major', nameFr: 'Grand Chien', abbreviation: 'CMa',
@@ -1344,7 +1343,7 @@ export const constellations: Constellation[] = [
     bestSeason: 'winter', hemisphere: 'both', ra: 7.0, dec: -22.0, area: 380,
     brightestStar: 'sirius',
     deepSkyObjects: ["Amas M41"],
-    emoji: '🐕', color: '#E0F2FE',
+    color: '#E0F2FE',
   },
   {
     id: 'centaurus', name: 'Centaurus', nameFr: 'Centaure', abbreviation: 'Cen',
@@ -1355,7 +1354,7 @@ export const constellations: Constellation[] = [
     bestSeason: 'spring', hemisphere: 'south', ra: 13.1, dec: -47.0, area: 1060,
     brightestStar: 'alpha-centauri-a',
     deepSkyObjects: ["Galaxie Centaurus A (NGC 5128)","Oméga Centauri (plus grand amas globulaire)"],
-    emoji: '🏇', color: '#86EFAC',
+    color: '#86EFAC',
   },
   {
     id: 'ophiuchus', name: 'Ophiuchus', nameFr: 'Ophiuchus', abbreviation: 'Oph',
@@ -1366,7 +1365,7 @@ export const constellations: Constellation[] = [
     bestSeason: 'summer', hemisphere: 'both', ra: 17.4, dec: -8.0, area: 948,
     brightestStar: 'rasalhague',
     deepSkyObjects: ["Rho Ophiuchi (nébuleuse colorée)","Amas globulaires M9-M62"],
-    emoji: '🐍', color: '#6EE7B7',
+    color: '#6EE7B7',
   },
 ];
 

@@ -2,6 +2,18 @@
 import Link from 'next/link';
 import ScienceLayout from '@/components/ScienceLayout';
 import { scientists, revolutions, DOMAIN_COLORS, ERA_LABELS } from '@/data/scientists';
+import { ClockIcon, MicroscopeIcon } from '@/components/SciencesIcons';
+import { ScientistIcon } from '@/components/ScientistIcons';
+
+function IcoBook({ color }: { color: string }) {
+  return (
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 2 2 Q 7 1 7 7 Q 7 1 12 2 L 12 12 Q 7 11 7 7 Q 7 11 2 12 Z"
+        stroke={color} strokeWidth="1" fill="none" strokeLinejoin="round"/>
+      <line x1="7" y1="2" x2="7" y2="12" stroke={color} strokeWidth="0.8" opacity="0.6"/>
+    </svg>
+  );
+}
 
 export default async function ScientistPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -12,7 +24,7 @@ export default async function ScientistPage({ params }: { params: Promise<{ id: 
       <ScienceLayout>
         <div className="flex items-center justify-center min-h-[60vh]">
           <div className="text-center">
-            <p className="text-6xl mb-4">🔬</p>
+            <div className="mb-4 flex justify-center opacity-40"><MicroscopeIcon size={64} /></div>
             <p className="text-gray-500 mb-3">Scientifique introuvable</p>
             <Link href="/sciences/scientists" className="text-indigo-400 underline">
               Retour aux scientifiques
@@ -52,7 +64,7 @@ export default async function ScientistPage({ params }: { params: Promise<{ id: 
               className="w-24 h-24 rounded-3xl border-2 flex items-center justify-center text-5xl shrink-0"
               style={{ borderColor: color + '50', background: color + '18' }}
             >
-              {scientist.emoji}
+              <span style={{ color }}><ScientistIcon id={scientist.id} size={72} /></span>
             </div>
             <div className="flex-1">
               <div className="text-xs uppercase tracking-widest mb-1 font-semibold" style={{ color }}>
@@ -168,7 +180,7 @@ export default async function ScientistPage({ params }: { params: Promise<{ id: 
                 <div className="space-y-2.5">
                   {scientist.keyWorks.map((w, i) => (
                     <div key={i} className="flex items-start gap-2.5 text-sm">
-                      <span style={{ color }}>📖</span>
+                      <span className="shrink-0 mt-0.5"><IcoBook color={color} /></span>
                       <span className="text-gray-300">{w}</span>
                     </div>
                   ))}
@@ -216,7 +228,7 @@ export default async function ScientistPage({ params }: { params: Promise<{ id: 
                   className="flex-1 p-3 rounded-xl border border-white/8 hover:border-white/20 transition-all text-center"
                   style={{ background: 'rgba(255,255,255,0.02)' }}
                 >
-                  <div className="text-xl mb-1">{prev.emoji}</div>
+                  <div className="mb-1 flex justify-center opacity-60"><ScientistIcon id={prev.id} size={24} /></div>
                   <div className="text-xs text-gray-500">← {prev.name.split(' ').pop()}</div>
                 </Link>
               )}
@@ -226,7 +238,7 @@ export default async function ScientistPage({ params }: { params: Promise<{ id: 
                   className="flex-1 p-3 rounded-xl border border-white/8 hover:border-white/20 transition-all text-center"
                   style={{ background: 'rgba(255,255,255,0.02)' }}
                 >
-                  <div className="text-xl mb-1">{next.emoji}</div>
+                  <div className="mb-1 flex justify-center opacity-60"><ScientistIcon id={next.id} size={24} /></div>
                   <div className="text-xs text-gray-500">{next.name.split(' ').pop()} →</div>
                 </Link>
               )}
@@ -244,7 +256,7 @@ export default async function ScientistPage({ params }: { params: Promise<{ id: 
                 href="/sciences/timeline"
                 className="block text-center py-2.5 rounded-xl text-sm font-bold uppercase tracking-wider border border-indigo-800/40 text-indigo-400 hover:bg-indigo-900/20 transition-all"
               >
-                ⏱️ Voir la timeline
+                <span className="inline-flex items-center gap-1.5"><ClockIcon size={13} /> Voir la timeline</span>
               </Link>
             </div>
           </div>

@@ -272,6 +272,42 @@ function fmtDate(d: Date) {
   return d.toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
 }
 
+// ── Inline SVG icons ─────────────────────────────────────────────────────────
+function IcoSun({ size = 14 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="7" cy="7" r="2.8" fill="#FCD34D"/>
+      {[0,45,90,135,180,225,270,315].map(a => {
+        const r = Math.PI * a / 180;
+        const x1 = 7 + Math.cos(r) * 4.2, y1 = 7 + Math.sin(r) * 4.2;
+        const x2 = 7 + Math.cos(r) * 5.5, y2 = 7 + Math.sin(r) * 5.5;
+        return <line key={a} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#FCD34D" strokeWidth="1.1" strokeLinecap="round"/>;
+      })}
+    </svg>
+  );
+}
+
+function IcoSunset({ size = 14 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="1" y1="9" x2="13" y2="9" stroke="#FB923C" strokeWidth="1.1" strokeLinecap="round"/>
+      <path d="M 3.5 9 A 3.5 3.5 0 0 1 10.5 9 Z" fill="#FB923C"/>
+      <line x1="2"  y1="5.5" x2="3"  y2="6.5" stroke="#FB923C" strokeWidth="1.1" strokeLinecap="round"/>
+      <line x1="12" y1="5.5" x2="11" y2="6.5" stroke="#FB923C" strokeWidth="1.1" strokeLinecap="round"/>
+      <line x1="1.2" y1="7.8" x2="2.4" y2="7.8" stroke="#FB923C" strokeWidth="1.1" strokeLinecap="round"/>
+      <line x1="12.8" y1="7.8" x2="11.6" y2="7.8" stroke="#FB923C" strokeWidth="1.1" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
+function IcoCrescent({ size = 14 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 7 2 A 5 5 0 1 0 7 12 A 3.2 3.2 0 1 1 7 2 Z" fill="rgba(240,232,200,0.85)"/>
+    </svg>
+  );
+}
+
 // ── Component ─────────────────────────────────────────────────────────────────
 export default function CielPage() {
   const canvasRef    = useRef<HTMLCanvasElement>(null);
@@ -632,12 +668,12 @@ export default function CielPage() {
           {/* Sunrise/sunset badge */}
           <div className="flex items-center gap-3 text-sm font-mono shrink-0">
             <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-yellow-500/20" style={{ background: 'rgba(234,179,8,0.08)' }}>
-              <span className="text-yellow-400">☀</span>
+              <IcoSun size={14} />
               <span className="text-yellow-300">{sunriseStr}</span>
               <span className="text-gray-600 text-xs">lever</span>
             </span>
             <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-orange-500/20" style={{ background: 'rgba(249,115,22,0.08)' }}>
-              <span className="text-orange-400">🌇</span>
+              <IcoSunset size={14} />
               <span className="text-orange-300">{sunsetStr}</span>
               <span className="text-gray-600 text-xs">coucher</span>
             </span>
@@ -689,8 +725,8 @@ export default function CielPage() {
 
               {/* Sunset / sunrise indicators */}
               <div className="flex justify-between text-[10px] font-mono text-gray-600 mb-1">
-                <span className="text-orange-400">🌇 {sunsetStr}</span>
-                <span className="text-yellow-400">☀ {sunriseStr}</span>
+                <span className="flex items-center gap-1 text-orange-400"><IcoSunset size={10} />{sunsetStr}</span>
+                <span className="flex items-center gap-1 text-yellow-400"><IcoSun size={10} />{sunriseStr}</span>
               </div>
 
               {/* Slider: 0–14 */}
@@ -741,8 +777,8 @@ export default function CielPage() {
                   return (
                     <div className="flex items-center gap-2">
                       <div className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0"
-                        style={{ background: 'rgba(240,232,200,0.15)', color: '#F0E8C8', border: '1px solid rgba(240,232,200,0.35)' }}>
-                        ☽
+                          style={{ background: 'rgba(240,232,200,0.15)', border: '1px solid rgba(240,232,200,0.35)' }}>
+                        <IcoCrescent size={12} />
                       </div>
                       <div className="flex-1">
                         <span className="text-sm font-semibold" style={{ color: '#F0E8C8' }}>Lune</span>

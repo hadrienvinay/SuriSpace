@@ -1,5 +1,6 @@
 // app/page.tsx
 import type { Metadata } from 'next';
+import type React from 'react';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
@@ -20,6 +21,7 @@ import { ErrorBoundary } from '@/components/ErrorBoundary';
 import Links from '@/components/ShowLinks';
 import CVButton from '@/components/CVButton';
 import { getCitationDuJour } from '@/data/citations';
+import { computeDailyInfo } from '@/lib/ephemerides';
 import { SolarSystemIcon, TelescopeIcon, AtomIcon } from '@/components/UniverseIcons';
 import { SunriseIcon, MetroIcon, SparkIcon } from '@/components/WidgetIcons';
 
@@ -113,8 +115,69 @@ const projects = [
   },
 ];
 
+// ── Sky banner SVG icons ──────────────────────────────────────────────────────
+function SvgSunrise() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="1" y1="9.5" x2="12" y2="9.5" stroke="#FCD34D" strokeWidth="1.1" strokeLinecap="round"/>
+      <path d="M 3.3 9.5 A 3.2 3.2 0 0 1 9.7 9.5 Z" fill="#FCD34D"/>
+      <line x1="6.5" y1="1.5" x2="6.5" y2="3"   stroke="#FCD34D" strokeWidth="1.2" strokeLinecap="round"/>
+      <line x1="2.2" y1="3.8" x2="3.2" y2="4.8" stroke="#FCD34D" strokeWidth="1.1" strokeLinecap="round"/>
+      <line x1="10.8" y1="3.8" x2="9.8" y2="4.8" stroke="#FCD34D" strokeWidth="1.1" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
+function SvgSunset() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="1" y1="8.5" x2="12" y2="8.5" stroke="#FB923C" strokeWidth="1.1" strokeLinecap="round"/>
+      <path d="M 3.3 8.5 A 3.2 3.2 0 0 1 9.7 8.5 Z" fill="#FB923C"/>
+      <line x1="1.8" y1="5.2" x2="2.9" y2="6.2" stroke="#FB923C" strokeWidth="1.1" strokeLinecap="round"/>
+      <line x1="11.2" y1="5.2" x2="10.1" y2="6.2" stroke="#FB923C" strokeWidth="1.1" strokeLinecap="round"/>
+      <line x1="1"   y1="7.2" x2="2.2" y2="7.2" stroke="#FB923C" strokeWidth="1.1" strokeLinecap="round"/>
+      <line x1="12"  y1="7.2" x2="10.8" y2="7.2" stroke="#FB923C" strokeWidth="1.1" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
+function SvgMoonPhase({ percent, isWaxing }: { percent: number; isWaxing: boolean }) {
+  const R = 5, cx = 7, cy = 7;
+  if (percent >= 95) return (
+    <svg width="14" height="14" viewBox="0 0 14 14"><circle cx={cx} cy={cy} r={R} fill="rgba(230,236,255,0.88)"/></svg>
+  );
+  if (percent <= 5) return (
+    <svg width="14" height="14" viewBox="0 0 14 14"><circle cx={cx} cy={cy} r={R} fill="rgba(18,28,58,0.9)" stroke="rgba(150,170,220,0.35)" strokeWidth="0.8"/></svg>
+  );
+  const f   = percent / 100;
+  const tx  = +(R * Math.abs(2 * f - 1)).toFixed(2);
+  const gibbous = f > 0.5;
+  const litRight = isWaxing;
+  const outerSweep  = litRight ? 1 : 0;
+  const termSweep   = litRight ? (gibbous ? 1 : 0) : (gibbous ? 0 : 1);
+  return (
+    <svg width="14" height="14" viewBox="0 0 14 14">
+      <circle cx={cx} cy={cy} r={R} fill="rgba(18,28,58,0.9)" stroke="rgba(150,170,220,0.3)" strokeWidth="0.7"/>
+      <path
+        d={`M${cx} ${cy-R} A${R} ${R} 0 0 ${outerSweep} ${cx} ${cy+R} A${tx} ${R} 0 0 ${termSweep} ${cx} ${cy-R}Z`}
+        fill="rgba(225,232,255,0.88)"
+      />
+    </svg>
+  );
+}
+
+function SvgPlanet() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="7" cy="7" r="3" fill="rgba(96,165,250,0.65)" stroke="rgba(96,165,250,0.85)" strokeWidth="0.6"/>
+      <ellipse cx="7" cy="7" rx="6.2" ry="2.2" stroke="rgba(96,165,250,0.55)" strokeWidth="0.9" transform="rotate(-22 7 7)"/>
+    </svg>
+  );
+}
+
 export default function Home() {
-  const citation = getCitationDuJour();
+  const citation   = getCitationDuJour();
+  const daily      = computeDailyInfo();
   return (
     <div
       className="max-w-7xl mx-auto px-4 py-10 space-y-12"
@@ -189,6 +252,75 @@ export default function Home() {
           ))}
         </div>
       </div>
+
+      {/* ── Carte du ciel ── */}
+      {(() => {
+        const todayFr = new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+        return (
+          <Link
+            href="/solar-system/astronomie/ciel"
+            className="group flex items-center gap-5 rounded-2xl border border-blue-500/20 px-6 py-4 transition-all duration-300 hover:border-blue-400/40 hover:brightness-110 overflow-hidden relative"
+            style={{ background: 'radial-gradient(ellipse at 20% 50%, rgba(15,30,80,0.7) 0%, rgba(5,8,25,0.8) 100%)' }}
+          >
+            {/* Micro-stars background */}
+            <svg className="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg">
+              {[
+                [8,20],[15,70],[25,40],[35,15],[45,80],[55,35],[65,60],[72,18],[80,75],[88,45],[93,28],[97,65],
+                [12,55],[30,88],[50,12],[70,90],[85,20],[42,65],[58,48],[78,38],
+              ].map(([cx, cy], i) => (
+                <circle key={i} cx={`${cx}%`} cy={`${cy}%`} r={i % 3 === 0 ? '1' : '0.6'} fill="white" opacity={0.08 + (i % 4) * 0.04}>
+                  <animate attributeName="opacity" values={`${0.06 + (i % 4) * 0.04};${0.18 + (i % 3) * 0.06};${0.06 + (i % 4) * 0.04}`} dur={`${2.2 + (i % 5) * 0.5}s`} repeatCount="indefinite" />
+                </circle>
+              ))}
+            </svg>
+
+            {/* Moon + stars icon */}
+            <div className="shrink-0 relative z-10" style={{ filter: 'drop-shadow(0 0 14px rgba(96,165,250,0.5))' }}>
+              <svg width="52" height="52" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="22" cy="28" r="13" fill="#0b1a42" stroke="#60A5FA" strokeWidth="1.2" strokeOpacity="0.6" />
+                <path d="M 22 15 A 13 13 0 0 1 35 28 A 9 9 0 1 0 22 15 Z" fill="#1e3a7a" opacity="0.9" />
+                {[
+                  [40, 10, 1.4], [44, 22, 1.0], [36, 6, 0.9], [48, 14, 0.8], [42, 30, 0.7],
+                ].map(([x, y, r], i) => (
+                  <circle key={i} cx={x} cy={y} r={r} fill="white" opacity="0.7">
+                    <animate attributeName="opacity" values="0.7;0.2;0.7" dur={`${1.8 + i * 0.4}s`} repeatCount="indefinite" />
+                  </circle>
+                ))}
+              </svg>
+            </div>
+
+            {/* Text */}
+            <div className="flex-1 relative z-10 min-w-0">
+              <div className="text-xs font-mono text-blue-400/60 uppercase tracking-widest mb-0.5 capitalize">{todayFr}</div>
+              <div className="text-base font-bold text-white mb-2">Carte du ciel du soir</div>
+              <div className="flex flex-wrap gap-2">
+                {([
+                  { svg: <SvgSunrise />,  label: 'Lever',    value: daily.sunriseStr },
+                  { svg: <SvgSunset />,   label: 'Coucher',  value: daily.sunsetStr  },
+                  { svg: <SvgMoonPhase percent={daily.moonPercent} isWaxing={daily.isWaxing} />, label: 'Lune', value: `${daily.moonPercent}%` },
+                  { svg: <SvgPlanet />,   label: 'Planètes', value: daily.visiblePlanetNames.length > 0 ? `${daily.visiblePlanetNames.length} visible${daily.visiblePlanetNames.length > 1 ? 's' : ''}` : 'aucune' },
+                ] as { svg: React.ReactNode; label: string; value: string }[]).map(chip => (
+                  <span key={chip.label} className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-lg text-xs font-medium border border-white/8"
+                    style={{ background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.55)' }}>
+                    <span className="flex items-center">{chip.svg}</span>
+                    <span style={{ color: 'rgba(255,255,255,0.28)' }}>{chip.label}</span>
+                    <span className="font-semibold" style={{ color: 'rgba(255,255,255,0.82)' }}>{chip.value}</span>
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* CTA */}
+            <div className="shrink-0 relative z-10 flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-blue-300 border border-blue-500/25 transition-all group-hover:bg-blue-500/10 group-hover:border-blue-400/40"
+              style={{ background: 'rgba(96,165,250,0.06)' }}>
+              Voir la carte
+              <svg className="w-4 h-4 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 18l6-6-6-6" />
+              </svg>
+            </div>
+          </Link>
+        );
+      })()}
 
       {/* ── Widgets ── */}
       <div className="grid md:grid-cols-3 gap-6">

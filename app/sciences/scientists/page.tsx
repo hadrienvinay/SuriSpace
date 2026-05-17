@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import ScienceLayout from '@/components/ScienceLayout';
 import { scientists, DOMAIN_COLORS, ERA_LABELS } from '@/data/scientists';
+import { ScientistIcon } from '@/components/ScientistIcons';
 
 export default function ScientistsPage() {
   return (
@@ -38,7 +39,7 @@ export default function ScientistsPage() {
                   className="w-14 h-14 rounded-2xl border-2 flex items-center justify-center text-2xl shrink-0"
                   style={{ borderColor: s.color + '44', background: s.color + '15' }}
                 >
-                  {s.emoji}
+                  <span style={{ color: s.color }}><ScientistIcon id={s.id} size={36} /></span>
                 </div>
                 <div className="min-w-0">
                   <div

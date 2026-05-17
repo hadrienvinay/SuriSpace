@@ -2,6 +2,30 @@
 import AtomicLayout from '@/components/AtomicLayout';
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { RadiationIcon } from '@/components/AtomsIcons';
+import { TelescopeIcon } from '@/components/UniverseIcons';
+
+function IcoLightningFrc({ size = 18 }: { size?: number }) {
+  return <svg width={size} height={size} viewBox="0 0 18 18" fill="none"><path d="M 11 2 L 5 10 H 9.5 L 6 16 L 13 8 H 8.5 Z" fill="#FBBF24" stroke="#FCD34D" strokeWidth="0.5" strokeLinejoin="round"/></svg>;
+}
+function IcoGravityFrc({ size = 18 }: { size?: number }) {
+  return <svg width={size} height={size} viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="6" stroke="#94a3b8" strokeWidth="1.2"/><ellipse cx="9" cy="9" rx="6" ry="2.5" stroke="#94a3b8" strokeWidth="0.8" opacity="0.6"/><circle cx="9" cy="9" r="1.5" fill="#94a3b8" opacity="0.7"/></svg>;
+}
+function IcoStrongFrc({ size = 18 }: { size?: number }) {
+  return <svg width={size} height={size} viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="3.5" fill="#22c55e" opacity="0.7"/>{[0,60,120,180,240,300].map(a=>{const r=Math.PI*a/180;return <line key={a} x1={9+Math.cos(r)*3.5} y1={9+Math.sin(r)*3.5} x2={9+Math.cos(r)*7} y2={9+Math.sin(r)*7} stroke="#22c55e" strokeWidth="1.2" strokeLinecap="round"/>})}</svg>;
+}
+function IcoParticleStat({ size = 20 }: { size?: number }) {
+  return <svg width={size} height={size} viewBox="0 0 20 20" fill="none">{[0,45,90,135,180,225,270,315].map(a=>{const r=Math.PI*a/180;return <line key={a} x1={10+Math.cos(r)*3} y1={10+Math.sin(r)*3} x2={10+Math.cos(r)*8} y2={10+Math.sin(r)*8} stroke="#86efac" strokeWidth="1.4" strokeLinecap="round"/>})}<circle cx="10" cy="10" r="2.5" fill="#86efac"/></svg>;
+}
+function IcoForceStat({ size = 20 }: { size?: number }) {
+  return <svg width={size} height={size} viewBox="0 0 20 20" fill="none"><path d="M 12 2 L 5 11 H 10 L 7 18 L 15 9 H 10 Z" fill="#e879f9" stroke="#f0abfc" strokeWidth="0.5" strokeLinejoin="round"/></svg>;
+}
+function IcoYearStat({ size = 20 }: { size?: number }) {
+  return <svg width={size} height={size} viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="14" rx="2" stroke="currentColor" strokeWidth="1.2"/><line x1="2" y1="8" x2="18" y2="8" stroke="currentColor" strokeWidth="1"/><line x1="6" y1="2" x2="6" y2="6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/><line x1="14" y1="2" x2="14" y2="6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/></svg>;
+}
+function IcoAtomFrc({ size = 18 }: { size?: number }) {
+  return <svg width={size} height={size} viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="2" fill="#38bdf8"/><ellipse cx="9" cy="9" rx="7" ry="3" stroke="#38bdf8" strokeWidth="0.9"/><ellipse cx="9" cy="9" rx="7" ry="3" stroke="#38bdf8" strokeWidth="0.9" transform="rotate(60 9 9)"/><ellipse cx="9" cy="9" rx="7" ry="3" stroke="#38bdf8" strokeWidth="0.9" transform="rotate(120 9 9)"/></svg>;
+}
 
 // ─── DATA ─────────────────────────────────────────────────────────────────────
 
@@ -194,10 +218,10 @@ const FAMILIES = [
 ];
 
 const FORCES = [
-  { name: 'Forte',             color: '#22c55e', boson: 'Gluon (g)',              range: '~10⁻¹⁵ m', coupling: '~1',      desc: 'Lie les quarks dans les hadrons. 100× plus forte que l\'EM. Couleur QCD.',                      emoji: '💚' },
-  { name: 'Électromagnétique', color: '#fbbf24', boson: 'Photon (γ)',             range: '∞',         coupling: '~1/137',  desc: 'Lumière, électricité, chimie. Agit sur les charges électriques.',                             emoji: '⚡' },
-  { name: 'Faible',            color: '#f97316', boson: 'W±, Z⁰',                range: '~10⁻¹⁸ m', coupling: '~10⁻⁶',  desc: 'Radioactivité β. Change la saveur des quarks. Brise la symétrie CP.',                          emoji: '☢️' },
-  { name: 'Gravitation',       color: '#94a3b8', boson: 'Graviton ? (non découvert)', range: '∞',     coupling: '~10⁻³⁹', desc: 'La plus faible mais portée infinie. Pas intégrée dans le Modèle Standard.', emoji: '🌌' },
+  { name: 'Forte',             color: '#22c55e', boson: 'Gluon (g)',              range: '~10⁻¹⁵ m', coupling: '~1',      desc: 'Lie les quarks dans les hadrons. 100× plus forte que l\'EM. Couleur QCD.',                      Icon: IcoStrongFrc },
+  { name: 'Électromagnétique', color: '#fbbf24', boson: 'Photon (γ)',             range: '∞',         coupling: '~1/137',  desc: 'Lumière, électricité, chimie. Agit sur les charges électriques.',                             Icon: IcoLightningFrc },
+  { name: 'Faible',            color: '#f97316', boson: 'W±, Z⁰',                range: '~10⁻¹⁸ m', coupling: '~10⁻⁶',  desc: 'Radioactivité β. Change la saveur des quarks. Brise la symétrie CP.',                          Icon: RadiationIcon },
+  { name: 'Gravitation',       color: '#94a3b8', boson: 'Graviton ? (non découvert)', range: '∞',     coupling: '~10⁻³⁹', desc: 'La plus faible mais portée infinie. Pas intégrée dans le Modèle Standard.',                   Icon: IcoGravityFrc },
 ];
 
 const GENERATION_COLS = [1, 2, 3];
@@ -462,7 +486,7 @@ function DetailPanel({ p, onClose }: { p: Particle; onClose: () => void }) {
         color: 'rgba(255,255,255,0.4)',
         display: 'flex', gap: 8, alignItems: 'center',
       }}>
-        <span style={{ opacity: 0.5 }}>🔭</span>
+        <span style={{ opacity: 0.5 }}><TelescopeIcon size={16} /></span>
         <span style={{ color: 'rgba(255,255,255,0.3)' }}>Découverte :</span>
         <span style={{ color: 'rgba(255,255,255,0.65)' }}>{p.discovered}</span>
       </div>
@@ -577,13 +601,13 @@ export default function ParticulesPage() {
           {/* Summary stats */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
             {[
-              { label: 'Particules Fondamentales', count: 17, color: '#86efac', icon: '✴️' },
-              { label: 'Forces', count: 4, color: '#e879f9', icon: '💪' },
-              { label: "Découverte de l'électron", count: 1899, color: '#a78bfa', icon: '📆' },
-              { label: 'Découverte du proton', count: 1914, color: '#38bdf8', icon: '📆' },
+              { label: 'Particules Fondamentales', count: 17, color: '#86efac', Icon: IcoParticleStat },
+              { label: 'Forces', count: 4, color: '#e879f9', Icon: IcoForceStat },
+              { label: "Découverte de l'électron", count: 1899, color: '#a78bfa', Icon: IcoYearStat },
+              { label: 'Découverte du proton', count: 1914, color: '#38bdf8', Icon: IcoYearStat },
             ].map(s => (
               <div key={s.label} className="rounded-xl border border-white/8 bg-white/3 p-4 text-center">
-                <div className="text-2xl mb-1">{s.icon}</div>
+                <div className="mb-1 flex justify-center"><s.Icon size={22} /></div>
                 <div className="text-2xl font-bold" style={{ color: s.color }}>{s.count}</div>
                 <div className="text-xs text-gray-600 uppercase tracking-wider">{s.label}</div>
               </div>
@@ -981,7 +1005,7 @@ export default function ParticulesPage() {
                 borderRadius: 16, fontSize: 14, lineHeight: 1.75,
                 color: 'rgba(255,255,255,0.5)',
               }}>
-                <strong style={{ color: '#38bdf8' }}>⚛ Confinement des quarks</strong> — Les quarks ne peuvent jamais être observés isolément.
+                <strong style={{ color: '#38bdf8', display: 'inline-flex', alignItems: 'center', gap: 4 }}><IcoAtomFrc size={15} /> Confinement des quarks</strong> — Les quarks ne peuvent jamais être observés isolément.
                 La force forte (médiée par les gluons) devient de plus en plus intense à mesure que les quarks s&apos;éloignent,
                 rendant impossible leur séparation : c&apos;est le <em style={{ color: 'rgba(255,255,255,0.7)' }}>confinement de couleur</em> (QCD).
                 À l&apos;inverse, à très courte distance, ils se comportent comme des particules libres — c&apos;est la <em style={{ color: 'rgba(255,255,255,0.7)' }}>liberté asymptotique</em>.
@@ -1001,7 +1025,7 @@ export default function ParticulesPage() {
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
                       <div>
                         <div style={{ fontSize: 15, fontWeight: 700, color: force.color, marginBottom: 4 }}>
-                          {force.emoji} Force {force.name}
+                          <span className="inline-flex items-center gap-1.5"><force.Icon size={16} /> Force {force.name}</span>
                         </div>
                         <div style={{ fontFamily: 'monospace', fontSize: 12, color: 'rgba(255,255,255,0.4)' }}>
                           Médiateur : {force.boson}

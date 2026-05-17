@@ -3,6 +3,9 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import SolarLayout from '@/components/SolarLayout';
+import { GalaxyIcon } from '@/components/AtomsIcons';
+import { IcoEye, IcoPlanetRing, IcoPin, IcoCalendar, IcoGlobeEarth } from '@/components/SolarIcons';
+import { ConstellationIcon } from '@/components/ConstellationIcons';
 
 import {
   stars, constellations, SPECTRAL_COLORS,
@@ -32,6 +35,7 @@ export default function StarMap() {
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const isDragging = useRef(false);
+  const hasDragged = useRef(false);
   const dragStart  = useRef({ mx: 0, my: 0, px: 0, py: 0 });
 
   const ZOOM_LEVELS = [1, 1.5, 2, 3];
@@ -41,17 +45,18 @@ export default function StarMap() {
   const onPointerDown = (e: React.PointerEvent) => {
     if (zoom === 1) return;
     isDragging.current = true;
+    hasDragged.current = false;
     dragStart.current = { mx: e.clientX, my: e.clientY, px: pan.x, py: pan.y };
-    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
   };
   const onPointerMove = (e: React.PointerEvent) => {
     if (!isDragging.current) return;
-    const dx = (e.clientX - dragStart.current.mx) / zoom;
-    const dy = (e.clientY - dragStart.current.my) / zoom;
+    const screenDx = e.clientX - dragStart.current.mx;
+    const screenDy = e.clientY - dragStart.current.my;
+    if (Math.abs(screenDx) > 5 || Math.abs(screenDy) > 5) hasDragged.current = true;
     const limit = (size / 2) * (1 - 1 / zoom);
     setPan({
-      x: Math.max(-limit, Math.min(limit, dragStart.current.px - dx)),
-      y: Math.max(-limit, Math.min(limit, dragStart.current.py - dy)),
+      x: Math.max(-limit, Math.min(limit, dragStart.current.px - screenDx / zoom)),
+      y: Math.max(-limit, Math.min(limit, dragStart.current.py - screenDy / zoom)),
     });
   };
   const onPointerUp = () => { isDragging.current = false; };
@@ -98,10 +103,12 @@ export default function StarMap() {
   const visibleStarIds = new Set(visibleStars.map(s => s.id));
 
   const handleStarClick = (star: Star) => {
+    if (hasDragged.current) return;
     setSelectedStar(prev => prev?.id === star.id ? null : star);
     setSelectedConstellation(null);
   };
   const handleConstellationClick = (c: Constellation) => {
+    if (hasDragged.current) return;
     setSelectedConstellation(prev => prev?.id === c.id ? null : c);
     setSelectedStar(null);
   };
@@ -126,10 +133,10 @@ export default function StarMap() {
           <span className="text-gray-400">Étoiles</span>
           <div className="flex gap-2 w-full sm:w-auto sm:ml-auto">
             <Link href="/solar-system/stars/constellations" className="flex-1 sm:flex-none text-center px-3 py-1.5 rounded-lg text-md border border-white/10 text-gray-400 hover:text-white hover:bg-white/5 transition-all">
-              🌟 Constellations
+              Constellations
             </Link>
             <Link href="/solar-system/stars/star" className="flex-1 sm:flex-none text-center px-3 py-1.5 rounded-lg text-md border border-white/10 text-gray-400 hover:text-white hover:bg-white/5 transition-all">
-              📋 Catalogue d'étoiles
+              Catalogue d&apos;étoiles
             </Link>
           </div>
         </div>
@@ -151,14 +158,14 @@ export default function StarMap() {
             <div className="flex flex-wrap gap-2 mb-4 items-center">
               {/* Filter buttons */}
               {([
-                { key: 'all', label: '✦ Toutes' },
-                { key: 'naked-eye', label: '👁️ Œil nu' },
-                { key: 'exoplanets', label: '🪐 Exoplanètes' },
-                { key: 'nearest', label: '📍 <50 al' },
-              ] as const).map(f => (
+                { key: 'all',        label: '✦ Toutes',      Icon: null          },
+                { key: 'naked-eye',  label: 'Œil nu',        Icon: IcoEye        },
+                { key: 'exoplanets', label: 'Exoplanètes',   Icon: IcoPlanetRing },
+                { key: 'nearest',    label: '<50 al',         Icon: IcoPin        },
+              ] as { key: 'all'|'naked-eye'|'exoplanets'|'nearest'; label: string; Icon: null | ((p:{size?:number})=>React.JSX.Element) }[]).map(f => (
                 <button key={f.key} onClick={() => setFilterType(f.key)}
-                  className={`px-3.5 py-1.5 rounded-lg text-sm font-medium border transition-all ${filterType === f.key ? 'bg-blue-900/50 text-blue-200 border-blue-600/50' : 'border-white/10 text-gray-500 hover:text-white hover:border-white/20'}`}>
-                  {f.label}
+                  className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-sm font-medium border transition-all ${filterType === f.key ? 'bg-blue-900/50 text-blue-200 border-blue-600/50' : 'border-white/10 text-gray-500 hover:text-white hover:border-white/20'}`}>
+                  {f.Icon && <f.Icon size={13} />}{f.label}
                 </button>
               ))}
               <div className="h-4 w-px bg-white/10 hidden sm:block" />
@@ -539,11 +546,11 @@ export default function StarMap() {
                   {/* Exoplanets */}
                   {selectedStar.exoplanets && selectedStar.exoplanets.length > 0 && (
                     <div className="px-5 pb-3">
-                      <div className="text-xs text-gray-600 uppercase tracking-wider mb-2">🪐 Exoplanètes ({selectedStar.exoplanets.length})</div>
+                      <div className="flex items-center gap-1 text-xs text-gray-600 uppercase tracking-wider mb-2"><IcoPlanetRing size={12} /> Exoplanètes ({selectedStar.exoplanets.length})</div>
                       <div className="space-y-1.5">
                         {selectedStar.exoplanets.map(p => (
                           <div key={p.name} className={`flex items-center gap-2 p-2 rounded-lg text-xs ${p.habitable ? 'bg-green-950/40 border border-green-800/30' : 'bg-white/4'}`}>
-                            {p.habitable && <span className="text-green-400">🌍</span>}
+                            {p.habitable && <span className="text-green-400"><IcoGlobeEarth size={13} /></span>}
                             <span className="text-white font-medium flex-1">{p.name}</span>
                             <span className="text-gray-500">{p.type}</span>
                           </div>
@@ -587,7 +594,7 @@ export default function StarMap() {
                   }}>
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex items-center gap-3">
-                      <div className="text-4xl">{selectedConstellation.emoji}</div>
+                      <ConstellationIcon id={selectedConstellation.id} size={36} color={selectedConstellation.color} />
                       <div>
                         <div className="text-xs uppercase tracking-widest text-gray-500 mb-0.5">Constellation</div>
                         <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "'Exo 2', sans-serif" }}>
@@ -602,11 +609,11 @@ export default function StarMap() {
                   <p className="text-sm text-gray-300 leading-relaxed mb-3 line-clamp-4">{selectedConstellation.description}</p>
 
                   <div className="flex gap-2 flex-wrap text-xs mb-3">
-                    <span className="px-2 py-1 rounded-lg bg-white/6 text-gray-400">
-                      🌍 {selectedConstellation.hemisphere === 'north' ? 'Boréale' : selectedConstellation.hemisphere === 'south' ? 'Australe' : 'Les deux'}
+                    <span className="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-white/6 text-gray-400">
+                      <IcoGlobeEarth size={12} />{selectedConstellation.hemisphere === 'north' ? 'Boréale' : selectedConstellation.hemisphere === 'south' ? 'Australe' : 'Les deux'}
                     </span>
-                    <span className="px-2 py-1 rounded-lg bg-white/6 text-gray-400">
-                      📅 {selectedConstellation.bestSeason === 'winter' ? 'Hiver' : selectedConstellation.bestSeason === 'spring' ? 'Printemps' : selectedConstellation.bestSeason === 'summer' ? 'Été' : selectedConstellation.bestSeason === 'autumn' ? 'Automne' : 'Toute l\'année'}
+                    <span className="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-white/6 text-gray-400">
+                      <IcoCalendar size={12} />{selectedConstellation.bestSeason === 'winter' ? 'Hiver' : selectedConstellation.bestSeason === 'spring' ? 'Printemps' : selectedConstellation.bestSeason === 'summer' ? 'Été' : selectedConstellation.bestSeason === 'autumn' ? 'Automne' : 'Toute l\'année'}
                     </span>
                     {selectedConstellation.area && <span className="px-2 py-1 rounded-lg bg-white/6 text-gray-400">{selectedConstellation.area} deg²</span>}
                   </div>
@@ -633,7 +640,7 @@ export default function StarMap() {
                     {constellations.map(c => (
                       <button key={c.id} onClick={() => handleConstellationClick(c)}
                         className="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/6 transition-all group text-left">
-                        <span className="text-xl shrink-0">{c.emoji}</span>
+                        <ConstellationIcon id={c.id} size={20} color={c.color} />
                         <div className="flex-1 min-w-0">
                           <div className="text-sm font-semibold text-gray-300 group-hover:text-white transition-colors truncate">{c.nameFr}</div>
                           <div className="text-xs text-gray-600">{c.abbreviation} · {c.bestSeason}</div>
@@ -644,10 +651,10 @@ export default function StarMap() {
                   </div>
                   <div className="mt-4 grid grid-cols-2 gap-2 pt-4 border-t border-white/8">
                     <Link href="/solar-system/stars/star" className="text-center py-2.5 rounded-xl text-sm font-semibold border border-white/10 text-gray-400 hover:text-white hover:bg-white/5 transition-all">
-                      📋 Toutes les étoiles
+                      Toutes les étoiles
                     </Link>
-                    <Link href="/solar-system/stars/constellations" className="text-center py-2.5 rounded-xl text-sm font-semibold border border-white/10 text-gray-400 hover:text-white hover:bg-white/5 transition-all">
-                      🌌 Constellations
+                    <Link href="/solar-system/stars/constellations" className="inline-flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-semibold border border-white/10 text-gray-400 hover:text-white hover:bg-white/5 transition-all">
+                      <GalaxyIcon size={14} /> Constellations
                     </Link>
                   </div>
                 </div>

@@ -1,8 +1,20 @@
 'use client';
 // app/sciences/constantes/page.tsx
 import { useState } from 'react';
+import type React from 'react';
 import Link from 'next/link';
 import ScienceLayout from '@/components/ScienceLayout';
+import { ScientistIcon } from '@/components/ScientistIcons';
+import { SIUnitIcon } from '@/components/PhysicsIcons';
+
+function IcoRulerSm() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 1.5 11.5 L 11.5 11.5 L 1.5 2 Z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round"/>
+      <line x1="6.5" y1="11.5" x2="6.5" y2="8.5" stroke="currentColor" strokeWidth="0.9" opacity="0.5"/>
+    </svg>
+  );
+}
 import {
   PHYSICS_CONSTANTS,
   SI_BASE_UNITS,
@@ -98,11 +110,11 @@ export default function ConstantesPage() {
 
         {/* ── Top tabs ── */}
         <div className="flex gap-2 mb-6">
-          {([
-            { id: 'constantes', label: 'Constantes physiques', icon: '∞' },
-            { id: 'maths',      label: 'Constantes mathématiques', icon: 'π' },
-            { id: 'unites',     label: 'Unités SI',            icon: '📐' },
-          ] as const).map(tab => (
+          {(([
+            { id: 'constantes', label: 'Constantes physiques',     icon: <span className="font-mono">∞</span> },
+            { id: 'maths',      label: 'Constantes mathématiques', icon: <span className="font-mono">π</span> },
+            { id: 'unites',     label: 'Unités SI',                icon: <IcoRulerSm /> },
+          ]) as { id: 'constantes'|'maths'|'unites'; label: string; icon: React.ReactNode }[]).map(tab => (
             <button
               key={tab.id}
               onClick={() => { setActiveTab(tab.id); setSelected(null); setSelectedMath(null); }}
@@ -112,7 +124,7 @@ export default function ConstantesPage() {
                   : 'border-white/10 text-gray-500 hover:text-white hover:border-white/20'
               }`}
             >
-              <span className="font-mono">{tab.icon}</span>
+              {tab.icon}
               {tab.label}
             </button>
           ))}
@@ -313,7 +325,7 @@ export default function ConstantesPage() {
                               className="w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0 border"
                               style={{ background: `${s.color}18`, borderColor: `${s.color}40` }}
                             >
-                              {s.emoji}
+                              <span style={{ color: s.color }}><ScientistIcon id={s.id} size={24} /></span>
                             </div>
                             <div>
                               <div className="text-sm font-semibold text-white group-hover:underline">{s.name}</div>
@@ -571,7 +583,7 @@ export default function ConstantesPage() {
                               className="w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0 border"
                               style={{ background: `${s.color}18`, borderColor: `${s.color}40` }}
                             >
-                              {s.emoji}
+                              <span style={{ color: s.color }}><ScientistIcon id={s.id} size={24} /></span>
                             </div>
                             <div>
                               <div className="text-sm font-semibold text-white group-hover:underline">{s.name}</div>
@@ -653,7 +665,7 @@ export default function ConstantesPage() {
                         {u.symbol}
                       </div>
                       <div>
-                        <div className="text-base">{u.icon}</div>
+                        <div style={{ color: u.color }}><SIUnitIcon symbol={u.symbol} size={20} /></div>
                         <div
                           className="text-xs font-semibold uppercase tracking-wider"
                           style={{ color: u.color }}

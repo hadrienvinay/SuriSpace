@@ -7,17 +7,46 @@ import {
   getConstellationById,
   type Star, type SpectralClass,
 } from '@/data/stars';
+import { IcoPin, IcoSunStar, IcoPlanetRing, IcoGlobeEarth, IcoTarget } from '@/components/SolarIcons';
+import { ConstellationIcon } from '@/components/ConstellationIcons';
+import { IcoRuler, IcoBalance, IcoThermometer } from '@/components/PhysicsIcons';
+
+function IcoMagStar({ size = 18 }: { size?: number }) {
+  const c = size / 2;
+  return (
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} fill="none">
+      {[0,72,144,216,288].map(a => {
+        const r = Math.PI * a / 180;
+        const r2 = Math.PI * (a + 36) / 180;
+        return <g key={a}>
+          <line x1={c} y1={c} x2={c+Math.cos(r)*(size*0.48)} y2={c+Math.sin(r)*(size*0.48)} stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+          <line x1={c+Math.cos(r)*(size*0.48)} y1={c+Math.sin(r)*(size*0.48)} x2={c+Math.cos(r2)*(size*0.22)} y2={c+Math.sin(r2)*(size*0.22)} stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+        </g>;
+      })}
+      <circle cx={c} cy={c} r={size*0.1} fill="currentColor"/>
+    </svg>
+  );
+}
+function IcoHourglass({ size = 18 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 18 18" fill="none">
+      <path d="M 3 2 L 15 2 L 10 9 L 15 16 L 3 16 L 8 9 Z" stroke="currentColor" strokeWidth="1.2" fill="currentColor" fillOpacity="0.12" strokeLinejoin="round"/>
+      <line x1="3" y1="2" x2="15" y2="2" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+      <line x1="3" y1="16" x2="15" y2="16" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+    </svg>
+  );
+}
 
 const STAR_TYPE_LABELS: Record<string, string> = {
-  'main-sequence': '⭐ Système simple',
-  'giant': '🟠 Géante',
-  'supergiant': '🔴 Supergéante',
-  'hypergiant': '💥 Hypergéante',
-  'white-dwarf': '⚪ Naine blanche',
-  'neutron-star': '🔵 Étoile à neutrons',
-  'variable': '✦ Étoile variable',
-  'binary': '⚫⚫ Système binaire',
-  'carbon': '🟤 Étoile carbone',
+  'main-sequence': 'Système simple',
+  'giant':         'Géante',
+  'supergiant':    'Supergéante',
+  'hypergiant':    'Hypergéante',
+  'white-dwarf':   'Naine blanche',
+  'neutron-star':  'Étoile à neutrons',
+  'variable':      'Étoile variable',
+  'binary':        'Système binaire',
+  'carbon':        'Étoile carbone',
 };
 
 // HR Diagram rough position
@@ -195,13 +224,13 @@ export default async function StarPage({ params }: { params: Promise<{ id: strin
                 {STAR_TYPE_LABELS[star.starType] ?? star.starType}
               </span>
               {star.nakedEye && (
-                <span className="px-2.5 py-1 rounded-full text-sm border border-white/15 text-gray-400">👁️ Visible à l'œil nu</span>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-sm border border-white/15 text-gray-400"><IcoPin size={12} />Visible à l&apos;œil nu</span>
               )}
               {constellation && (
                 <Link href={`/solar-system/stars/constellations/${constellation.id}`}
                   className="px-2.5 py-1 rounded-full text-sm border transition-all hover:brightness-110"
                   style={{ borderColor: `${constellation.color}40`, color: constellation.color, background: `${constellation.color}12` }}>
-                  {constellation.emoji} {constellation.nameFr}
+                  <ConstellationIcon id={constellation.id} size={14} color={constellation.color} /> {constellation.nameFr}
                 </Link>
               )}
             </div>
@@ -225,17 +254,17 @@ export default async function StarPage({ params }: { params: Promise<{ id: strin
         {/* ── Physical Data ── */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mb-6">
           {[
-            { icon: '📏', label: 'Distance', value: star.distanceLy < 10 ? `${star.distanceLy} al` : `${star.distanceLy.toLocaleString()} al`, sub: star.distancePc ? `${star.distancePc.toFixed(2)} pc` : undefined },
-            { icon: '✨', label: 'Magnitude app.', value: star.magnitude.toFixed(2), sub: 'Plus faible = plus brillant' },
-            { icon: '☀️', label: 'Luminosité', value: star.luminosity ? `${star.luminosity >= 1000000 ? (star.luminosity / 1000000).toFixed(2) + 'M' : star.luminosity >= 1000 ? (star.luminosity / 1000).toFixed(0) + 'k' : star.luminosity} L☉` : '—', sub: undefined },
-            { icon: '⚖️', label: 'Masse', value: star.mass ? `${star.mass} M☉` : '—', sub: undefined },
-            { icon: '📐', label: 'Rayon', value: star.radius ? `${star.radius.toLocaleString()} R☉` : '—', sub: star.radius ? `${(star.radius * 696340).toFixed(0)} km` : undefined },
-            { icon: '🌡️', label: 'Température', value: star.temperature ? `${star.temperature.toLocaleString()} K` : '—', sub: undefined },
-            { icon: '⏳', label: 'Âge', value: star.age ? `${star.age} Ga` : '—', sub: undefined },
-            { icon: '🎯', label: 'Magnitude abs.', value: star.absoluteMagnitude !== undefined ? star.absoluteMagnitude.toFixed(2) : '—', sub: 'À 10 pc standard' },
+            { Icon: IcoRuler,      label: 'Distance',      value: star.distanceLy < 10 ? `${star.distanceLy} al` : `${star.distanceLy.toLocaleString()} al`, sub: star.distancePc ? `${star.distancePc.toFixed(2)} pc` : undefined },
+            { Icon: IcoMagStar,    label: 'Magnitude app.', value: star.magnitude.toFixed(2), sub: 'Plus faible = plus brillant' },
+            { Icon: IcoSunStar,    label: 'Luminosité',     value: star.luminosity ? `${star.luminosity >= 1000000 ? (star.luminosity / 1000000).toFixed(2) + 'M' : star.luminosity >= 1000 ? (star.luminosity / 1000).toFixed(0) + 'k' : star.luminosity} L☉` : '—', sub: undefined },
+            { Icon: IcoBalance,    label: 'Masse',          value: star.mass ? `${star.mass} M☉` : '—', sub: undefined },
+            { Icon: IcoRuler,      label: 'Rayon',          value: star.radius ? `${star.radius.toLocaleString()} R☉` : '—', sub: star.radius ? `${(star.radius * 696340).toFixed(0)} km` : undefined },
+            { Icon: IcoThermometer,label: 'Température',    value: star.temperature ? `${star.temperature.toLocaleString()} K` : '—', sub: undefined },
+            { Icon: IcoHourglass,  label: 'Âge',            value: star.age ? `${star.age} Ga` : '—', sub: undefined },
+            { Icon: IcoTarget,     label: 'Magnitude abs.', value: star.absoluteMagnitude !== undefined ? star.absoluteMagnitude.toFixed(2) : '—', sub: 'À 10 pc standard' },
           ].map(item => (
             <div key={item.label} className="rounded-2xl border border-white/8 p-4 bg-white/2">
-              <div className="text-xl mb-1">{item.icon}</div>
+              <div className="mb-1 text-gray-500"><item.Icon size={18} /></div>
               <div className="text-sm text-gray-600 uppercase tracking-wide mb-1">{item.label}</div>
               <div className="text-base font-bold font-mono text-white">{item.value}</div>
               {item.sub && <div className="text-sm text-gray-600 mt-0.5">{item.sub}</div>}
@@ -248,7 +277,7 @@ export default async function StarPage({ params }: { params: Promise<{ id: strin
           {/* Temperature bar */}
           {star.temperature && (
             <div className="rounded-2xl border border-white/8 p-5 bg-white/2">
-              <h3 className="text-md font-bold uppercase tracking-wider text-gray-500 mb-4">🌡️ Température de surface</h3>
+              <h3 className="flex items-center gap-1.5 text-md font-bold uppercase tracking-wider text-gray-500 mb-4"><IcoThermometer size={14} /> Température de surface</h3>
               <TemperatureBar temp={star.temperature} />
             </div>
           )}
@@ -262,7 +291,7 @@ export default async function StarPage({ params }: { params: Promise<{ id: strin
           <div className="rounded-2xl border mb-6 p-6"
             style={{ borderColor: '#22d3ee30', background: 'rgba(8,40,50,0.4)' }}>
             <h2 className="text-lg font-bold text-white mb-5" style={{ fontFamily: "'Exo 2', sans-serif" }}>
-              🪐 Exoplanètes ({star.exoplanets.length})
+              <span className="flex items-center gap-1.5"><IcoPlanetRing size={16} /> Exoplanètes ({star.exoplanets.length})</span>
             </h2>
 
             {/* Simple orbital diagram */}
@@ -312,7 +341,7 @@ export default async function StarPage({ params }: { params: Promise<{ id: strin
                   className={`rounded-xl p-4 border ${planet.habitable ? 'border-green-700/40 bg-green-950/30' : 'border-white/8 bg-white/3'}`}>
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
-                      <span className="text-xl">{planet.habitable ? '🌍' : '🪐'}</span>
+                      {planet.habitable ? <IcoGlobeEarth size={20} /> : <IcoPlanetRing size={20} />}
                       <span className="text-base font-bold text-white">{planet.name}</span>
                       {planet.habitable && (
                         <span className="px-2 py-0.5 rounded-full text-sm bg-green-900/50 text-green-400 border border-green-700/40 font-semibold">Zone habitable</span>
@@ -365,7 +394,7 @@ export default async function StarPage({ params }: { params: Promise<{ id: strin
 
           {star.mythology && (
             <div className="rounded-2xl border border-white/8 p-5 bg-white/2">
-              <h3 className="text-base font-bold text-white mb-4" style={{ fontFamily: "'Exo 2', sans-serif" }}>📖 Mythologie</h3>
+              <h3 className="text-base font-bold text-white mb-4" style={{ fontFamily: "'Exo 2', sans-serif" }}>Mythologie</h3>
               <p className="text-base text-gray-300 leading-relaxed">{star.mythology}</p>
             </div>
           )}
@@ -385,7 +414,7 @@ export default async function StarPage({ params }: { params: Promise<{ id: strin
           ) : <div />}
 
           <Link href="/solar-system/stars" className="text-md text-gray-600 hover:text-white font-mono transition-colors">
-            ✨ Carte du ciel
+            Carte du ciel →
           </Link>
 
           {next ? (

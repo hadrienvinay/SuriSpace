@@ -2,6 +2,10 @@
 import Link from 'next/link';
 import SolarLayout from '@/components/SolarLayout';
 import { missions, solarSystem } from '@/data/solar-system';
+import { TelescopeIcon } from '@/components/UniverseIcons';
+import { RocketIcon } from '@/components/SpaceIcons';
+import { IcoPin, IcoCalendar, IcoTarget, IcoFinish, IcoAgency, IcoFlyby, IcoOrbiter, IcoLander, IcoRover, IcoDish, IcoSampleReturn, IcoAstronaut, IcoSunStar } from '@/components/SolarIcons';
+import { MissionIcon } from '@/components/SolarBodyIcons';
 
 const STATUS_STYLES = {
   active: { bg: '#052e16', border: '#166534', text: '#4ade80', label: '● MISSION ACTIVE' },
@@ -11,13 +15,13 @@ const STATUS_STYLES = {
 };
 
 const TYPE_LABELS: Record<string, string> = {
-  flyby: '✈️ Survol',
-  orbiter: '🔄 Orbiteur',
-  lander: '🛬 Atterrisseur',
-  rover: '🤖 Rover',
-  probe: '📡 Sonde',
-  'sample-return': '🧪 Retour d\'échantillons',
-  crewed: '👨‍🚀 Équipage humain',
+  flyby: 'Survol', orbiter: 'Orbiteur', lander: 'Atterrisseur',
+  rover: 'Rover', probe: 'Sonde', 'sample-return': 'Retour d\'échantillons', crewed: 'Équipage humain',
+};
+type IconFn = (p: { size?: number }) => React.JSX.Element;
+const TYPE_ICONS: Record<string, IconFn> = {
+  flyby: IcoFlyby, orbiter: IcoOrbiter, lander: IcoLander,
+  rover: IcoRover, probe: IcoDish, 'sample-return': IcoSampleReturn, crewed: IcoAstronaut,
 };
 
 export default async function MissionPage({ params }: { params: Promise<{ id: string }> }) {
@@ -29,7 +33,7 @@ export default async function MissionPage({ params }: { params: Promise<{ id: st
       <SolarLayout>
         <div className="flex items-center justify-center min-h-[60vh]">
           <div className="text-center">
-            <p className="text-5xl mb-4">🔭</p>
+            <div className="mb-4 flex justify-center opacity-30"><TelescopeIcon size={64} /></div>
             <p className="text-gray-400 text-lg">Mission introuvable</p>
             <Link href="/solar-system/missions" className="text-blue-400 underline mt-3 block text-base">
               Retour à la liste des missions
@@ -50,9 +54,9 @@ export default async function MissionPage({ params }: { params: Promise<{ id: st
 
   // Timeline events
   const timelineEvents = [
-    { date: mission.launched, label: '🚀 Lancement', desc: `Lancé depuis la Terre le ${mission.launched}` },
-    ...(mission.arrived ? [{ date: mission.arrived, label: '🎯 Arrivée', desc: `Arrivée à destination le ${mission.arrived}` }] : []),
-    ...(mission.ended ? [{ date: mission.ended, label: mission.status === 'lost' ? '📡 Perte de signal' : '✅ Fin de mission', desc: mission.status === 'lost' ? 'Contact perdu' : `Mission terminée le ${mission.ended}` }] : []),
+    { date: mission.launched, label: 'Lancement', desc: `Lancé depuis la Terre le ${mission.launched}` },
+    ...(mission.arrived ? [{ date: mission.arrived, label: 'Arrivée', desc: `Arrivée à destination le ${mission.arrived}` }] : []),
+    ...(mission.ended ? [{ date: mission.ended, label: mission.status === 'lost' ? 'Perte de signal' : 'Fin de mission', desc: mission.status === 'lost' ? 'Contact perdu' : `Mission terminée le ${mission.ended}` }] : []),
     ...(mission.status === 'active' && !mission.ended ? [{ date: 'Aujourd\'hui', label: '● En cours', desc: mission.currentLocation ?? 'Mission active' }] : []),
   ];
 
@@ -83,8 +87,8 @@ export default async function MissionPage({ params }: { params: Promise<{ id: st
 
           <div className="relative flex flex-col sm:flex-row items-start gap-6">
             {/* Big emoji */}
-            <div className="shrink-0 text-6xl sm:text-8xl" style={{ filter: `drop-shadow(0 0 20px ${mission.color}60)` }}>
-              {mission.emoji}
+            <div className="shrink-0" style={{ filter: `drop-shadow(0 0 20px ${mission.color}60)` }}>
+              <MissionIcon type={mission.type} name={mission.name} size={80} color={mission.color} />
             </div>
 
             <div className="flex-1">
@@ -121,15 +125,15 @@ export default async function MissionPage({ params }: { params: Promise<{ id: st
             <h2 className="text-sm font-bold uppercase tracking-widest text-gray-500 mb-4">Données de mission</h2>
             <div className="space-y-3">
               {[
-                { icon: '📅', label: 'Lancement', value: mission.launched },
-                ...(mission.arrived ? [{ icon: '🎯', label: 'Arrivée', value: mission.arrived }] : []),
-                ...(mission.ended ? [{ icon: '🏁', label: 'Fin', value: mission.ended }] : []),
-                { icon: '🏛️', label: 'Agence', value: `${mission.country} ${mission.agency}` },
-                { icon: '🔭', label: 'Type', value: TYPE_LABELS[mission.type] },
-                ...(mission.distanceFromSun ? [{ icon: '☀️', label: 'Distance Soleil', value: `${mission.distanceFromSun} UA (${(mission.distanceFromSun * 149.6).toFixed(0)} M km)` }] : []),
+                { Icon: IcoCalendar, label: 'Lancement', value: mission.launched },
+                ...(mission.arrived ? [{ Icon: IcoTarget, label: 'Arrivée', value: mission.arrived }] : []),
+                ...(mission.ended ? [{ Icon: IcoFinish, label: 'Fin', value: mission.ended }] : []),
+                { Icon: IcoAgency, label: 'Agence', value: `${mission.country} ${mission.agency}` },
+                { Icon: (p: {size?:number}) => { const I = TYPE_ICONS[mission.type]; return I ? <I {...p}/> : <IcoDish {...p}/>; }, label: 'Type', value: TYPE_LABELS[mission.type] },
+                ...(mission.distanceFromSun ? [{ Icon: IcoSunStar, label: 'Distance Soleil', value: `${mission.distanceFromSun} UA (${(mission.distanceFromSun * 149.6).toFixed(0)} M km)` }] : []),
               ].map(item => (
                 <div key={item.label} className="flex items-start gap-3">
-                  <span className="text-lg shrink-0 mt-0.5">{item.icon}</span>
+                  <span className="shrink-0 mt-0.5 text-gray-500"><item.Icon size={15} /></span>
                   <div className="flex-1 min-w-0">
                     <div className="text-xs text-gray-600 uppercase tracking-wide">{item.label}</div>
                     <div className="text-sm font-semibold text-white">{item.value}</div>
@@ -159,7 +163,7 @@ export default async function MissionPage({ params }: { params: Promise<{ id: st
 
             {mission.currentLocation && (
               <div className="mt-4 p-3 rounded-xl bg-green-950/40 border border-green-800/30">
-                <div className="text-xs text-green-600 uppercase tracking-wide mb-1">📍 Localisation actuelle</div>
+                <div className="flex items-center gap-1 text-xs text-green-600 uppercase tracking-wide mb-1"><IcoPin size={11} />Localisation actuelle</div>
                 <div className="text-sm text-green-300 font-medium">{mission.currentLocation}</div>
               </div>
             )}
@@ -210,7 +214,7 @@ export default async function MissionPage({ params }: { params: Promise<{ id: st
           {prevMission ? (
             <Link href={`/solar-system/missions/${prevMission.id}`}
               className="flex items-center gap-3 group rounded-xl border border-white/8 bg-white/3 px-5 py-3 hover:bg-white/7 transition-all">
-              <span className="text-xl">{prevMission.emoji}</span>
+              <MissionIcon type={prevMission.type} name={prevMission.name} size={20} color={prevMission.color} />
               <div>
                 <div className="text-xs text-gray-600">← Précédent</div>
                 <div className="text-sm font-bold text-white group-hover:underline">{prevMission.name}</div>
@@ -220,7 +224,7 @@ export default async function MissionPage({ params }: { params: Promise<{ id: st
 
           <Link href="/solar-system/missions"
             className="text-sm text-gray-500 hover:text-white transition-colors font-mono px-3">
-            🚀 Toutes les missions
+            <span className="inline-flex items-center gap-1.5"><RocketIcon size={13} />Toutes les missions</span>
           </Link>
 
           {nextMission ? (
@@ -230,7 +234,7 @@ export default async function MissionPage({ params }: { params: Promise<{ id: st
                 <div className="text-xs text-gray-600">Suivant →</div>
                 <div className="text-sm font-bold text-white group-hover:underline">{nextMission.name}</div>
               </div>
-              <span className="text-xl">{nextMission.emoji}</span>
+              <IcoDish size={20} />
             </Link>
           ) : <div />}
         </div>

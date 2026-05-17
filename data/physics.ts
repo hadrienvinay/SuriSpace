@@ -22,7 +22,6 @@ export interface Formula {
 export interface PhysicsCategory {
   id: string;
   label: string;
-  icon: string;
   color: string;
   description: string;
   formulas: Formula[];
@@ -47,7 +46,6 @@ export interface SIUnit {
   nameFr: string;
   quantityFr: string;
   definition: string;
-  icon: string;
   color: string;
 }
 
@@ -66,7 +64,6 @@ export const PHYSICS_CATEGORIES: PhysicsCategory[] = [
   {
     id: 'mecanique',
     label: 'Mécanique',
-    icon: '⚙️',
     color: '#60A5FA',
     description: 'Les lois du mouvement et des forces — de Newton à Archimède.',
     formulas: [
@@ -184,7 +181,6 @@ export const PHYSICS_CATEGORIES: PhysicsCategory[] = [
   {
     id: 'gravitation',
     label: 'Gravitation',
-    icon: '🌍',
     color: '#F59E0B',
     description: 'De Kepler à Einstein — les lois qui régissent l\'attraction universelle.',
     formulas: [
@@ -276,7 +272,6 @@ export const PHYSICS_CATEGORIES: PhysicsCategory[] = [
   {
     id: 'electromagnetisme',
     label: 'Électromagnétisme',
-    icon: '⚡',
     color: '#FB923C',
     description: 'De Coulomb à Maxwell — électricité, magnétisme et lumière unifiés.',
     formulas: [
@@ -377,7 +372,6 @@ export const PHYSICS_CATEGORIES: PhysicsCategory[] = [
   {
     id: 'thermodynamique',
     label: 'Thermodynamique',
-    icon: '🔥',
     color: '#F472B6',
     description: 'Chaleur, énergie et entropie — les lois fondamentales de Carnot à Boltzmann.',
     formulas: [
@@ -462,7 +456,6 @@ export const PHYSICS_CATEGORIES: PhysicsCategory[] = [
   {
     id: 'relativite',
     label: 'Relativité',
-    icon: '✨',
     color: '#A78BFA',
     description: 'La révolution d\'Einstein — espace, temps et énergie dans un cadre unifié.',
     formulas: [
@@ -549,7 +542,6 @@ export const PHYSICS_CATEGORIES: PhysicsCategory[] = [
   {
     id: 'quantique',
     label: 'Physique quantique',
-    icon: '🔮',
     color: '#34D399',
     description: 'L\'infiniment petit — Planck, Heisenberg, Schrödinger et le monde quantique.',
     formulas: [
@@ -653,7 +645,6 @@ export const PHYSICS_CATEGORIES: PhysicsCategory[] = [
   {
     id: 'optique',
     label: 'Optique & Ondes',
-    icon: '🌈',
     color: '#22D3EE',
     description: 'La nature de la lumière et des ondes — de Snell à Doppler.',
     formulas: [
@@ -877,7 +868,6 @@ export const SI_BASE_UNITS: SIUnit[] = [
     nameFr: 'mètre',
     quantityFr: 'Longueur',
     definition: 'Distance parcourue par la lumière dans le vide en 1 / 299 792 458 seconde',
-    icon: '📏',
     color: '#60A5FA',
   },
   {
@@ -885,7 +875,6 @@ export const SI_BASE_UNITS: SIUnit[] = [
     nameFr: 'kilogramme',
     quantityFr: 'Masse',
     definition: 'Défini par la valeur exacte de h = 6.626 × 10⁻³⁴ J·s',
-    icon: '⚖️',
     color: '#F59E0B',
   },
   {
@@ -893,7 +882,6 @@ export const SI_BASE_UNITS: SIUnit[] = [
     nameFr: 'seconde',
     quantityFr: 'Temps',
     definition: '9 192 631 770 périodes de la radiation hyperfine du césium-133',
-    icon: '⏱️',
     color: '#34D399',
   },
   {
@@ -901,7 +889,6 @@ export const SI_BASE_UNITS: SIUnit[] = [
     nameFr: 'ampère',
     quantityFr: 'Courant électrique',
     definition: 'Défini par la valeur exacte de e = 1.602 × 10⁻¹⁹ C',
-    icon: '⚡',
     color: '#FB923C',
   },
   {
@@ -909,7 +896,6 @@ export const SI_BASE_UNITS: SIUnit[] = [
     nameFr: 'kelvin',
     quantityFr: 'Température',
     definition: 'Défini par la valeur exacte de k_B = 1.381 × 10⁻²³ J/K',
-    icon: '🌡️',
     color: '#F472B6',
   },
   {
@@ -917,7 +903,6 @@ export const SI_BASE_UNITS: SIUnit[] = [
     nameFr: 'mole',
     quantityFr: 'Quantité de matière',
     definition: 'Exactement 6.022 × 10²³ entités élémentaires (atomes, molécules...)',
-    icon: '🧪',
     color: '#A78BFA',
   },
   {
@@ -925,7 +910,6 @@ export const SI_BASE_UNITS: SIUnit[] = [
     nameFr: 'candela',
     quantityFr: 'Intensité lumineuse',
     definition: 'Flux lumineux de 1/683 W·sr⁻¹ à la fréquence 540 THz (lumière verte)',
-    icon: '💡',
     color: '#FDE68A',
   },
 ];

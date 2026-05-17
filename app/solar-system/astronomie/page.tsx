@@ -18,6 +18,8 @@ import { TelescopeIcon, AtomIcon } from '@/components/UniverseIcons';
 import { StarIcon, RocketIcon, MapIcon } from '@/components/SpaceIcons';
 import { GalaxyIcon } from '@/components/AtomsIcons';
 import { ClockIcon, SigmaIcon, LightbulbIcon } from '@/components/SciencesIcons';
+import { IcoShootingStar, IcoFlower, IcoSunStar, IcoMoon, IcoLeaf, IcoSnowflake } from '@/components/SolarIcons';
+import type React from 'react';
 
 const TIMELINE = [
   {
@@ -74,28 +76,28 @@ const TIMELINE = [
 ];
 
 /* ── Agenda 2026 ─────────────────────────────────────────── */
-const AGENDA_2026: { month: string; color: string; highlight?: boolean; events: { icon: string; text: string }[] }[] = [
+const AGENDA_2026: { month: string; color: string; highlight?: boolean; events: { icon: React.ReactNode; text: string }[] }[] = [
   {
     month: 'Janv.',
     color: '#60A5FA',
     events: [
-      { icon: '🌠', text: 'Quadrantides : pic le 3–4 janvier (ZHR ~120) — pluie intense depuis le Bouvier' },
+      { icon: <IcoShootingStar size={18} />, text: 'Quadrantides : pic le 3–4 janvier (ZHR ~120) — pluie intense depuis le Bouvier' },
     ],
   },
   {
     month: 'Mars',
     color: '#34D399',
     events: [
-      { icon: '🌸', text: 'Équinoxe de printemps — 20 mars' },
-      { icon: '☿',  text: 'Élongation maximale de Mercure — 12 mars (18° est)' },
+      { icon: <IcoFlower size={18} />, text: 'Équinoxe de printemps — 20 mars' },
+      { icon: '☿',                    text: 'Élongation maximale de Mercure — 12 mars (18° est)' },
     ],
   },
   {
     month: 'Juin',
     color: '#FBBF24',
     events: [
-      { icon: '🌞', text: 'Solstice d\'été — 21 juin, nuit la plus courte de l\'année' },
-      { icon: '✨', text: 'Conjonction Vénus–Jupiter — spectaculaire dans le crépuscule (vers le 5 juin)' },
+      { icon: <IcoSunStar size={18} />, text: 'Solstice d\'été — 21 juin, nuit la plus courte de l\'année' },
+      { icon: '✦',                      text: 'Conjonction Vénus–Jupiter — spectaculaire dans le crépuscule (vers le 5 juin)' },
     ],
   },
   {
@@ -103,16 +105,16 @@ const AGENDA_2026: { month: string; color: string; highlight?: boolean; events: 
     color: '#F87171',
     highlight: true,
     events: [
-      { icon: '🌑', text: 'Éclipse solaire TOTALE — 12 août : tracé Russie · Islande · nord Espagne · Maroc' },
-      { icon: '🌠', text: 'Perséides : pic le 11–12 août (ZHR ~100) — nuit sans Lune !' },
+      { icon: <IcoMoon size={18} />,         text: 'Éclipse solaire TOTALE — 12 août : tracé Russie · Islande · nord Espagne · Maroc' },
+      { icon: <IcoShootingStar size={18} />, text: 'Perséides : pic le 11–12 août (ZHR ~100) — nuit sans Lune !' },
     ],
   },
   {
     month: 'Sept.',
     color: '#A78BFA',
     events: [
-      { icon: '♄',  text: 'Opposition de Saturne (~21 sept.) — meilleure visibilité annuelle, anneaux inclinés' },
-      { icon: '🍂', text: 'Équinoxe d\'automne — 23 septembre' },
+      { icon: '♄',                  text: 'Opposition de Saturne (~21 sept.) — meilleure visibilité annuelle, anneaux inclinés' },
+      { icon: <IcoLeaf size={18} />, text: 'Équinoxe d\'automne — 23 septembre' },
     ],
   },
   {
@@ -120,15 +122,15 @@ const AGENDA_2026: { month: string; color: string; highlight?: boolean; events: 
     color: '#FB923C',
     events: [
       { icon: '♃',  text: 'Opposition de Jupiter (~13 nov.) — visible toute la nuit dans les Gémeaux (mag. −2,9)' },
-      { icon: '🌠', text: 'Léonides : pic le 17–18 novembre' },
+      { icon: <IcoShootingStar size={18} />, text: 'Léonides : pic le 17–18 novembre' },
     ],
   },
   {
     month: 'Déc.',
     color: '#F472B6',
     events: [
-      { icon: '🌠', text: 'Géminides : pic le 13–14 déc. (ZHR ~150) — meilleure pluie annuelle !' },
-      { icon: '❄️', text: 'Solstice d\'hiver — 21 décembre' },
+      { icon: <IcoShootingStar size={18} />, text: 'Géminides : pic le 13–14 déc. (ZHR ~150) — meilleure pluie annuelle !' },
+      { icon: <IcoSnowflake size={18} />,   text: 'Solstice d\'hiver — 21 décembre' },
     ],
   },
 ];

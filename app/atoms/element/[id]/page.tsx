@@ -3,6 +3,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import AtomicLayout from '@/components/AtomicLayout';
 import { allElements, CATEGORY_COLORS, CATEGORY_LABELS } from '@/data/elements';
+import { GalaxyIcon } from '@/components/AtomsIcons';
+import { EarthIcon } from '@/components/SpaceIcons';
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
@@ -162,7 +164,7 @@ export  default async function ElementPage({ params }: { params: Promise<{ id: s
             <div className="text-[12px] uppercase tracking-wider text-violet-500 mb-2">Abondance</div>
             <div className="space-y-2">
               <div>
-                <div className="text-[12px] text-gray-600 mb-1">🌌 Univers</div>
+                <div className="flex items-center gap-1 text-[12px] text-gray-600 mb-1"><GalaxyIcon size={11} /> Univers</div>
                 <div className="font-mono text-md text-white">
                   {element.abundanceUniverse != null ? `${element.abundanceUniverse} ppm` : 'Artificiel / Traces'}
                 </div>
@@ -176,7 +178,7 @@ export  default async function ElementPage({ params }: { params: Promise<{ id: s
                 )}
               </div>
               <div>
-                <div className="text-[12px] text-gray-600 mb-1">🌍 Croûte Terrestre</div>
+                <div className="flex items-center gap-1 text-[12px] text-gray-600 mb-1"><EarthIcon size={11} /> Croûte Terrestre</div>
                 <div className="font-mono text-md text-white">
                   {element.abundanceEarth != null ? `${element.abundanceEarth} ppm` : 'Artificiel / Traces'}
                 </div>

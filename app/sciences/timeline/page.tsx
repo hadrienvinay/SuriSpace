@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import ScienceLayout from '@/components/ScienceLayout';
+import { MicroscopeIcon } from '@/components/SciencesIcons';
+import { ScientistIcon } from '@/components/ScientistIcons';
 import { scientists, revolutions, DOMAIN_COLORS, type Scientist, type Revolution } from '@/data/scientists';
 
 // ── Timeline geometry ────────────────────────────────────────────────────────
@@ -342,7 +344,7 @@ export default function SciencesTimelinePage() {
                     background: selectedScientist?.id === s.id ? `${s.color}1A` : 'rgba(255,255,255,0.02)',
                   }}
                 >
-                  <div className="text-lg">{s.emoji}</div>
+                  <div className="flex justify-center" style={{ color: s.color }}><ScientistIcon id={s.id} size={22} /></div>
                   <span
                     className="text-xs font-medium text-center leading-tight"
                     style={{ color: selectedScientist?.id === s.id ? s.color : '#6B7280' }}
@@ -370,7 +372,7 @@ export default function SciencesTimelinePage() {
                         className="w-16 h-16 rounded-2xl border-2 flex items-center justify-center text-3xl shrink-0"
                         style={{ borderColor: selectedScientist.color + '55', background: selectedScientist.color + '18' }}
                       >
-                        {selectedScientist.emoji}
+                        <span style={{ color: selectedScientist.color }}><ScientistIcon id={selectedScientist.id} size={52} /></span>
                       </div>
                       <div>
                         <div
@@ -500,7 +502,7 @@ export default function SciencesTimelinePage() {
                               onClick={() => { setSelectedRevolution(null); setSelectedScientist(s); }}
                               className="w-full flex items-center gap-2 p-2 rounded-xl hover:bg-white/6 transition-all text-left"
                             >
-                              <span className="text-lg">{s.emoji}</span>
+                              <span style={{ color: s.color }}><ScientistIcon id={s.id} size={20} /></span>
                               <div>
                                 <div className="text-sm font-semibold text-white">{s.name}</div>
                                 <div className="text-xs text-gray-500">{s.domains[0]}</div>
@@ -541,7 +543,7 @@ export default function SciencesTimelinePage() {
                       href="/sciences/scientists"
                       className="block text-center py-3 rounded-xl text-sm font-bold uppercase tracking-wider border border-indigo-700/40 text-indigo-400 hover:bg-indigo-900/20 transition-all"
                     >
-                      🔬 Tous les scientifiques
+                      <span className="inline-flex items-center gap-1.5"><MicroscopeIcon size={13} /> Tous les scientifiques</span>
                     </Link>
                   </div>
                 </div>

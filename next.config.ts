@@ -10,6 +10,7 @@ const nextConfig: NextConfig = {
       { hostname: 'science.nasa.gov'         },
       { hostname: 'assets.science.nasa.gov'  },
       { hostname: 'images-assets.nasa.gov'   },
+      { hostname: 'images.unsplash.com'      },
     ],
 },
 

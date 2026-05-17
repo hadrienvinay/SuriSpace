@@ -8,6 +8,10 @@ import {
   SPECTRAL_COLORS, raDecToXY,
   type Constellation, type Star,
 } from '@/data/stars';
+import { GalaxyIcon } from '@/components/AtomsIcons';
+import { TelescopeIcon } from '@/components/UniverseIcons';
+import { IcoGlobeEarth, IcoPlanetRing, IcoCalendar } from '@/components/SolarIcons';
+import { ConstellationIcon } from '@/components/ConstellationIcons';
 
 const MAG_TO_RADIUS = (mag: number) => Math.max(1.5, 8 - mag * 0.55);
 
@@ -32,8 +36,8 @@ function ConstellationViewer({ constellation }: { constellation: Constellation }
 
   if (allStars.length === 0) {
     return (
-      <div style={{ width: '100%', height: H, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 72, opacity: 0.6 }}>
-        {constellation.emoji}
+      <div style={{ width: '100%', height: H, display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0.6 }}>
+        <ConstellationIcon id={constellation.id} size={72} color={constellation.color} />
       </div>
     );
   }
@@ -162,7 +166,7 @@ export default async function ConstellationPage({ params }: { params: Promise<{ 
       <SolarLayout>
         <div className="min-h-screen bg-[#01040e] text-white flex items-center justify-center">
           <div className="text-center">
-            <p className="text-5xl mb-4">🌌</p>
+            <div className="mb-4 flex justify-center opacity-30"><GalaxyIcon size={64} /></div>
             <p className="text-gray-400 text-lg">Constellation introuvable</p>
             <Link href="/solar-system/stars" className="text-blue-400 underline mt-3 block">Retour à la carte</Link>
           </div>
@@ -188,7 +192,7 @@ export default async function ConstellationPage({ params }: { params: Promise<{ 
     winter: '#93C5FD', spring: '#86EFAC', summer: '#FDE68A', autumn: '#FDBA74', 'year-round': '#E9D5FF',
   };
   const seasonLabels: Record<string, string> = {
-    winter: '❄️ Hiver', spring: '🌸 Printemps', summer: '☀️ Été', autumn: '🍂 Automne', 'year-round': '📅 Toute l\'année',
+    winter: 'Hiver', spring: 'Printemps', summer: 'Été', autumn: 'Automne', 'year-round': 'Toute l\'année',
   };
 
   return (
@@ -228,7 +232,7 @@ export default async function ConstellationPage({ params }: { params: Promise<{ 
             </div>
             <h1 className="text-4xl sm:text-5xl font-bold text-white mb-1"
               style={{ fontFamily: "'Exo 2', sans-serif" }}>
-              {constellation.emoji} {constellation.nameFr}
+              <ConstellationIcon id={constellation.id} size={28} color={constellation.color} /> {constellation.nameFr}
             </h1>
             <div className="text-lg text-gray-500 mb-5 italic"
               style={{ fontFamily: "'Exo 2', sans-serif" }}>
@@ -240,12 +244,12 @@ export default async function ConstellationPage({ params }: { params: Promise<{ 
                 style={{ background: `${seasonColors[constellation.bestSeason]}18`, border: `1px solid ${seasonColors[constellation.bestSeason]}40`, color: seasonColors[constellation.bestSeason] }}>
                 {seasonLabels[constellation.bestSeason]}
               </span>
-              <span className="px-3 py-1.5 rounded-xl text-sm border border-white/10 text-gray-400">
-                🌍 {constellation.hemisphere === 'north' ? 'Hémisphère Nord' : constellation.hemisphere === 'south' ? 'Hémisphère Sud' : 'Visible partout'}
+              <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-sm border border-white/10 text-gray-400">
+                <IcoGlobeEarth size={13} />{constellation.hemisphere === 'north' ? 'Hémisphère Nord' : constellation.hemisphere === 'south' ? 'Hémisphère Sud' : 'Visible partout'}
               </span>
               {constellation.area && (
-                <span className="px-3 py-1.5 rounded-xl text-sm border border-white/10 text-gray-400">
-                  📐 {constellation.area} deg²
+                <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-sm border border-white/10 text-gray-400">
+                  <IcoCalendar size={13} />{constellation.area} deg²
                 </span>
               )}
             </div>
@@ -255,7 +259,7 @@ export default async function ConstellationPage({ params }: { params: Promise<{ 
 
         {/* ── Mythology ── */}
         <div className="rounded-2xl border border-white/8 p-6 mb-6" style={{ background: 'rgba(255,255,255,0.02)' }}>
-          <h2 className="text-lg font-bold text-white mb-3" style={{ fontFamily: "'Exo 2', sans-serif" }}>📖 Mythologie</h2>
+          <h2 className="text-lg font-bold text-white mb-3" style={{ fontFamily: "'Exo 2', sans-serif" }}>Mythologie</h2>
           <p className="text-base text-gray-300 leading-relaxed">{constellation.mythology}</p>
         </div>
 
@@ -286,8 +290,8 @@ export default async function ConstellationPage({ params }: { params: Promise<{ 
                       <p className="text-sm text-gray-400 line-clamp-2">{star.description.slice(0, 100)}…</p>
                       {star.exoplanets && star.exoplanets.length > 0 && (
                         <div className="flex items-center gap-1 mt-1.5">
-                          <span className="text-xs text-cyan-400">🪐 {star.exoplanets.length} exoplanète{star.exoplanets.length > 1 ? 's' : ''}</span>
-                          {star.exoplanets.some(p => p.habitable) && <span className="text-xs text-green-400 ml-1">🌍 zone habitable</span>}
+                          <span className="inline-flex items-center gap-0.5 text-xs text-cyan-400"><IcoPlanetRing size={11} />{star.exoplanets.length} exoplanète{star.exoplanets.length > 1 ? 's' : ''}</span>
+                          {star.exoplanets.some(p => p.habitable) && <span className="inline-flex items-center gap-0.5 text-xs text-green-400 ml-1"><IcoGlobeEarth size={11} />zone habitable</span>}
                         </div>
                       )}
                     </div>
@@ -303,7 +307,7 @@ export default async function ConstellationPage({ params }: { params: Promise<{ 
         {constellation.deepSkyObjects && constellation.deepSkyObjects.length > 0 && (
           <div className="rounded-2xl border p-6 mb-8"
             style={{ borderColor: `${constellation.color}25`, background: `${constellation.color}06` }}>
-            <h2 className="text-lg font-bold text-white mb-4" style={{ fontFamily: "'Exo 2', sans-serif" }}>🔭 Objets du ciel profond</h2>
+            <h2 className="flex items-center gap-2 text-lg font-bold text-white mb-4" style={{ fontFamily: "'Exo 2', sans-serif" }}><TelescopeIcon size={18} />Objets du ciel profond</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {constellation.deepSkyObjects.map((obj, i) => (
                 <div key={i} className="flex items-start gap-2 p-3 rounded-xl bg-white/4">
@@ -320,7 +324,7 @@ export default async function ConstellationPage({ params }: { params: Promise<{ 
           {prev ? (
             <Link href={`/solar-system/stars/constellations/${prev.id}`}
               className="flex items-center gap-3 px-5 py-3 rounded-xl border border-white/8 bg-white/3 hover:bg-white/6 transition-all group">
-              <span className="text-2xl">{prev.emoji}</span>
+              <ConstellationIcon id={prev.id} size={24} color={prev.color} />
               <div>
                 <div className="text-xs text-gray-600">← Précédente</div>
                 <div className="text-sm font-bold text-white group-hover:underline">{prev.nameFr}</div>
@@ -335,7 +339,7 @@ export default async function ConstellationPage({ params }: { params: Promise<{ 
                 <div className="text-xs text-gray-600">Suivante →</div>
                 <div className="text-sm font-bold text-white group-hover:underline">{next.nameFr}</div>
               </div>
-              <span className="text-2xl">{next.emoji}</span>
+              <ConstellationIcon id={next.id} size={24} color={next.color} />
             </Link>
           ) : <div />}
         </div>

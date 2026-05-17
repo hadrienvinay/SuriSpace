@@ -17,6 +17,7 @@ import { MapIcon, EarthIcon, RocketIcon, StarIcon } from '@/components/SpaceIcon
 import { GalaxyIcon } from '@/components/AtomsIcons';
 import { SolarSystemIcon, TelescopeIcon } from '@/components/UniverseIcons';
 import { JsonLd } from '@/components/JsonLd';
+import { IcoMoon, IcoDish, IcoSunStar, IcoPlanetRing } from '@/components/SolarIcons';
 
 const sections = [
   {
@@ -95,10 +96,10 @@ const facts = [
 ];
 
 const highlights = [
-  { emoji: '☀️', label: 'Soleil', sub: '99,86 % de la masse' },
-  { emoji: '🪐', label: 'Jupiter', sub: '318 × Terre' },
-  { emoji: '🌙', label: 'Lune', sub: 'à 384 400 km' },
-  { emoji: '🛸', label: 'Voyager 1', sub: '~163 UA de la Terre' },
+  { Icon: IcoSunStar,    label: 'Soleil',    sub: '99,86 % de la masse',  color: '#FCD34D' },
+  { Icon: IcoPlanetRing, label: 'Jupiter',   sub: '318 × Terre',          color: '#FB923C' },
+  { Icon: IcoMoon,       label: 'Lune',      sub: 'à 384 400 km',         color: '#C4B5FD' },
+  { Icon: IcoDish,       label: 'Voyager 1', sub: '~163 UA de la Terre',  color: '#60A5FA' },
 ];
 
 export default function EspaceHome() {
@@ -145,7 +146,7 @@ export default function EspaceHome() {
               className="text-center rounded-2xl border border-white/6 py-4 px-3"
               style={{ background: 'rgba(255,255,255,0.02)' }}
             >
-              <div className="text-3xl mb-1">{h.emoji}</div>
+              <div className="mb-2 flex justify-center" style={{ color: h.color }}><h.Icon size={32} /></div>
               <div className="text-sm font-bold text-white">{h.label}</div>
               <div className="text-xs text-gray-500 mt-0.5">{h.sub}</div>
             </div>

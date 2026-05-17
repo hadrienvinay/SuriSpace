@@ -2,6 +2,9 @@
 import Link from 'next/link';
 import SolarLayout from '@/components/SolarLayout';
 import { solarSystem, getMoons, getMissionsForTarget } from '@/data/solar-system';
+import { IcoMoon, IcoWind, IcoLayers, IcoMap } from '@/components/SolarIcons';
+import { RocketIcon } from '@/components/SpaceIcons';
+import { MissionIcon } from '@/components/SolarBodyIcons';
 
 function CompositionBar({ label, percent, color }: { label: string; percent: number; color: string }) {
   return (
@@ -30,7 +33,7 @@ export default async function BodyPage({ params }: { params: Promise<{ id: strin
       <SolarLayout>
         <div className="flex items-center justify-center min-h-[60vh]">
           <div className="text-center">
-            <p className="text-6xl mb-4">🌑</p>
+            <div className="flex justify-center mb-4 text-gray-600"><IcoMoon size={64} /></div>
             <p className="text-gray-500">Corps céleste introuvable</p>
             <Link href="/solar-system/bodys" className="text-blue-400 underline mt-3 block">
               Retour aux corps du système solaire
@@ -115,10 +118,10 @@ export default async function BodyPage({ params }: { params: Promise<{ id: strin
 
             <div className="flex-1">
               <div className="text-[11px] uppercase tracking-widest font-mono mb-1" style={{ color }}>
-                {bodyData.type === 'star' ? '⭐ Étoile' :
-                 bodyData.type === 'planet' ? '🪐 Planète' :
-                 bodyData.type === 'dwarf-planet' ? '🪨 Planète naine' :
-                 bodyData.type === 'moon' ? '🌕 Satellite naturel' : ''}
+                {bodyData.type === 'star' ? 'Étoile' :
+                 bodyData.type === 'planet' ? 'Planète' :
+                 bodyData.type === 'dwarf-planet' ? 'Planète naine' :
+                 bodyData.type === 'moon' ? 'Satellite naturel' : ''}
               </div>
               <h1 className="text-4xl sm:text-5xl font-bold text-white mb-1"
                 style={{ fontFamily: "'Exo 2', sans-serif" }}>
@@ -152,21 +155,21 @@ export default async function BodyPage({ params }: { params: Promise<{ id: strin
         {/* Data grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mb-6">
           {[
-            { label: 'Rayon', value: bodyData.radius >= 10000 ? `${(bodyData.radius / 1000).toFixed(1)}k km` : `${bodyData.radius.toLocaleString()} km`, icon: '📏' },
-            { label: 'Masse', value: `${bodyData.mass} ×10²⁴ kg`, icon: '⚖️' },
-            { label: 'Densité', value: bodyData.density ? `${bodyData.density} g/cm³` : '—', icon: '🧱' },
-            { label: 'Gravité surf.', value: bodyData.gravity ? `${bodyData.gravity} m/s²` : '—', icon: '⬇️' },
-            { label: 'Vitesse échap.', value: bodyData.escapeVelocity ? `${bodyData.escapeVelocity} km/s` : '—', icon: '🚀' },
-            { label: 'Rotation', value: bodyData.rotationPeriod ? `${Math.abs(bodyData.rotationPeriod).toFixed(1)}h${bodyData.rotationPeriod < 0 ? ' ↺' : ''}` : '—', icon: '🔄' },
-            { label: 'Inclinaison axe', value: bodyData.axialTilt !== undefined ? `${bodyData.axialTilt}°` : '—', icon: '↗️' },
-            { label: 'Temp. moy.', value: bodyData.tempMean ? `${bodyData.tempMean} K (${(bodyData.tempMean - 273.15).toFixed(0)} °C)` : '—', icon: '🌡️' },
-            ...(bodyData.tempMin ? [{ label: 'Temp. min', value: `${bodyData.tempMin} K (${(bodyData.tempMin - 273.15).toFixed(0)} °C)`, icon: '❄️' }] : []),
-            ...(bodyData.tempMax ? [{ label: 'Temp. max', value: `${bodyData.tempMax} K (${(bodyData.tempMax - 273.15).toFixed(0)} °C)`, icon: '🔥' }] : []),
-            ...(bodyData.atmospherePressure !== undefined ? [{ label: 'Pression atm.', value: `${bodyData.atmospherePressure} bar`, icon: '💨' }] : []),
-            ...(bodyData.eccentricity !== undefined ? [{ label: 'Excentricité', value: `${bodyData.eccentricity}`, icon: '🔵' }] : []),
+            { label: 'Rayon', value: bodyData.radius >= 10000 ? `${(bodyData.radius / 1000).toFixed(1)}k km` : `${bodyData.radius.toLocaleString()} km` },
+            { label: 'Masse', value: `${bodyData.mass} ×10²⁴ kg` },
+            { label: 'Densité', value: bodyData.density ? `${bodyData.density} g/cm³` : '—' },
+            { label: 'Gravité surf.', value: bodyData.gravity ? `${bodyData.gravity} m/s²` : '—' },
+            { label: 'Vitesse échap.', value: bodyData.escapeVelocity ? `${bodyData.escapeVelocity} km/s` : '—' },
+            { label: 'Rotation', value: bodyData.rotationPeriod ? `${Math.abs(bodyData.rotationPeriod).toFixed(1)}h${bodyData.rotationPeriod < 0 ? ' ↺' : ''}` : '—' },
+            { label: 'Inclinaison axe', value: bodyData.axialTilt !== undefined ? `${bodyData.axialTilt}°` : '—' },
+            { label: 'Temp. moy.', value: bodyData.tempMean ? `${bodyData.tempMean} K (${(bodyData.tempMean - 273.15).toFixed(0)} °C)` : '—' },
+            ...(bodyData.tempMin ? [{ label: 'Temp. min', value: `${bodyData.tempMin} K (${(bodyData.tempMin - 273.15).toFixed(0)} °C)` }] : []),
+            ...(bodyData.tempMax ? [{ label: 'Temp. max', value: `${bodyData.tempMax} K (${(bodyData.tempMax - 273.15).toFixed(0)} °C)` }] : []),
+            ...(bodyData.atmospherePressure !== undefined ? [{ label: 'Pression atm.', value: `${bodyData.atmospherePressure} bar` }] : []),
+            ...(bodyData.eccentricity !== undefined ? [{ label: 'Excentricité', value: `${bodyData.eccentricity}` }] : []),
           ].map(stat => (
             <div key={stat.label} className="bg-white/4 rounded-xl border border-white/6 p-3">
-              <div className="text-[12px] uppercase tracking-wider text-gray-600 mb-1">{stat.icon} {stat.label}</div>
+              <div className="text-[12px] uppercase tracking-wider text-gray-600 mb-1">{stat.label}</div>
               <div className="text-s font-mono text-white">{stat.value}</div>
             </div>
           ))}
@@ -176,7 +179,7 @@ export default async function BodyPage({ params }: { params: Promise<{ id: strin
           {/* Atmosphere */}
           {bodyData.atmosphereComposition && bodyData.atmosphereComposition.length > 0 && (
             <div className="rounded-2xl border border-white/8 p-4 bg-white/2">
-              <h2 className="text-[14px] uppercase tracking-widest text-gray-500 mb-3">💨 Composition atmosphérique</h2>
+              <h2 className="text-[14px] uppercase tracking-widest text-gray-500 mb-3 flex items-center gap-1.5"><IcoWind size={13} /> Composition atmosphérique</h2>
               <div className="space-y-2">
                 {bodyData.atmosphereComposition.map(a => (
                   <CompositionBar key={a.element} label={a.element} percent={a.percent} color={color} />
@@ -188,7 +191,7 @@ export default async function BodyPage({ params }: { params: Promise<{ id: strin
           {/* Body composition */}
           {bodyData.composition && bodyData.composition.length > 0 && (
             <div className="rounded-2xl border border-white/8 p-4 bg-white/2">
-              <h2 className="text-[14px] uppercase tracking-widest text-gray-500 mb-3">🧱 Structure interne</h2>
+              <h2 className="text-[14px] uppercase tracking-widest text-gray-500 mb-3 flex items-center gap-1.5"><IcoLayers size={13} /> Structure interne</h2>
               <div className="space-y-2">
                 {bodyData.composition.map(c => (
                   <CompositionBar key={c.material} label={c.material} percent={c.percent} color={color + 'AA'} />
@@ -201,7 +204,7 @@ export default async function BodyPage({ params }: { params: Promise<{ id: strin
         {/* Features */}
         {bodyData.features && bodyData.features.length > 0 && (
           <div className="rounded-2xl border border-white/8 p-5 mb-6 bg-white/2">
-            <h2 className="text-[14px] uppercase tracking-widest text-gray-500 mb-3">✨ Caractéristiques notables</h2>
+            <h2 className="text-[14px] uppercase tracking-widest text-gray-500 mb-3">Caractéristiques notables</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
               {bodyData.features.map((f, i) => (
                 <div key={i} className="flex items-start gap-2">
@@ -216,7 +219,7 @@ export default async function BodyPage({ params }: { params: Promise<{ id: strin
         {/* Moons */}
         {bodyMoons.length > 0 && (
           <div className="mb-6">
-            <h2 className="text-[14px] uppercase tracking-widest text-gray-500 mb-3">🌕 Principaux satellites</h2>
+            <h2 className="text-[14px] uppercase tracking-widest text-gray-500 mb-3">Principaux satellites</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {bodyMoons.map(moon => (
                 <Link key={moon.id} href={`/solar-system/bodys/${moon.id}`}
@@ -244,12 +247,12 @@ export default async function BodyPage({ params }: { params: Promise<{ id: strin
         {/* Missions */}
         {bodyMissions.length > 0 && (
           <div className="mb-6">
-            <h2 className="text-[14px] uppercase tracking-widest text-gray-500 mb-3">🚀 Missions ({bodyMissions.length})</h2>
+            <h2 className="text-[14px] uppercase tracking-widest text-gray-500 mb-3 flex items-center gap-1.5"><RocketIcon size={13} /> Missions ({bodyMissions.length})</h2>
             <div className="space-y-2">
               {bodyMissions.map(m => (
                 <a key={m.id} href={`/solar-system/missions/${m.id}`}
                   className="rounded-xl border border-white/8 p-3 bg-white/2 flex items-start gap-3">
-                  <span className="text-xl shrink-0">{m.emoji}</span>
+                  <MissionIcon type={m.type} name={m.name} size={20} color={m.color} />
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
                       <span className="text-md font-bold text-white">{m.name}</span>
@@ -296,8 +299,8 @@ export default async function BodyPage({ params }: { params: Promise<{ id: strin
           ) : <div />}
 
           <Link href="/solar-system"
-            className="text-[20px] text-gray-600 hover:text-white transition-colors font-mono">
-            🗺️ Carte
+            className="text-gray-600 hover:text-white transition-colors font-mono flex items-center gap-1.5 text-[14px]">
+            <IcoMap size={13} /> Carte
           </Link>
 
           {next ? (

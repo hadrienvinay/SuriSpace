@@ -37,7 +37,6 @@ export interface CelestialBody {
   // Visual
   color: string; // principal
   colorGradient?: string[]; // pour visuels
-  emoji: string;
   
   // Info
   description: string;
@@ -69,7 +68,6 @@ export const solarSystem: CelestialBody[] = [
     tempMax: 15000000, // cœur
     color: '#FCD34D',
     colorGradient: ['#FFFBEB', '#FEF08A', '#FCD34D', '#FB923C', '#F97316'],
-    emoji: '☀️',
     atmosphereComposition: [
       { element: 'Hydrogène', percent: 73.46 },
       { element: 'Hélium', percent: 24.85 },
@@ -114,7 +112,6 @@ export const solarSystem: CelestialBody[] = [
     tempMax: 700,
     color: '#9CA3AF',
     colorGradient: ['#D1D5DB', '#9CA3AF', '#6B7280', '#4B5563'],
-    emoji: '🌑',
     atmosphereComposition: [
       { element: 'Oxygène', percent: 42 },
       { element: 'Sodium', percent: 29 },
@@ -152,7 +149,6 @@ export const solarSystem: CelestialBody[] = [
     tempMean: 737,
     color: '#FDE68A',
     colorGradient: ['#FFFBEB', '#FDE68A', '#FCD34D', '#D97706'],
-    emoji: '🌕',
     atmosphereComposition: [
       { element: 'CO₂', percent: 96.5 },
       { element: 'Azote (N₂)', percent: 3.5 },
@@ -192,7 +188,6 @@ export const solarSystem: CelestialBody[] = [
     tempMax: 330,
     color: '#60A5FA',
     colorGradient: ['#BAE6FD', '#60A5FA', '#2563EB', '#1E40AF'],
-    emoji: '🌍',
     atmosphereComposition: [
       { element: 'Azote (N₂)', percent: 78.09 },
       { element: 'Oxygène (O₂)', percent: 20.95 },
@@ -235,7 +230,6 @@ export const solarSystem: CelestialBody[] = [
     tempMax: 308,
     color: '#FB923C',
     colorGradient: ['#FED7AA', '#FB923C', '#EA580C', '#9A3412'],
-    emoji: '🔴',
     atmosphereComposition: [
       { element: 'CO₂', percent: 95.32 },
       { element: 'Azote (N₂)', percent: 2.6 },
@@ -273,7 +267,6 @@ export const solarSystem: CelestialBody[] = [
     tempMean: 165,
     color: '#D97706',
     colorGradient: ['#FEF3C7', '#FCD34D', '#D97706', '#B45309', '#92400E'],
-    emoji: '🟠',
     atmosphereComposition: [
       { element: 'Hydrogène (H₂)', percent: 89.8 },
       { element: 'Hélium (He)', percent: 10.2 },
@@ -312,7 +305,6 @@ export const solarSystem: CelestialBody[] = [
     tempMean: 134,
     color: '#FDE68A',
     colorGradient: ['#FFFBEB', '#FDE68A', '#FCD34D', '#CA8A04', '#854D0E'],
-    emoji: '🪐',
     atmosphereComposition: [
       { element: 'Hydrogène (H₂)', percent: 96.3 },
       { element: 'Hélium (He)', percent: 3.25 },
@@ -350,7 +342,6 @@ export const solarSystem: CelestialBody[] = [
     tempMean: 76,
     color: '#7DD3FC',
     colorGradient: ['#BAE6FD', '#7DD3FC', '#38BDF8', '#0284C7', '#075985'],
-    emoji: '🔵',
     atmosphereComposition: [
       { element: 'Hydrogène (H₂)', percent: 82.5 },
       { element: 'Hélium (He)', percent: 15.2 },
@@ -387,7 +378,6 @@ export const solarSystem: CelestialBody[] = [
     tempMean: 72,
     color: '#3B82F6',
     colorGradient: ['#BFDBFE', '#60A5FA', '#3B82F6', '#1D4ED8', '#1E3A8A'],
-    emoji: '🔵',
     atmosphereComposition: [
       { element: 'Hydrogène (H₂)', percent: 80 },
       { element: 'Hélium (He)', percent: 19 },
@@ -426,7 +416,6 @@ export const solarSystem: CelestialBody[] = [
     tempMean: 44,
     color: '#D4A574',
     colorGradient: ['#F5CBA7', '#D4A574', '#B07D4F', '#8B5E3C'],
-    emoji: '🪨',
     atmosphereComposition: [
       { element: 'Azote (N₂)', percent: 90 },
       { element: 'Méthane (CH₄)', percent: 8 },
@@ -465,7 +454,6 @@ export const solarSystem: CelestialBody[] = [
     tempMax: 396,
     color: '#9CA3AF',
     colorGradient: ['#E5E7EB', '#D1D5DB', '#9CA3AF', '#6B7280'],
-    emoji: '🌕',
     atmosphereComposition: [
       { element: 'Néon', percent: 31.7 },
       { element: 'Hydrogène', percent: 23.7 },
@@ -496,7 +484,6 @@ export const solarSystem: CelestialBody[] = [
     tempMean: 233,
     color: '#8B7355',
     colorGradient: ['#A89070', '#8B7355', '#6B5B45'],
-    emoji: '🪨',
     composition: [{ material: 'Régolite carbonée', percent: 100 }],
     description: "La plus grande lune de Mars, si proche qu'elle orbite en 7h37 — plus vite que Mars ne tourne sur elle-même. Phobos se rapproche de Mars de 1.8 cm par an et sera désintégrée dans 50 millions d'années. Stickney est un cratère géant (9km) qui occupe une grande partie de sa surface.",
     features: ['Orbite en 7h37 (sous-orbitale)', 'Se rapproche 1.8cm/an', 'Désintégration dans 50 Ma', 'Cratère Stickney (9 km)'],
@@ -518,7 +505,6 @@ export const solarSystem: CelestialBody[] = [
     tempMean: 233,
     color: '#A89070',
     colorGradient: ['#C0A888', '#A89070', '#806855'],
-    emoji: '🪨',
     composition: [{ material: 'Régolite carbonée', percent: 100 }],
     description: "La plus petite et la plus éloignée des lunes de Mars. Irrégulière et fortement cratérisée, Déimos ressemble à un astéroïde capturé de la ceinture principale. Elle s'éloigne progressivement de Mars, à l'opposé de Phobos.",
     features: ['Astéroïde capturé probable', 'S\'éloigne progressivement de Mars', 'Surface très lisse (régolite)'],
@@ -542,7 +528,6 @@ export const solarSystem: CelestialBody[] = [
     tempMean: 130,
     color: '#EAB308',
     colorGradient: ['#FEF08A', '#EAB308', '#CA8A04', '#92400E'],
-    emoji: '🟡',
     atmosphereComposition: [{ element: 'SO₂', percent: 90 }, { element: 'SO', percent: 10 }],
     composition: [
       { material: 'Noyau Fe/FeS', percent: 20 },
@@ -570,7 +555,6 @@ export const solarSystem: CelestialBody[] = [
     tempMean: 103,
     color: '#BFDBFE',
     colorGradient: ['#EFF6FF', '#BFDBFE', '#93C5FD', '#6B8FCF'],
-    emoji: '⚪',
     atmosphereComposition: [{ element: 'O₂', percent: 100 }],
     composition: [
       { material: 'Noyau Fe', percent: 10 },
@@ -599,7 +583,6 @@ export const solarSystem: CelestialBody[] = [
     tempMean: 110,
     color: '#9CA3AF',
     colorGradient: ['#E5E7EB', '#9CA3AF', '#6B7280', '#4B5563'],
-    emoji: '⚫',
     atmosphereComposition: [{ element: 'O₂', percent: 100 }],
     composition: [
       { material: 'Noyau Fe', percent: 8 },
@@ -627,7 +610,6 @@ export const solarSystem: CelestialBody[] = [
     tempMean: 134,
     color: '#6B7280',
     colorGradient: ['#9CA3AF', '#6B7280', '#4B5563', '#374151'],
-    emoji: '⚫',
     composition: [
       { material: 'Roche et glace mixées', percent: 100 },
     ],
@@ -653,7 +635,6 @@ export const solarSystem: CelestialBody[] = [
     tempMean: 94,
     color: '#D97706',
     colorGradient: ['#FDE68A', '#D97706', '#92400E', '#78350F'],
-    emoji: '🟤',
     atmosphereComposition: [
       { element: 'Azote (N₂)', percent: 95 },
       { element: 'Méthane (CH₄)', percent: 5 },
@@ -686,7 +667,6 @@ export const solarSystem: CelestialBody[] = [
     tempMean: 75,
     color: '#E0F2FE',
     colorGradient: ['#F0F9FF', '#E0F2FE', '#BAE6FD', '#7DD3FC'],
-    emoji: '⚪',
     atmosphereComposition: [
       { element: 'Vapeur d\'eau (H₂O)', percent: 91 },
       { element: 'CO₂', percent: 3.2 },
@@ -720,7 +700,6 @@ export const solarSystem: CelestialBody[] = [
     tempMean: 38,
     color: '#FCA5A5',
     colorGradient: ['#FEE2E2', '#FCA5A5', '#F87171', '#DC2626'],
-    emoji: '🔴',
     atmosphereComposition: [
       { element: 'Azote (N₂)', percent: 99.9 },
     ],
@@ -751,7 +730,6 @@ export interface Mission {
   keyDiscoveries?: string[];
   currentLocation?: string; // description of where it is now
   distanceFromSun?: number; // AU actuel (pour sondes actives)
-  emoji: string;
   color: string;
 }
 
@@ -771,7 +749,6 @@ export const missions: Mission[] = [
     keyDiscoveries: ['Volcans actifs sur Io', 'Anneaux complexes de Saturne', 'Lunes Amalthée, Thébé (Jupiter)', 'Entrée dans espace interstellaire (2012)'],
     currentLocation: 'Espace interstellaire (~24.5 milliards de km)',
     distanceFromSun: 163.7,
-    emoji: '🛸',
     color: '#A78BFA',
   },
   {
@@ -788,7 +765,6 @@ export const missions: Mission[] = [
     keyDiscoveries: ['Découverte des anneaux d\'Uranus', 'Geysers de triton (Neptune)', 'Grandes lunes d\'Uranus', 'Survol unique d\'Uranus + Neptune'],
     currentLocation: 'Espace interstellaire (~20.3 milliards de km)',
     distanceFromSun: 136.1,
-    emoji: '🛸',
     color: '#60A5FA',
   },
   {
@@ -805,7 +781,6 @@ export const missions: Mission[] = [
     keyDiscoveries: ['Sputnik Planitia (N₂ gelé)', 'Montagnes de glace H₂O (3500m)', 'Atmosphère stratifiée', 'Survol Arrokoth (2019)', 'Activité géologique inattendue'],
     currentLocation: 'Ceinture de Kuiper (~58 UA)',
     distanceFromSun: 58.0,
-    emoji: '🚀',
     color: '#F472B6',
   },
   {
@@ -822,7 +797,6 @@ export const missions: Mission[] = [
     description: "Une des missions les plus réussies de l'histoire spatiale. 13 ans en orbite autour de Saturne. Huygens atterrit sur Titan (2005). Cassini découvrit les geysers d'Encelade (2005) et l'hexagone polaire de Saturne. Se désintégra délibérément dans l'atmosphère saturnienne en 2017 pour éviter de contaminer ses lunes.",
     keyDiscoveries: ['Geysers eau salée d\'Encelade', 'Huygens atterri sur Titan', 'Hexagone polaire de Saturne', 'Détail extrême des anneaux', 'Nouvelles lunes de Saturne'],
     currentLocation: 'Désintégrée dans Saturne (15 sept. 2017)',
-    emoji: '🛰️',
     color: '#FCD34D',
   },
   {
@@ -839,7 +813,6 @@ export const missions: Mission[] = [
     keyDiscoveries: ['Bandes atmosphériques profondes (3000 km)', 'Cyclones polaires de 1400 km', 'Structure interne non homogène', 'Survols rapprochés de Io (2023)', 'Champ magnétique irrégulier'],
     currentLocation: 'En orbite autour de Jupiter',
     distanceFromSun: 5.2,
-    emoji: '🛰️',
     color: '#FB923C',
   },
   {
@@ -856,7 +829,6 @@ export const missions: Mission[] = [
     keyDiscoveries: ['Hélicoptère Ingenuity (1er vol planète autre que Terre)', 'MOXIE: production O₂ sur Mars', 'Traces biosignatures possibles', 'Collecte échantillons (retour futur)', 'Images 360° 4K de la surface'],
     currentLocation: 'Cratère Jezero, Mars',
     distanceFromSun: 1.52,
-    emoji: '🤖',
     color: '#EF4444',
   },
   {
@@ -874,7 +846,6 @@ export const missions: Mission[] = [
     keyDiscoveries: ['1er vol sur autre planète (19 avril 2021)', '72 vols au total (vs 5 prévus)', '128 minutes de vol cumulées', 'Surveillance du rover Perseverance'],
     currentLocation: 'Surface de Mars (inactif)',
     distanceFromSun: 1.52,
-    emoji: '🚁',
     color: '#F87171',
   },
   {
@@ -890,7 +861,6 @@ export const missions: Mission[] = [
     keyDiscoveries: ['Structure détaillée du vent solaire', 'Switchbacks magnétiques', 'Poussière libre près du Soleil', 'Traversée de la couronne solaire (2021)', 'Vitesse record: 692 000 km/h'],
     currentLocation: 'Orbite solaire très elliptique',
     distanceFromSun: 0.046,
-    emoji: '☀️',
     color: '#FCD34D',
   },
   {
@@ -906,7 +876,6 @@ export const missions: Mission[] = [
     keyDiscoveries: ['En transit vers Jupiter'],
     currentLocation: 'En transit vers Jupiter (arrivée 2030)',
     distanceFromSun: 3.1,
-    emoji: '🚀',
     color: '#BFDBFE',
   },
   {
@@ -922,7 +891,6 @@ export const missions: Mission[] = [
     keyDiscoveries: ['En transit vers Jupiter'],
     currentLocation: 'En transit vers Jupiter (arrivée 2031)',
     distanceFromSun: 1.4,
-    emoji: '🛸',
     color: '#34D399',
   },
   {
@@ -939,7 +907,6 @@ export const missions: Mission[] = [
     keyDiscoveries: ['Premiers échantillons d\'astéroïde (Bennu, 250g)', 'Surface de Bennu meuble et peu compacte', 'En route vers Apophis (2029)'],
     currentLocation: 'En route vers astéroïde Apophis',
     distanceFromSun: 1.1,
-    emoji: '💫',
     color: '#F59E0B',
   },
   {
@@ -956,7 +923,6 @@ export const missions: Mission[] = [
     keyDiscoveries: ['5.4g de Ryugu (astéroïde carboné)', 'Acides aminés extraterrestres', 'Eau dans l\'astéroïde', 'Créateur d\'impact artificiel (bombe 2019)', 'Atterrissage parfait sur surface'],
     currentLocation: 'En route vers astéroïde 2001 CC21',
     distanceFromSun: 1.5,
-    emoji: '🚀',
     color: '#EAB308',
   },
   // COMPLÉTÉES / HISTORIQUES
@@ -973,7 +939,6 @@ export const missions: Mission[] = [
     status: 'completed',
     description: "Le moment le plus marquant de l'exploration spatiale humaine. Neil Armstrong et Buzz Aldrin posent le pied sur la Lune le 20 juillet 1969, à la Mer de la Tranquillité. Ils collectent 21.5 kg de roche lunaire. Armstrong prononce ses mots historiques: \"C'est un petit pas pour l'homme, un bond de géant pour l'humanité.\"",
     keyDiscoveries: ['Premier alunissage humain', '21.5 kg roches lunaires', 'Mesures sismiques', 'Rétroréflecteur laser (mesuré encore aujourd\'hui)', '600 millions de téléspectateurs'],
-    emoji: '🌕',
     color: '#9CA3AF',
   },
   {
@@ -989,7 +954,6 @@ export const missions: Mission[] = [
     status: 'completed',
     description: "Six alunissages réussis (Apollo 11, 12, 14, 15, 16, 17), 12 hommes sur la Lune, 382 kg d'échantillons rapportés. Apollo 13 survécut à une explosion à bord. Le programme Apollo reste le seul programme à avoir amené des humains sur un autre corps céleste.",
     keyDiscoveries: ['12 astronautes sur la Lune', '382 kg d\'échantillons', 'Preuve Lune formée par impact géant', 'Pas d\'eau libre (alors)', 'Géologie lunaire complexe'],
-    emoji: '🚀',
     color: '#D1D5DB',
   },
   {
@@ -1005,7 +969,6 @@ export const missions: Mission[] = [
     status: 'completed',
     description: "Première sonde à survoler Mars et à renvoyer des images de sa surface. Mariner 4 révéla un paysage désertique cratérisé, brisant le mythe des canaux martiens de Percival Lowell. C'est le début de l'exploration robotique de Mars.",
     keyDiscoveries: ['Premières photos rapprochées de Mars', 'Surface désertique cratérisée', 'Fin du mythe des canaux martiens', 'Atmosphère fine mesurée'],
-    emoji: '📡',
     color: '#FB923C',
   },
   {
@@ -1021,7 +984,6 @@ export const missions: Mission[] = [
     status: 'completed',
     description: "Premier survol de Jupiter et premier objet artificiel à atteindre la vitesse de libération solaire. Pioneer 10 porte une plaque d'aluminium avec un message pour d'éventuelles intelligences extraterrestres — l'ancêtre du Disque d'Or de Voyager.",
     keyDiscoveries: ['Premières photos rapprochées de Jupiter', 'Mesure radiation jovienne', 'Plaque message extraterrestre', 'Premier à quitter l\'orbite Neptune'],
-    emoji: '🛸',
     color: '#D97706',
   },
   {
@@ -1037,7 +999,6 @@ export const missions: Mission[] = [
     status: 'completed',
     description: "8 ans en orbite autour de Jupiter. Galileo découvrit les preuves d'un océan sous-glaciaire sur Europe — la découverte majeure pour la recherche de vie. Il étudia le crash de la comète Shoemaker-Levy 9 sur Jupiter (1994). Se désintégra dans Jupiter en 2003.",
     keyDiscoveries: ['Preuves océan Europa (changements champ magnétique)', 'Volcanisme actif Io', 'Atmosphère d\'Io (SO₂)', 'Observation crash Shoemaker-Levy 9'],
-    emoji: '🛰️',
     color: '#D97706',
   },
   {
@@ -1053,7 +1014,6 @@ export const missions: Mission[] = [
     status: 'completed',
     description: "Première sonde à se mettre en orbite autour d'une comète (67P/Churyumov-Gerasimenko) et à y déposer un atterrisseur (Philae). Rosetta suivit la comète pendant 2 ans, révélant que l'eau cométaire est différente de l'eau terrestre, remettant en question l'origine des océans terrestres.",
     keyDiscoveries: ['1ère orbite cométaire', '1er atterrissage sur comète (Philae)', 'Eau cométaire ≠ eau terrestre (D/H ratio)', 'Molécules organiques sur comète', 'Glycine (acide aminé) détectée'],
-    emoji: '☄️',
     color: '#34D399',
   },
   {
@@ -1070,7 +1030,6 @@ export const missions: Mission[] = [
     keyDiscoveries: ['Conditions habitables passées confirmées', 'Méthane saisonnier (source inconnue)', 'Molécules organiques dans les roches', 'Environnement aqueux ancien neutre', 'Plus de 12 ans actif'],
     currentLocation: 'Flancs Mont Sharp, cratère Gale, Mars',
     distanceFromSun: 1.52,
-    emoji: '🤖',
     color: '#EF4444',
   },
   {
@@ -1087,7 +1046,6 @@ export const missions: Mission[] = [
     keyDiscoveries: ['Carte hydrogène sous-surface (glace H₂O)', 'Minéraux hydratés', 'Relais radio rovers', 'Record longévité orbitale Mars'],
     currentLocation: 'Orbite martienne',
     distanceFromSun: 1.52,
-    emoji: '🛰️',
     color: '#F87171',
   },
   {
@@ -1104,7 +1062,6 @@ export const missions: Mission[] = [
     keyDiscoveries: ['Cartes minéralogiques détaillées', 'Preuves anciennes rivières', 'RSL: eau liquide saisonnière?', 'Images sous-métriques surface', 'Glace sous-surface étendue'],
     currentLocation: 'Orbite martienne',
     distanceFromSun: 1.52,
-    emoji: '📡',
     color: '#FCA5A5',
   },
   {
@@ -1120,7 +1077,6 @@ export const missions: Mission[] = [
     status: 'completed',
     description: "Première sonde à orbiter deux corps extraterrestres distincts: l'astéroïde Vesta (2011-2012) puis Cérès (2015-2018). Dawn utilisa la propulsion ionique. Sur Cérès, il découvrit des taches brillantes (sel de sulfate/chlorures) dans le cratère Occator.",
     keyDiscoveries: ['Orbite Vesta puis Cérès (1ère double orbite)', 'Taches brillantes Cérès (sels)', 'Volcanisme aqueux sur Cérès', 'Composition Vesta: proto-planète différenciée'],
-    emoji: '🌟',
     color: '#A78BFA',
   },
   {
@@ -1136,7 +1092,6 @@ export const missions: Mission[] = [
     status: 'completed',
     description: "Première sonde en orbite autour de Mercure (2011-2015). MESSENGER cartographia l'intégralité de la surface, découvrit de l'eau gelée dans les cratères polaires permanents, et révéla la composition surprenante du sol (riche en soufre et graphite).",
     keyDiscoveries: ['Glace eau dans cratères polaires', 'Graphite sur surface (restes croûte primitive)', 'Noyau surdimensionné expliqué', 'Volcans antiques actifs', 'Champ magnétique asymétrique'],
-    emoji: '🛰️',
     color: '#9CA3AF',
   },
   {
@@ -1152,7 +1107,6 @@ export const missions: Mission[] = [
     status: 'completed',
     description: "La première mission dédiée à l'orbite de Vénus. Pioneer Venus cartographia 92% de la surface de Vénus au radar, révélant des montagnes et des plaines gigantesques sous les nuages permanents d'acide sulfurique.",
     keyDiscoveries: ['Cartographie radar surface Vénus', 'Maxwell Montes découvert', 'Structure atmosphérique détaillée', 'Ionosphère vénusienne'],
-    emoji: '🛸',
     color: '#FDE68A',
   },
   {
@@ -1168,7 +1122,6 @@ export const missions: Mission[] = [
     keyDiscoveries: ['Survols rapprochés (images détaillées)', 'Arrivée en orbite 2025'],
     currentLocation: 'En approche de Mercure (survols)',
     distanceFromSun: 0.45,
-    emoji: '🛸',
     color: '#9CA3AF',
   },
   {
@@ -1185,7 +1138,6 @@ export const missions: Mission[] = [
     keyDiscoveries: ['Galaxies à z>13 (univers primitif)', 'Atmosphères d\'exoplanètes (TRAPPIST-1)', 'Détails nébuleuses formation étoiles', 'Système Solaire en infrarouge', 'Candidats Big Bang repoussés'],
     currentLocation: 'Point de Lagrange L2 (1.5M km de la Terre)',
     distanceFromSun: 1.01,
-    emoji: '🔭',
     color: '#C084FC',
   },
   {
@@ -1207,7 +1159,6 @@ export const missions: Mission[] = [
     ],
     currentLocation: 'Post-Artemis II — préparation Artemis III (SLS Block 1B en intégration)',
     distanceFromSun: 1.0,
-    emoji: '🚀',
     color: '#60A5FA',
   },
   {
@@ -1224,7 +1175,6 @@ export const missions: Mission[] = [
     keyDiscoveries: ['1er rover chinois sur Mars (Zhurong)', 'Détection eau sous-surface (radar)', 'Utopia Planitia géologie détaillée', 'Orbiteur toujours actif'],
     currentLocation: 'Orbiteur actif; rover en hibernation',
     distanceFromSun: 1.52,
-    emoji: '🤖',
     color: '#EF4444',
   },
 ];

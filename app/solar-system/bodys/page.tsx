@@ -6,6 +6,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import SolarLayout from '@/components/SolarLayout';
 import { solarSystem } from '@/data/solar-system';
+import { IcoSearch } from '@/components/SolarIcons';
+import { TelescopeIcon } from '@/components/UniverseIcons';
+import { BodyIcon } from '@/components/SolarBodyIcons';
 
 // ─── Stable NASA / Wikimedia image URLs ──────────────────────────────────────
 // Planets: science.nasa.gov (official, stable)
@@ -209,7 +212,7 @@ function BodyModal({ id, onClose }: { id: string; onClose: () => void }) {
           ) : (
             <div className="w-full h-full flex items-center justify-center"
               style={{ background: `radial-gradient(ellipse at 35% 35%, ${body.colorGradient?.[0] ?? body.color}CC, ${body.color}55, #080d1a)` }}>
-              <div className="text-8xl">{body.emoji}</div>
+              <BodyIcon color={body.color} size={80} />
             </div>
           )}
           <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(8,12,28,1) 0%, rgba(8,12,28,0.5) 40%, transparent 100%)' }} />
@@ -368,7 +371,7 @@ export default function BodiesGallery() {
           </div>
 
           <div className="relative sm:ml-auto">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600 text-xs">🔍</span>
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600"><IcoSearch size={12} /></span>
             <input
               value={search}
               onChange={e => setSearch(e.target.value)}
@@ -414,7 +417,7 @@ export default function BodiesGallery() {
 
         {visibleGroups.length === 0 && (
           <div className="text-center py-24 text-gray-600">
-            <div className="text-5xl mb-4 opacity-30">🔭</div>
+            <div className="flex justify-center mb-4 opacity-30"><TelescopeIcon size={56} /></div>
             <p className="text-lg">Aucun corps céleste ne correspond à cette recherche.</p>
           </div>
         )}

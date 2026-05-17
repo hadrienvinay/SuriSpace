@@ -6,6 +6,7 @@ import {
   SearchMoonQuarter,
   SearchMaxElongation,
   SearchRelativeLongitude,
+  SearchRiseSet,
   Seasons,
   Observer,
   Equator,
@@ -190,6 +191,55 @@ export function computePlanets(date: Date = new Date()): PlanetItem[] {
       mag,
     };
   });
+}
+
+export interface DailyInfo {
+  sunriseStr: string;
+  sunsetStr: string;
+  moonPercent: number;
+  moonIcon: string;
+  isWaxing: boolean;
+  visiblePlanetNames: string[];
+}
+
+export function computeDailyInfo(date: Date = new Date()): DailyInfo {
+  const dayStart = new Date(Date.UTC(
+    date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0,
+  ));
+
+  // Sunrise / sunset (Paris UTC+1/+2)
+  let sunriseStr = '—';
+  let sunsetStr  = '—';
+  try {
+    const rise = SearchRiseSet(Body.Sun, PARIS, +1, dayStart, 1);
+    if (rise) sunriseStr = rise.date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Paris' });
+  } catch { /* hors saison */ }
+  try {
+    const set = SearchRiseSet(Body.Sun, PARIS, -1, dayStart, 1);
+    if (set) sunsetStr = set.date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Paris' });
+  } catch { /* hors saison */ }
+
+  // Moon illumination + waxing/waning
+  const moonIllum   = Illumination(Body.Moon, date);
+  const moonPercent = Math.round(moonIllum.phase_fraction * 100);
+  const tomorrow    = new Date(date.getTime() + 86_400_000);
+  const isWaxing    = Illumination(Body.Moon, tomorrow).phase_fraction > moonIllum.phase_fraction;
+
+  let moonIcon: string;
+  if      (moonPercent >= 98) moonIcon = '🌕';
+  else if (moonPercent <=  2) moonIcon = '🌑';
+  else if (moonPercent >= 50) moonIcon = isWaxing ? '🌔' : '🌖';
+  else                        moonIcon = isWaxing ? '🌒' : '🌘';
+
+  // Planets visible today (using exact date, not mid-month)
+  const visiblePlanetNames = PLANET_DEFS
+    .filter(def => {
+      const elong = Elongation(def.body, date);
+      return elong.elongation >= 10;
+    })
+    .map(def => def.name);
+
+  return { sunriseStr, sunsetStr, moonPercent, moonIcon, isWaxing, visiblePlanetNames };
 }
 
 export function computeEvents(date: Date = new Date()): EventItem[] {

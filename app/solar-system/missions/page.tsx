@@ -21,7 +21,7 @@ export default function Missions() {
   const bodies = [...allTargetIds]
     .map(id => solarSystem.find(b => b.id === id))
     .filter(Boolean)
-    .map(b => ({ id: b!.id, nameFr: b!.nameFr, color: b!.color, emoji: b!.emoji }));
+    .map(b => ({ id: b!.id, nameFr: b!.nameFr, color: b!.color }));
 
   return (
     <SolarLayout>

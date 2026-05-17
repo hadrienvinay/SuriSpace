@@ -1,11 +1,7 @@
 // app/posts/new/page.tsx
 import { EditProjectForm } from '@/components/ProjectForm';
-import Link from "next/link";
 import prisma from '@/lib/prisma'
-import Image from 'next/image'
 import { notFound } from "next/navigation";
-
-
 
 export default async function EditProjectPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;

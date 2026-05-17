@@ -5,6 +5,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import SolarLayout from '@/components/SolarLayout';
 import { GALAXIES, GALAXY_TYPES, type Galaxy, type GalaxyType } from '@/data/galaxies';
+import { GalaxyIcon } from '@/components/AtomsIcons';
+import { TelescopeIcon } from '@/components/UniverseIcons';
+import { IcoSearch, IcoPin, IcoDocument } from '@/components/SolarIcons';
 
 /* ─── Helpers ─────────────────────────────────────────────── */
 const fmtDist = (d: number) => {
@@ -57,8 +60,8 @@ function GalaxyCard({ galaxy, onClick }: { galaxy: Galaxy; onClick: () => void }
             className="absolute inset-0"
             style={{ background: galaxy.gradient }}
           >
-            <div className="absolute inset-0 flex items-center justify-center text-6xl opacity-20">
-              🌌
+            <div className="absolute inset-0 flex items-center justify-center opacity-20">
+              <GalaxyIcon size={48} />
             </div>
           </div>
         )}
@@ -178,7 +181,9 @@ function GalaxyModal({ galaxy, onClose }: { galaxy: Galaxy; onClose: () => void 
             />
           ) : (
             <div className="absolute inset-0" style={{ background: galaxy.gradient }}>
-              <div className="absolute inset-0 flex items-center justify-center text-[7rem] opacity-20">🌌</div>
+              <div className="absolute inset-0 flex items-center justify-center opacity-20">
+                <GalaxyIcon size={80} />
+              </div>
             </div>
           )}
           <div className="absolute inset-0 bg-linear-to-t from-[#0a0f1e] via-[#0a0f1e]/30 to-transparent" />
@@ -487,7 +492,9 @@ function MilkyWayHero({ onClick }: { onClick: () => void }) {
           />
         ) : (
           <div className="absolute inset-0" style={{ background: mw.gradient }}>
-            <div className="absolute inset-0 flex items-center justify-center text-[8rem] opacity-10">🌌</div>
+            <div className="absolute inset-0 flex items-center justify-center opacity-10">
+              <GalaxyIcon size={80} />
+            </div>
           </div>
         )}
         <div className="absolute inset-0 bg-linear-to-r from-[#020817]/90 via-[#020817]/30 to-transparent" />
@@ -604,7 +611,7 @@ export default function GalaxiesPage() {
 
           {/* Search */}
           <div className="relative sm:ml-auto">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600 text-xs">🔍</span>
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600"><IcoSearch size={12} /></span>
             <input
               type="text"
               placeholder="Rechercher…"
@@ -619,7 +626,7 @@ export default function GalaxiesPage() {
         {/* Galaxy grid */}
         {filtered.length === 0 ? (
           <div className="text-center py-16 text-gray-600">
-            <div className="text-4xl mb-3">🔭</div>
+            <div className="flex justify-center mb-3 opacity-40"><TelescopeIcon size={48} /></div>
             <p>Aucune galaxie ne correspond à cette recherche.</p>
           </div>
         ) : (
@@ -677,14 +684,14 @@ export default function GalaxiesPage() {
         >
           <h3 className="text-xs uppercase tracking-wider text-gray-500 mb-4">L\'Univers en chiffres</h3>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            {[
-              { label: 'Galaxies dans l\'Univers observable', value: '~2 000 milliards', icon: '🌌' },
-              { label: 'Étoiles dans la Voie Lactée', value: '200–400 Mds', icon: '⭐' },
-              { label: 'Taille de l\'Univers observable', value: '~93 milliards a.l.', icon: '🔭' },
-              { label: 'Distance à Andromède', value: '2,537 M a.l.', icon: '📏' },
-            ].map((s) => (
+            {([
+              { label: 'Galaxies dans l\'Univers observable', value: '~2 000 milliards', Icon: GalaxyIcon },
+              { label: 'Étoiles dans la Voie Lactée', value: '200–400 Mds', Icon: IcoDocument },
+              { label: 'Taille de l\'Univers observable', value: '~93 milliards a.l.', Icon: TelescopeIcon },
+              { label: 'Distance à Andromède', value: '2,537 M a.l.', Icon: IcoPin },
+            ] as { label: string; value: string; Icon: React.ComponentType<{ size?: number }> }[]).map((s) => (
               <div key={s.label} className="text-center">
-                <div className="text-2xl mb-1">{s.icon}</div>
+                <div className="flex justify-center mb-1 text-gray-400"><s.Icon size={24} /></div>
                 <div className="text-base font-bold text-white">{s.value}</div>
                 <div className="text-xs text-gray-600 mt-0.5 leading-tight">{s.label}</div>
               </div>

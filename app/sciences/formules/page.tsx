@@ -3,6 +3,18 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import ScienceLayout from '@/components/ScienceLayout';
+import { MicroscopeIcon } from '@/components/SciencesIcons';
+import { ScientistIcon } from '@/components/ScientistIcons';
+import { CategoryIcon } from '@/components/PhysicsIcons';
+
+function IcoRuler() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 1.5 11.5 L 11.5 11.5 L 1.5 2 Z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round"/>
+      <line x1="6.5" y1="11.5" x2="6.5" y2="8.5" stroke="currentColor" strokeWidth="0.9" opacity="0.55"/>
+    </svg>
+  );
+}
 import {
   PHYSICS_CATEGORIES,
   type Formula,
@@ -68,7 +80,7 @@ export default function FormulesPage() {
                 ? { background: `${cat.color}20`, borderColor: `${cat.color}60`, color: cat.color }
                 : {}}
             >
-              <span className="text-base">{cat.icon}</span>
+              <span style={{ color: cat.color }}><CategoryIcon id={cat.id} size={18} /></span>
               {cat.label}
             </button>
           ))}
@@ -253,7 +265,7 @@ export default function FormulesPage() {
                                 borderColor: `${s.color}40`,
                               }}
                             >
-                              {s.emoji}
+                              <span style={{ color: s.color }}><ScientistIcon id={s.id} size={24} /></span>
                             </div>
                             <div>
                               <div className="text-sm font-semibold text-white group-hover:underline">{s.name}</div>
@@ -276,7 +288,7 @@ export default function FormulesPage() {
                     className="text-3xl mb-3 text-center py-3 rounded-xl"
                     style={{ background: `${activeCategory.color}12` }}
                   >
-                    {activeCategory.icon}
+                    <div className="flex justify-center" style={{ color: activeCategory.color }}><CategoryIcon id={activeCategory.id} size={36} /></div>
                   </div>
                   <h2 className="text-base font-bold text-white mb-1">{activeCategory.label}</h2>
                   <p className="text-sm text-gray-500 mb-4 leading-relaxed">{activeCategory.description}</p>
@@ -309,13 +321,13 @@ export default function FormulesPage() {
                       href="/sciences/constantes"
                       className="text-center py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider border border-white/10 text-gray-400 hover:bg-white/5 hover:text-white transition-all"
                     >
-                      📐 Constantes
+                      <span className="inline-flex items-center gap-1.5"><IcoRuler /> Constantes</span>
                     </Link>
                     <Link
                       href="/sciences/scientists"
                       className="text-center py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider border border-indigo-700/40 text-indigo-400 hover:bg-indigo-900/20 transition-all"
                     >
-                      🔬 Scientifiques
+                      <span className="inline-flex items-center gap-1.5"><MicroscopeIcon size={13} /> Scientifiques</span>
                     </Link>
                   </div>
                 </div>

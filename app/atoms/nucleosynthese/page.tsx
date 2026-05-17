@@ -3,6 +3,39 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import AtomicLayout from '@/components/AtomicLayout';
+import { GalaxyIcon, ExplosionIcon } from '@/components/AtomsIcons';
+import { StarIcon } from '@/components/SpaceIcons';
+
+function IcoRedStar({ size = 24 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <circle cx="12" cy="12" r="9" fill="#F87171" opacity="0.85"/>
+      {[0,45,90,135,180,225,270,315].map(a => {
+        const r = Math.PI * a / 180;
+        return <line key={a} x1={12+Math.cos(r)*9} y1={12+Math.sin(r)*9} x2={12+Math.cos(r)*11} y2={12+Math.sin(r)*11} stroke="#FCA5A5" strokeWidth="1" strokeLinecap="round"/>;
+      })}
+    </svg>
+  );
+}
+function IcoSpallation({ size = 24 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <circle cx="5" cy="19" r="2.5" fill="#EC4899" opacity="0.8"/>
+      <line x1="7" y1="17" x2="19" y2="5" stroke="#EC4899" strokeWidth="1.5" strokeLinecap="round"/>
+      <circle cx="12" cy="12" r="1.5" fill="#A78BFA" opacity="0.9"/>
+      <line x1="12" y1="10" x2="19" y2="5" stroke="#A78BFA" strokeWidth="1" strokeLinecap="round"/>
+      <line x1="12" y1="12" x2="20" y2="12" stroke="#60A5FA" strokeWidth="1" strokeLinecap="round"/>
+      <line x1="12" y1="12" x2="16" y2="19" stroke="#34D399" strokeWidth="1" strokeLinecap="round"/>
+    </svg>
+  );
+}
+function IcoLightningBolt({ size = 24 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <path d="M 15 3 L 7 14 H 13 L 9 21 L 17 10 H 11 Z" fill="#60A5FA" stroke="#93C5FD" strokeWidth="0.6" strokeLinejoin="round"/>
+    </svg>
+  );
+}
 
 const events = [
   {
@@ -13,7 +46,7 @@ const events = [
     subtitle: '13.8 milliards d\'années ago',
     color: '#A78BFA',
     glow: 'rgba(167,139,250,0.3)',
-    icon: '🌌',
+    Icon: GalaxyIcon,
     elements: ['H', 'He', 'Li'],
     content: `Dans la première fraction de seconde, l'univers était une soupe de quarks et gluons à des températures inimaginables (10^32 K). En quelques microsecondes, des protons et neutrons se forment.
 
@@ -32,7 +65,7 @@ Ensuite pendant 380 000 ans, l'univers était trop chaud pour que les électrons
     subtitle: 'Nucléosynthèse stellaire — processus CNO et pp',
     color: '#FCD34D',
     glow: 'rgba(252,211,77,0.3)',
-    icon: '⭐',
+    Icon: StarIcon,
     elements: ['C', 'N', 'O', 'Ne', 'Mg', 'Si', 'S', 'Ca', 'Fe'],
     content: `200 millions d'années après le Big Bang, les premiers amas de gaz commencent à s'effondrer sous leur propre gravité. La pression et la chaleur au cœur atteignent 10 millions de degrés: la fusion commence.
 
@@ -54,7 +87,7 @@ Ensuite pendant 380 000 ans, l'univers était trop chaud pour que les électrons
     subtitle: 'Type II (Core Collapse) & Type Ia',
     color: '#FB923C',
     glow: 'rgba(251,146,60,0.3)',
-    icon: '💥',
+    Icon: ExplosionIcon,
     elements: ['Na', 'Al', 'P', 'Cl', 'K', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Co', 'Ni', 'Cu', 'Zn'],
     content: `Quand le cœur de fer dépasse 1.4 masse solaire (limite de Chandrasekhar), **rien ne peut l'arrêter**. En moins d'une seconde, il s'effondre de la taille de la Terre à 20 km de diamètre — une étoile à neutrons est née.
 
@@ -75,7 +108,7 @@ Ces explosions *ensèment* le milieu interstellaire de tous ces nouveaux atomes.
     subtitle: 'Processus-s (capture lente de neutrons)',
     color: '#34D399',
     glow: 'rgba(52,211,153,0.3)',
-    icon: '🔴',
+    Icon: IcoRedStar,
     elements: ['Sr', 'Ba', 'Ce', 'Pb', 'Sn', 'Se', 'Te'],
     content: `Les étoiles de masse intermédiaire (1-8 masses solaires) passent par une phase **AGB** (Asymptotic Giant Branch) lors de leur vieillissement. Leur cœur pulse de manière répétée, créant des flux de neutrons modérés.
 
@@ -94,7 +127,7 @@ Ces étoiles *soufflent* ensuite leurs couches externes dans des nébuleuses pla
     subtitle: 'L\'origine de l\'or, du platine et de l\'uranium',
     color: '#EC4899',
     glow: 'rgba(236,72,153,0.3)',
-    icon: '💫',
+    Icon: IcoSpallation,
     elements: ['Ag', 'Au', 'Pt', 'Ir', 'Os', 'U', 'Th', 'Pb'],
     content: `**17 août 2017**: les détecteurs LIGO/Virgo captent les ondes gravitationnelles d'une fusion de deux étoiles à neutrons à 130 millions d'années-lumière. Une kilonova est observée pour la première fois.
 
@@ -115,7 +148,7 @@ C'est ainsi que sont nés: or (Au), platine (Pt), iridium (Ir), osmium (Os), rho
     subtitle: 'L\'origine du lithium, bore et béryllium',
     color: '#60A5FA',
     glow: 'rgba(96,165,250,0.3)',
-    icon: '⚡',
+    Icon: IcoLightningBolt,
     elements: ['Li', 'Be', 'B'],
     content: `Les éléments **lithium (Li), béryllium (Be) et bore (B)** posent une énigme: les étoiles les détruisent plus vite qu'elles ne les produisent. Leur abondance dans l'univers est mystérieusement basse mais non nulle.
 
@@ -144,7 +177,7 @@ function VisualBigBang() {
             animationDuration: '2s',
           }} />
       ))}
-      <span className="text-5xl z-10" style={{ filter: 'drop-shadow(0 0 20px #fff)' }}>🌌</span>
+      <div className="z-10" style={{ filter: 'drop-shadow(0 0 20px #A78BFA)' }}><GalaxyIcon size={64} /></div>
     </div>
   );
 }
@@ -264,7 +297,7 @@ function VisualCosmic() {
           }} />
       ))}
       <div className="z-10 text-center">
-        <div className="text-3xl mb-1">⚡</div>
+        <div className="mb-1"><IcoLightningBolt size={28} /></div>
         <div className="text-xs text-blue-300 font-mono">Spallation ~ c</div>
       </div>
     </div>
@@ -314,7 +347,7 @@ export default function Nucleosynthese() {
                   boxShadow: activeId === ev.id ? `0 0 16px ${ev.glow}` : 'none',
                 }}>
                 <div className="flex items-center gap-2">
-                  <span className="text-xl">{ev.icon}</span>
+                  <div className="shrink-0"><ev.Icon size={22} /></div>
                   <div>
                     <div className="text-xl font-bold" style={{ color: ev.color }}>{ev.era}</div>
                     <div className="text-l text-gray-600">{ev.time}</div>

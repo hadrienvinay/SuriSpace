@@ -4,6 +4,17 @@ import { useState } from 'react';
 import Link from 'next/link';
 import AtomicLayout from '@/components/AtomicLayout';
 import { allElements, CATEGORY_COLORS } from '@/data/elements';
+import { GalaxyIcon } from '@/components/AtomsIcons';
+import { EarthIcon } from '@/components/SpaceIcons';
+
+function IcoCompare({ size = 14 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 14 14" fill="none">
+      <path d="M 2 4 L 8 4 L 6 2 M 8 4 L 6 6" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M 12 10 L 6 10 L 8 8 M 6 10 L 8 12" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
+}
 
 const universeTop = allElements
   .filter(e => e.abundanceUniverse != null && e.abundanceUniverse! > 0)
@@ -186,9 +197,9 @@ export default function Abondance() {
         {/* Tab switcher */}
         <div className="flex gap-2 mb-8">
           {[
-            { id: 'universe', label: '🌌 Univers', color: '#A78BFA' },
-            { id: 'earth', label: '🌍 Croûte Terrestre', color: '#34D399' },
-            { id: 'compare', label: '🔀 Comparaison', color: '#FB923C' },
+            { id: 'universe', label: 'Univers',         Icon: GalaxyIcon, color: '#A78BFA' },
+            { id: 'earth',    label: 'Croûte Terrestre', Icon: EarthIcon,  color: '#34D399' },
+            { id: 'compare',  label: 'Comparaison',      Icon: IcoCompare, color: '#FB923C' },
           ].map(tab => (
             <button
               key={tab.id}
@@ -199,7 +210,7 @@ export default function Abondance() {
                 borderColor: view === tab.id ? `${tab.color}55` : 'rgba(255,255,255,0.08)',
                 color: view === tab.id ? tab.color : '#9CA3AF',
               }}>
-              {tab.label}
+              <span className="inline-flex items-center gap-1.5"><tab.Icon size={14} />{tab.label}</span>
             </button>
           ))}
         </div>
@@ -268,14 +279,14 @@ export default function Abondance() {
                     </div>
                     <div className="space-y-1.5">
                       <div className="flex items-center gap-2">
-                        <span className="text-[10px] text-gray-600 w-16 shrink-0">🌌 Univers</span>
+                        <span className="inline-flex items-center gap-1 text-[10px] text-gray-600 w-16 shrink-0"><GalaxyIcon size={10} />Univers</span>
                         <div className="flex-1 h-3 bg-white/5 rounded overflow-hidden">
                           <div className="h-full rounded" style={{ width: `${uPct}%`, background: '#A78BFA' }} />
                         </div>
                         <span className="text-[10px] font-mono text-gray-500 w-20 text-right">{d.univers} ppm</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="text-[10px] text-gray-600 w-16 shrink-0">🌍 Terre</span>
+                        <span className="inline-flex items-center gap-1 text-[10px] text-gray-600 w-16 shrink-0"><EarthIcon size={10} />Terre</span>
                         <div className="flex-1 h-3 bg-white/5 rounded overflow-hidden">
                           <div className="h-full rounded" style={{ width: `${ePct}%`, background: '#34D399' }} />
                         </div>

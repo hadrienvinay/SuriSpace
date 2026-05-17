@@ -4,6 +4,8 @@ import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import SolarLayout from '@/components/SolarLayout';
 import { solarSystem, missions, planets, sun, dwarfPlanets, getActiveProbes, type Mission } from '@/data/solar-system';
+import { IcoPin } from '@/components/SolarIcons';
+import { BodyIcon, MissionIcon } from '@/components/SolarBodyIcons';
 
 // ─── Scale helpers ──────────────────────────────────────────────────────────
 const AU_TO_PX = (au: number, maxPx: number): number => {
@@ -538,7 +540,7 @@ export default function SolarSystemMap() {
                       <div className="flex items-center gap-3">
                         <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl shrink-0"
                           style={{ background: `${selectedBodyData.color}18`, border: `1px solid ${selectedBodyData.color}40` }}>
-                          {selectedBodyData.emoji}
+                          <BodyIcon color={selectedBodyData.color} size={36} />
                         </div>
                         <div>
                           <div className="text-xs uppercase tracking-widest font-bold mb-0.5" style={{ color: selectedBodyData.color }}>
@@ -610,7 +612,7 @@ export default function SolarSystemMap() {
                       <div className="flex items-center gap-3">
                         <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl shrink-0"
                           style={{ background: `${selectedProbe.color}18`, border: `1px solid ${selectedProbe.color}40` }}>
-                          {selectedProbe.emoji}
+                          <MissionIcon type={selectedProbe.type} name={selectedProbe.name} size={36} color={selectedProbe.color} />
                         </div>
                         <div>
                           <div className="flex items-center gap-1.5 mb-0.5">
@@ -648,7 +650,7 @@ export default function SolarSystemMap() {
                     {selectedProbe.currentLocation && (
                       <div className="mb-4 flex items-start gap-2 rounded-xl p-3 text-sm"
                         style={{ background: `${selectedProbe.color}0A`, border: `1px solid ${selectedProbe.color}15` }}>
-                        <span className="text-gray-500 shrink-0">📍</span>
+                        <span className="text-gray-500 shrink-0"><IcoPin size={13} /></span>
                         <span className="text-gray-300">{selectedProbe.currentLocation}</span>
                       </div>
                     )}

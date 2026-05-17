@@ -51,7 +51,7 @@ export default async function Dashboard() {
     pageCount:        63,
     componentCount:   46,
     apiRouteCount:    21,
-    prismaModelCount: 12,
+    prismaModelCount: 11,
     dataFileCount:    10,
     totalDataLines:   7811,
     daysSinceCreation,

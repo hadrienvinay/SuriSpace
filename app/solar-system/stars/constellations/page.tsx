@@ -8,13 +8,15 @@ import {
   type Constellation,
 } from '@/data/stars';
 import SolarLayout from '@/components/SolarLayout';
+import { IcoSnowflake, IcoFlower, IcoSunStar, IcoLeaf, IcoOrbiter } from '@/components/SolarIcons';
+import { ConstellationIcon } from '@/components/ConstellationIcons';
 
 // ─── Mini SVG constellation map ───────────────────────────────────────────────
 function ConstellationMiniMap({ c, size = 120 }: { c: Constellation; size?: number }) {
   const constStars = getStarsByConstellation(c.id);
   if (constStars.length === 0) return (
-    <div style={{ width: size, height: size, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 32 }}>
-      {c.emoji}
+    <div style={{ width: size, height: size, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <ConstellationIcon id={c.id} size={32} color={c.color} />
     </div>
   );
 
@@ -93,11 +95,11 @@ function ConstellationMiniMap({ c, size = 120 }: { c: Constellation; size?: numb
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 const SEASON_CONFIG = {
-  winter:     { label: 'Hiver',      color: '#93C5FD', emoji: '❄️' },
-  spring:     { label: 'Printemps',  color: '#86EFAC', emoji: '🌸' },
-  summer:     { label: 'Été',        color: '#FDE68A', emoji: '☀️' },
-  autumn:     { label: 'Automne',    color: '#FDBA74', emoji: '🍂' },
-  'year-round': { label: 'Toute année', color: '#C4B5FD', emoji: '🔄' },
+  winter:     { label: 'Hiver',       color: '#93C5FD', Icon: IcoSnowflake },
+  spring:     { label: 'Printemps',   color: '#86EFAC', Icon: IcoFlower    },
+  summer:     { label: 'Été',         color: '#FDE68A', Icon: IcoSunStar   },
+  autumn:     { label: 'Automne',     color: '#FDBA74', Icon: IcoLeaf      },
+  'year-round': { label: 'Toute année', color: '#C4B5FD', Icon: IcoOrbiter },
 };
 
 const HEMI_LABEL = { north: 'Nord', south: 'Sud', both: 'Nord/Sud' };
@@ -292,7 +294,7 @@ export default function ConstellationsPage() {
           gap: 10,
           marginBottom: 28,
         }}>
-          {(Object.entries(SEASON_CONFIG) as [string, typeof SEASON_CONFIG['winter']][]).map(([key, { label, color, emoji }]) => {
+          {(Object.entries(SEASON_CONFIG) as [string, typeof SEASON_CONFIG['winter']][]).map(([key, { label, color, Icon }]) => {
             const count = constellations.filter(c => c.bestSeason === key).length;
             const isActive = filterSeason === key;
             return (
@@ -302,7 +304,7 @@ export default function ConstellationsPage() {
                 onClick={() => setFilterSeason(isActive ? 'all' : key)}
                 style={{ borderColor: isActive ? `${color}40` : undefined }}
               >
-                <span style={{ fontSize: 17 }}>{emoji}</span>
+                <Icon size={17} />
                 <div style={{ textAlign: 'left' }}>
                   <div style={{ color: isActive ? color : undefined }}>{label}</div>
                   <div style={{ fontSize: 10, opacity: 0.5 }}>{count} constell.</div>
@@ -337,9 +339,9 @@ export default function ConstellationsPage() {
           <div style={{ width: '1px', height: 28, background: 'rgba(255,255,255,0.08)' }} />
 
           <button className={`filter-btn ${filterHemi === 'all' ? 'active' : ''}`} onClick={() => setFilterHemi('all')}>Toutes</button>
-          <button className={`filter-btn ${filterHemi === 'north' ? 'active' : ''}`} onClick={() => setFilterHemi('north')}>🌍 Boréales</button>
-          <button className={`filter-btn ${filterHemi === 'south' ? 'active' : ''}`} onClick={() => setFilterHemi('south')}>🌏 Australes</button>
-          <button className={`filter-btn ${filterHemi === 'both' ? 'active' : ''}`} onClick={() => setFilterHemi('both')}>🌐 Les deux</button>
+          <button className={`filter-btn ${filterHemi === 'north' ? 'active' : ''}`} onClick={() => setFilterHemi('north')}>▲ Boréales</button>
+          <button className={`filter-btn ${filterHemi === 'south' ? 'active' : ''}`} onClick={() => setFilterHemi('south')}>▼ Australes</button>
+          <button className={`filter-btn ${filterHemi === 'both' ? 'active' : ''}`} onClick={() => setFilterHemi('both')}>◎ Les deux</button>
 
           <div style={{ width: '1px', height: 28, background: 'rgba(255,255,255,0.08)' }} />
 
@@ -385,7 +387,7 @@ export default function ConstellationsPage() {
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
                       <div style={{ flex: 1 }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
-                          <span style={{ fontSize: 22 }}>{c.emoji}</span>
+                          <ConstellationIcon id={c.id} size={22} color={c.color} />
                           <div>
                             <div style={{
                               fontFamily: "'Exo 2', sans-serif",
@@ -453,7 +455,7 @@ export default function ConstellationsPage() {
                         color: season.color,
                         border: `1px solid ${season.color}30`,
                       }}>
-                        {season.emoji} {season.label}
+                        <season.Icon size={13} /> {season.label}
                       </span>
                       {/* Hemisphere */}
                       <span style={{
@@ -513,7 +515,7 @@ export default function ConstellationsPage() {
           gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
           gap: 12,
         }}>
-          {(Object.entries(SEASON_CONFIG) as [string, typeof SEASON_CONFIG['winter']][]).map(([key, { label, color, emoji }]) => {
+          {(Object.entries(SEASON_CONFIG) as [string, typeof SEASON_CONFIG['winter']][]).map(([key, { label, color, Icon }]) => {
             const list = constellations.filter(c => c.bestSeason === key);
             return (
               <div key={key} style={{
@@ -523,7 +525,7 @@ export default function ConstellationsPage() {
                 borderRadius: 12,
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-                  <span style={{ fontSize: 16 }}>{emoji}</span>
+                  <Icon size={16} />
                   <span style={{ fontSize: 14, fontWeight: 600, color }}>{label}</span>
                   <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.3)', marginLeft: 'auto' }}>{list.length}</span>
                 </div>

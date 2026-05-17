@@ -136,10 +136,13 @@ export default function About() {
 
           {/* Cover image */}
           <div style={{ position: 'relative', height: 280, borderRadius: '0 0 28px 28px', overflow: 'hidden' }}>
-            <img
+            <Image
               src="https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHw2fHxlYXJ0aHxlbnwwfDB8fHwxNzQ2NTM0MzY3fDA&ixlib=rb-4.1.0&q=80&w=1080"
               alt="Cover"
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              fill
+              sizes="100vw"
+              className="object-cover"
+              priority
             />
             {/* Gradient overlay */}
             <div style={{

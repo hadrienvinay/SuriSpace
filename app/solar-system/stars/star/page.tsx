@@ -7,6 +7,7 @@ import {
   type Star, type SpectralClass,
 } from '@/data/stars';
 import SolarLayout from '@/components/SolarLayout';
+import { IcoEye, IcoGlobeEarth, IcoSearch } from '@/components/SolarIcons';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 const SPECTRAL_LABELS: Record<SpectralClass, string> = {
@@ -329,7 +330,7 @@ export default function CataloguePage() {
         }}>
           {/* Search */}
           <div style={{ position: 'relative', minWidth: 220, flex: '1 1 220px' }}>
-            <span style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', fontSize: 16, opacity: 0.4 }}>⚲</span>
+            <span style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', opacity: 0.4 }}><IcoSearch size={14} /></span>
             <input
               className="search-input"
               value={search}
@@ -368,10 +369,10 @@ export default function CataloguePage() {
 
           {/* Toggles */}
           <button className={`filter-btn ${filterNaked ? 'active' : ''}`} onClick={() => setFilterNaked(v => !v)}>
-            👁 Œil nu
+            <IcoEye size={13} /> Œil nu
           </button>
           <button className={`filter-btn ${filterExo ? 'active' : ''}`} onClick={() => setFilterExo(v => !v)}>
-            🌍 Exoplanètes
+            <IcoGlobeEarth size={13} /> Exoplanètes
           </button>
 
           {(search || filterClass !== 'all' || filterType !== 'all' || filterConst !== 'all' || filterNaked || filterExo) && (
@@ -422,12 +423,12 @@ export default function CataloguePage() {
                         <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
                           {star.nakedEye && (
                             <span className="badge" style={{ background: 'rgba(255,255,200,0.08)', color: 'rgba(255,255,180,0.7)', border: '1px solid rgba(255,255,180,0.15)' }}>
-                              👁
+                              <IcoEye size={13} />
                             </span>
                           )}
                           {star.exoplanets && star.exoplanets.length > 0 && (
                             <span className="badge" style={{ background: 'rgba(100,220,200,0.08)', color: 'rgba(100,220,200,0.7)', border: '1px solid rgba(100,220,200,0.15)' }}>
-                              🌍 {star.exoplanets.length}
+                              <IcoGlobeEarth size={12} /> {star.exoplanets.length}
                             </span>
                           )}
                         </div>
@@ -560,8 +561,8 @@ export default function CataloguePage() {
                         <div style={{ fontSize: 16, fontWeight: 500, color: '#fff' }}>{star.nameFr ?? star.name}</div>
                         {star.bayerDesignation && <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)' }}>{star.bayerDesignation}</div>}
                       </div>
-                      {star.nakedEye && <span style={{ marginLeft: 'auto', fontSize: 16, opacity: 0.5 }}>👁</span>}
-                      {star.exoplanets?.length ? <span style={{ fontSize: 12, opacity: 0.5 }}>🌍</span> : null}
+                      {star.nakedEye && <span style={{ marginLeft: 'auto', opacity: 0.5 }}><IcoEye size={15} /></span>}
+                      {star.exoplanets?.length ? <span style={{ opacity: 0.5 }}><IcoGlobeEarth size={12} /></span> : null}
                     </div>
                     {/* Constellation */}
                     <div style={{ padding: '12px 14px', borderBottom: '1px solid rgba(255,255,255,0.04)', fontSize: 13, color: 'rgba(255,255,255,0.5)', alignItems: 'center', display: 'flex' }}>

@@ -11,6 +11,10 @@ import {
   type MessierObject,
   type MessierType,
 } from '@/data/messier';
+import { IcoSearch, IcoNebula } from '@/components/SolarIcons';
+import { GalaxyIcon } from '@/components/AtomsIcons';
+import { TelescopeIcon } from '@/components/UniverseIcons';
+import { StarIcon } from '@/components/SpaceIcons';
 
 /* ── Modal ─────────────────────────────────────────────────── */
 function MessierModal({ obj, onClose }: { obj: MessierObject; onClose: () => void }) {
@@ -146,12 +150,10 @@ function MessierCard({ obj, onClick }: { obj: MessierObject; onClick: () => void
           />
         ) : (
           <div
-            className="absolute inset-0 flex items-center justify-center"
+            className="absolute inset-0 flex items-center justify-center opacity-30"
             style={{ background: `linear-gradient(135deg, ${color}18, ${color}05)` }}
           >
-            <span className="text-3xl opacity-30">
-              {obj.type === 'galaxy' ? '🌌' : obj.type === 'globular' ? '⭐' : obj.type === 'open' ? '✨' : obj.type === 'nebula' ? '🌫️' : '🔭'}
-            </span>
+            {obj.type === 'galaxy' ? <GalaxyIcon size={28} /> : obj.type === 'globular' ? <StarIcon size={28} /> : obj.type === 'open' ? <StarIcon size={28} /> : obj.type === 'nebula' ? <IcoNebula size={28} /> : <TelescopeIcon size={28} />}
           </div>
         )}
         <div className="absolute inset-0 bg-linear-to-t from-[#020817] via-transparent to-transparent" />
@@ -186,13 +188,13 @@ function MessierCard({ obj, onClick }: { obj: MessierObject; onClick: () => void
 }
 
 /* ── Page ──────────────────────────────────────────────────── */
-const TYPE_FILTERS: { id: MessierType | 'all'; label: string; icon: string }[] = [
-  { id: 'all', label: 'Tous', icon: '🔭' },
-  { id: 'galaxy', label: 'Galaxies', icon: '🌌' },
-  { id: 'globular', label: 'Amas globulaires', icon: '⭐' },
-  { id: 'open', label: 'Amas ouverts', icon: '✨' },
-  { id: 'nebula', label: 'Nébuleuses', icon: '🌫️' },
-  { id: 'other', label: 'Autres', icon: '❓' },
+const TYPE_FILTERS: { id: MessierType | 'all'; label: string; Icon: React.ComponentType<{ size?: number }> }[] = [
+  { id: 'all', label: 'Tous', Icon: TelescopeIcon },
+  { id: 'galaxy', label: 'Galaxies', Icon: GalaxyIcon },
+  { id: 'globular', label: 'Amas globulaires', Icon: StarIcon },
+  { id: 'open', label: 'Amas ouverts', Icon: StarIcon },
+  { id: 'nebula', label: 'Nébuleuses', Icon: IcoNebula },
+  { id: 'other', label: 'Autres', Icon: TelescopeIcon },
 ];
 
 const TYPE_COUNTS = TYPE_FILTERS.reduce((acc, f) => {
@@ -274,7 +276,7 @@ export default function MessierPage() {
                   : '#6B7280',
               }}
             >
-              <div className="text-base mb-0.5">{f.icon}</div>
+              <div className="flex justify-center mb-0.5"><f.Icon size={18} /></div>
               <div className="leading-tight">{f.label}</div>
               <div className="text-[10px] opacity-70 mt-0.5">{TYPE_COUNTS[f.id]}</div>
             </button>
@@ -284,7 +286,7 @@ export default function MessierPage() {
         {/* Search + count */}
         <div className="flex items-center justify-between gap-4 mb-6">
           <div className="relative">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600 text-xs">🔍</span>
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600"><IcoSearch size={12} /></span>
             <input
               type="text"
               placeholder="M42, Orion, Lyra…"
@@ -302,7 +304,7 @@ export default function MessierPage() {
         {/* Grid */}
         {filtered.length === 0 ? (
           <div className="text-center py-20 text-gray-600">
-            <div className="text-4xl mb-3">🔭</div>
+            <div className="mb-3 flex justify-center opacity-30"><TelescopeIcon size={48} /></div>
             <p>Aucun objet ne correspond.</p>
           </div>
         ) : (
@@ -327,7 +329,7 @@ export default function MessierPage() {
                   style={{ background: MESSIER_TYPE_COLORS[f.id as MessierType] }}
                 />
                 <span className="text-xs text-gray-500">
-                  {f.icon} {f.label}{' '}
+                  <f.Icon size={12} /> {f.label}{' '}
                   <span
                     className="font-mono font-semibold"
                     style={{ color: MESSIER_TYPE_COLORS[f.id as MessierType] }}

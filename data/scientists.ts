@@ -16,7 +16,6 @@ export interface Scientist {
   nationality: string;
   domains: string[];
   color: string;
-  emoji: string;
   shortBio: string;
   biography: string;
   discoveries: string[];
@@ -70,7 +69,6 @@ export const scientists: Scientist[] = [
     nationality: 'Grec (Syracuse)',
     domains: ['Mathématiques', 'Physique', 'Mécanique'],
     color: '#F59E0B',
-    emoji: '⚖️',
     shortBio: 'Père de la statique et de l\'hydrostatique, mathématicien visionnaire de l\'Antiquité.',
     biography: `Archimède de Syracuse est l'un des plus grands savants de l'Antiquité. Né vers 287 av. J.-C. en Sicile, il excella en mathématiques, physique et mécanique. Son principe de flottaison — "tout corps plongé dans un liquide subit une poussée vers le haut égale au poids du liquide déplacé" — reste fondamental en hydrostatique. Il développa des méthodes précurseures du calcul intégral pour mesurer surfaces et volumes, et calcula π avec une remarquable précision (entre 3,1408 et 3,1429). Ingénieur de génie, il conçut des machines de guerre pour défendre Syracuse contre les Romains — catapultes et griffes capables de soulever des bateaux ennemis.`,
     discoveries: [
@@ -96,7 +94,6 @@ export const scientists: Scientist[] = [
     nationality: 'Arabe (Irak)',
     domains: ['Physique', 'Mathématiques', 'Astronomie'],
     color: '#34D399',
-    emoji: '👁️',
     shortBio: 'Père de l\'optique moderne, pionnier de la méthode expérimentale rigoureuse.',
     biography: `Ibn al-Haytham (latinisé en Alhazen) est né à Bassora vers 965 apr. J.-C. Considéré comme le père de l'optique moderne, il fut le premier à démontrer que la vision résulte de la lumière entrant dans l'œil — et non de rayons émis par l'œil, comme le croyaient les Grecs. À l'aide d'une chambre obscura (camera obscura), il étudia la propagation de la lumière et les lois de la réfraction. Son "Livre d'Optique" (Kitāb al-Manāẓir), traduit en latin au XIIe siècle, influença profondément Kepler, Galilée et Newton. Il est également l'un des premiers scientifiques à insister sur la rigueur de la méthode expérimentale.`,
     discoveries: [
@@ -121,7 +118,6 @@ export const scientists: Scientist[] = [
     nationality: 'Polonais',
     domains: ['Astronomie', 'Mathématiques'],
     color: '#818CF8',
-    emoji: '🌍',
     shortBio: 'Auteur du modèle héliocentrique, déclencheur de la révolution scientifique.',
     biography: `Nicolas Copernic (1473-1543), astronome polonais, est l'auteur du modèle héliocentrique du système solaire — l'idée révolutionnaire que la Terre tourne autour du Soleil, et non l'inverse. Publiée l'année même de sa mort dans "De revolutionibus orbium coelestium", cette théorie déclencha la révolution copernicienne, bouleversant la cosmologie médiévale géocentrique héritée de Ptolémée. Bien que son modèle conservât encore des orbites circulaires, il posa les bases sur lesquelles Kepler, Galilée et Newton allaient construire la physique moderne.`,
     discoveries: [
@@ -142,7 +138,6 @@ export const scientists: Scientist[] = [
     nationality: 'Italien',
     domains: ['Physique', 'Astronomie', 'Mathématiques'],
     color: '#60A5FA',
-    emoji: '🔭',
     shortBio: 'Père de la physique moderne et de l\'astronomie observationnelle.',
     biography: `Galileo Galilei (1564-1642) est considéré comme le père de la physique et de l'astronomie modernes. Il améliora considérablement la lunette astronomique et l'utilisa pour découvrir les quatre grandes lunes de Jupiter, les phases de Vénus et les montagnes lunaires — autant de preuves confirmant le modèle héliocentrique. En mécanique, il énonça le principe d'inertie, étudia la chute des corps (accélération constante indépendante de la masse) et le mouvement des projectiles. Condamné par l'Inquisition en 1633 pour avoir défendu Copernic, il fut contraint d'abjurer mais continua ses travaux en secret.`,
     discoveries: [
@@ -168,7 +163,6 @@ export const scientists: Scientist[] = [
     nationality: 'Allemand',
     domains: ['Astronomie', 'Mathématiques'],
     color: '#A78BFA',
-    emoji: '🪐',
     shortBio: 'Formulateur des lois du mouvement planétaire, pont entre Copernic et Newton.',
     biography: `Johannes Kepler (1571-1630) est l'astronome allemand qui formula les trois lois du mouvement planétaire à partir des observations précises de Tycho Brahe. En remplaçant les cercles par des ellipses, il réconcilia définitivement le modèle héliocentrique avec les observations. Ces lois devinrent le fondement sur lequel Newton bâtit sa théorie de la gravitation universelle. Kepler fut aussi l'un des premiers à utiliser des arguments physiques (forces du Soleil) pour expliquer les orbites — une rupture décisive avec la tradition purement géométrique.`,
     discoveries: [
@@ -189,7 +183,6 @@ export const scientists: Scientist[] = [
     nationality: 'Anglais',
     domains: ['Physique', 'Mathématiques', 'Astronomie'],
     color: '#F59E0B',
-    emoji: '🍎',
     shortBio: 'Père de la mécanique classique, co-inventeur du calcul différentiel.',
     biography: `Isaac Newton (1643-1727) est l'un des plus grands scientifiques de l'histoire. Dans ses "Principia Mathematica" (1687), il formula les trois lois du mouvement et la loi de gravitation universelle, unifiant pour la première fois la mécanique céleste et terrestre en un seul cadre mathématique cohérent. Il inventa indépendamment le calcul différentiel et intégral (en parallèle avec Leibniz), révolutionna l'optique en décomposant la lumière blanche avec un prisme, et construisit le premier télescope à réflexion. Son œuvre domina la physique pendant deux siècles jusqu'à Einstein.`,
     discoveries: [
@@ -215,7 +208,6 @@ export const scientists: Scientist[] = [
     nationality: 'Français',
     domains: ['Chimie'],
     color: '#34D399',
-    emoji: '⚗️',
     shortBio: 'Père de la chimie moderne, découvreur du rôle de l\'oxygène et de la loi de conservation de la masse.',
     biography: `Antoine Lavoisier (1743-1794) est reconnu comme le père de la chimie moderne. Il réfuta définitivement la théorie du phlogistique en démontrant le rôle fondamental de l'oxygène dans la combustion et la respiration. Il formula la loi de conservation de la masse ("rien ne se perd, rien ne se crée, tout se transforme") et établit, avec Berthollet et Fourcroy, la nomenclature chimique moderne encore utilisée aujourd'hui. Il démontra que l'eau est composée d'hydrogène et d'oxygène. Fermier général sous l'Ancien Régime, il fut guillotiné pendant la Révolution française. Sa mort prématurée priva la science d'un génie au sommet de sa carrière.`,
     discoveries: [
@@ -241,7 +233,6 @@ export const scientists: Scientist[] = [
     nationality: 'Anglais',
     domains: ['Biologie'],
     color: '#A78BFA',
-    emoji: '🦎',
     shortBio: 'Auteur de la théorie de l\'évolution par sélection naturelle.',
     biography: `Charles Darwin (1809-1882) révolutionna la biologie avec sa théorie de l'évolution par sélection naturelle, publiée dans "De l'origine des espèces" (1859). Après un voyage de cinq ans sur le HMS Beagle (1831-1836) qui lui permit d'observer la diversité des espèces, notamment aux îles Galápagos, il formula l'idée que les organismes évoluent par adaptation progressive à leur environnement. La sélection naturelle — les individus les mieux adaptés survivent et se reproduisent davantage — explique l'extraordinaire diversité du vivant. Cette théorie unifia la biologie et bouleversa notre compréhension de la place de l'Homme dans la nature.`,
     discoveries: [
@@ -266,7 +257,6 @@ export const scientists: Scientist[] = [
     nationality: 'Écossais',
     domains: ['Physique', 'Électromagnétisme', 'Mathématiques'],
     color: '#FB923C',
-    emoji: '⚡',
     shortBio: 'Unificateur de l\'électricité et du magnétisme, découvreur de la nature électromagnétique de la lumière.',
     biography: `James Clerk Maxwell (1831-1879) est l'auteur des équations de l'électromagnétisme — les quatre "équations de Maxwell" — qui unifièrent l'électricité, le magnétisme et la lumière dans une seule théorie cohérente. Il démontra que la lumière est une onde électromagnétique et prédit l'existence d'autres ondes de même nature (radio, infrarouge…), confirmées expérimentalement par Hertz en 1887. Ses travaux sur la théorie cinétique des gaz et la distribution des vitesses moléculaires (distribution de Maxwell-Boltzmann) furent également fondateurs. Einstein le considérait comme le plus grand physicien depuis Newton.`,
     discoveries: [
@@ -288,7 +278,6 @@ export const scientists: Scientist[] = [
     nationality: 'Français',
     domains: ['Chimie', 'Biologie', 'Médecine'],
     color: '#F472B6',
-    emoji: '🦠',
     shortBio: 'Père de la microbiologie et de la pasteurisation, sauveur de millions de vies.',
     biography: `Louis Pasteur (1822-1895) est l'un des scientifiques les plus importants de l'histoire de la médecine. Il réfuta définitivement la théorie de la génération spontanée avec son célèbre expérience du "col de cygne" (1859), démontra que les maladies infectieuses sont causées par des micro-organismes (théorie microbienne), et inventa la pasteurisation pour conserver les aliments. Il développa les premiers vaccins modernes : contre le choléra des poules (1880), l'anthrax (1881) et, de façon spectaculaire, contre la rage (1885). Ses travaux fondèrent la microbiologie et révolutionnèrent la médecine.`,
     discoveries: [
@@ -314,7 +303,6 @@ export const scientists: Scientist[] = [
     nationality: 'Russe',
     domains: ['Chimie'],
     color: '#34D399',
-    emoji: '📊',
     shortBio: 'Créateur du tableau périodique des éléments, prédicteur d\'éléments non encore découverts.',
     biography: `Dmitri Mendeleïev (1834-1907) est le chimiste russe qui créa la version la plus complète et influente du tableau périodique des éléments (1869). En classant les 63 éléments connus par masse atomique croissante et propriétés chimiques similaires, il révéla une périodicité remarquable des propriétés et prédit l'existence et les propriétés précises d'éléments non encore découverts — le gallium (1875), le germanium (1886) et le scandium (1879) confirmèrent ses prédictions. Son tableau révéla l'ordre sous-jacent de la matière et resta le fondement de la chimie.`,
     discoveries: [
@@ -336,7 +324,6 @@ export const scientists: Scientist[] = [
     nationality: 'Polonaise-Française',
     domains: ['Physique', 'Chimie'],
     color: '#818CF8',
-    emoji: '☢️',
     shortBio: 'Première femme prix Nobel, découvreuse du polonium et du radium, pionnière de la radioactivité.',
     biography: `Marie Sklodowska-Curie (1867-1934) est la première femme à avoir reçu le prix Nobel et la seule personne à l'avoir remporté dans deux disciplines différentes (physique en 1903, chimie en 1911). Née à Varsovie, elle mena des recherches pionnières sur la radioactivité avec son mari Pierre Curie, découvrit deux nouveaux éléments (polonium et radium), et démontra que la radioactivité est une propriété atomique intrinsèque — non une réaction chimique. Ses travaux ouvrirent la voie à la physique nucléaire, à la radiothérapie et à la médecine nucléaire.`,
     discoveries: [
@@ -362,7 +349,6 @@ export const scientists: Scientist[] = [
     nationality: 'Allemand-Américain',
     domains: ['Physique'],
     color: '#F59E0B',
-    emoji: '⚛️',
     shortBio: 'Auteur de la relativité restreinte et générale, révolutionnaire de la physique du XXe siècle.',
     biography: `Albert Einstein (1879-1955) est le physicien le plus célèbre du XXe siècle. En 1905, son "année miraculeuse" (annus mirabilis), il publia quatre articles révolutionnaires : la relativité restreinte (E=mc²), l'effet photoélectrique (qui lui valut le Nobel en 1921), le mouvement brownien, et la théorie de la chaleur. En 1915, il formula la relativité générale — une nouvelle théorie de la gravitation décrivant l'espace-temps courbé par la matière. Ses théories transformèrent fondamentalement notre conception de l'espace, du temps, de la matière et de l'énergie.`,
     discoveries: [
@@ -392,7 +378,6 @@ export const scientists: Scientist[] = [
     nationality: 'Danois',
     domains: ['Physique'],
     color: '#60A5FA',
-    emoji: '🌀',
     shortBio: 'Architecte du modèle atomique quantique et père de l\'interprétation de Copenhague.',
     biography: `Niels Bohr (1885-1962) fut l'un des architectes de la mécanique quantique. Son modèle de l'atome (1913), avec des électrons sur des orbites discrètes quantifiées, expliqua pour la première fois les raies spectrales de l'hydrogène. Il développa le principe de complémentarité et l'interprétation de Copenhague de la mécanique quantique — la plus largement acceptée. Son Institut de physique théorique à Copenhague devint le centre mondial de la physique quantique dans les années 1920-30, attirant Heisenberg, Pauli, Dirac et bien d'autres.`,
     discoveries: [
@@ -418,7 +403,6 @@ export const scientists: Scientist[] = [
     nationality: 'Allemand',
     domains: ['Physique'],
     color: '#F472B6',
-    emoji: '🎲',
     shortBio: 'Fondateur de la mécanique matricielle et auteur du principe d\'incertitude.',
     biography: `Werner Heisenberg (1901-1976) est l'un des fondateurs de la mécanique quantique. En 1925, à seulement 23 ans, il développa la mécanique matricielle — la première formulation mathématique cohérente de la mécanique quantique. En 1927, il formula le célèbre principe d'incertitude : il est fondamentalement impossible de connaître simultanément avec précision la position et la quantité de mouvement d'une particule. Ce principe implique que l'incertitude n'est pas due à des limitations technologiques, mais est une propriété intrinsèque de la nature quantique.`,
     discoveries: [
@@ -442,7 +426,6 @@ export const scientists: Scientist[] = [
     nationality: 'Anglais',
     domains: ['Mathématiques', 'Informatique'],
     color: '#22D3EE',
-    emoji: '💻',
     shortBio: 'Père de l\'informatique théorique et de l\'intelligence artificielle.',
     biography: `Alan Turing (1912-1954) est le père de l'informatique théorique et l'un des fondateurs de l'intelligence artificielle. En 1936, il formalisa le concept d'algorithme avec la "machine de Turing", définissant les limites fondamentales de ce qu'un ordinateur peut calculer. Durant la Seconde Guerre mondiale, il joua un rôle crucial dans le déchiffrement d'Enigma à Bletchley Park, contribuant de façon décisive à la victoire alliée. Son "test de Turing" (1950) reste une référence dans les débats sur l'intelligence artificielle. Persécuté pour son homosexualité, il mourut à 41 ans dans des circonstances tragiques.`,
     discoveries: [
@@ -467,7 +450,6 @@ export const scientists: Scientist[] = [
     nationality: 'Américain',
     domains: ['Physique'],
     color: '#F59E0B',
-    emoji: '🎯',
     shortBio: 'Développeur de l\'électrodynamique quantique, physicien visionnaire et pédagogue incomparable.',
     biography: `Richard Feynman (1918-1988) reçut le prix Nobel de physique en 1965 pour ses travaux sur l'électrodynamique quantique (QED), la théorie décrivant les interactions entre lumière et matière avec une précision extraordinaire (accord théorie/expérience à 10 chiffres significatifs). Il inventa les diagrammes de Feynman, outil visuel révolutionnaire pour calculer les interactions quantiques. Grand communicateur, ses "Cours de physique Feynman" restent une référence pédagogique incomparable. Il contribua au projet Manhattan et présida le comité d'enquête sur la navette Challenger.`,
     discoveries: [
@@ -493,7 +475,6 @@ export const scientists: Scientist[] = [
     nationality: 'Anglo-Américain',
     domains: ['Biologie'],
     color: '#A78BFA',
-    emoji: '🧬',
     shortBio: 'Découvreurs de la structure en double hélice de l\'ADN, fondateurs de la biologie moléculaire.',
     biography: `Francis Crick (1916-2004) et James Watson (né en 1928) élucidèrent en 1953 la structure en double hélice de l'ADN, à partir notamment des données de diffraction aux rayons X obtenues par Rosalind Franklin. Cette découverte fut l'une des plus importantes du XXe siècle : comprendre la structure de l'ADN révéla comment l'information génétique est stockée et transmise de génération en génération. Ils reçurent le Nobel de médecine en 1962 avec Maurice Wilkins. La contribution décisive de Rosalind Franklin — décédée en 1958 — ne fut reconnue que bien plus tard.`,
     discoveries: [
@@ -517,7 +498,6 @@ export const scientists: Scientist[] = [
     nationality: 'Anglais',
     domains: ['Physique', 'Astronomie'],
     color: '#818CF8',
-    emoji: '🕳️',
     shortBio: 'Spécialiste des trous noirs et de la cosmologie, auteur de "Une brève histoire du temps".',
     biography: `Stephen Hawking (1942-2018) est l'un des cosmologistes les plus célèbres du XXe siècle. Malgré la sclérose latérale amyotrophique (SLA) diagnostiquée à 21 ans qui le paralysa progressivement, il fit des contributions majeures : le théorème des singularités (avec Roger Penrose), le rayonnement de Hawking prédit par la mécanique quantique des trous noirs, et la cosmologie quantique (univers sans frontières, avec James Hartle). Son livre "Une brève histoire du temps" (1988) vulgarisa la cosmologie pour le grand public et se vendit à plus de 10 millions d'exemplaires.`,
     discoveries: [

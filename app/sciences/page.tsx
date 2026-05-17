@@ -13,6 +13,46 @@ export const metadata: Metadata = {
   },
 };
 import ScienceLayout from '@/components/ScienceLayout';
+
+function HlApple() {
+  return (
+    <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 18 8 Q 21 4 23 5" stroke="#34D399" strokeWidth="1.8" strokeLinecap="round"/>
+      <path d="M 18 8 Q 23 7 22 11" stroke="#34D399" strokeWidth="1.2" fill="rgba(52,211,153,0.25)" strokeLinecap="round"/>
+      <path d="M 11 12 Q 6 12 6 19 Q 6 28 11 30 Q 14.5 32 18 30 Q 21.5 32 25 30 Q 30 28 30 19 Q 30 12 25 12 Q 21.5 10 18 12 Q 14.5 10 11 12 Z"
+        fill="rgba(167,139,250,0.35)" stroke="rgba(167,139,250,0.8)" strokeWidth="1.2"/>
+    </svg>
+  );
+}
+function HlLightning() {
+  return (
+    <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 22 4 L 11 20 H 19 L 14 32 L 25 16 H 17 Z" fill="#FBBF24" stroke="#FCD34D" strokeWidth="0.8" strokeLinejoin="round"/>
+    </svg>
+  );
+}
+function HlAtom() {
+  return (
+    <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="18" cy="18" r="3.5" fill="#F87171"/>
+      <ellipse cx="18" cy="18" rx="15" ry="5.5" stroke="#F87171" strokeWidth="1.2" opacity="0.75"/>
+      <ellipse cx="18" cy="18" rx="15" ry="5.5" stroke="#F87171" strokeWidth="1.2" opacity="0.75" transform="rotate(60 18 18)"/>
+      <ellipse cx="18" cy="18" rx="15" ry="5.5" stroke="#F87171" strokeWidth="1.2" opacity="0.75" transform="rotate(120 18 18)"/>
+    </svg>
+  );
+}
+function HlDna() {
+  return (
+    <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 11 4 C 26 9 9 16 26 21 C 9 26 26 31 11 32" stroke="#34D399" strokeWidth="2" strokeLinecap="round" fill="none"/>
+      <path d="M 25 4 C 9 9 26 16 9 21 C 26 26 9 31 25 32"  stroke="#60A5FA" strokeWidth="2" strokeLinecap="round" fill="none"/>
+      <line x1="13" y1="8"  x2="23" y2="10" stroke="rgba(255,255,255,0.25)" strokeWidth="1.2" strokeLinecap="round"/>
+      <line x1="11" y1="15" x2="25" y2="16" stroke="rgba(255,255,255,0.25)" strokeWidth="1.2" strokeLinecap="round"/>
+      <line x1="11" y1="21" x2="25" y2="20" stroke="rgba(255,255,255,0.25)" strokeWidth="1.2" strokeLinecap="round"/>
+      <line x1="13" y1="27" x2="23" y2="25" stroke="rgba(255,255,255,0.25)" strokeWidth="1.2" strokeLinecap="round"/>
+    </svg>
+  );
+}
 import { JsonLd } from '@/components/JsonLd';
 import {
   ClockIcon,
@@ -71,10 +111,10 @@ const facts = [
 ];
 
 const highlights = [
-  { emoji: '🍎', label: 'Newton', sub: 'Gravitation, 1687' },
-  { emoji: '⚡', label: 'Einstein', sub: 'Relativité, 1905' },
-  { emoji: '☢️', label: 'Curie', sub: 'Radioactivité, 1898' },
-  { emoji: '🧬', label: 'Darwin', sub: 'Évolution, 1859' },
+  { Icon: HlApple,    label: 'Newton',   sub: 'Gravitation, 1687'    },
+  { Icon: HlLightning,label: 'Einstein', sub: 'Relativité, 1905'     },
+  { Icon: HlAtom,     label: 'Curie',    sub: 'Radioactivité, 1898'  },
+  { Icon: HlDna,      label: 'Darwin',   sub: 'Évolution, 1859'      },
 ];
 
 export default function SciencesHome() {
@@ -121,7 +161,7 @@ export default function SciencesHome() {
               className="text-center rounded-2xl border border-white/6 py-4 px-3"
               style={{ background: 'rgba(255,255,255,0.02)' }}
             >
-              <div className="text-3xl mb-1">{h.emoji}</div>
+              <div className="mb-2 flex justify-center"><h.Icon /></div>
               <div className="text-sm font-bold text-white">{h.label}</div>
               <div className="text-xs text-gray-500 mt-0.5">{h.sub}</div>
             </div>

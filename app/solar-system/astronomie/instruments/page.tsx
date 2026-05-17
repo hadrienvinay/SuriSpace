@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import SolarLayout from '@/components/SolarLayout';
+import { IcoPin, IcoDish, IcoMountain } from '@/components/SolarIcons';
+import { TelescopeIcon } from '@/components/UniverseIcons';
 
 type InstrumentCategory = 'spatial' | 'terrestre';
 
@@ -435,10 +437,8 @@ function InstrumentCard({ inst, onClick }: { inst: Instrument; onClick: () => vo
             onError={() => setImgError(true)}
           />
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center" style={{ background: inst.gradient }}>
-            <span className="text-6xl opacity-20">
-              {inst.category === 'spatial' ? '🛸' : '🔭'}
-            </span>
+          <div className="absolute inset-0 flex items-center justify-center opacity-20" style={{ background: inst.gradient }}>
+            {inst.category === 'spatial' ? <IcoDish size={56} /> : <TelescopeIcon size={56} />}
           </div>
         )}
         <div className="absolute inset-0 bg-linear-to-t from-[#020817] via-transparent to-transparent" />
@@ -479,11 +479,11 @@ function InstrumentCard({ inst, onClick }: { inst: Instrument; onClick: () => vo
         </h3>
         <p className="text-[11px] text-gray-600 mb-2">{inst.headline}</p>
         <div className="flex flex-wrap gap-x-3 gap-y-1">
-          <span className="text-[10px] text-gray-600">
-            📍 <span className="text-gray-500">{inst.location}</span>
+          <span className="text-[10px] text-gray-600 flex items-center gap-1">
+            <IcoPin size={10} /> <span className="text-gray-500">{inst.location}</span>
           </span>
           <span className="text-[10px] text-gray-600">
-            🪞 <span className="text-gray-500">{inst.aperture}</span>
+            <span className="text-gray-500">{inst.aperture}</span>
           </span>
         </div>
       </div>
@@ -527,10 +527,8 @@ function InstrumentModal({ inst, onClose }: { inst: Instrument; onClose: () => v
               onError={() => setImgError(true)}
             />
           ) : (
-            <div className="absolute inset-0 flex items-center justify-center" style={{ background: inst.gradient }}>
-              <span className="text-[7rem] opacity-20">
-                {inst.category === 'spatial' ? '🛸' : '🔭'}
-              </span>
+            <div className="absolute inset-0 flex items-center justify-center opacity-20" style={{ background: inst.gradient }}>
+              {inst.category === 'spatial' ? <IcoDish size={80} /> : <TelescopeIcon size={80} />}
             </div>
           )}
           <div className="absolute inset-0 bg-linear-to-t from-[#0a0f1e] via-[#0a0f1e]/20 to-transparent" />
@@ -629,10 +627,10 @@ function InstrumentModal({ inst, onClose }: { inst: Instrument; onClose: () => v
 }
 
 /* ── Page ──────────────────────────────────────────────────── */
-const CATEGORY_FILTERS: { id: InstrumentCategory | 'all'; label: string; icon: string }[] = [
-  { id: 'all', label: 'Tous', icon: '🔭' },
-  { id: 'spatial', label: 'Spatiaux', icon: '🛸' },
-  { id: 'terrestre', label: 'Terrestres', icon: '🏔️' },
+const CATEGORY_FILTERS: { id: InstrumentCategory | 'all'; label: string; Icon: React.ComponentType<{ size?: number }> }[] = [
+  { id: 'all', label: 'Tous', Icon: TelescopeIcon },
+  { id: 'spatial', label: 'Spatiaux', Icon: IcoDish },
+  { id: 'terrestre', label: 'Terrestres', Icon: IcoMountain },
 ];
 
 export default function InstrumentsPage() {
@@ -680,7 +678,7 @@ export default function InstrumentsPage() {
                   : 'border-white/8 text-gray-500 hover:text-white hover:border-white/15'
               }`}
             >
-              <span>{f.icon}</span>
+              <f.Icon size={14} />
               {f.label}
               <span className="text-xs opacity-60 font-mono">
                 {f.id === 'all' ? INSTRUMENTS.length : INSTRUMENTS.filter(i => i.category === f.id).length}
@@ -692,8 +690,8 @@ export default function InstrumentsPage() {
         {/* Space telescopes section */}
         {(filter === 'all' || filter === 'spatial') && (
           <div className="mb-10">
-            <h2 className="text-xs uppercase tracking-widest text-gray-600 mb-4 font-bold">
-              🛸 Télescopes Spatiaux
+            <h2 className="text-xs uppercase tracking-widest text-gray-600 mb-4 font-bold flex items-center gap-1.5">
+              <IcoDish size={12} /> Télescopes Spatiaux
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {(filter === 'all' ? INSTRUMENTS.filter(i => i.category === 'spatial') : filtered).map(inst => (
@@ -706,8 +704,8 @@ export default function InstrumentsPage() {
         {/* Ground observatories section */}
         {(filter === 'all' || filter === 'terrestre') && (
           <div className="mb-10">
-            <h2 className="text-xs uppercase tracking-widest text-gray-600 mb-4 font-bold">
-              🏔️ Observatoires Terrestres
+            <h2 className="text-xs uppercase tracking-widest text-gray-600 mb-4 font-bold flex items-center gap-1.5">
+              <IcoMountain size={12} /> Observatoires Terrestres
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {(filter === 'all' ? INSTRUMENTS.filter(i => i.category === 'terrestre') : filtered).map(inst => (
