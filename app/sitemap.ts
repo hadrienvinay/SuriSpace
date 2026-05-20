@@ -26,6 +26,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE}/sciences/formules`,           changeFrequency: monthly, priority: 0.6 },
     { url: `${BASE}/sciences/constantes`,         changeFrequency: monthly, priority: 0.6 },
     { url: `${BASE}/sciences/scientists`,         changeFrequency: monthly, priority: 0.7 },
+    { url: `${BASE}/sciences/histoire`,           changeFrequency: monthly, priority: 0.7 },
 
     // Atoms
     { url: `${BASE}/atoms`,                       changeFrequency: monthly, priority: 0.8 },
@@ -45,9 +46,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE}/solar-system/stars/constellations`, changeFrequency: monthly, priority: 0.6 },
     { url: `${BASE}/solar-system/stars/star`,     changeFrequency: monthly, priority: 0.6 },
     { url: `${BASE}/solar-system/astronomie`,     changeFrequency: monthly, priority: 0.7 },
+    { url: `${BASE}/solar-system/exoplanetes`,   changeFrequency: monthly, priority: 0.7 },
     { url: `${BASE}/solar-system/astronomie/messier`,    changeFrequency: monthly, priority: 0.6 },
     { url: `${BASE}/solar-system/astronomie/instruments`,changeFrequency: monthly, priority: 0.6 },
     { url: `${BASE}/solar-system/astronomie/ciel`,       changeFrequency: monthly, priority: 0.6 },
+
+    // Biologie
+    { url: `${BASE}/biologie`,          changeFrequency: monthly, priority: 0.8 },
+    { url: `${BASE}/biologie/corps`,    changeFrequency: monthly, priority: 0.7 },
+    { url: `${BASE}/biologie/cellules`, changeFrequency: monthly, priority: 0.7 },
+    { url: `${BASE}/biologie/vivant`,      changeFrequency: monthly, priority: 0.7 },
+    { url: `${BASE}/biologie/evolution`,   changeFrequency: monthly, priority: 0.7 },
+    { url: `${BASE}/biologie/metabolisme`, changeFrequency: monthly, priority: 0.7 },
+    { url: `${BASE}/biologie/genetique`,   changeFrequency: monthly, priority: 0.7 },
+    { url: `${BASE}/biologie/sante`,       changeFrequency: monthly, priority: 0.7 },
+    { url: `${BASE}/biologie/ecologie`,    changeFrequency: monthly, priority: 0.7 },
 
     // Nature
     { url: `${BASE}/nature`,                      changeFrequency: monthly, priority: 0.7 },

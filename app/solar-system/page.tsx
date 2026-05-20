@@ -84,6 +84,26 @@ const sections = [
     border: 'border-indigo-500/30',
     accent: 'text-indigo-300',
   },
+  {
+    href: '/solar-system/exoplanetes',
+    Icon: function ExoIcon() {
+      return (
+        <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="28" cy="28" r="12" fill="rgba(96,165,250,0.15)" stroke="#60A5FA" strokeWidth="1.5" />
+          <ellipse cx="28" cy="28" rx="22" ry="7" fill="none" stroke="#60A5FA" strokeWidth="1" strokeOpacity="0.4" />
+          <circle cx="10" cy="14" r="3" fill="rgba(251,191,36,0.4)" stroke="#FBBF24" strokeWidth="1" />
+          <circle cx="44" cy="12" r="2" fill="rgba(167,139,250,0.5)" stroke="#A78BFA" strokeWidth="0.8" />
+          <circle cx="47" cy="38" r="1.5" fill="rgba(52,211,153,0.5)" stroke="#34D399" strokeWidth="0.8" />
+          <circle cx="28" cy="24" r="3" fill="rgba(96,165,250,0.6)" />
+        </svg>
+      );
+    },
+    title: 'Exoplanètes',
+    description: '20 mondes au-delà du système solaire — Proxima b, TRAPPIST-1e, Kepler-452b, zones habitables et méthodes de détection.',
+    gradient: 'from-blue-600/20 to-violet-600/20',
+    border: 'border-blue-500/30',
+    accent: 'text-blue-300',
+  },
 ];
 
 const facts = [

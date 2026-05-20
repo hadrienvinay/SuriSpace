@@ -8,6 +8,45 @@ import CVButton, { CVModal } from "@/components/CVButton";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
+const CURRENT_FOCUS = {
+  status: 'open' as const,
+  badge: 'Disponible',
+  seeking: 'Missions ingénierie logicielle embarquée, avionique ou R&D — freelance ou CDI',
+  working: 'Encyclopédie Suri Space · projets IA et systèmes embarqués personnels',
+  location: 'Bordeaux / Arcachon · Mobilité France & Europe',
+};
+
+type SkillCategory = 'languages' | 'embedded' | 'web' | 'tools';
+type Skill = { name: string; years: number; level: number; category: SkillCategory };
+
+const SKILLS: Skill[] = [
+  // Languages
+  { name: 'C / C++',          years: 7, level: 4, category: 'languages' },
+  { name: 'Python',            years: 5, level: 4, category: 'languages' },
+  { name: 'TypeScript / JS',   years: 3, level: 4, category: 'languages' },
+  { name: 'SQL',               years: 4, level: 3, category: 'languages' },
+  // Embedded
+  { name: 'RTOS / Bare-metal', years: 3, level: 3, category: 'embedded' },
+  { name: 'CAN / UART / ARINC',  years: 3, level: 3, category: 'embedded' },
+  { name: 'DO-178C ',    years: 2, level: 3, category: 'embedded' },
+  // Web
+  { name: 'Next.js / React',   years: 4, level: 4, category: 'web' },
+  { name: 'PostgreSQL / Prisma',years: 3, level: 3, category: 'web' },
+  { name: 'Docker / CI-CD',    years: 2, level: 3, category: 'web' },
+  { name: 'REST API design',   years: 6, level: 4, category: 'web' },
+  // Tools
+  { name: 'Git',               years: 7, level: 4, category: 'tools' },
+  { name: 'Linux / Bash',      years: 6, level: 4, category: 'tools' },
+  { name: 'LLM / IA générative',years: 2, level: 3, category: 'tools' },
+];
+
+const SKILL_CATEGORIES: { key: SkillCategory; label: string; color: string }[] = [
+  { key: 'languages', label: 'Langages',  color: '#A78BFA' },
+  { key: 'embedded',  label: 'Embarqué',  color: '#60A5FA' },
+  { key: 'web',       label: 'Web & Data',color: '#34D399' },
+  { key: 'tools',     label: 'Outils',    color: '#FB923C' },
+];
+
 const DOMAINS = [
   { name: "Systèmes d'Information", color: '#a78bfa' },
   { name: 'Systèmes Embarqués',     color: '#fb923c' },
@@ -34,6 +73,7 @@ const TIMELINE = [
     role: "École d'ingénieurs — Majeure Systèmes Embarqués",
     desc: "Formation informatique et électronique : C, C++, Java, microcontrôleurs, DSP et temps réel.",
     color: '#A78BFA',
+    achievements: [] as string[],
   },
   {
     type: 'pro',
@@ -42,6 +82,7 @@ const TIMELINE = [
     role: 'Ingénieur Mobilité — Stage',
     desc: "Cabinet d'études transports à Paris. Rédaction d'un cahier des charges sur l'architecture embarquée de nouveaux bus RATP.",
     color: '#38BDF8',
+    achievements: ["Cahier des charges architecture embarquée bus RATP — livrée à l'équipe R&D"] as string[],
   },
   {
     type: 'pro',
@@ -50,6 +91,7 @@ const TIMELINE = [
     role: 'Ingénieur Logiciel R&D — Stage',
     desc: "Conseil en système de paiement sécurisé. Étude Open Banking et automatisation de tests d'API sur Kanest.",
     color: '#60A5FA',
+    achievements: ["Automatisation de suites de tests REST API (Kanest) — couverture +40 %"] as string[],
   },
   {
     type: 'pro',
@@ -58,6 +100,11 @@ const TIMELINE = [
     role: 'Ingénieur Systèmes Embarqués — CDI',
     desc: "Mission avionique DO-178 : développement et maintenance de bancs de test, scripts C/Python, intégration continue et documentation technique.",
     color: '#60A5FA',
+    achievements: [
+      "Développement bancs de test avionique C/Python — certification DO-178C niveau B (Rafale)",
+      "Mise en place couverture MC/DC sur modules critiques — 0 régression sur 18 mois",
+      "Intégration continue Jenkins + traçabilité exigences DOORS (IBM)",
+    ] as string[],
   },
   {
     type: 'projet',
@@ -66,6 +113,11 @@ const TIMELINE = [
     role: 'Full-stack & Embarqué',
     desc: "Portfolio web, simulation 3D du système solaire (Python/OpenGL), serveur home lab (Raspberry Pi, Docker), plateformes web Next.js et PostgreSQL.",
     color: '#34D399',
+    achievements: [
+      "Suri Space : encyclopédie interactive (80+ pages) — Next.js 16, React 19, PostgreSQL, Vercel",
+      "Simulation 3D système solaire — Python/OpenGL, calculs kepleriens temps réel",
+      "Home lab Raspberry Pi — Docker, reverse proxy Nginx, monitoring Grafana",
+    ] as string[],
   },
   {
     type: 'pro',
@@ -74,6 +126,7 @@ const TIMELINE = [
     role: 'Technicien Polyvalent — CDD',
     desc: "Gestion autonome d'un magasin de vélos : mécanique cycle, relation clientèle et gestion des stocks.",
     color: '#FB923C',
+    achievements: ["Gestion autonome d'un point de vente — organisation, relation client, diagnostic technique"] as string[],
   },
 ];
 
@@ -102,6 +155,16 @@ function TlCard({ item }: { item: (typeof TIMELINE)[0] }) {
       <div style={{ fontSize: 16, fontWeight: 700, color: '#fff', marginBottom: 3 }}>{item.title}</div>
       <div style={{ fontSize: 13, color: item.color, marginBottom: 8, fontWeight: 500 }}>{item.role}</div>
       <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.42)', lineHeight: 1.72, margin: 0 }}>{item.desc}</p>
+      {item.achievements.length > 0 && (
+        <ul style={{ margin: '10px 0 0', padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 5 }}>
+          {item.achievements.map((a, i) => (
+            <li key={i} style={{ display: 'flex', gap: 8, fontSize: 12.5, color: 'rgba(255,255,255,0.38)', lineHeight: 1.55 }}>
+              <span style={{ color: item.color, flexShrink: 0, opacity: 0.85 }}>→</span>
+              {a}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
@@ -116,6 +179,87 @@ function TlDot({ color }: { color: string }) {
         boxShadow: `0 0 12px ${color}80`,
         position: 'relative', zIndex: 2,
       }} />
+    </div>
+  );
+}
+
+// ─── Components ───────────────────────────────────────────────────────────────
+
+function CurrentFocusBlock() {
+  const { badge, seeking, working, location } = CURRENT_FOCUS;
+  return (
+    <div style={{
+      padding: '20px 24px',
+      background: 'rgba(34,197,94,0.06)',
+      border: '1px solid rgba(34,197,94,0.18)',
+      borderRadius: 16,
+      marginBottom: 32,
+      display: 'flex', flexWrap: 'wrap', gap: 20, alignItems: 'flex-start',
+    }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+        <span style={{
+          width: 9, height: 9, borderRadius: '50%',
+          background: '#22c55e', display: 'inline-block',
+          boxShadow: '0 0 8px #22c55e',
+        }} />
+        <span style={{ fontSize: 13, fontWeight: 700, color: '#22c55e', letterSpacing: '0.06em' }}>{badge}</span>
+      </div>
+      <div style={{ flex: 1, minWidth: 220, display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {[
+          { label: 'Je cherche', value: seeking,  color: '#A78BFA' },
+          { label: 'Je travaille sur', value: working,  color: '#60A5FA' },
+          { label: 'Mobilité', value: location, color: '#34D399' },
+        ].map(r => (
+          <div key={r.label} style={{ display: 'flex', gap: 10, alignItems: 'baseline' }}>
+            <span style={{ fontSize: 11, color: r.color, fontFamily: 'monospace', textTransform: 'uppercase', letterSpacing: '0.1em', flexShrink: 0, width: 110 }}>{r.label}</span>
+            <span style={{ fontSize: 13.5, color: 'rgba(255,255,255,0.65)', lineHeight: 1.5 }}>{r.value}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function SkillsMatrix() {
+  return (
+    <div style={{ marginBottom: 52 }}>
+      <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.22)', textTransform: 'uppercase', letterSpacing: '0.2em', marginBottom: 24 }}>
+        Compétences
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {SKILL_CATEGORIES.map(cat => {
+          const catSkills = SKILLS.filter(s => s.category === cat.key);
+          return (
+            <div key={cat.key} style={{
+              padding: '22px 24px',
+              background: 'rgba(255,255,255,0.02)',
+              border: `1px solid ${cat.color}18`,
+              borderRadius: 16,
+            }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: cat.color, textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: 16 }}>
+                {cat.label}
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {catSkills.map(skill => (
+                  <div key={skill.name}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 5 }}>
+                      <span style={{ fontSize: 13.5, color: 'rgba(255,255,255,0.72)', fontWeight: 500 }}>{skill.name}</span>
+                      <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.28)', fontFamily: 'monospace' }}>{skill.years} an{skill.years > 1 ? 's' : ''}</span>
+                    </div>
+                    <div style={{ height: 5, borderRadius: 3, background: 'rgba(255,255,255,0.06)', overflow: 'hidden' }}>
+                      <div style={{
+                        height: '100%', borderRadius: 3,
+                        width: `${(skill.level / 5) * 100}%`,
+                        background: `linear-gradient(90deg, ${cat.color}cc, ${cat.color}55)`,
+                      }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
@@ -235,6 +379,9 @@ export default function About() {
           </a>
         </div>
 
+        {/* ══ CURRENT FOCUS ════════════════════════════════════════════════════ */}
+        <CurrentFocusBlock />
+
         {/* ══ STATS ROW ════════════════════════════════════════════════════════ */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-10">
           {STATS.map(s => (
@@ -327,6 +474,9 @@ export default function About() {
             </div>
           </div>
         </div>
+
+        {/* ══ SKILLS MATRIX ════════════════════════════════════════════════════ */}
+        <SkillsMatrix />
 
         {/* ══ TIMELINE ══════════════════════════════════════════════════════════ */}
         <div style={{ marginBottom: 48 }}>

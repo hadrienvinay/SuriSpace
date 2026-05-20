@@ -48,7 +48,7 @@ export default async function Dashboard() {
     bookCount,
     actionCount,
     bourseOrderCount,
-    pageCount:        63,
+    pageCount:        74,
     componentCount:   46,
     apiRouteCount:    21,
     prismaModelCount: 11,

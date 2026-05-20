@@ -93,6 +93,7 @@ const SUGGESTIONS = [
   { href: '/solar-system',   label: 'Espace'          },
   { href: '/sciences',       label: 'Sciences'        },
   { href: '/atoms',          label: 'Atomes'          },
+  { href: '/biologie',       label: 'Biologie'        },
   { href: '/nature',         label: 'Nature'          },
   { href: '/posts',          label: 'Articles'        },
   { href: '/projects',       label: 'Projets'         },
@@ -114,7 +115,7 @@ export default function NotFound() {
 
       {/* 404 number */}
       <div
-        className="text-6xl sm:text-6xl font-extrabold mb-1 leading-none"
+        className="text-6:qqxl sm:text-6xl font-extrabold mb-1 leading-none"
         style={{
           background: 'linear-gradient(135deg, #60A5FA, #A78BFA)',
           WebkitBackgroundClip: 'text',

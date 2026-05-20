@@ -7,11 +7,14 @@ import { usePathname } from 'next/navigation';
 import { Session } from 'next-auth';
 // import SearchModal from '@/components/SearchModal';
 import {
-  NavPlanetIcon, NavScienceIcon, NavAtomIcon, NavLeafIcon,
+  NavPlanetIcon, NavScienceIcon, NavAtomIcon, NavLeafIcon, NavBiologieIcon,
   IcoHome, IcoMap, IcoGlobe, IcoGalaxy, IcoRocket, IcoTelescope, IcoStar,
   IcoClock, IcoUser, IcoSigma, IcoInfinity,
   IcoFlask, IcoExplosion, IcoChart, IcoRadiation,
   IcoLeaf, IcoHouse, IcoSun, IcoApple,
+  IcoHeart, IcoDna, IcoTree, IcoEvolution, IcoAtp,
+  IcoGene, IcoShield, IcoEarth,
+  IcoScroll, IcoExoplanet,
 } from '@/components/NavIcons';
 
 /* ─── Types ───────────────────────────────────────────────── */
@@ -32,7 +35,8 @@ const DROPDOWNS: { label: string; Icon: TopIcon; color: string; items: NavItem[]
       { href: '/solar-system/galaxies',   label: 'Galaxies',         Icon: IcoGalaxy    },
       { href: '/solar-system/missions',   label: 'Missions & Sondes',Icon: IcoRocket    },
       { href: '/solar-system/astronomie', label: 'Astronomie',       Icon: IcoTelescope },
-      { href: '/solar-system/stars',      label: 'Carte du ciel',    Icon: IcoStar      },
+      { href: '/solar-system/stars',        label: 'Carte du ciel',    Icon: IcoStar       },
+      { href: '/solar-system/exoplanetes', label: 'Exoplanètes',      Icon: IcoExoplanet  },
     ],
   },
   {
@@ -45,6 +49,7 @@ const DROPDOWNS: { label: string; Icon: TopIcon; color: string; items: NavItem[]
       { href: '/sciences/scientists', label: 'Scientifiques', Icon: IcoUser     },
       { href: '/sciences/formules',   label: 'Formules',      Icon: IcoSigma    },
       { href: '/sciences/constantes', label: 'Constantes',    Icon: IcoInfinity },
+      { href: '/sciences/histoire',  label: 'Histoire',      Icon: IcoScroll   },
     ],
   },
   {
@@ -57,6 +62,21 @@ const DROPDOWNS: { label: string; Icon: TopIcon; color: string; items: NavItem[]
       { href: '/atoms/nucleosynthese', label: 'Nucléosynthèse',     Icon: IcoExplosion },
       { href: '/atoms/abondance',      label: 'Abondance',          Icon: IcoChart     },
       { href: '/atoms/particules',     label: 'Particules',         Icon: IcoRadiation },
+    ],
+  },
+  {
+    label: 'Biologie',
+    Icon: NavBiologieIcon,
+    color: '#34D399',
+    items: [
+      { href: '/biologie',          label: 'Accueil',        Icon: IcoHome  },
+      { href: '/biologie/corps',    label: 'Corps Humain',   Icon: IcoHeart },
+      { href: '/biologie/cellules', label: 'Cellules & ADN', Icon: IcoDna   },
+      { href: '/biologie/vivant',      label: 'Le Vivant',      Icon: IcoTree      },
+      { href: '/biologie/evolution',   label: 'Évolution',      Icon: IcoEvolution },
+      { href: '/biologie/metabolisme', label: 'Métabolisme',    Icon: IcoAtp       },
+      { href: '/biologie/genetique',   label: 'Génétique',      Icon: IcoGene      },
+      { href: '/biologie/sante',       label: 'Santé',          Icon: IcoShield    },
     ],
   },
   {
