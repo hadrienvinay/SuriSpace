@@ -270,12 +270,7 @@ export default function MetabolismePage() {
 
         <h1
           className="text-4xl sm:text-5xl font-bold mb-3 tracking-tight"
-          style={{
-            background: 'linear-gradient(135deg, #FBBF24, #F97316, #10B981)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            fontFamily: "'Exo 2', sans-serif",
-          }}
+          style={{ color: '#10B981', fontFamily: "'Exo 2', sans-serif" }}
         >
           Métabolisme
         </h1>
@@ -292,8 +287,8 @@ export default function MetabolismePage() {
         {/* ── 1. Catabolisme vs Anabolisme ─────────────────── */}
         <section className="mb-16">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #FBBF24, #10B981)' }} />
-            <h2 className="text-2xl font-bold" style={{ background: 'linear-gradient(135deg, #FBBF24, #10B981)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: "'Exo 2', sans-serif" }}>
+            <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #10B981, #06B6D4)' }} />
+            <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "\'Exo 2\', sans-serif" }}>
               Catabolisme et Anabolisme
             </h2>
           </div>
@@ -345,8 +340,8 @@ export default function MetabolismePage() {
         {/* ── 2. ATP ───────────────────────────────────────── */}
         <section className="mb-16">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #FBBF24, #EF4444)' }} />
-            <h2 className="text-2xl font-bold" style={{ background: 'linear-gradient(135deg, #FBBF24, #EF4444)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: "'Exo 2', sans-serif" }}>
+            <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #10B981, #06B6D4)' }} />
+            <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "\'Exo 2\', sans-serif" }}>
               L&apos;ATP — monnaie énergétique universelle
             </h2>
           </div>
@@ -372,12 +367,7 @@ export default function MetabolismePage() {
                   >
                     <div
                       className="text-lg font-bold mb-0.5"
-                      style={{
-                        background: 'linear-gradient(135deg, #FBBF24, #F97316)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        fontFamily: "'Exo 2', monospace",
-                      }}
+                      style={{ color: '#10B981', fontFamily: "'Exo 2', monospace" }}
                     >
                       {f.value}
                     </div>
@@ -392,8 +382,8 @@ export default function MetabolismePage() {
         {/* ── 3. Respiration ───────────────────────────────── */}
         <section className="mb-16">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #60A5FA, #10B981)' }} />
-            <h2 className="text-2xl font-bold" style={{ background: 'linear-gradient(135deg, #60A5FA, #10B981)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: "'Exo 2', sans-serif" }}>
+            <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #10B981, #06B6D4)' }} />
+            <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "\'Exo 2\', sans-serif" }}>
               Respiration cellulaire
             </h2>
           </div>
@@ -453,8 +443,8 @@ export default function MetabolismePage() {
         {/* ── 4. Photosynthesis ────────────────────────────── */}
         <section className="mb-16">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #10B981, #FBBF24)' }} />
-            <h2 className="text-2xl font-bold" style={{ background: 'linear-gradient(135deg, #10B981, #FBBF24)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: "'Exo 2', sans-serif" }}>
+            <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #10B981, #06B6D4)' }} />
+            <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "\'Exo 2\', sans-serif" }}>
               Photosynthèse
             </h2>
           </div>
@@ -511,8 +501,8 @@ export default function MetabolismePage() {
         {/* ── 5. Fermentation ──────────────────────────────── */}
         <section className="mb-16">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #EF4444, #F97316)' }} />
-            <h2 className="text-2xl font-bold" style={{ background: 'linear-gradient(135deg, #EF4444, #F97316)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: "'Exo 2', sans-serif" }}>
+            <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #10B981, #06B6D4)' }} />
+            <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "\'Exo 2\', sans-serif" }}>
               Fermentation (anaérobie)
             </h2>
           </div>

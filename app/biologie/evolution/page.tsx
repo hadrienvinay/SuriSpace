@@ -309,12 +309,7 @@ export default function EvolutionPage() {
 
         <h1
           className="text-4xl sm:text-5xl font-bold mb-3 tracking-tight"
-          style={{
-            background: 'linear-gradient(135deg, #10B981, #06B6D4, #A78BFA)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            fontFamily: "'Exo 2', sans-serif",
-          }}
+          style={{ color: '#10B981', fontFamily: "'Exo 2', sans-serif" }}
         >
           Évolution
         </h1>
@@ -332,7 +327,7 @@ export default function EvolutionPage() {
         <section className="mb-16">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #10B981, #06B6D4)' }} />
-            <h2 className="text-2xl font-bold" style={{ background: 'linear-gradient(135deg, #10B981, #06B6D4)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: "'Exo 2', sans-serif" }}>
+            <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "\'Exo 2\', sans-serif" }}>
               4 milliards d&apos;années d&apos;évolution
             </h2>
           </div>
@@ -350,8 +345,8 @@ export default function EvolutionPage() {
         {/* ── 2. Lamarck vs Darwin vs Mendel ───────────────── */}
         <section className="mb-16">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #F97316, #10B981)' }} />
-            <h2 className="text-2xl font-bold" style={{ background: 'linear-gradient(135deg, #F97316, #10B981)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: "'Exo 2', sans-serif" }}>
+            <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #10B981, #06B6D4)' }} />
+            <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "\'Exo 2\', sans-serif" }}>
               Les théoriciens de l&apos;évolution
             </h2>
           </div>
@@ -397,8 +392,8 @@ export default function EvolutionPage() {
         {/* ── 3. Natural selection diagram ─────────────────── */}
         <section className="mb-16">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #10B981, #FBBF24)' }} />
-            <h2 className="text-2xl font-bold" style={{ background: 'linear-gradient(135deg, #10B981, #FBBF24)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: "'Exo 2', sans-serif" }}>
+            <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #10B981, #06B6D4)' }} />
+            <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "\'Exo 2\', sans-serif" }}>
               Les 4 mécanismes évolutifs
             </h2>
           </div>
@@ -460,8 +455,8 @@ export default function EvolutionPage() {
         {/* ── 4. Speciation ────────────────────────────────── */}
         <section className="mb-16">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #06B6D4, #A78BFA)' }} />
-            <h2 className="text-2xl font-bold" style={{ background: 'linear-gradient(135deg, #06B6D4, #A78BFA)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: "'Exo 2', sans-serif" }}>
+            <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #10B981, #06B6D4)' }} />
+            <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "\'Exo 2\', sans-serif" }}>
               La Spéciation
             </h2>
           </div>
@@ -493,8 +488,8 @@ export default function EvolutionPage() {
         {/* ── 5. Key fossils ───────────────────────────────── */}
         <section className="mb-16">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #FBBF24, #F97316)' }} />
-            <h2 className="text-2xl font-bold" style={{ background: 'linear-gradient(135deg, #FBBF24, #F97316)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: "'Exo 2', sans-serif" }}>
+            <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #10B981, #06B6D4)' }} />
+            <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "\'Exo 2\', sans-serif" }}>
               Fossiles clés
             </h2>
           </div>
@@ -530,7 +525,7 @@ export default function EvolutionPage() {
               { label: 'Evo-Devo',         value: 'Années 1990', desc: 'Evolutionary developmental biology — les mêmes gènes HOX guident le développement de l\'insecte à l\'humain.' },
             ].map((item, i) => (
               <div key={i} className="text-center">
-                <div className="text-lg font-bold mb-1" style={{ background: 'linear-gradient(135deg, #10B981, #06B6D4)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: "'Exo 2', monospace" }}>
+                <div className="text-lg font-bold mb-1" style={{ color: '#10B981', fontFamily: "'Exo 2', sans-serif" }}>
                   {item.value}
                 </div>
                 <div className="text-sm font-semibold text-white mb-1">{item.label}</div>

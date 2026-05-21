@@ -221,12 +221,7 @@ export default function SantePage() {
 
         <h1
           className="text-4xl sm:text-5xl font-bold mb-3 tracking-tight"
-          style={{
-            background: 'linear-gradient(135deg, #EF4444, #F97316, #FBBF24)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            fontFamily: "'Exo 2', sans-serif",
-          }}
+          style={{ color: '#10B981', fontFamily: "'Exo 2', sans-serif" }}
         >
           Santé & Médecine
         </h1>
@@ -243,8 +238,8 @@ export default function SantePage() {
         {/* ── 1. Disease categories ────────────────────────── */}
         <section className="mb-16">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #EF4444, #F97316)' }} />
-            <h2 className="text-2xl font-bold" style={{ background: 'linear-gradient(135deg, #EF4444, #F97316)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: "'Exo 2', sans-serif" }}>
+            <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #10B981, #06B6D4)' }} />
+            <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "\'Exo 2\', sans-serif" }}>
               Les 5 grandes catégories de maladies
             </h2>
           </div>
@@ -279,7 +274,7 @@ export default function SantePage() {
         <section className="mb-16">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #10B981, #06B6D4)' }} />
-            <h2 className="text-2xl font-bold" style={{ background: 'linear-gradient(135deg, #10B981, #06B6D4)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: "'Exo 2', sans-serif" }}>
+            <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "\'Exo 2\', sans-serif" }}>
               Vaccins & Immunité
             </h2>
           </div>
@@ -325,8 +320,8 @@ export default function SantePage() {
         {/* ── 3. Antibiotics ───────────────────────────────── */}
         <section className="mb-16">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #34D399, #06B6D4)' }} />
-            <h2 className="text-2xl font-bold" style={{ background: 'linear-gradient(135deg, #34D399, #06B6D4)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: "'Exo 2', sans-serif" }}>
+            <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #10B981, #06B6D4)' }} />
+            <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "\'Exo 2\', sans-serif" }}>
               Antibiotiques
             </h2>
           </div>
@@ -364,8 +359,8 @@ export default function SantePage() {
         {/* ── 4. Pandemics ─────────────────────────────────── */}
         <section className="mb-12">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #6B7280, #EF4444)' }} />
-            <h2 className="text-2xl font-bold" style={{ background: 'linear-gradient(135deg, #6B7280, #EF4444)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: "'Exo 2', sans-serif" }}>
+            <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #10B981, #06B6D4)' }} />
+            <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "\'Exo 2\', sans-serif" }}>
               Grandes pandémies
             </h2>
           </div>

@@ -11,9 +11,9 @@ import CVButton, { CVModal } from "@/components/CVButton";
 const CURRENT_FOCUS = {
   status: 'open' as const,
   badge: 'Disponible',
-  seeking: 'Missions ingénierie logicielle embarquée, avionique ou R&D — freelance ou CDI',
+  seeking: 'Missions ingénierie logicielle embarquée, spatiale, avionique ou R&D — freelance ou CDI',
   working: 'Encyclopédie Suri Space · projets IA et systèmes embarqués personnels',
-  location: 'Bordeaux / Arcachon · Mobilité France & Europe',
+  location: 'Bordeaux / Toulouse · Mobilité France & Europe',
 };
 
 type SkillCategory = 'languages' | 'embedded' | 'web' | 'tools';
@@ -26,18 +26,20 @@ const SKILLS: Skill[] = [
   { name: 'TypeScript / JS',   years: 3, level: 4, category: 'languages' },
   { name: 'SQL',               years: 4, level: 3, category: 'languages' },
   // Embedded
-  { name: 'RTOS / Bare-metal', years: 3, level: 3, category: 'embedded' },
+  { name: 'RTOS / ESP32', years: 3, level: 3, category: 'embedded' },
   { name: 'CAN / UART / ARINC',  years: 3, level: 3, category: 'embedded' },
-  { name: 'DO-178C ',    years: 2, level: 3, category: 'embedded' },
+  { name: 'DO-178C ',    years: 3, level: 3, category: 'embedded' },
   // Web
   { name: 'Next.js / React',   years: 4, level: 4, category: 'web' },
   { name: 'PostgreSQL / Prisma',years: 3, level: 3, category: 'web' },
   { name: 'Docker / CI-CD',    years: 2, level: 3, category: 'web' },
   { name: 'REST API design',   years: 6, level: 4, category: 'web' },
   // Tools
-  { name: 'Git',               years: 7, level: 4, category: 'tools' },
-  { name: 'Linux / Bash',      years: 6, level: 4, category: 'tools' },
+  { name: 'Git',                years: 7, level: 4, category: 'tools' },
+  { name: 'Linux / Bash',       years: 6, level: 4, category: 'tools' },
   { name: 'LLM / IA générative',years: 2, level: 3, category: 'tools' },
+  { name: 'Jira/Confluence',    years: 4, level: 4, category: 'tools' },
+
 ];
 
 const SKILL_CATEGORIES: { key: SkillCategory; label: string; color: string }[] = [
@@ -60,7 +62,7 @@ const DOMAINS = [
 
 const STATS = [
   { icon: '', label: 'Âge',          value: '29 ans' },
-  { icon: '', label: 'Localisation', value: 'Arcachon, France' },
+  { icon: '', label: 'Localisation', value: 'Bordeaux, France' },
   { icon: '', label: 'Formation',    value: 'Ingénieur SI & Embarqué' },
   { icon: '', label: 'Contact',      value: 'hadrien.vinay@yahoo.fr' },
 ];
@@ -91,7 +93,7 @@ const TIMELINE = [
     role: 'Ingénieur Logiciel R&D — Stage',
     desc: "Conseil en système de paiement sécurisé. Étude Open Banking et automatisation de tests d'API sur Kanest.",
     color: '#60A5FA',
-    achievements: ["Automatisation de suites de tests REST API (Kanest) — couverture +40 %"] as string[],
+    achievements: ["Automatisation de suites de tests REST API (Kanest)"] as string[],
   },
   {
     type: 'pro',
@@ -101,9 +103,10 @@ const TIMELINE = [
     desc: "Mission avionique DO-178 : développement et maintenance de bancs de test, scripts C/Python, intégration continue et documentation technique.",
     color: '#60A5FA',
     achievements: [
-      "Développement bancs de test avionique C/Python — certification DO-178C niveau B (Rafale)",
-      "Mise en place couverture MC/DC sur modules critiques — 0 régression sur 18 mois",
-      "Intégration continue Jenkins + traçabilité exigences DOORS (IBM)",
+      "Développement bancs de test avionique C/Python — certification DO-178C niveau B (Falcon 6X)",
+      "Maintenance et Intégration continue",
+      "Automatisation des processus de validation et de génération de rapports",
+      "Campagne de tests officiels avant certification de l'avion"
     ] as string[],
   },
   {
@@ -116,7 +119,9 @@ const TIMELINE = [
     achievements: [
       "Suri Space : encyclopédie interactive (80+ pages) — Next.js 16, React 19, PostgreSQL, Vercel",
       "Simulation 3D système solaire — Python/OpenGL, calculs kepleriens temps réel",
-      "Home lab Raspberry Pi — Docker, reverse proxy Nginx, monitoring Grafana",
+      "Home lab Raspberry Pi — Docker, reverse proxy Nginx, services web ",
+      "App gestion de portefeuille — Next.js, Prisma, APIs, Bot automatique",
+      "Mini projet embarqué - RTOS, recepteurs GPS et Radio",
     ] as string[],
   },
   {
@@ -126,7 +131,7 @@ const TIMELINE = [
     role: 'Technicien Polyvalent — CDD',
     desc: "Gestion autonome d'un magasin de vélos : mécanique cycle, relation clientèle et gestion des stocks.",
     color: '#FB923C',
-    achievements: ["Gestion autonome d'un point de vente — organisation, relation client, diagnostic technique"] as string[],
+    achievements: ["Location, gestion des stocks, relation clientèle, réparation vélos"] as string[],
   },
 ];
 

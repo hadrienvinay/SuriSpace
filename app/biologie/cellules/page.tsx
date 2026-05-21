@@ -251,12 +251,7 @@ export default function CellulesPage() {
 
         <h1
           className="text-4xl sm:text-5xl font-bold mb-3 tracking-tight"
-          style={{
-            background: 'linear-gradient(135deg, #06B6D4, #10B981)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            fontFamily: "'Exo 2', sans-serif",
-          }}
+          style={{ color: '#10B981', fontFamily: "'Exo 2', sans-serif" }}
         >
           Cellules & Génétique
         </h1>
@@ -274,7 +269,7 @@ export default function CellulesPage() {
         <section className="mb-16">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #10B981, #06B6D4)' }} />
-            <h2 className="text-2xl font-bold" style={{ background: 'linear-gradient(135deg, #10B981, #06B6D4)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: "'Exo 2', sans-serif" }}>
+            <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "\'Exo 2\', sans-serif" }}>
               Procaryotes vs Eucaryotes
             </h2>
           </div>
@@ -308,8 +303,8 @@ export default function CellulesPage() {
         {/* ── 2. ADN ───────────────────────────────────────── */}
         <section className="mb-16">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #06B6D4, #A78BFA)' }} />
-            <h2 className="text-2xl font-bold" style={{ background: 'linear-gradient(135deg, #06B6D4, #A78BFA)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: "'Exo 2', sans-serif" }}>
+            <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #10B981, #06B6D4)' }} />
+            <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "\'Exo 2\', sans-serif" }}>
               L&apos;ADN — double hélice
             </h2>
           </div>
@@ -343,7 +338,7 @@ export default function CellulesPage() {
         <section className="mb-16">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #10B981, #06B6D4)' }} />
-            <h2 className="text-2xl font-bold" style={{ background: 'linear-gradient(135deg, #10B981, #06B6D4)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: "'Exo 2', sans-serif" }}>
+            <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "\'Exo 2\', sans-serif" }}>
               Code génétique — les 20 acides aminés
             </h2>
           </div>
@@ -394,8 +389,8 @@ export default function CellulesPage() {
         {/* ── 4. Mitose ────────────────────────────────────── */}
         <section className="mb-16">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #A78BFA, #10B981)' }} />
-            <h2 className="text-2xl font-bold" style={{ background: 'linear-gradient(135deg, #A78BFA, #10B981)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: "'Exo 2', sans-serif" }}>
+            <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #10B981, #06B6D4)' }} />
+            <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "\'Exo 2\', sans-serif" }}>
               La Mitose
             </h2>
           </div>
@@ -422,8 +417,8 @@ export default function CellulesPage() {
         {/* ── 5. Méiose vs Mitose ──────────────────────────── */}
         <section className="mb-16">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #F97316, #A78BFA)' }} />
-            <h2 className="text-2xl font-bold" style={{ background: 'linear-gradient(135deg, #F97316, #A78BFA)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: "'Exo 2', sans-serif" }}>
+            <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #10B981, #06B6D4)' }} />
+            <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "\'Exo 2\', sans-serif" }}>
               Méiose vs Mitose
             </h2>
           </div>
@@ -484,8 +479,8 @@ export default function CellulesPage() {
         {/* ── 6. Organites ─────────────────────────────────── */}
         <section>
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #10B981, #F97316)' }} />
-            <h2 className="text-2xl font-bold" style={{ background: 'linear-gradient(135deg, #10B981, #F97316)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: "'Exo 2', sans-serif" }}>
+            <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #10B981, #06B6D4)' }} />
+            <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "\'Exo 2\', sans-serif" }}>
               Les Organites Cellulaires
             </h2>
           </div>

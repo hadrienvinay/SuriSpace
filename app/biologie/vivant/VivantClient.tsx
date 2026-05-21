@@ -166,12 +166,7 @@ export default function VivantClient() {
 
       <h1
         className="text-4xl sm:text-5xl font-bold mb-3 tracking-tight"
-        style={{
-          background: 'linear-gradient(135deg, #10B981, #34D399, #06B6D4)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          fontFamily: "'Exo 2', sans-serif",
-        }}
+        style={{ color: '#10B981', fontFamily: "'Exo 2', sans-serif" }}
       >
         Le Vivant
       </h1>
@@ -183,7 +178,7 @@ export default function VivantClient() {
       <section className="mb-14">
         <h2
           className="text-2xl font-bold mb-4"
-          style={{ background: 'linear-gradient(135deg, #10B981, #06B6D4)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: "'Exo 2', sans-serif" }}
+          style={{ color: '#10B981', fontFamily: "'Exo 2', sans-serif" }}
         >
           L&apos;Arbre du Vivant
         </h2>
@@ -216,7 +211,7 @@ export default function VivantClient() {
       <section>
         <h2
           className="text-2xl font-bold mb-6"
-          style={{ background: 'linear-gradient(135deg, #10B981, #A78BFA)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: "'Exo 2', sans-serif" }}
+          style={{ color: '#10B981', fontFamily: "'Exo 2', sans-serif" }}
         >
           Les Règnes du Vivant
         </h2>
@@ -302,12 +297,7 @@ export default function VivantClient() {
             <div key={i} className="text-center">
               <div
                 className="text-xl font-bold mb-1"
-                style={{
-                  background: 'linear-gradient(135deg, #10B981, #06B6D4)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  fontFamily: "'Exo 2', monospace",
-                }}
+                style={{ color: '#10B981', fontFamily: "'Exo 2', monospace" }}
               >
                 {s.value}
               </div>

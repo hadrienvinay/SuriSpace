@@ -204,12 +204,7 @@ export default function GenetiqueClient() {
 
       <h1
         className="text-4xl sm:text-5xl font-bold mb-3 tracking-tight"
-        style={{
-          background: 'linear-gradient(135deg, #F472B6, #A78BFA, #06B6D4)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          fontFamily: "'Exo 2', sans-serif",
-        }}
+        style={{ color: '#10B981', fontFamily: "'Exo 2', sans-serif" }}
       >
         Génétique
       </h1>
@@ -222,7 +217,7 @@ export default function GenetiqueClient() {
       <section className="mb-16">
         <h2
           className="text-2xl font-bold mb-2"
-          style={{ background: 'linear-gradient(135deg, #10B981, #06B6D4)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: "'Exo 2', sans-serif" }}
+          style={{ color: '#10B981', fontFamily: "'Exo 2', sans-serif" }}
         >
           Lois de Mendel
         </h2>
@@ -254,7 +249,7 @@ export default function GenetiqueClient() {
       <section className="mb-16">
         <h2
           className="text-2xl font-bold mb-2"
-          style={{ background: 'linear-gradient(135deg, #F472B6, #10B981)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: "'Exo 2', sans-serif" }}
+          style={{ color: '#10B981', fontFamily: "'Exo 2', sans-serif" }}
         >
           Carré de Punnett
         </h2>
@@ -420,7 +415,7 @@ export default function GenetiqueClient() {
       <section className="mb-16">
         <h2
           className="text-2xl font-bold mb-2"
-          style={{ background: 'linear-gradient(135deg, #F97316, #EF4444)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: "'Exo 2', sans-serif" }}
+          style={{ color: '#10B981', fontFamily: "'Exo 2', sans-serif" }}
         >
           Types de mutations
         </h2>
@@ -448,7 +443,7 @@ export default function GenetiqueClient() {
       <section className="mb-16">
         <h2
           className="text-2xl font-bold mb-2"
-          style={{ background: 'linear-gradient(135deg, #EF4444, #A78BFA)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: "'Exo 2', sans-serif" }}
+          style={{ color: '#10B981', fontFamily: "'Exo 2', sans-serif" }}
         >
           Maladies génétiques
         </h2>
@@ -482,7 +477,7 @@ export default function GenetiqueClient() {
       <section className="mb-10">
         <h2
           className="text-2xl font-bold mb-2"
-          style={{ background: 'linear-gradient(135deg, #06B6D4, #10B981)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: "'Exo 2', sans-serif" }}
+          style={{ color: '#10B981', fontFamily: "'Exo 2', sans-serif" }}
         >
           Génomique moderne
         </h2>

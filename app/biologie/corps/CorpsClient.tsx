@@ -143,12 +143,7 @@ export default function CorpsClient() {
 
       <h1
         className="text-4xl sm:text-5xl font-bold mb-3 tracking-tight"
-        style={{
-          background: 'linear-gradient(135deg, #F97316, #EF4444, #10B981)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          fontFamily: "'Exo 2', sans-serif",
-        }}
+        style={{ color: '#10B981', fontFamily: "'Exo 2', sans-serif" }}
       >
         Corps Humain
       </h1>
@@ -343,12 +338,7 @@ export default function CorpsClient() {
       <div className="mt-14">
         <h2
           className="text-2xl font-bold mb-6"
-          style={{
-            background: 'linear-gradient(135deg, #10B981, #06B6D4)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            fontFamily: "'Exo 2', sans-serif",
-          }}
+          style={{ color: '#10B981', fontFamily: "'Exo 2', sans-serif" }}
         >
           Les 8 systèmes du corps
         </h2>
@@ -380,12 +370,7 @@ export default function CorpsClient() {
       <div className="mt-16">
         <h2
           className="text-2xl font-bold mb-2"
-          style={{
-            background: 'linear-gradient(135deg, #06B6D4, #A78BFA)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            fontFamily: "'Exo 2', sans-serif",
-          }}
+          style={{ color: '#10B981', fontFamily: "'Exo 2', sans-serif" }}
         >
           Composition du corps humain
         </h2>
@@ -453,12 +438,7 @@ export default function CorpsClient() {
       <div className="mt-16 mb-4">
         <h2
           className="text-2xl font-bold mb-2"
-          style={{
-            background: 'linear-gradient(135deg, #F97316, #FBBF24)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            fontFamily: "'Exo 2', sans-serif",
-          }}
+          style={{ color: '#10B981', fontFamily: "'Exo 2', sans-serif" }}
         >
           Chiffres du métabolisme
         </h2>
@@ -476,9 +456,7 @@ export default function CorpsClient() {
               <div
                 className="text-xl font-bold mb-1 leading-tight"
                 style={{
-                  background: `linear-gradient(135deg, ${s.color}, ${s.color}99)`,
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
+                  color: s.color,
                   fontFamily: "'Exo 2', monospace",
                 }}
               >

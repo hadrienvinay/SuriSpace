@@ -220,12 +220,7 @@ export default function BiologieHome() {
           </div>
           <h1
             className="text-5xl sm:text-6xl font-bold mb-4 tracking-tight"
-            style={{
-              background: 'linear-gradient(135deg, #10B981, #06B6D4, #34D399)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              fontFamily: "'Exo 2', sans-serif",
-            }}
+            style={{ color: '#10B981', fontFamily: "'Exo 2', sans-serif" }}
           >
             Biologie
           </h1>
@@ -286,12 +281,7 @@ export default function BiologieHome() {
               <div key={i} className="text-center">
                 <div
                   className="text-2xl font-bold mb-1"
-                  style={{
-                    background: 'linear-gradient(135deg, #10B981, #06B6D4)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    fontFamily: "'Exo 2', monospace",
-                  }}
+                  style={{ color: '#10B981', fontFamily: "'Exo 2', monospace" }}
                 >
                   {f.value}
                 </div>
