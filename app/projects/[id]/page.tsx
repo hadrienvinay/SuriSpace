@@ -36,6 +36,21 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
         <div className="flex items-center gap-3">
           <span className="text-xs text-gray-600 font-mono">{dateStr}</span>
 
+          {/* Lien du site en ligne */}
+          {project.siteUrl && project.siteUrlPublic && (
+            <Link
+              href={project.siteUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-xl text-sm font-semibold border border-blue-500/30 text-blue-300 hover:text-white hover:bg-blue-500/10 transition-all"
+            >
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M10 14L21 3m0 0h-6m6 0v6M19 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6" />
+              </svg>
+              Voir le site
+            </Link>
+          )}
+
           {/* GitHub link */}
           {project.link && (
             <Link

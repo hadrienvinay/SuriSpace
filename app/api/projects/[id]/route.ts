@@ -55,7 +55,7 @@ export async function PUT(request:Request , { params }: { params: Promise<{ id: 
       )
     }
 
-    const formData = await request.formData(); 
+    const formData = await request.formData();
     const title = formData.get('title') as string;
     const content = formData.get('content') as string;
     const content2 = formData.get('content2') as string;
@@ -65,9 +65,12 @@ export async function PUT(request:Request , { params }: { params: Promise<{ id: 
     const imageTitle = formData.get('imageTitle') as string| null;
     const image2Title = formData.get('imageTitle2') as string| null;
     const link = formData.get('link') as string| null;
+    const siteUrl = formData.get('siteUrl') as string| null;
+    const siteUrlPublic = formData.get('siteUrlPublic') === 'true';
+    const visible = formData.get('visible') === 'true';
     const createdAtRaw = formData.get('createdAt') as string | null;
     const tags = formData.getAll('tags') as string[];
-    
+
     const ALLOWED_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg'];
     const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
 
@@ -99,17 +102,19 @@ export async function PUT(request:Request , { params }: { params: Promise<{ id: 
     const project = await prisma.project.update({
       where: { id },
       data: {
-        title,
-        resume,
-        content,
-        content2,
+        ...(formData.has('title') && { title }),
+        ...(formData.has('resume') && { resume }),
+        ...(formData.has('content') && { content }),
+        ...(formData.has('content2') && { content2 }),
         ...(imagePath && { image: imagePath }),
-        imageTitle,
+        ...(formData.has('imageTitle') && { imageTitle }),
         ...(imagePath2 && { image2: imagePath2 }),
-        image2Title,
-        tags,
-        link,
-        authorId: 1,
+        ...(formData.has('imageTitle2') && { image2Title }),
+        ...(formData.has('tagsTouched') && { tags }),
+        ...(formData.has('link') && { link }),
+        ...(formData.has('siteUrl') && { siteUrl }),
+        ...(formData.has('siteUrlPublic') && { siteUrlPublic }),
+        ...(formData.has('visible') && { visible }),
         ...(createdAtRaw && { createdAt: new Date(createdAtRaw) }),
       },
     });

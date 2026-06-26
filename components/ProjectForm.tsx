@@ -18,6 +18,9 @@ interface ProjectFormProps {
     imageTitle?: string
     imageTitle2?: string
     link: string
+    siteUrl?: string
+    siteUrlPublic?: boolean
+    visible?: boolean
     createdAt?: string
     tags?: string[]
   }
@@ -70,6 +73,9 @@ export default function CreateProjectForm() {
   const [imageTitle, setImageTitle] = useState('');
   const [imageTitle2, setImageTitle2] = useState('');
   const [link, setLink] = useState('');
+  const [siteUrl, setSiteUrl] = useState('');
+  const [siteUrlPublic, setSiteUrlPublic] = useState(false);
+  const [visible, setVisible] = useState(true);
   const [createdAt, setCreatedAt] = useState('');
   const [tags, setTags] = useState<string[]>([]);
   const [preview, setPreview] = useState<string | null>(null);
@@ -88,7 +94,7 @@ export default function CreateProjectForm() {
         setPreview(reader.result as string);
       };
       reader.readAsDataURL(file);
-      
+
     }
   };
   const handleImageChange2 = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -115,6 +121,10 @@ export default function CreateProjectForm() {
       formData.append('content2', content2);
       formData.append('resume', resume);
       formData.append('link', link);
+      formData.append('siteUrl', siteUrl);
+      formData.append('siteUrlPublic', siteUrlPublic ? 'true' : 'false');
+      formData.append('visible', visible ? 'true' : 'false');
+      formData.append('tagsTouched', '1');
       if (createdAt) formData.append('createdAt', createdAt);
       if (image) {
         formData.append('image', image);
@@ -198,13 +208,12 @@ export default function CreateProjectForm() {
        {/* Champ Contenu 2*/}
       <div>
         <label htmlFor="content2" className="block mb-2 font-medium">
-          Contenu 2
+          Contenu 2 (optionnel)
         </label>
         <textarea
           id="content2"
           value={content2}
           onChange={(e) => setContent2(e.target.value)}
-          required
           rows={2}
           className="w-full px-4 py-2 border rounded-lg border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Présentation 2 du projet..."
@@ -292,18 +301,40 @@ export default function CreateProjectForm() {
       {/* Champ lien github*/}
       <div>
         <label htmlFor="link" className="block mb-2 font-medium">
-          Lien Github
+          Lien Github (optionnel)
         </label>
         <textarea
           id="link"
           value={link}
           onChange={(e) => setLink(e.target.value)}
-          required
           className="w-full px-4 py-2 border rounded-lg border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="https://github/hadrienvinay/Project"
         />
       </div>
 
+      {/* Champ lien du site en ligne */}
+      <div>
+        <label htmlFor="siteUrl" className="block mb-2 font-medium">
+          Lien du site en ligne (optionnel)
+        </label>
+        <input
+          type="url"
+          id="siteUrl"
+          value={siteUrl}
+          onChange={(e) => setSiteUrl(e.target.value)}
+          className="w-full px-4 py-2 border rounded-lg border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="https://mon-projet.vercel.app"
+        />
+        <label className="flex items-center gap-2 mt-2 text-sm text-gray-400">
+          <input
+            type="checkbox"
+            checked={siteUrlPublic}
+            onChange={(e) => setSiteUrlPublic(e.target.checked)}
+            className="rounded"
+          />
+          Afficher ce lien sur la page publique du projet
+        </label>
+      </div>
 
       {/* Champ Date de création */}
       <div>
@@ -324,6 +355,19 @@ export default function CreateProjectForm() {
         <label className="block mb-2 font-medium">Technologies utilisées</label>
         <TagInput tags={tags} onChange={setTags} />
         <p className="mt-1 text-xs text-gray-500">Entrée ou virgule pour valider chaque tag</p>
+      </div>
+
+      {/* Visibilité sur /projects */}
+      <div>
+        <label className="flex items-center gap-2 text-sm font-medium">
+          <input
+            type="checkbox"
+            checked={visible}
+            onChange={(e) => setVisible(e.target.checked)}
+            className="rounded"
+          />
+          Visible sur la page /projects
+        </label>
       </div>
 
       {/* Bouton Submit */}
@@ -354,6 +398,9 @@ export  function EditProjectForm(props?: ProjectFormProps) {
   const [imageTitle, setImageTitle] = useState(props?.initialData?.imageTitle ??'');
   const [imageTitle2, setImageTitle2] = useState(props?.initialData?.imageTitle2 ?? '');
   const [link, setLink] = useState(props?.initialData?.link ??'');
+  const [siteUrl, setSiteUrl] = useState(props?.initialData?.siteUrl ?? '');
+  const [siteUrlPublic, setSiteUrlPublic] = useState(props?.initialData?.siteUrlPublic ?? false);
+  const [visible, setVisible] = useState(props?.initialData?.visible ?? true);
   const [createdAt, setCreatedAt] = useState(props?.initialData?.createdAt ?? '');
   const [tags, setTags] = useState<string[]>(props?.initialData?.tags ?? []);
   const [preview, setPreview] = useState<string | null>(null);
@@ -399,8 +446,12 @@ export  function EditProjectForm(props?: ProjectFormProps) {
       formData.append('content2', content2);
       formData.append('resume', resume);
       formData.append('link', link);
+      formData.append('siteUrl', siteUrl);
+      formData.append('siteUrlPublic', siteUrlPublic ? 'true' : 'false');
+      formData.append('visible', visible ? 'true' : 'false');
       formData.append('imageTitle',imageTitle)
       formData.append('imageTitle2',imageTitle2)
+      formData.append('tagsTouched', '1');
       if (createdAt) formData.append('createdAt', createdAt);
 
       if (image) formData.append('image', image);
@@ -583,6 +634,30 @@ export  function EditProjectForm(props?: ProjectFormProps) {
         />
       </div>
 
+      {/* Champ lien du site en ligne */}
+      <div>
+        <label htmlFor="siteUrl-edit" className="block mb-2 font-medium">
+          Lien du site en ligne (optionnel)
+        </label>
+        <input
+          type="url"
+          id="siteUrl-edit"
+          value={siteUrl}
+          onChange={(e) => setSiteUrl(e.target.value)}
+          className="w-full px-4 py-2 border rounded-lg border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="https://mon-projet.vercel.app"
+        />
+        <label className="flex items-center gap-2 mt-2 text-sm text-gray-400">
+          <input
+            type="checkbox"
+            checked={siteUrlPublic}
+            onChange={(e) => setSiteUrlPublic(e.target.checked)}
+            className="rounded"
+          />
+          Afficher ce lien sur la page publique du projet
+        </label>
+      </div>
+
       {/* Champ Date de création */}
       <div>
         <label htmlFor="createdAt-edit" className="block mb-2 font-medium">
@@ -602,6 +677,19 @@ export  function EditProjectForm(props?: ProjectFormProps) {
         <label className="block mb-2 font-medium">Technologies utilisées</label>
         <TagInput tags={tags} onChange={setTags} />
         <p className="mt-1 text-xs text-gray-500">Entrée ou virgule pour valider chaque tag</p>
+      </div>
+
+      {/* Visibilité sur /projects */}
+      <div>
+        <label className="flex items-center gap-2 text-sm font-medium">
+          <input
+            type="checkbox"
+            checked={visible}
+            onChange={(e) => setVisible(e.target.checked)}
+            className="rounded"
+          />
+          Visible sur la page /projects
+        </label>
       </div>
 
       {/* Bouton Submit */}

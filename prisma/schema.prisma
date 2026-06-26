@@ -39,6 +39,9 @@ model Project {
   title       String
   content     String?
   link        String?
+  siteUrl     String?
+  siteUrlPublic Boolean @default(false)
+  visible     Boolean  @default(true)
   authorId    Int
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

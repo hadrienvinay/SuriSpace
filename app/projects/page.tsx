@@ -16,6 +16,7 @@ import Image from 'next/image';
 import prisma from '@/lib/prisma';
 import { auth } from '@/lib/auth';
 import DeleteProjectButton from '@/components/DeleteProjectButton';
+import ProjectSiteLinkBadge from '@/components/ProjectSiteLinkBadge';
 import { ToolsIcon, CodeIcon } from '@/components/ProjectsIcons';
 import { JsonLd } from '@/components/JsonLd';
 
@@ -35,7 +36,7 @@ const STATIC_PROJECTS = [
 
 export default async function Projects() {
   const session = await auth();
-  const projects = await prisma.project.findMany({ orderBy: { createdAt: 'desc' } });
+  const projects = await prisma.project.findMany({ where: { visible: true }, orderBy: { createdAt: 'desc' } });
 
   return (
     <div
@@ -141,6 +142,9 @@ export default async function Projects() {
               <div className="absolute top-3 right-3 z-10">
                 <DeleteProjectButton projectId={project.id} />
               </div>
+            )}
+            {project.siteUrl && project.siteUrlPublic && (
+              <ProjectSiteLinkBadge siteUrl={project.siteUrl} />
             )}
             <Link href={`/projects/${project.id}`} className="block">
               <div className="relative h-44 w-full overflow-hidden">

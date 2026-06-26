@@ -11,6 +11,7 @@ export default async function Dashboard() {
     messageCount,
     actionCount,
     bourseOrderCount,
+    projects,
   ] = await Promise.all([
     prisma.message.findMany(),
     prisma.link.findMany(),
@@ -20,6 +21,10 @@ export default async function Dashboard() {
     prisma.message.count(),
     prisma.action.count(),
     prisma.bourseOrder.count(),
+    prisma.project.findMany({
+      orderBy: { createdAt: 'desc' },
+      select: { id: true, title: true, siteUrl: true, siteUrlPublic: true, link: true, tags: true },
+    }),
   ]);
 
   const daysSinceCreation = Math.floor(
@@ -42,6 +47,7 @@ export default async function Dashboard() {
   const props: DashboardProps = {
     messages,
     links,
+    projects,
     articleCount:     articleCount + 3,
     projectCount:     projectCount + 1,
     messageCount,

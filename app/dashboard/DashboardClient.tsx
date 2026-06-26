@@ -3,7 +3,9 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { CreateLinkModal } from '@/components/CreateLinkModal';
+import { ProjectLinkModal } from '@/components/ProjectLinkModal';
 import DeleteLinkButton from '@/components/DeleteLinkButton';
+import DeleteProjectButton from '@/components/DeleteProjectButton';
 import { QuillIcon, BookIcon }                          from '@/components/ArticlesIcons';
 import { BarChartIcon, GalaxyIcon }                     from '@/components/AtomsIcons';
 import { CodeIcon }                                     from '@/components/ProjectsIcons';
@@ -103,6 +105,7 @@ export interface KnowledgeBaseItem {
 export interface DashboardProps {
   messages:         { id: number; name: string; email: string; message: string }[];
   links:            { id: number; title: string; description?: string | null; link?: string | null; tag?: string | null; image?: string | null }[];
+  projects:         { id: number; title: string; siteUrl?: string | null; siteUrlPublic: boolean; link?: string | null; tags: string[] }[];
   articleCount:     number;
   projectCount:     number;
   messageCount:     number;
@@ -169,7 +172,7 @@ function IconCalendar()  { return <svg width="14" height="14" viewBox="0 0 16 16
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export default function DashboardClient({
-  messages, links: initialLinks,
+  messages, links: initialLinks, projects: initialProjects,
   articleCount, projectCount, messageCount, bookCount,
   actionCount, bourseOrderCount,
   pageCount, componentCount, apiRouteCount, prismaModelCount, dataFileCount, totalDataLines,
@@ -182,6 +185,10 @@ export default function DashboardClient({
   const [sortKey, setSortKey]         = useState<'title' | 'tag' | null>(null);
   const [sortDir, setSortDir]         = useState<'asc' | 'desc'>('asc');
   const [barsVisible, setBarsVisible] = useState(false);
+
+  const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
+  const [editingProject, setEditingProject]         = useState<DashboardProps['projects'][number] | null>(null);
+  const [projects, setProjects]                     = useState(initialProjects);
 
   useEffect(() => {
     const t = setTimeout(() => setBarsVisible(true), 80);
@@ -205,6 +212,13 @@ export default function DashboardClient({
   const handleLinkSaved = (saved: DashboardProps['links'][number]) => {
     if (editingLink) setLinks(prev => prev.map(l => l.id === saved.id ? { ...l, ...saved } : l));
     else             setLinks(prev => [saved, ...prev]);
+  };
+
+  const openProjectEdit   = (item: DashboardProps['projects'][number]) => { setEditingProject(item); setIsProjectModalOpen(true); };
+  const closeProjectModal = () => { setIsProjectModalOpen(false); setEditingProject(null); };
+  const handleProjectSaved = (saved: DashboardProps['projects'][number]) => {
+    if (editingProject) setProjects(prev => prev.map(p => p.id === saved.id ? { ...p, ...saved } : p));
+    else                 setProjects(prev => [saved, ...prev]);
   };
 
   const totalKbEntries = knowledgeBase.reduce((s, k) => s + k.count, 0);
@@ -500,6 +514,116 @@ export default function DashboardClient({
         </div>
       </div>
 
+      {/* ── Projets en ligne ── */}
+      <div>
+        <div className="flex items-center gap-4 mb-4">
+          <h2 className="text-xs font-bold tracking-widest uppercase text-gray-500">
+            Projets en ligne
+            <span className="ml-2 px-2 py-0.5 rounded-full text-xs font-bold"
+              style={{ background: 'rgba(96,165,250,0.15)', color: '#60A5FA', border: '1px solid rgba(96,165,250,0.25)' }}>
+              {projects.length}
+            </span>
+          </h2>
+          <div className="flex-1 h-px" style={{ background: 'rgba(255,255,255,0.06)' }} />
+          <Link href="/projects" className="text-xs hover:text-blue-300 transition-colors" style={{ color: 'rgba(255,255,255,0.35)' }}>
+            Page publique →
+          </Link>
+          <Link href="/projects/create" className="text-xs hover:text-blue-300 transition-colors" style={{ color: 'rgba(255,255,255,0.35)' }}>
+            Édition complète
+          </Link>
+          <button
+            onClick={() => setIsProjectModalOpen(true)}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl font-semibold text-white text-sm transition-all hover:brightness-110"
+            style={{ background: 'linear-gradient(135deg, #2563EB, #06B6D4)' }}
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+            Nouveau projet
+          </button>
+        </div>
+        <div className="rounded-2xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.07)' }}>
+          {projects.length === 0 ? (
+            <div className="p-10 text-center" style={{ color: 'rgba(255,255,255,0.25)', fontSize: 14 }}>Aucun projet enregistré</div>
+          ) : (
+            <table className="w-full text-sm">
+              <thead>
+                <tr style={{ background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+                  {['Titre', 'Site en ligne', 'Tags'].map(h => (
+                    <th key={h} className="px-4 py-3 text-left font-semibold uppercase tracking-wider"
+                      style={{ fontSize: 11, color: 'rgba(255,255,255,0.28)', whiteSpace: 'nowrap' }}>{h}</th>
+                  ))}
+                  <th className="px-4 py-3" />
+                </tr>
+              </thead>
+              <tbody>
+                {projects.map((item, i) => (
+                  <tr
+                    key={item.id}
+                    className="group"
+                    style={{ background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.01)', borderTop: i > 0 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}
+                    onMouseEnter={e => ((e.currentTarget as HTMLElement).style.background = 'rgba(96,165,250,0.06)')}
+                    onMouseLeave={e => ((e.currentTarget as HTMLElement).style.background = i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.01)')}
+                  >
+                    <td className="px-4 py-3 font-medium text-white" style={{ maxWidth: 180 }}>{item.title}</td>
+                    <td className="px-4 py-3">
+                      {item.siteUrl ? (
+                        <div className="flex items-center gap-2">
+                          <Link
+                            href={item.siteUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:text-blue-300 transition-colors"
+                            style={{ color: '#60A5FA', display: 'block', maxWidth: 180, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                          >
+                            {item.siteUrl}
+                          </Link>
+                          <span
+                            style={{
+                              padding: '1px 7px', borderRadius: 9999, fontSize: 10, fontWeight: 700, whiteSpace: 'nowrap',
+                              background: item.siteUrlPublic ? 'rgba(52,211,153,0.12)' : 'rgba(255,255,255,0.06)',
+                              color: item.siteUrlPublic ? '#34D399' : 'rgba(255,255,255,0.4)',
+                              border: `1px solid ${item.siteUrlPublic ? 'rgba(52,211,153,0.3)' : 'rgba(255,255,255,0.12)'}`,
+                            }}
+                          >
+                            {item.siteUrlPublic ? 'Public' : 'Privé'}
+                          </span>
+                        </div>
+                      ) : (
+                        <span style={{ color: 'rgba(255,255,255,0.25)' }}>Pas encore en ligne</span>
+                      )}
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="flex flex-wrap gap-1">
+                        {item.tags.map(t => (
+                          <span key={t} style={{ padding: '2px 8px', borderRadius: 9999, fontSize: 11, fontWeight: 600, background: 'rgba(96,165,250,0.1)', color: '#60A5FA', border: '1px solid rgba(96,165,250,0.25)' }}>
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    </td>
+                    <td className="px-4 py-3 text-right">
+                      <div className="flex items-center justify-end gap-2">
+                        <button
+                          onClick={() => openProjectEdit(item)}
+                          className="opacity-0 group-hover:opacity-100 transition-opacity"
+                          style={{ background: 'rgba(96,165,250,0.1)', border: '1px solid rgba(96,165,250,0.25)', color: '#60A5FA', borderRadius: 6, padding: '2px 10px', fontSize: 11, fontWeight: 600, whiteSpace: 'nowrap', cursor: 'pointer' }}
+                        >
+                          Modifier le lien
+                        </button>
+                        <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                          <DeleteProjectButton projectId={item.id} />
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      </div>
+
       {/* ── Liens & Ressources ── */}
       <div>
         <div className="flex items-center gap-4 mb-4">
@@ -606,6 +730,13 @@ export default function DashboardClient({
           link:        editingLink.link        ?? '',
         } : null}
         onSaved={(saved) => handleLinkSaved(saved)}
+      />
+
+      <ProjectLinkModal
+        isOpen={isProjectModalOpen}
+        onClose={closeProjectModal}
+        editProject={editingProject}
+        onSaved={(saved) => handleProjectSaved(saved)}
       />
     </div>
   );

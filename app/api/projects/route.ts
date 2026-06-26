@@ -19,6 +19,9 @@ export async function POST(request: NextRequest) {
     const imageTitle = formData.get('imageTitle') as string| null;
     const image2Title = formData.get('imageTitle2') as string| null;
     const link = formData.get('link') as string| null;
+    const siteUrl = formData.get('siteUrl') as string| null;
+    const siteUrlPublic = formData.get('siteUrlPublic') === 'true';
+    const visible = formData.has('visible') ? formData.get('visible') === 'true' : true;
     const createdAtRaw = formData.get('createdAt') as string | null;
     const tags = formData.getAll('tags') as string[];
 
@@ -70,6 +73,9 @@ export async function POST(request: NextRequest) {
         image2Title,
         tags,
         link,
+        siteUrl,
+        siteUrlPublic,
+        visible,
         authorId: 1,
         ...(createdAtRaw && { createdAt: new Date(createdAtRaw) }),
       },
