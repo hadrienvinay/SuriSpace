@@ -1,4 +1,5 @@
 // pages/solar-system/missions/[id].tsx
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import SolarLayout from '@/components/SolarLayout';
 import { missions, solarSystem } from '@/data/solar-system';
@@ -23,6 +24,19 @@ const TYPE_ICONS: Record<string, IconFn> = {
   flyby: IcoFlyby, orbiter: IcoOrbiter, lander: IcoLander,
   rover: IcoRover, probe: IcoDish, 'sample-return': IcoSampleReturn, crewed: IcoAstronaut,
 };
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+  const mission = missions.find(m => m.id === id);
+  if (!mission) return { title: 'Mission introuvable' };
+
+  const typeLabel = TYPE_LABELS[mission.type] ?? mission.type;
+  return {
+    title: `${mission.name} — Mission ${typeLabel} (${mission.agency})`,
+    description: mission.description || `Mission ${mission.name} (${mission.agency}, lancée le ${mission.launched}) : objectifs, découvertes et statut.`,
+    alternates: { canonical: `/solar-system/missions/${id}` },
+  };
+}
 
 export default async function MissionPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;

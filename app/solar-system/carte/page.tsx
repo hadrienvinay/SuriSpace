@@ -1,11 +1,12 @@
 // app/solar-system/carte/page.tsx
 'use client';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import SolarLayout from '@/components/SolarLayout';
 import { solarSystem, missions, planets, sun, dwarfPlanets, getActiveProbes, type Mission } from '@/data/solar-system';
 import { IcoPin } from '@/components/SolarIcons';
 import { BodyIcon, MissionIcon } from '@/components/SolarBodyIcons';
+import { Body, HelioVector } from 'astronomy-engine';
 
 // ─── Scale helpers ──────────────────────────────────────────────────────────
 const AU_TO_PX = (au: number, maxPx: number): number => {
@@ -24,12 +25,41 @@ const PLANET_SIZES: Record<string, number> = {
   jupiter: 22, saturn: 18, uranus: 13, neptune: 12, pluto: 4,
 };
 
-const PLANET_ANGLES: Record<string, number> = {
-  mercury: 25, venus: 75, earth: 135, mars: 200,
-  jupiter: 265, saturn: 205, uranus: 305, neptune: 345, pluto: 22,
+// ─── Astronomy-engine body map ───────────────────────────────────────────────
+const BODY_MAP: Record<string, Body> = {
+  mercury: Body.Mercury, venus: Body.Venus,    earth: Body.Earth,
+  mars:    Body.Mars,    jupiter: Body.Jupiter, saturn: Body.Saturn,
+  uranus:  Body.Uranus,  neptune: Body.Neptune, pluto: Body.Pluto,
 };
 
+function computePositions(date: Date): Record<string, { angleDeg: number; dist: number }> {
+  const result: Record<string, { angleDeg: number; dist: number }> = {};
+  for (const [id, body] of Object.entries(BODY_MAP)) {
+    try {
+      const vec = HelioVector(body, date);
+      result[id] = {
+        angleDeg: Math.atan2(vec.y, vec.x) * 180 / Math.PI,
+        dist: Math.sqrt(vec.x * vec.x + vec.y * vec.y),
+      };
+    } catch {
+      // fallback: keep undefined so callers use semiMajorAxis
+    }
+  }
+  return result;
+}
+
 const PROBE_ANGLES = [48, 102, 158, 218, 280, 332, 65, 125, 185, 245, 300, 15];
+
+type StepUnit = 'day' | 'week' | 'month' | 'year';
+
+function applyStep(prev: Date, dir: 1 | -1, unit: StepUnit): Date {
+  const d = new Date(prev);
+  if (unit === 'day')   d.setDate(d.getDate() + dir);
+  if (unit === 'week')  d.setDate(d.getDate() + 7 * dir);
+  if (unit === 'month') d.setMonth(d.getMonth() + dir);
+  if (unit === 'year')  d.setFullYear(d.getFullYear() + dir);
+  return d;
+}
 
 export default function SolarSystemMap() {
   const [selectedBody, setSelectedBody]   = useState<string | null>(null);
@@ -47,6 +77,26 @@ export default function SolarSystemMap() {
   const dragRef    = useRef<{ startX: number; startY: number; ox: number; oy: number } | null>(null);
   const hasDragged = useRef(false);
 
+  // ── Time navigation ─────────────────────────────────────────────────────────
+  const [currentDate, setCurrentDate] = useState<Date>(() => new Date());
+  const [stepUnit, setStepUnit] = useState<StepUnit>('month');
+  const [isPlaying, setIsPlaying] = useState(false);
+  const stepUnitRef = useRef<StepUnit>(stepUnit);
+  useEffect(() => { stepUnitRef.current = stepUnit; }, [stepUnit]);
+
+  const stepDate = (dir: 1 | -1) => setCurrentDate(prev => applyStep(prev, dir, stepUnit));
+
+  useEffect(() => {
+    if (!isPlaying) return;
+    const id = setInterval(() => {
+      setCurrentDate(prev => applyStep(prev, 1, stepUnitRef.current));
+    }, 280);
+    return () => clearInterval(id);
+  }, [isPlaying]);
+
+  // ── Computed planet positions (real astronomy) ───────────────────────────────
+  const positions = useMemo(() => computePositions(currentDate), [currentDate]);
+
   useEffect(() => {
     const update = () => {
       if (containerRef.current) {
@@ -60,7 +110,6 @@ export default function SolarSystemMap() {
     return () => ro.disconnect();
   }, []);
 
-  // Smaller default zoom on mobile for readability
   useEffect(() => {
     if (window.innerWidth < 768) setZoom(0.65);
   }, []);
@@ -69,7 +118,6 @@ export default function SolarSystemMap() {
   const zoomOut   = () => setZoom(z => Math.max(0.35, parseFloat((z - 0.15).toFixed(2))));
   const zoomReset = () => { setZoom(window.innerWidth < 768 ? 0.65 : 1.0); setPan({ x: 0, y: 0 }); };
 
-  // ── Drag / pan handlers ───────────────────────────────────
   const startDrag = (clientX: number, clientY: number) => {
     dragRef.current = { startX: clientX, startY: clientY, ox: pan.x, oy: pan.y };
     hasDragged.current = false;
@@ -89,7 +137,6 @@ export default function SolarSystemMap() {
   const onTouchStart = (e: React.TouchEvent) => { startDrag(e.touches[0].clientX, e.touches[0].clientY); };
   const onTouchMove  = (e: React.TouchEvent) => { e.preventDefault(); moveDrag(e.touches[0].clientX, e.touches[0].clientY); };
 
-  // Suppress planet/probe click if the pointer moved (was a drag, not a tap)
   const guardClick = (cb: () => void) => () => { if (!hasDragged.current) cb(); };
 
   const cx = svgSize / 2;
@@ -108,7 +155,6 @@ export default function SolarSystemMap() {
     p.id !== 'voyager1' && p.id !== 'voyager2'
   );
 
-  // Voyager trajectories: V1 heading ~NW quadrant on map, V2 heading ~SW
   const VOYAGERS = [
     { mission: missions.find(m => m.id === 'voyager1')!, au: 163.7, angleDeg: 322, color: '#A78BFA' },
     { mission: missions.find(m => m.id === 'voyager2')!, au: 136.1, angleDeg: 218, color: '#60A5FA' },
@@ -118,6 +164,8 @@ export default function SolarSystemMap() {
 
   const handleBodyClick  = (id: string)    => { setSelectedProbe(null); setSelectedBody(prev => prev === id ? null : id); };
   const handleProbeClick = (p: Mission) => { setSelectedBody(null); setSelectedProbe(prev => prev?.id === p.id ? null : p); };
+
+  const STEP_LABELS: Record<StepUnit, string> = { day: 'Jour', week: 'Semaine', month: 'Mois', year: 'Année' };
 
   return (
     <SolarLayout>
@@ -136,7 +184,7 @@ export default function SolarSystemMap() {
             Système Solaire
           </h1>
           <p className="text-base text-gray-500">
-            Carte interactive · Échelle logarithmique · Cliquer sur une planète ou une sonde
+            Carte interactive · Positions astronomiques réelles · Cliquer sur une planète ou une sonde
           </p>
         </div>
 
@@ -144,6 +192,65 @@ export default function SolarSystemMap() {
 
           {/* ── Map Column ─────────────────────────────────────────── */}
           <div className="flex-1 min-w-0">
+
+            {/* ── Time navigator ──────────────────────────────────── */}
+            <div className="flex flex-wrap items-center gap-2 mb-3 p-3 rounded-xl border border-white/8"
+              style={{ background: 'rgba(8,12,28,0.6)', backdropFilter: 'blur(8px)' }}>
+
+              {/* Step unit */}
+              <div className="flex gap-1">
+                {(Object.keys(STEP_LABELS) as StepUnit[]).map(u => (
+                  <button key={u} onClick={() => setStepUnit(u)}
+                    className="px-2.5 py-1 rounded-lg text-xs font-semibold border transition-all"
+                    style={stepUnit === u
+                      ? { background: '#60A5FA18', borderColor: '#60A5FA55', color: '#60A5FA' }
+                      : { background: 'transparent', borderColor: 'rgba(255,255,255,0.08)', color: '#4B5563' }}>
+                    {STEP_LABELS[u]}
+                  </button>
+                ))}
+              </div>
+
+              <div className="w-px h-5 bg-white/10 mx-1" />
+
+              {/* Back */}
+              <button onClick={() => stepDate(-1)}
+                className="w-7 h-7 flex items-center justify-center rounded-lg border border-white/10 text-gray-400 hover:text-white hover:border-white/25 transition-all text-xs"
+                style={{ background: 'rgba(255,255,255,0.03)' }}>
+                ◀
+              </button>
+
+              {/* Date display */}
+              <span className="text-sm font-mono text-gray-300 min-w-32 text-center px-1">
+                {currentDate.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' })}
+              </span>
+
+              {/* Forward */}
+              <button onClick={() => stepDate(1)}
+                className="w-7 h-7 flex items-center justify-center rounded-lg border border-white/10 text-gray-400 hover:text-white hover:border-white/25 transition-all text-xs"
+                style={{ background: 'rgba(255,255,255,0.03)' }}>
+                ▶
+              </button>
+
+              <div className="w-px h-5 bg-white/10 mx-1" />
+
+              {/* Play/pause */}
+              <button onClick={() => setIsPlaying(p => !p)}
+                className="flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold border transition-all"
+                style={isPlaying
+                  ? { background: '#34D39918', borderColor: '#34D39955', color: '#34D399' }
+                  : { background: 'rgba(255,255,255,0.03)', borderColor: 'rgba(255,255,255,0.10)', color: '#6B7280' }}>
+                <span>{isPlaying ? '⏸' : '▶'}</span>
+                {isPlaying ? 'Pause' : 'Animer'}
+              </button>
+
+              {/* Today */}
+              <button onClick={() => { setCurrentDate(new Date()); setIsPlaying(false); }}
+                className="px-3 py-1 rounded-lg text-xs font-semibold border transition-all"
+                style={{ background: 'rgba(255,255,255,0.03)', borderColor: 'rgba(255,255,255,0.10)', color: '#6B7280' }}
+                title="Revenir à aujourd'hui">
+                Aujourd'hui
+              </button>
+            </div>
 
             {/* Controls */}
             <div className="flex flex-wrap gap-2 mb-4">
@@ -251,7 +358,7 @@ export default function SolarSystemMap() {
                 {/* Sun ambient glow */}
                 <circle cx={cx} cy={cy} r={90} fill="url(#sg-sunGlow)" />
 
-                {/* Orbits */}
+                {/* Orbits — drawn at semi-major axis radius (reference orbit) */}
                 {showOrbits && allBodies.filter(b => b.au > 0).map(b => {
                   const r = AU_TO_PX(b.au, maxR);
                   const isHov = hoveredBody === b.id;
@@ -282,8 +389,10 @@ export default function SolarSystemMap() {
                 {(() => {
                   const sat = allBodies.find(b => b.id === 'saturn');
                   if (!sat) return null;
-                  const ang = (PLANET_ANGLES['saturn'] ?? 210) * Math.PI / 180;
-                  const r = AU_TO_PX(sat.au, maxR);
+                  const pos = positions['saturn'];
+                  const ang = (pos?.angleDeg ?? 210) * Math.PI / 180;
+                  const dist = pos?.dist ?? sat.au;
+                  const r = AU_TO_PX(dist, maxR);
                   const sx = cx + r * Math.cos(ang);
                   const sy = cy + r * Math.sin(ang);
                   return <ellipse cx={sx} cy={sy} rx={sat.r * 2.5} ry={sat.r * 0.6} fill="none" stroke="#FDE68A" strokeOpacity={0.45} strokeWidth={3} />;
@@ -293,8 +402,10 @@ export default function SolarSystemMap() {
                 {(() => {
                   const ur = allBodies.find(b => b.id === 'uranus');
                   if (!ur) return null;
-                  const ang = (PLANET_ANGLES['uranus'] ?? 305) * Math.PI / 180;
-                  const r = AU_TO_PX(ur.au, maxR);
+                  const pos = positions['uranus'];
+                  const ang = (pos?.angleDeg ?? 305) * Math.PI / 180;
+                  const dist = pos?.dist ?? ur.au;
+                  const r = AU_TO_PX(dist, maxR);
                   const ux = cx + r * Math.cos(ang);
                   const uy = cy + r * Math.sin(ang);
                   return <ellipse cx={ux} cy={uy} rx={ur.r * 0.5} ry={ur.r * 2.1} fill="none" stroke="#7DD3FC" strokeOpacity={0.3} strokeWidth={2} />;
@@ -338,13 +449,15 @@ export default function SolarSystemMap() {
                   );
                 })}
 
-                {/* Planets & Sun */}
+                {/* Planets & Sun — positions from astronomy-engine */}
                 {allBodies.map(b => {
-                  const angDeg = b.id === 'sun' ? 0 : (PLANET_ANGLES[b.id] ?? 90);
+                  const pos = b.id === 'sun' ? null : positions[b.id];
+                  const angDeg = pos?.angleDeg ?? 0;
                   const ang = angDeg * Math.PI / 180;
-                  const dist = AU_TO_PX(b.au, maxR);
-                  const bx = b.id === 'sun' ? cx : cx + dist * Math.cos(ang);
-                  const by = b.id === 'sun' ? cy : cy + dist * Math.sin(ang);
+                  const dist = pos?.dist ?? b.au;
+                  const svgR = AU_TO_PX(dist, maxR);
+                  const bx = b.id === 'sun' ? cx : cx + svgR * Math.cos(ang);
+                  const by = b.id === 'sun' ? cy : cy + svgR * Math.sin(ang);
                   const isSel = selectedBody === b.id;
                   const isHov = hoveredBody === b.id;
                   return (
@@ -371,7 +484,7 @@ export default function SolarSystemMap() {
                       {b.au > 0 && (isHov || isSel) && (
                         <text x={bx} y={by + b.r + 27} textAnchor="middle"
                           fontSize={9} fontFamily="monospace" fill="rgba(255,255,255,0.35)">
-                          {b.au} UA
+                          {dist.toFixed(2)} UA
                         </text>
                       )}
                     </g>
@@ -399,7 +512,6 @@ export default function SolarSystemMap() {
                       onMouseLeave={() => setHoveredProbe(null)}
                       style={{ cursor: 'pointer' }}>
 
-                      {/* Dashed trajectory from Neptune zone to edge */}
                       <line
                         x1={nx} y1={ny} x2={ax} y2={ay}
                         stroke={v.color} strokeWidth={isSel || isHov ? 1.2 : 0.7}
@@ -407,7 +519,6 @@ export default function SolarSystemMap() {
                         strokeDasharray="4 4"
                       />
 
-                      {/* Arrowhead at edge */}
                       <polygon
                         points={`
                           ${tx},${ty}
@@ -418,7 +529,6 @@ export default function SolarSystemMap() {
                         fillOpacity={isSel || isHov ? 1 : 0.6}
                       />
 
-                      {/* Probe dot */}
                       <circle
                         cx={ax} cy={ay} r={isSel || isHov ? 5 : 3.5}
                         fill={v.color}
@@ -429,16 +539,13 @@ export default function SolarSystemMap() {
                         )}
                       </circle>
 
-                      {/* Halo when hovered/selected */}
                       {(isSel || isHov) && (
                         <circle cx={ax} cy={ay} r={10}
                           fill="none" stroke={v.color} strokeWidth={1}
                           strokeOpacity={0.4} strokeDasharray="3 3" />
                       )}
 
-                      {/* Label */}
                       {(() => {
-                        // Place label on the inner side to avoid clipping
                         const labelR = edgeR - 22;
                         const lx = cx + labelR * Math.cos(ang);
                         const ly = cy + labelR * Math.sin(ang);
@@ -467,7 +574,7 @@ export default function SolarSystemMap() {
 
               {/* Bottom legend */}
               <div className="absolute bottom-3 left-4 right-4 flex items-end justify-between pointer-events-none">
-                <div className="text-[10px] text-gray-700 font-mono">Échelle logarithmique · distances non linéaires</div>
+                <div className="text-[10px] text-gray-700 font-mono">Échelle logarithmique · positions réelles JPL</div>
                 {showProbes && activeProbes.length > 0 && (
                   <div className="pointer-events-auto rounded-xl border border-white/8 px-3 py-2.5"
                     style={{ background: 'rgba(2,8,23,0.88)', backdropFilter: 'blur(8px)' }}>
@@ -491,6 +598,8 @@ export default function SolarSystemMap() {
               <div className="flex gap-2 min-w-max">
                 {allBodies.filter(b => b.au > 0).map(b => {
                   const isSel = selectedBody === b.id;
+                  const pos = positions[b.id];
+                  const dist = pos?.dist ?? b.au;
                   return (
                     <button key={b.id} onClick={() => handleBodyClick(b.id)}
                       className="cursor-pointer flex flex-col items-center gap-1.5 px-3 py-2.5 rounded-xl border transition-all shrink-0"
@@ -513,7 +622,7 @@ export default function SolarSystemMap() {
                       </span>
                       {b.au > 0 && (
                         <span className="text-[9px] font-mono" style={{ color: isSel ? `${b.color}99` : '#374151' }}>
-                          {b.au} UA
+                          {dist.toFixed(2)} UA
                         </span>
                       )}
                     </button>
@@ -532,7 +641,6 @@ export default function SolarSystemMap() {
                 <div className="rounded-2xl border overflow-hidden"
                   style={{ background: 'rgba(8,12,28,0.97)', borderColor: `${selectedBodyData.color}35`, boxShadow: `0 0 40px ${selectedBodyData.color}12` }}>
 
-                  {/* Color bar header */}
                   <div className="h-1 w-full" style={{ background: `linear-gradient(to right, ${selectedBodyData.color}80, ${selectedBodyData.color}20)` }} />
 
                   <div className="p-5">
@@ -550,7 +658,9 @@ export default function SolarSystemMap() {
                             {selectedBodyData.nameFr}
                           </h2>
                           <div className="text-xs text-gray-500 font-mono mt-0.5">
-                            {selectedBodyData.semiMajorAxis ? `${selectedBodyData.semiMajorAxis} UA du Soleil` : 'Notre étoile'}
+                            {selectedBodyData.semiMajorAxis
+                              ? `${(positions[selectedBodyData.id]?.dist ?? selectedBodyData.semiMajorAxis).toFixed(3)} UA · ${currentDate.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' })}`
+                              : 'Notre étoile'}
                           </div>
                         </div>
                       </div>
@@ -691,7 +801,9 @@ export default function SolarSystemMap() {
                             {body.nameFr}
                           </span>
                           {body.semiMajorAxis && (
-                            <span className="text-xs text-gray-700 font-mono">{body.semiMajorAxis} UA</span>
+                            <span className="text-xs text-gray-700 font-mono">
+                              {(positions[body.id]?.dist ?? body.semiMajorAxis).toFixed(2)} UA
+                            </span>
                           )}
                         </button>
                       ))}

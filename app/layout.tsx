@@ -60,7 +60,10 @@ export default function RootLayout({
             name: 'Hadrien Vinay',
             url: 'https://suri-space.vercel.app',
             jobTitle: 'Ingénieur aéronautique',
-            sameAs: [],
+            sameAs: [
+              'https://www.linkedin.com/in/hadrien-vinay',
+              'https://github.com/hadrienvinay',
+            ],
             knowsAbout: ['aéronautique', 'espace', 'astronomie', 'physique', 'systèmes embarqués', 'développement web'],
           }} />
           {/* Deep space background */}

@@ -1,10 +1,30 @@
 // app/projects/[id]/page.tsx
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import prisma from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import { auth } from '@/lib/auth';
 import DeleteProjectButton from '@/components/DeleteProjectButton';
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+  const project = await prisma.project.findUnique({ where: { id: parseInt(id) }, select: { title: true, resume: true, image: true } });
+  if (!project) return { title: 'Projet introuvable' };
+
+  return {
+    title: project.title,
+    description: project.resume || `Projet : ${project.title} — Suri Space`,
+    openGraph: {
+      title: project.title,
+      description: project.resume || `Projet : ${project.title}`,
+      url: `https://suri-space.vercel.app/projects/${id}`,
+      type: 'article',
+      ...(project.image && { images: [{ url: project.image, alt: project.title }] }),
+    },
+    alternates: { canonical: `/projects/${id}` },
+  };
+}
 
 export default async function ProjectPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;

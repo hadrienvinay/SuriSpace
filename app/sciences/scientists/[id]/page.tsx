@@ -1,9 +1,22 @@
 // app/sciences/scientists/[id]/page.tsx
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import ScienceLayout from '@/components/ScienceLayout';
 import { scientists, revolutions, DOMAIN_COLORS, ERA_LABELS } from '@/data/scientists';
 import { ClockIcon, MicroscopeIcon } from '@/components/SciencesIcons';
 import { ScientistIcon } from '@/components/ScientistIcons';
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+  const scientist = scientists.find(s => s.id === id);
+  if (!scientist) return { title: 'Scientifique introuvable' };
+
+  return {
+    title: `${scientist.name} — Biographie et découvertes`,
+    description: scientist.shortBio || `Biographie de ${scientist.name} (${scientist.nationality}) : découvertes, œuvres clés et contexte historique.`,
+    alternates: { canonical: `/sciences/scientists/${id}` },
+  };
+}
 
 function IcoBook({ color }: { color: string }) {
   return (

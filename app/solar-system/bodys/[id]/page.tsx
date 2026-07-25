@@ -1,10 +1,28 @@
 // pages/solar-system/bodys/[id].tsx
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import SolarLayout from '@/components/SolarLayout';
 import { solarSystem, getMoons, getMissionsForTarget } from '@/data/solar-system';
 import { IcoMoon, IcoWind, IcoLayers, IcoMap } from '@/components/SolarIcons';
 import { RocketIcon } from '@/components/SpaceIcons';
 import { MissionIcon } from '@/components/SolarBodyIcons';
+
+const BODY_TYPE_LABELS: Record<string, string> = {
+  star: 'étoile', planet: 'planète', 'dwarf-planet': 'planète naine', moon: 'lune', asteroid: 'astéroïde',
+};
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+  const body = solarSystem.find(b => b.id === id);
+  if (!body) return { title: 'Corps céleste introuvable' };
+
+  const typeLabel = BODY_TYPE_LABELS[body.type] ?? body.type;
+  return {
+    title: `${body.nameFr} — ${typeLabel.charAt(0).toUpperCase() + typeLabel.slice(1)}`,
+    description: `${body.nameFr} (${body.name}) : rayon ${body.radius} km, masse ${body.mass}×10²⁴ kg. Caractéristiques physiques et orbitales complètes.`,
+    alternates: { canonical: `/solar-system/bodys/${id}` },
+  };
+}
 
 function CompositionBar({ label, percent, color }: { label: string; percent: number; color: string }) {
   return (

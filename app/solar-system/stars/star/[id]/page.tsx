@@ -1,5 +1,6 @@
 // app/solar-system/stars/star/[id].tsx
 // Individual star detail page
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import SolarLayout from '@/components/SolarLayout';
 import {
@@ -7,6 +8,18 @@ import {
   getConstellationById,
   type Star, type SpectralClass,
 } from '@/data/stars';
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+  const star = stars.find(s => s.id === id);
+  if (!star) return { title: 'Étoile introuvable' };
+
+  return {
+    title: `${star.nameFr || star.name} — Étoile de type ${star.spectralType}`,
+    description: star.description || `${star.nameFr || star.name} : étoile de la constellation ${star.constellation}, à ${star.distanceLy} années-lumière, type spectral ${star.spectralType}.`,
+    alternates: { canonical: `/solar-system/stars/star/${id}` },
+  };
+}
 import { IcoPin, IcoSunStar, IcoPlanetRing, IcoGlobeEarth, IcoTarget } from '@/components/SolarIcons';
 import { ConstellationIcon } from '@/components/ConstellationIcons';
 import { IcoRuler, IcoBalance, IcoThermometer } from '@/components/PhysicsIcons';
