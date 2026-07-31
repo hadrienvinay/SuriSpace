@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import SolarLayout from '@/components/SolarLayout';
 import EarthOrbitMap from '@/components/EarthOrbitMap';
+import { computeMoonPhasesRange, moonDistanceKm } from '@/lib/ephemerides';
 
 // ── Math helpers ─────────────────────────────────────────────────────────────
 const rad = (d: number) => d * Math.PI / 180;
@@ -107,11 +108,11 @@ function getParisOffset(date = new Date()): number {
 }
 const TZ = getParisOffset();
 
-// ── Night time slots: 18h→8h local Paris time ────────────────────────────────
-const NIGHT_SLOTS = Array.from({ length: 15 }, (_, i) => {
-  const localHour = (i + 18) % 24;
+// ── Night time slots: 8h→8h (lendemain) local Paris time ─────────────────────
+const NIGHT_SLOTS = Array.from({ length: 25 }, (_, i) => {
+  const localHour = (i + 8) % 24;
   const utcHour = (localHour - TZ + 24) % 24;
-  const nextDay = localHour < 18; // past local midnight → next calendar day
+  const nextDay = i >= 16; // wrapped past local midnight → next calendar day
   return { cetHour: localHour, utcHour, nextDay };
 });
 
@@ -321,12 +322,9 @@ export default function CielPage() {
 
   const [dayOffset,  setDayOffset]  = useState(0);   // 0=today … 5
   const [nightSlot,  setNightSlot]  = useState(() => {
-    // Map current CET hour to a night slot, default to 20h (slot 2) if daytime
+    // Map current CET hour to a slot — range 8h→0..15, 00h→16..24 (8h lendemain)
     const nowCET = (new Date().getUTCHours() + TZ + 24) % 24;
-    // Night slots: 18h=0, 19h=1, … 23h=5, 00h=6, 01h=7, … 08h=14
-    if (nowCET >= 18) return nowCET - 18;       // 18h→0, 19h→1, … 23h→5
-    if (nowCET <= 8)  return nowCET + 6;         // 00h→6, 01h→7, … 08h→14
-    return 2;                                     // daytime → default 20h
+    return nowCET >= 8 ? nowCET - 8 : nowCET + 16;
   });
   const [showConst,  setShowConst]  = useState(true);
   const [showLabels, setShowLabels] = useState(true);
@@ -370,12 +368,16 @@ export default function CielPage() {
   // ── Moon position ──────────────────────────────────────────────────────
   const moon = useMemo(() => moonPosition(obsDate), [obsDate]);
 
+  // ── Moon phases — next 3 months, grouped by month ───────────────────────
+  const moonPhaseMonths = useMemo(() => computeMoonPhasesRange(today, 3), [today]);
+
   // ── Canvas draw ──────────────────────────────────────────────────────────
   const draw = useCallback((canvas: HTMLCanvasElement) => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     const W = canvas.width, H = canvas.height;
     const cx = W / 2, cy = H / 2, R = Math.min(W, H) / 2 - 40;
+    if (R <= 0) return;
 
     ctx.clearRect(0, 0, W, H);
 
@@ -615,6 +617,7 @@ export default function CielPage() {
     const canvas = canvasRef.current, container = containerRef.current;
     if (!canvas || !container) return;
     const size = Math.min(container.clientWidth, 720);
+    if (size <= 0) return;
     canvas.width = size; canvas.height = size;
     draw(canvas);
   }, [draw]);
@@ -624,6 +627,7 @@ export default function CielPage() {
     if (!canvas || !container) return;
     const obs = new ResizeObserver(() => {
       const size = Math.min(container.clientWidth, 720);
+      if (size <= 0) return;
       canvas.width = size; canvas.height = size;
       draw(canvas);
     });
@@ -732,7 +736,7 @@ export default function CielPage() {
               {/* Slider: 0–14 */}
               <input
                 type="range"
-                min={0} max={14} step={1}
+                min={0} max={24} step={1}
                 value={nightSlot}
                 onChange={e => setNightSlot(Number(e.target.value))}
                 className="w-full accent-violet-500"
@@ -743,7 +747,7 @@ export default function CielPage() {
                 ))}
               </div>
               <div className="text-[10px] text-gray-700 mt-1 text-center font-mono">
-                18h → minuit → 08h · CET
+                08h → minuit → 08h (+1j) · CET
               </div>
             </div>
 
@@ -774,6 +778,7 @@ export default function CielPage() {
                   const moonVisible = moonAlt > 5;
                   const illPct = Math.round(moon.illumination * 100);
                   const phaseLabel = illPct < 5 ? 'Nouvelle' : illPct < 45 ? (moon.phase < 0.5 ? 'Croissant' : 'Décroissant') : illPct < 55 ? (moon.phase < 0.5 ? 'Premier quartier' : 'Dernier quartier') : illPct < 95 ? (moon.phase < 0.5 ? 'Gibbeuse croiss.' : 'Gibbeuse décroiss.') : 'Pleine';
+                  const distanceKm = moonDistanceKm(obsDate);
                   return (
                     <div className="flex items-center gap-2">
                       <div className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0"
@@ -782,7 +787,7 @@ export default function CielPage() {
                       </div>
                       <div className="flex-1">
                         <span className="text-sm font-semibold" style={{ color: '#F0E8C8' }}>Lune</span>
-                        <span className="text-[10px] text-gray-600 font-mono ml-1">{illPct}% · {phaseLabel}</span>
+                        <span className="text-[10px] text-gray-600 font-mono ml-1">{illPct}% · {phaseLabel} · {distanceKm.toLocaleString('fr-FR')} km</span>
                       </div>
                       <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono ${moonVisible ? 'bg-green-500/15 text-green-400' : 'bg-gray-700/40 text-gray-600'}`}>
                         {moonVisible ? `↑ ${Math.round(moonAlt)}°` : 'sous l\'horizon'}
@@ -832,6 +837,45 @@ export default function CielPage() {
               </div>
             </div>
 
+          </div>
+        </div>
+
+        {/* ── Phases de la Lune ── */}
+        <div className="mt-10">
+          <h2 className="text-xl font-bold text-white mb-4" style={{ fontFamily: "'Exo 2', sans-serif" }}>
+            Phases de la Lune
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {moonPhaseMonths.map(group => (
+              <div
+                key={`${group.year}-${group.month}`}
+                className="rounded-2xl border border-white/8 p-4"
+                style={{ background: 'rgba(255,255,255,0.02)' }}
+              >
+                <h3 className="text-xs uppercase tracking-wider text-gray-500 mb-3">
+                  {group.monthName} {group.year}
+                </h3>
+                <div className="space-y-2">
+                  {group.phases.map((p, i) => (
+                    <div
+                      key={i}
+                      className="flex items-center gap-2.5 rounded-xl px-2.5 py-1.5"
+                      style={p.highlight ? { background: 'rgba(240,232,200,0.06)', border: '1px solid rgba(240,232,200,0.15)' } : {}}
+                    >
+                      <span className="text-lg shrink-0">{p.icon}</span>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm font-semibold text-gray-200 truncate">
+                          {p.phase}
+                          {p.name && <span className="text-gray-500 font-normal"> · {p.name}</span>}
+                        </div>
+                        <div className="text-[10px] text-gray-600 font-mono">{p.distanceKm.toLocaleString('fr-FR')} km</div>
+                      </div>
+                      <span className="text-xs font-mono text-gray-500 shrink-0">{p.date}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 

@@ -136,17 +136,3 @@ model Book {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
-
-model BourseOrder {
-  id             Int      @id @default(autoincrement())
-  name           String
-  ticker         String
-  type           String
-  montant        Float
-  prixAchat      Float
-  prixActuel     Float
-  quantity       Float
-  investmentDate DateTime @default(now())
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-}

@@ -209,7 +209,7 @@ export default function Home() {
           Suri&apos;s Blog
         </h1>
         <p className="text-gray-400 text-lg max-w-2xl mx-auto leading-relaxed mb-3">
-          Un espace pour centraliser mes projets, mes explorations scientifiques et mes idées.
+          Bienvenue sur le blog d'Hadrien Vinay ! Un espace pour centraliser mes projets, des connaissances et des idées.
           Réalisé avec Next.js, Prisma, NextAuth et diverses API.
         </p>
         <p className="text-gray-600 text-sm max-w-3xl mx-auto italic mb-8 leading-relaxed">
@@ -221,6 +221,30 @@ export default function Home() {
           <Link href="/about" className="px-6 py-3 rounded-xl font-semibold text-white border border-white/10 hover:bg-white/6 transition-all">
             Qui suis-je ?
           </Link>
+          <a
+            href="/mooc/telecom-spatiale.html"
+            target="_blank"
+            rel="noreferrer"
+            className="px-6 py-3 rounded-xl font-semibold text-blue-300 border border-blue-500/25 hover:bg-blue-500/10 transition-all"
+          >
+            MOOC · Télécom Spatiale
+          </a>
+          <a
+            href="/mooc/programmation-spatiale.html"
+            target="_blank"
+            rel="noreferrer"
+            className="px-6 py-3 rounded-xl font-semibold text-violet-300 border border-violet-500/25 hover:bg-violet-500/10 transition-all"
+          >
+            MOOC · Programmation Spatiale
+          </a>
+          <a
+            href="https://astrum-rouge.vercel.app/"
+            target="_blank"
+            rel="noreferrer"
+            className="px-6 py-3 rounded-xl font-semibold text-emerald-300 border border-emerald-500/25 hover:bg-emerald-500/10 transition-all"
+          >
+            MOOC · Astronomie
+          </a>
         </div>
       </div>
 

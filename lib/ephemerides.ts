@@ -12,7 +12,13 @@ import {
   Equator,
   Horizon,
   AstroTime,
+  GeoVector,
+  KM_PER_AU,
 } from 'astronomy-engine';
+
+export function moonDistanceKm(date: Date): number {
+  return Math.round(GeoVector(Body.Moon, date, true).Length() * KM_PER_AU);
+}
 
 const MONTHS_FR = [
   'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
@@ -54,6 +60,7 @@ export interface MoonPhaseItem {
   highlight: boolean;
   name?: string;
   dayNumber: number;
+  distanceKm: number;
 }
 
 export interface PlanetItem {
@@ -107,6 +114,7 @@ export function computeMoonPhases(date: Date = new Date()): MoonPhaseItem[] {
         date: formatDay(d, monthNameShort),
         highlight: mq.quarter === 2, // pleine lune mise en avant
         dayNumber: d.getUTCDate(),
+        distanceKm: moonDistanceKm(d),
       };
       if (mq.quarter === 2) {
         item.name = FULL_MOON_NAMES[month];
@@ -117,6 +125,49 @@ export function computeMoonPhases(date: Date = new Date()): MoonPhaseItem[] {
   }
 
   return phases;
+}
+
+export interface MoonPhaseMonthGroup {
+  year: number;
+  month: number; // 0-indexed
+  monthName: string;
+  phases: MoonPhaseItem[];
+}
+
+// Regroupe les quartiers lunaires par mois, à partir de `date` et sur `monthsAhead` mois.
+export function computeMoonPhasesRange(date: Date = new Date(), monthsAhead: number = 3): MoonPhaseMonthGroup[] {
+  const start = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0));
+  const end   = new Date(Date.UTC(date.getFullYear(), date.getMonth() + monthsAhead, date.getDate(), 0, 0, 0));
+
+  const searchStart = new Date(start.getTime() - 3 * 24 * 3600 * 1000);
+  let mq = SearchMoonQuarter(searchStart);
+  const groups = new Map<string, MoonPhaseMonthGroup>();
+
+  while (mq.time.date < end) {
+    if (mq.time.date >= start) {
+      const d = mq.time.date;
+      const y = d.getUTCFullYear();
+      const m = d.getUTCMonth();
+      const key = `${y}-${m}`;
+      if (!groups.has(key)) {
+        groups.set(key, { year: y, month: m, monthName: MONTHS_FR[m], phases: [] });
+      }
+      const info = PHASE_INFO[mq.quarter];
+      const item: MoonPhaseItem = {
+        icon: info.icon,
+        phase: info.name,
+        date: formatDay(d, MONTHS_FR_SHORT[m]),
+        highlight: mq.quarter === 2,
+        dayNumber: d.getUTCDate(),
+        distanceKm: moonDistanceKm(d),
+      };
+      if (mq.quarter === 2) item.name = FULL_MOON_NAMES[m];
+      groups.get(key)!.phases.push(item);
+    }
+    mq = NextMoonQuarter(mq);
+  }
+
+  return Array.from(groups.values());
 }
 
 const PLANET_DEFS: { body: Body; name: string; symbol: string; color: string; constellation?: string }[] = [

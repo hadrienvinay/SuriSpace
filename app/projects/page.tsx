@@ -149,7 +149,7 @@ export default async function Projects() {
             <Link href={`/projects/${project.id}`} className="block">
               <div className="relative h-44 w-full overflow-hidden">
                 <Image
-                  src={project.image ?? '/python_img.webp'}
+                  src={project.image ?? '/default.png'}
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
                   alt={project.title}

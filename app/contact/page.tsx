@@ -82,7 +82,7 @@ export default function Contact() {
             >
               <p className="text-sm text-gray-400 leading-relaxed">
                 Actuellement basé sur <span className="text-white font-medium">Arcachon</span>,
-                je me prépare à une installation sur <span className="text-white font-medium">Bordeaux</span>{' '}
+                je suis mobile sur la <span className="text-white font-medium">France</span>{' '}
                 pour travailler dans l&apos;industrie <span className="text-blue-300">aéronautique et spatiale</span>.
               </p>
             </div>

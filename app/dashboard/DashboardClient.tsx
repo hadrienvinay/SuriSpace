@@ -12,7 +12,7 @@ import { CodeIcon }                                     from '@/components/Proje
 import { SolarSystemIcon, TelescopeIcon, AtomIcon }     from '@/components/UniverseIcons';
 import { LeafIcon, SunIcon }                            from '@/components/NatureIcons';
 import { StarIcon }                                     from '@/components/SpaceIcons';
-import { SigmaIcon, ScientistIcon, InfinityIcon }       from '@/components/SciencesIcons';
+import { SigmaIcon, ScientistIcon }                     from '@/components/SciencesIcons';
 
 // ── Inline dashboard icons ────────────────────────────────────────────────────
 
@@ -111,7 +111,7 @@ export interface DashboardProps {
   messageCount:     number;
   bookCount:        number;
   actionCount:      number;
-  bourseOrderCount: number;
+  moocCount:        number;
   pageCount:        number;
   componentCount:   number;
   apiRouteCount:    number;
@@ -142,6 +142,15 @@ const SITE_SECTIONS = [
 
 // Uid-scoped wrappers — prevent SVG gradient id collisions when the same icon
 // renders twice on the dashboard (e.g. QuillIcon in stats + KB map).
+function IconMoocCap({ size = 26 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 3 1 8l11 5 9-4.09V17h2V8L12 3z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" fill="currentColor" fillOpacity="0.12" />
+      <path d="M5 10.5V15c0 1.66 3.13 3 7 3s7-1.34 7-3v-4.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 const QuillIconStat = (p: { size?: number }) => <QuillIcon {...p} uid="ds" />;
 const QuillIconKb   = (p: { size?: number }) => <QuillIcon {...p} uid="dk" />;
 const BookIconStat  = (p: { size?: number }) => <BookIcon  {...p} uid="ds" />;
@@ -174,7 +183,7 @@ function IconCalendar()  { return <svg width="14" height="14" viewBox="0 0 16 16
 export default function DashboardClient({
   messages, links: initialLinks, projects: initialProjects,
   articleCount, projectCount, messageCount, bookCount,
-  actionCount, bourseOrderCount,
+  actionCount, moocCount,
   pageCount, componentCount, apiRouteCount, prismaModelCount, dataFileCount, totalDataLines,
   daysSinceCreation, knowledgeBase,
 }: DashboardProps) {
@@ -232,12 +241,6 @@ export default function DashboardClient({
       accent: 'text-blue-300', glow: '#60A5FA', accentHex: '#60A5FA',
     },
     {
-      href: '/dashboard/bourse', Icon: InfinityIcon, label: 'Bourse',
-      desc: 'Marchés financiers', badge: bourseOrderCount, badgeLabel: 'ordres',
-      gradient: 'from-emerald-600/20 to-teal-600/20', border: 'border-emerald-500/30',
-      accent: 'text-emerald-300', glow: '#34D399', accentHex: '#34D399',
-    },
-    {
       href: '/dashboard/books', Icon: BookIconNav, label: 'Bibliothèque',
       desc: 'Livres lus et notes', badge: bookCount, badgeLabel: 'livres',
       gradient: 'from-violet-600/20 to-purple-600/20', border: 'border-violet-500/30',
@@ -256,7 +259,7 @@ export default function DashboardClient({
     { label: 'Livres',        value: bookCount,        Icon: BookIconStat,  color: '#FBBF24', bg: 'rgba(251,191,36,0.08)',  border: 'rgba(251,191,36,0.2)'   },
     { label: 'Messages',      value: messageCount,     Icon: null,         color: '#F472B6', bg: 'rgba(244,114,182,0.08)', border: 'rgba(244,114,182,0.2)'  },
     { label: 'Positions',     value: actionCount,      Icon: BarChartIcon, color: '#10B981', bg: 'rgba(16,185,129,0.08)',  border: 'rgba(16,185,129,0.2)'   },
-    { label: 'Ordres Bourse', value: bourseOrderCount, Icon: BarChartIcon, color: '#22D3EE', bg: 'rgba(34,211,238,0.08)',  border: 'rgba(34,211,238,0.2)',  hueRotate: true },
+    { label: 'MOOCs',         value: moocCount,        Icon: IconMoocCap,  color: '#22D3EE', bg: 'rgba(34,211,238,0.08)',  border: 'rgba(34,211,238,0.2)'   },
   ];
 
   const anatomyStats = [
@@ -389,6 +392,37 @@ export default function DashboardClient({
               </div>
             </Link>
           ))}
+        </div>
+      </div>
+
+      {/* ── MOOCs ── */}
+      <div>
+        <h2 className="text-xs font-bold tracking-widest uppercase text-gray-500 mb-4">Mes MOOCs</h2>
+        <div className="flex flex-wrap gap-3">
+          <a
+            href="/mooc/telecom-spatiale.html"
+            target="_blank"
+            rel="noreferrer"
+            className="px-6 py-3 rounded-xl font-semibold text-blue-300 border border-blue-500/25 hover:bg-blue-500/10 transition-all"
+          >
+            MOOC · Télécom Spatiale
+          </a>
+          <a
+            href="/mooc/programmation-spatiale.html"
+            target="_blank"
+            rel="noreferrer"
+            className="px-6 py-3 rounded-xl font-semibold text-violet-300 border border-violet-500/25 hover:bg-violet-500/10 transition-all"
+          >
+            MOOC · Programmation Spatiale
+          </a>
+          <a
+            href="https://astrum-rouge.vercel.app/"
+            target="_blank"
+            rel="noreferrer"
+            className="px-6 py-3 rounded-xl font-semibold text-emerald-300 border border-emerald-500/25 hover:bg-emerald-500/10 transition-all"
+          >
+            MOOC · Astronomie
+          </a>
         </div>
       </div>
 

@@ -189,7 +189,7 @@ export default async function Posts() {
             <Link href={`/posts/${post.id}`} className="block">
               <div className="relative h-44 w-full overflow-hidden">
                 <Image
-                  src={post.image || '/python_img.webp'}
+                  src={post.image || '/default.png'}
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
                   alt={post.title}

@@ -10,7 +10,6 @@ export default async function Dashboard() {
     projectCount,
     messageCount,
     actionCount,
-    bourseOrderCount,
     projects,
   ] = await Promise.all([
     prisma.message.findMany(),
@@ -20,7 +19,6 @@ export default async function Dashboard() {
     prisma.project.count(),
     prisma.message.count(),
     prisma.action.count(),
-    prisma.bourseOrder.count(),
     prisma.project.findMany({
       orderBy: { createdAt: 'desc' },
       select: { id: true, title: true, siteUrl: true, siteUrlPublic: true, link: true, tags: true },
@@ -53,7 +51,7 @@ export default async function Dashboard() {
     messageCount,
     bookCount,
     actionCount,
-    bourseOrderCount,
+    moocCount:        3,
     pageCount:        74,
     componentCount:   46,
     apiRouteCount:    21,

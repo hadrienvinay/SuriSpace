@@ -79,7 +79,7 @@ const TIMELINE = [
   },
   {
     type: 'pro',
-    period: 'Jan – Mai 2018',
+    period: 'Janvier – Mai 2018',
     title: 'SETEC ITS',
     role: 'Ingénieur Mobilité — Stage',
     desc: "Cabinet d'études transports à Paris. Rédaction d'un cahier des charges sur l'architecture embarquée de nouveaux bus RATP.",
@@ -88,7 +88,7 @@ const TIMELINE = [
   },
   {
     type: 'pro',
-    period: 'Jan – Juil 2019',
+    period: 'Janvier – Juillet 2019',
     title: 'GALITT',
     role: 'Ingénieur Logiciel R&D — Stage',
     desc: "Conseil en système de paiement sécurisé. Étude Open Banking et automatisation de tests d'API sur Kanest.",
@@ -97,7 +97,7 @@ const TIMELINE = [
   },
   {
     type: 'pro',
-    period: 'Jan 2020 – Sep 2022',
+    period: 'Janvier 2020 – Septembre 2022',
     title: 'SCALIAN · Dassault Aviation',
     role: 'Ingénieur Systèmes Embarqués — CDI',
     desc: "Mission avionique DO-178 : développement et maintenance de bancs de test, scripts C/Python, intégration continue et documentation technique.",
@@ -126,7 +126,7 @@ const TIMELINE = [
   },
   {
     type: 'pro',
-    period: 'Déc 2024 – Nov 2025',
+    period: 'Décembre 2024 – Juillet 2026',
     title: "Vélos d'Albret",
     role: 'Technicien Polyvalent — CDD',
     desc: "Gestion autonome d'un magasin de vélos : mécanique cycle, relation clientèle et gestion des stocks.",
