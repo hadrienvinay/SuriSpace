@@ -29,6 +29,7 @@
     "react-map-gl": "^8.1.0",
     "recharts": "^3.7.0",
     "resend": "^6.12.3",
+    "satellite.js": "^7.1.0",
     "yahoo-finance2": "^3.13.0"
   },
   "devDependencies": {

@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     url: 'https://suri-space.vercel.app',
   },
 };
+import Image from 'next/image';
 import { JsonLd } from '@/components/JsonLd';
 import Weather from '@/components/Weather';
 import Ratp from '@/components/Ratp';
@@ -20,10 +21,46 @@ import Sncf from '@/components/Sncf';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import Links from '@/components/ShowLinks';
 import CVButton from '@/components/CVButton';
+import QuizButton from '@/components/QuizModal';
 import { getCitationDuJour } from '@/data/citations';
-import { computeDailyInfo } from '@/lib/ephemerides';
+import { getFactDuJour } from '@/data/facts';
+import { getScientificEventDuJour } from '@/data/scientificEvents';
+import { STATIC_POSTS } from '@/data/posts';
+import { computeDailyInfo, computeEvents, type EventItem } from '@/lib/ephemerides';
 import { SolarSystemIcon, TelescopeIcon, AtomIcon } from '@/components/UniverseIcons';
 import { SunriseIcon, MetroIcon, SparkIcon } from '@/components/WidgetIcons';
+import prisma from '@/lib/prisma';
+
+const FACT_CATEGORY_COLORS: Record<string, string> = {
+  'Élément': '#34D399',
+  'Étoile': '#FBBF24',
+  'Scientifique': '#A78BFA',
+};
+
+const SCI_EVENT_CATEGORY_COLORS: Record<string, string> = {
+  'Naissance':  '#60A5FA',
+  'Décès':      '#9CA3AF',
+  'Découverte': '#F59E0B',
+  'Histoire':   '#F472B6',
+};
+
+// ── Upcoming astronomical events (moon phases, equinoxes, oppositions…) ───────
+function getUpcomingEvents(count: number, from: Date = new Date()): EventItem[] {
+  const events: EventItem[] = [];
+  let cursor = new Date(from.getFullYear(), from.getMonth(), 1);
+  const todayStart = new Date(from.getFullYear(), from.getMonth(), from.getDate());
+
+  for (let i = 0; events.length < count && i < 6; i++) {
+    const monthEvents = computeEvents(cursor);
+    for (const e of monthEvents) {
+      const eventDate = new Date(cursor.getFullYear(), cursor.getMonth(), e.dayNumber);
+      if (eventDate >= todayStart) events.push(e);
+    }
+    cursor = new Date(cursor.getFullYear(), cursor.getMonth() + 1, 1);
+  }
+
+  return events.slice(0, count);
+}
 
 const universeCards = [
   {
@@ -175,9 +212,35 @@ function SvgPlanet() {
   );
 }
 
-export default function Home() {
+export default async function Home() {
   const citation   = getCitationDuJour();
+  const fact       = getFactDuJour();
+  const sciEvent   = getScientificEventDuJour();
   const daily      = computeDailyInfo();
+  const events     = getUpcomingEvents(3);
+  const dbPosts = await prisma.post.findMany({
+    where: { published: true },
+    orderBy: { createdAt: 'desc' },
+    select: { id: true, title: true, resume: true, image: true, createdAt: true },
+  });
+
+  // Fusionne les articles DB (publiés) avec les articles statiques (en dur, hors DB)
+  const latestPosts = [
+    ...dbPosts.map(p => ({
+      key: `db-${p.id}`, href: `/posts/${p.id}`, title: p.title,
+      excerpt: p.resume, image: p.image || '/default.png',
+      dateLabel: p.createdAt.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' }),
+      sortTime: p.createdAt.getTime(),
+    })),
+    ...STATIC_POSTS.map(p => ({
+      key: p.href, href: p.href, title: p.title,
+      excerpt: p.excerpt, image: p.image,
+      dateLabel: p.year,
+      sortTime: new Date(`${p.year}-06-30`).getTime(),
+    })),
+  ]
+    .sort((a, b) => b.sortTime - a.sortTime)
+    .slice(0, 3);
   return (
     <div
       className="max-w-7xl mx-auto px-4 py-10 space-y-12"
@@ -245,6 +308,7 @@ export default function Home() {
           >
             MOOC · Astronomie
           </a>
+          <QuizButton />
         </div>
       </div>
 
@@ -276,6 +340,71 @@ export default function Home() {
           ))}
         </div>
       </div>
+
+      {/* ── Le savais-tu ? ── */}
+      <div
+        className="rounded-2xl border border-white/8 p-6"
+        style={{ background: 'rgba(255,255,255,0.02)' }}
+      >
+        <div className="flex items-center gap-3 mb-3">
+          <span className="text-xs font-bold tracking-widest uppercase text-gray-500">Le savais-tu ?</span>
+          <span
+            className="px-2 py-0.5 rounded-full text-[11px] font-semibold border"
+            style={{
+              color: FACT_CATEGORY_COLORS[fact.category],
+              borderColor: `${FACT_CATEGORY_COLORS[fact.category]}40`,
+              background: `${FACT_CATEGORY_COLORS[fact.category]}12`,
+            }}
+          >
+            {fact.category}
+          </span>
+        </div>
+        <p className="text-gray-300 text-base leading-relaxed mb-3">{fact.text}</p>
+        <Link
+          href={fact.href}
+          className="text-sm font-semibold transition-colors"
+          style={{ color: FACT_CATEGORY_COLORS[fact.category] }}
+        >
+          {fact.source} →
+        </Link>
+      </div>
+
+      {/* ── Timeline scientifique du jour ── */}
+      {sciEvent && (
+        <div
+          className="rounded-2xl border border-white/8 p-6"
+          style={{ background: 'rgba(255,255,255,0.02)' }}
+        >
+          <div className="flex items-center gap-3 mb-3">
+            <span className="text-xs font-bold tracking-widest uppercase text-gray-500">Ce jour-là dans l&apos;histoire</span>
+            <span
+              className="px-2 py-0.5 rounded-full text-[11px] font-semibold border"
+              style={{
+                color: SCI_EVENT_CATEGORY_COLORS[sciEvent.category],
+                borderColor: `${SCI_EVENT_CATEGORY_COLORS[sciEvent.category]}40`,
+                background: `${SCI_EVENT_CATEGORY_COLORS[sciEvent.category]}12`,
+              }}
+            >
+              {sciEvent.category}
+            </span>
+            <span className="text-xs font-mono text-gray-600">{sciEvent.yearLabel}</span>
+          </div>
+          <p className="text-gray-300 text-base leading-relaxed mb-3">{sciEvent.text}</p>
+          {sciEvent.href ? (
+            <Link
+              href={sciEvent.href}
+              className="text-sm font-semibold transition-colors"
+              style={{ color: SCI_EVENT_CATEGORY_COLORS[sciEvent.category] }}
+            >
+              {sciEvent.source} →
+            </Link>
+          ) : (
+            <span className="text-sm font-semibold" style={{ color: SCI_EVENT_CATEGORY_COLORS[sciEvent.category] }}>
+              {sciEvent.source}
+            </span>
+          )}
+        </div>
+      )}
 
       {/* ── Carte du ciel ── */}
       {(() => {
@@ -345,6 +474,32 @@ export default function Home() {
           </Link>
         );
       })()}
+
+      {/* ── Éphémérides — prochains événements ── */}
+      {events.length > 0 && (
+        <div>
+          <h2 className="text-sm font-bold tracking-widest uppercase text-gray-500 mb-5">
+            Éphémérides à venir
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {events.map((e, i) => (
+              <div
+                key={i}
+                className="flex items-start gap-3 rounded-2xl border border-white/8 p-4"
+                style={{ background: 'rgba(255,255,255,0.02)' }}
+              >
+                <span className="text-2xl shrink-0" style={{ filter: 'drop-shadow(0 0 8px rgba(167,139,250,0.4))' }}>
+                  {e.icon}
+                </span>
+                <div className="min-w-0">
+                  <div className="text-xs font-mono text-violet-400/70 uppercase tracking-wider mb-0.5">{e.date}</div>
+                  <p className="text-sm text-gray-300 leading-snug">{e.text}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* ── Widgets ── */}
       <div className="grid md:grid-cols-3 gap-6">
@@ -430,6 +585,47 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      {/* ── Latest articles ── */}
+      {latestPosts.length > 0 && (
+        <div>
+          <div className="flex items-center gap-4 mb-6">
+            <h2 className="text-sm font-bold tracking-widest uppercase text-gray-500">Derniers articles</h2>
+            <div className="flex-1 h-px bg-white/6" />
+            <Link href="/posts" className="text-xs text-violet-400 hover:text-violet-300 transition-colors">
+              Tous les articles →
+            </Link>
+          </div>
+          <div className="grid sm:grid-cols-3 gap-4">
+            {latestPosts.map((post) => (
+              <Link
+                key={post.key}
+                href={post.href}
+                className="group relative block rounded-2xl border border-white/8 overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:brightness-110"
+                style={{ background: 'rgba(255,255,255,0.02)', backdropFilter: 'blur(8px)' }}
+              >
+                <div className="relative h-36 w-full overflow-hidden">
+                  <Image
+                    src={post.image}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    alt={post.title}
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-linear-to-t from-black/70 to-transparent" />
+                </div>
+                <div className="p-4">
+                  <div className="text-xs text-gray-600 font-mono mb-1">{post.dateLabel}</div>
+                  <h3 className="text-base font-bold text-white mb-1.5 leading-snug">{post.title}</h3>
+                  {post.excerpt && (
+                    <p className="text-sm text-gray-400 leading-relaxed line-clamp-2">{post.excerpt}</p>
+                  )}
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* ── Recent projects ── */}
       <div>

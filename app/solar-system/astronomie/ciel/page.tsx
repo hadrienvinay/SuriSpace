@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import SolarLayout from '@/components/SolarLayout';
 import EarthOrbitMap from '@/components/EarthOrbitMap';
+import IssPasses from '@/components/IssPasses';
 import { computeMoonPhasesRange, moonDistanceKm } from '@/lib/ephemerides';
 
 // ── Math helpers ─────────────────────────────────────────────────────────────
@@ -261,8 +262,8 @@ function starColor(spec: string) {
   }
 }
 
-const LAT = 48.85;
-const LON = 2.35;
+const PARIS_LAT = 48.85;
+const PARIS_LON = 2.35;
 const DAY_RANGE = 6; // today + 5 days
 
 function addDays(d: Date, n: number) {
@@ -310,6 +311,8 @@ function IcoCrescent({ size = 14 }: { size?: number }) {
 }
 
 // ── Component ─────────────────────────────────────────────────────────────────
+type LocationStatus = 'default' | 'pending' | 'granted' | 'denied' | 'unsupported';
+
 export default function CielPage() {
   const canvasRef    = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -319,6 +322,30 @@ export default function CielPage() {
     const now = new Date();
     return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
   });
+
+  // ── Position de l'observateur — Paris par défaut, géolocalisation si acceptée ──
+  const [coords, setCoords] = useState({ lat: PARIS_LAT, lon: PARIS_LON });
+  const [locationStatus, setLocationStatus] = useState<LocationStatus>('default');
+
+  const requestGeolocation = useCallback(() => {
+    if (!navigator.geolocation) {
+      setLocationStatus('unsupported');
+      return;
+    }
+    setLocationStatus('pending');
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setCoords({ lat: pos.coords.latitude, lon: pos.coords.longitude });
+        setLocationStatus('granted');
+      },
+      () => setLocationStatus('denied'),
+      { enableHighAccuracy: false, timeout: 10_000, maximumAge: 600_000 }
+    );
+  }, []);
+
+  useEffect(() => {
+    requestGeolocation();
+  }, [requestGeolocation]);
 
   const [dayOffset,  setDayOffset]  = useState(0);   // 0=today … 5
   const [nightSlot,  setNightSlot]  = useState(() => {
@@ -345,8 +372,8 @@ export default function CielPage() {
   // ── Sunrise / sunset ─────────────────────────────────────────────────────
   const { sunrise, sunset } = useMemo(() => {
     const dayDate = addDays(today, dayOffset);
-    return sunriseSunset(dayDate, LAT, LON);
-  }, [today, dayOffset]);
+    return sunriseSunset(dayDate, coords.lat, coords.lon);
+  }, [today, dayOffset, coords.lat, coords.lon]);
 
   const sunriseStr = formatTime(sunrise, TZ);
   const sunsetStr  = formatTime(sunset,  TZ);
@@ -422,7 +449,7 @@ export default function CielPage() {
       ctx.stroke();
     }
 
-    const lstDeg = localSiderealTime(obsDate, LON);
+    const lstDeg = localSiderealTime(obsDate, coords.lon);
 
     // Ecliptic — series of points along λ ∈ [0°, 360°]
     const eps = rad(23.4397);
@@ -433,7 +460,7 @@ export default function CielPage() {
         const lRad = rad(li);
         const raE  = Math.atan2(Math.sin(lRad) * Math.cos(eps), Math.cos(lRad)) * 12 / Math.PI;
         const decE = deg(Math.asin(Math.sin(lRad) * Math.sin(eps)));
-        const { alt, az } = altAz((raE + 24) % 24, decE, LAT, lstDeg);
+        const { alt, az } = altAz((raE + 24) % 24, decE, coords.lat, lstDeg);
         const p = project(alt, az, cx, cy, R);
         if (!p) { started = false; continue; }
         if (!started) { ctx.moveTo(p.x, p.y); started = true; } else ctx.lineTo(p.x, p.y);
@@ -445,7 +472,7 @@ export default function CielPage() {
     // Star positions map (for constellation lines)
     const posMap = new Map<string, { x: number; y: number }>();
     for (const [name, ra, dec] of CATALOG) {
-      const { alt, az } = altAz(ra, dec, LAT, lstDeg);
+      const { alt, az } = altAz(ra, dec, coords.lat, lstDeg);
       const p = project(alt, az, cx, cy, R);
       if (p) posMap.set(name, p);
     }
@@ -464,7 +491,7 @@ export default function CielPage() {
 
     // Stars — reduced sizes, clean rendering
     for (const [name, ra, dec, mag, spec] of CATALOG) {
-      const { alt, az } = altAz(ra, dec, LAT, lstDeg);
+      const { alt, az } = altAz(ra, dec, coords.lat, lstDeg);
       const p = project(alt, az, cx, cy, R);
       if (!p) continue;
       const size = Math.max(1.0, 4.8 - mag * 0.65);
@@ -492,7 +519,7 @@ export default function CielPage() {
     // Planets
     if (showPlanets) {
       for (const planet of planets) {
-        const { alt, az } = altAz(planet.ra, planet.dec, LAT, lstDeg);
+        const { alt, az } = altAz(planet.ra, planet.dec, coords.lat, lstDeg);
         const p = project(alt, az, cx, cy, R);
         if (!p) continue;
         const size = Math.max(3, 5.5 - planet.mag * 0.45);
@@ -521,7 +548,7 @@ export default function CielPage() {
 
     // Moon
     {
-      const { alt: moonAlt, az: moonAz } = altAz(moon.ra, moon.dec, LAT, lstDeg);
+      const { alt: moonAlt, az: moonAz } = altAz(moon.ra, moon.dec, coords.lat, lstDeg);
       const mp = project(moonAlt, moonAz, cx, cy, R);
       if (mp) {
         const moonSize = 7;
@@ -611,7 +638,7 @@ export default function CielPage() {
     }
     ctx.textAlign = 'start'; ctx.textBaseline = 'alphabetic';
 
-  }, [obsDate, showConst, showLabels, showPlanets, planets, moon]);
+  }, [obsDate, showConst, showLabels, showPlanets, planets, moon, coords.lat, coords.lon]);
 
   useEffect(() => {
     const canvas = canvasRef.current, container = containerRef.current;
@@ -636,7 +663,7 @@ export default function CielPage() {
   }, [draw]);
 
   // ── Helpers for display ───────────────────────────────────────────────────
-  const lstNow = localSiderealTime(obsDate, LON);
+  const lstNow = localSiderealTime(obsDate, coords.lon);
 
   const isMidnightCrossed = NIGHT_SLOTS[nightSlot].nextDay;
   const timeLabel = `${String(cetHour).padStart(2, '0')}h00 CET${isMidnightCrossed ? ' (+1j)' : ''}`;
@@ -665,8 +692,27 @@ export default function CielPage() {
             <h1 className="text-3xl font-bold text-white mb-1" style={{ fontFamily: "'Exo 2', sans-serif" }}>
               Carte du ciel
             </h1>
-            <p className="text-gray-500 text-sm">
-              Paris · 48,85°N · 2,35°E · Projection stéréographique · Nord haut · Est gauche
+            <p className="text-gray-500 text-sm flex items-center gap-2 flex-wrap">
+              <span>
+                {locationStatus === 'granted' ? 'Votre position' : 'Paris (par défaut)'}
+                {' · '}{coords.lat >= 0 ? `${coords.lat.toFixed(2)}°N` : `${(-coords.lat).toFixed(2)}°S`}
+                {' · '}{coords.lon >= 0 ? `${coords.lon.toFixed(2)}°E` : `${(-coords.lon).toFixed(2)}°O`}
+                {' · Projection stéréographique · Nord haut · Est gauche'}
+              </span>
+              {locationStatus !== 'granted' && locationStatus !== 'pending' && (
+                <button
+                  onClick={requestGeolocation}
+                  className="text-violet-400 hover:text-violet-300 underline underline-offset-2 text-xs"
+                >
+                  Utiliser ma position
+                </button>
+              )}
+              {locationStatus === 'pending' && (
+                <span className="text-xs text-gray-600">Localisation en cours…</span>
+              )}
+              {locationStatus === 'denied' && (
+                <span className="text-xs text-gray-600">(accès à la position refusé)</span>
+              )}
             </p>
           </div>
           {/* Sunrise/sunset badge */}
@@ -774,7 +820,7 @@ export default function CielPage() {
               <div className="space-y-2.5">
                 {/* Moon */}
                 {(() => {
-                  const { alt: moonAlt } = altAz(moon.ra, moon.dec, LAT, lstNow);
+                  const { alt: moonAlt } = altAz(moon.ra, moon.dec, coords.lat, lstNow);
                   const moonVisible = moonAlt > 5;
                   const illPct = Math.round(moon.illumination * 100);
                   const phaseLabel = illPct < 5 ? 'Nouvelle' : illPct < 45 ? (moon.phase < 0.5 ? 'Croissant' : 'Décroissant') : illPct < 55 ? (moon.phase < 0.5 ? 'Premier quartier' : 'Dernier quartier') : illPct < 95 ? (moon.phase < 0.5 ? 'Gibbeuse croiss.' : 'Gibbeuse décroiss.') : 'Pleine';
@@ -797,7 +843,7 @@ export default function CielPage() {
                 })()}
                 <div className="border-t border-white/5 my-1" />
                 {planets.map(p => {
-                  const { alt } = altAz(p.ra, p.dec, LAT, lstNow);
+                  const { alt } = altAz(p.ra, p.dec, coords.lat, lstNow);
                   const visible = alt > 5;
                   return (
                     <div key={p.name} className="flex items-center gap-2">
@@ -877,6 +923,14 @@ export default function CielPage() {
               </div>
             ))}
           </div>
+        </div>
+
+        {/* ── Prochains passages visibles de l'ISS ── */}
+        <div className="mt-10">
+          <h2 className="text-xl font-bold text-white mb-4" style={{ fontFamily: "'Exo 2', sans-serif" }}>
+            Prochains passages visibles de l&apos;ISS
+          </h2>
+          <IssPasses lat={coords.lat} lon={coords.lon} />
         </div>
 
         {/* ── Carte orbitale ── */}

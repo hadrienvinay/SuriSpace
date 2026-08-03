@@ -179,7 +179,7 @@ const PLANET_DEFS: { body: Body; name: string; symbol: string; color: string; co
 ];
 
 // Observateur par défaut : Paris (France)
-const PARIS: Observer = new Observer(48.8566, 2.3522, 35);
+export const PARIS: Observer = new Observer(48.8566, 2.3522, 35);
 
 function planetVisibility(body: Body, refDate: Date): { visibility: string; detail: string } {
   const elong = Elongation(body, refDate);
