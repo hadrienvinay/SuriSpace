@@ -201,9 +201,9 @@ export default function QuizButton() {
       {open && <QuizModal onClose={() => setOpen(false)} />}
       <button
         onClick={() => setOpen(true)}
-        className="px-6 py-3 rounded-xl font-semibold text-white border border-violet-500/25 hover:bg-violet-500/10 transition-all cursor-pointer"
+        className="px-3 py-2 rounded-xl font-semibold text-white border border-violet-500/25 hover:bg-violet-500/10 transition-all cursor-pointer"
       >
-        🧠 Quiz du savoir
+        Quizz du jour
       </button>
     </>
   );

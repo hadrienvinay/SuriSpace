@@ -62,40 +62,38 @@ function getUpcomingEvents(count: number, from: Date = new Date()): EventItem[] 
   return events.slice(0, count);
 }
 
-const universeCards = [
+const universeNav = [
   {
     href: '/solar-system',
     Icon: SolarSystemIcon,
     title: 'Espace',
     description: 'Système solaire, galaxies, missions spatiales et carte du ciel.',
-    gradient: 'from-blue-600/20 to-cyan-600/20',
-    border: 'border-blue-500/30',
-    accent: 'text-blue-300',
-    glow: '#60A5FA',
+    accent: '#60A5FA',
   },
   {
     href: '/sciences',
     Icon: TelescopeIcon,
     title: 'Sciences',
     description: 'Timeline interactive, grands scientifiques, formules et constantes.',
-    gradient: 'from-violet-600/20 to-purple-600/20',
-    border: 'border-violet-500/30',
-    accent: 'text-violet-300',
-    glow: '#A78BFA',
+    accent: '#A78BFA',
   },
   {
     href: '/atoms',
     Icon: AtomIcon,
     title: 'Atomes',
     description: 'Tableau périodique, nucléosynthèse, abondance et histoire cosmique.',
-    gradient: 'from-emerald-600/20 to-teal-600/20',
-    border: 'border-emerald-500/30',
-    accent: 'text-emerald-300',
-    glow: '#34D399',
+    accent: '#34D399',
   },
 ];
 
 const skills = ['C / C++', 'Python', 'Next.js', 'SQL', 'Embarqué', 'Git','LLM','HTML/CSS', 'Docker', 'CI/CD', 'PHP', 'JavaScript', 'TypeScript'];
+
+const moocs = [
+  { href: '/mooc/telecom-spatiale.html', label: 'Télécom Spatiale' },
+  { href: '/mooc/programmation-spatiale.html', label: 'Programmation Spatiale' },
+  { href: 'https://astrum-rouge.vercel.app/', label: 'Astronomie' },
+  { href: '/mooc/formation-solaire.html', label: 'Énergie Solaire' },
+];
 
 const projects = [
   {
@@ -105,11 +103,7 @@ const projects = [
     desc: 'Jeu de coinche en Python — entraînement contre IA, moteur de règles complet.',
     tags: ['Python', 'IA', 'Pygame'],
     status: 'Terminé',
-    statusColor: 'text-emerald-400',
-    statusDot: 'bg-emerald-400',
-    border: 'border-violet-500/30',
-    gradient: 'from-violet-600/10 to-purple-600/10',
-    glow: '#A78BFA',
+    statusColor: '#34D399',
   },
   {
     href: '/projects/1',
@@ -118,11 +112,7 @@ const projects = [
     desc: 'Modèle gravitationnel 2D/3D avec les lois de Newton — système Terre-Lune et solaire complet.',
     tags: ['Python', 'C++', 'OpenGL'],
     status: 'Terminé',
-    statusColor: 'text-cyan-400',
-    statusDot: 'bg-cyan-400',
-    border: 'border-cyan-500/30',
-    gradient: 'from-cyan-600/10 to-teal-600/10',
-    glow: '#22D3EE',
+    statusColor: '#22D3EE',
   },
   {
     href: '/projects/8',
@@ -131,11 +121,7 @@ const projects = [
     desc: 'Reconnaissance de patterns chartistes sur métaux précieux — or et argent.',
     tags: ['Python', 'ML', 'Finance'],
     status: 'En cours',
-    statusColor: 'text-amber-400',
-    statusDot: 'bg-amber-400',
-    border: 'border-emerald-500/30',
-    gradient: 'from-emerald-600/10 to-green-600/10',
-    glow: '#34D399',
+    statusColor: '#FBBF24',
   },
   {
     href: '/projects/10',
@@ -144,15 +130,11 @@ const projects = [
     desc: 'Casino en ligne multijoueur — backend en Node.js, frontend React, WebSocket.',
     tags: ['Next.js', 'React', 'WebSocket'],
     status: 'En ligne',
-    statusColor: 'text-emerald-400',
-    statusDot: 'bg-emerald-400',
-    border: 'border-blue-500/30',
-    gradient: 'from-blue-600/10 to-cyan-600/10',
-    glow: '#60A5FA',
+    statusColor: '#60A5FA',
   },
 ];
 
-// ── Sky banner SVG icons ──────────────────────────────────────────────────────
+// ── Sky module SVG icons ───────────────────────────────────────────────────
 function SvgSunrise() {
   return (
     <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -225,7 +207,7 @@ export default async function Home() {
   });
 
   // Fusionne les articles DB (publiés) avec les articles statiques (en dur, hors DB)
-  const latestPosts = [
+  const allPosts = [
     ...dbPosts.map(p => ({
       key: `db-${p.id}`, href: `/posts/${p.id}`, title: p.title,
       excerpt: p.resume, image: p.image || '/default.png',
@@ -238,13 +220,15 @@ export default async function Home() {
       dateLabel: p.year,
       sortTime: new Date(`${p.year}-06-30`).getTime(),
     })),
-  ]
-    .sort((a, b) => b.sortTime - a.sortTime)
-    .slice(0, 3);
+  ].sort((a, b) => b.sortTime - a.sortTime);
+
+  const [leadPost, ...restPosts] = allPosts.slice(0, 3);
+  const todayFr = new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+
   return (
     <div
-      className="max-w-7xl mx-auto px-4 py-10 space-y-12"
-      style={{ fontFamily: "'Exo 2', 'Space Grotesk', sans-serif" }}
+      className="max-w-6xl mx-auto px-6 pb-20"
+      style={{ fontFamily: "'Exo 2', 'Space Grotesk', sans-serif", color: '#e9eaf2' }}
     >
       <JsonLd data={{
         '@context': 'https://schema.org',
@@ -260,460 +244,370 @@ export default async function Home() {
       }} />
 
       {/* ── Hero ── */}
-      <div className="text-center pt-6">
-        <h1
-          className="text-5xl sm:text-6xl font-extrabold tracking-tight mb-4 pb-2"
-          style={{
-            background: 'linear-gradient(135deg, #60A5FA, #A78BFA, #34D399)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-          }}
-        >
-          Suri&apos;s Blog
-        </h1>
-        <p className="text-gray-400 text-lg max-w-2xl mx-auto leading-relaxed mb-3">
-          Bienvenue sur le blog d'Hadrien Vinay ! Un espace pour centraliser mes projets, des connaissances et des idées.
-          Réalisé avec Next.js, Prisma, NextAuth et diverses API.
-        </p>
-        <p className="text-gray-600 text-sm max-w-3xl mx-auto italic mb-8 leading-relaxed">
-          &ldquo;{citation.texte}&rdquo;{' '}
-          <span className="text-gray-500 not-italic">— {citation.auteur}, {citation.ouvrage}, {citation.date}</span>
-        </p>
-        <div className="flex justify-center gap-4 flex-wrap">
-          <CVButton />
-          <Link href="/about" className="px-6 py-3 rounded-xl font-semibold text-white border border-white/10 hover:bg-white/6 transition-all">
-            Qui suis-je ?
-          </Link>
-        </div>
-      </div>
-
-      {/* ── Universe sections ── */}
-      <div>
-        <h2 className="text-sm font-bold tracking-widest uppercase text-gray-500 mb-5">
-          Univers à explorer
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {universeCards.map((c) => (
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-14 py-12 md:py-16 items-start">
+        <div className="md:col-span-7">
+          <h1
+            className="font-extrabold leading-[1.04] tracking-tight mb-7 text-[46px] sm:text-[58px] lg:text-[72px]"
+            style={{ textWrap: 'balance' as React.CSSProperties['textWrap'] }}
+          >
+            Explorer{' '}
+            <span style={{ color: '#C4B5FD' }}>l&apos;espace</span>
+            , les{' '}
+            <span style={{ color: '#C4B5FD' }}>sciences</span>{' '}
+            et l&apos;ingénierie
+          </h1>
+          <p className="text-gray-400 text-[15px] leading-relaxed max-w-md mb-7">
+            Portfolio et blog d&apos;Hadrien Vinay — projets, connaissances et idées sur l&apos;univers, l&apos;atome et le vivant.
+            Réalisé avec Next.js, Prisma, NextAuth et diverses API.
+          </p>
+          <div className="flex items-center gap-6 flex-wrap">
+            <CVButton />
             <Link
-              key={c.href}
-              href={c.href}
-              className={`group relative block rounded-2xl border ${c.border} bg-linear-to-br ${c.gradient} p-6 transition-all duration-300 hover:scale-[1.02] hover:brightness-110`}
-              style={{ backdropFilter: 'blur(8px)' }}
+              href="/about"
+              className="text-sm font-semibold text-white relative pb-0.5 group"
             >
-              <div
-                className="mb-3 flex justify-center transition-transform duration-500 group-hover:scale-110"
-                style={{ filter: `drop-shadow(0 0 16px ${c.glow})` }}
-              >
-                <c.Icon />
-              </div>
-              <h3 className={`text-xl font-bold mb-1.5 text-center ${c.accent}`}>{c.title}</h3>
-              <p className="text-gray-400 text-sm leading-relaxed text-center">{c.description}</p>
-              <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                <span className="text-xs text-gray-500">Explorer →</span>
-              </div>
+              Qui suis-je ?
+              <span className="absolute left-0 right-0 bottom-0 h-px bg-blue-400 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300" />
             </Link>
-          ))}
-        </div>
-      </div>
-
-      {/* ── Formations à explorer ── */}
-      <div>
-        <h2 className="text-sm font-bold tracking-widest uppercase text-gray-500 mb-5">
-          Formations à explorer
-        </h2>
-        <div className="flex flex-wrap gap-4">
-          <a
-            href="/mooc/telecom-spatiale.html"
-            target="_blank"
-            rel="noreferrer"
-            className="px-6 py-3 rounded-xl font-semibold text-blue-300 border border-blue-500/25 hover:bg-blue-500/10 transition-all"
-          >
-            MOOC · Télécom Spatiale
-          </a>
-          <a
-            href="/mooc/programmation-spatiale.html"
-            target="_blank"
-            rel="noreferrer"
-            className="px-6 py-3 rounded-xl font-semibold text-violet-300 border border-violet-500/25 hover:bg-violet-500/10 transition-all"
-          >
-            MOOC · Programmation Spatiale
-          </a>
-          <a
-            href="https://astrum-rouge.vercel.app/"
-            target="_blank"
-            rel="noreferrer"
-            className="px-6 py-3 rounded-xl font-semibold text-emerald-300 border border-emerald-500/25 hover:bg-emerald-500/10 transition-all"
-          >
-            MOOC · Astronomie
-          </a>
-          <a
-            href="/mooc/formation-solaire.html"
-            target="_blank"
-            rel="noreferrer"
-            className="px-6 py-3 rounded-xl font-semibold text-amber-300 border border-amber-500/25 hover:bg-amber-500/10 transition-all"
-          >
-            MOOC · Énergie Solaire
-          </a>
-        </div>
-      </div>
-
-      {/* ── Le savais-tu ? ── */}
-      <div
-        className="rounded-2xl border border-white/8 p-6"
-        style={{ background: 'rgba(255,255,255,0.02)' }}
-      >
-        <div className="flex items-center gap-3 mb-3">
-          <span className="text-xs font-bold tracking-widest uppercase text-gray-500">Le savais-tu ?</span>
-          <span
-            className="px-2 py-0.5 rounded-full text-[11px] font-semibold border"
-            style={{
-              color: FACT_CATEGORY_COLORS[fact.category],
-              borderColor: `${FACT_CATEGORY_COLORS[fact.category]}40`,
-              background: `${FACT_CATEGORY_COLORS[fact.category]}12`,
-            }}
-          >
-            {fact.category}
-          </span>
-        </div>
-        <p className="text-gray-300 text-base leading-relaxed mb-3">{fact.text}</p>
-        <div className="flex items-center justify-between flex-wrap gap-3">
-          <Link
-            href={fact.href}
-            className="text-sm font-semibold transition-colors"
-            style={{ color: FACT_CATEGORY_COLORS[fact.category] }}
-          >
-            {fact.source} →
-          </Link>
-          <QuizButton />
-        </div>
-      </div>
-
-      {/* ── Timeline scientifique du jour ── */}
-      {sciEvent && (
-        <div
-          className="rounded-2xl border border-white/8 p-6"
-          style={{ background: 'rgba(255,255,255,0.02)' }}
-        >
-          <div className="flex items-center gap-3 mb-3">
-            <span className="text-xs font-bold tracking-widest uppercase text-gray-500">Ce jour-là dans l&apos;histoire</span>
-            <span
-              className="px-2 py-0.5 rounded-full text-[11px] font-semibold border"
-              style={{
-                color: SCI_EVENT_CATEGORY_COLORS[sciEvent.category],
-                borderColor: `${SCI_EVENT_CATEGORY_COLORS[sciEvent.category]}40`,
-                background: `${SCI_EVENT_CATEGORY_COLORS[sciEvent.category]}12`,
-              }}
-            >
-              {sciEvent.category}
-            </span>
-            <span className="text-xs font-mono text-gray-600">{sciEvent.yearLabel}</span>
           </div>
-          <p className="text-gray-300 text-base leading-relaxed mb-3">{sciEvent.text}</p>
-          {sciEvent.href ? (
-            <Link
-              href={sciEvent.href}
-              className="text-sm font-semibold transition-colors"
-              style={{ color: SCI_EVENT_CATEGORY_COLORS[sciEvent.category] }}
-            >
-              {sciEvent.source} →
-            </Link>
-          ) : (
-            <span className="text-sm font-semibold" style={{ color: SCI_EVENT_CATEGORY_COLORS[sciEvent.category] }}>
-              {sciEvent.source}
-            </span>
-          )}
         </div>
-      )}
 
-      {/* ── Carte du ciel ── */}
-      {(() => {
-        const todayFr = new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
-        return (
+        <div className="md:col-span-5 relative pl-7" style={{ borderLeft: '3px solid #60A5FA' }}>
+          <span
+            className="absolute select-none"
+            style={{
+              top: -34, left: -8, fontSize: 96, fontWeight: 800, color: '#60A5FA', opacity: 0.18,
+              fontFamily: 'Georgia, "Times New Roman", serif', lineHeight: 1,
+            }}
+            aria-hidden
+          >
+            &ldquo;
+          </span>
+          <p className="text-[22px] font-semibold italic leading-snug mb-3.5" style={{ textWrap: 'balance' as React.CSSProperties['textWrap'] }}>
+            {citation.texte}
+          </p>
+          <cite className="not-italic text-[11px] font-bold uppercase tracking-widest text-gray-500">
+            {citation.auteur} — {citation.ouvrage}, {citation.date}
+          </cite>
+        </div>
+      </div>
+
+      {/* ── Univers à explorer (bande de navigation) ── */}
+      <div className="flex flex-col sm:flex-row border-y border-white/8 py-5">
+        {universeNav.map((u, i) => (
+          <Link
+            key={u.href}
+            href={u.href}
+            className={`group flex-1 flex items-center gap-3 px-0 sm:px-6 py-3 sm:py-0 ${i > 0 ? 'sm:border-l border-white/8 border-t sm:border-t-0' : ''}`}
+          >
+            <div className="shrink-0 flex items-center justify-center" style={{ filter: `drop-shadow(0 0 10px ${u.accent})` }}>
+              <u.Icon size={50} />
+            </div>
+            <div>
+              <div className="text-[16.5px] font-bold mb-0.5 transition-colors" style={{ color: '#e9eaf2' }}>
+                <span className="group-hover:opacity-80">{u.title}</span>
+              </div>
+              <div className="text-[12.5px] text-gray-500 leading-relaxed">{u.description}</div>
+            </div>
+          </Link>
+        ))}
+      </div>
+
+      {/* ── Corps : colonne principale + rail latéral ── */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-14 pt-12">
+        <div className="md:col-span-8">
+
+          {/* Le savais-tu */}
+          <div className="flex items-center gap-2.5 text-[11.5px] font-bold uppercase tracking-[0.22em] text-gray-500 mb-3.5">
+            Le savais-tu ?
+            <span
+              className="px-2 py-0.5 rounded-full text-[10px] font-semibold"
+              style={{ color: FACT_CATEGORY_COLORS[fact.category], background: `${FACT_CATEGORY_COLORS[fact.category]}12` }}
+            >
+              {fact.category}
+            </span>
+          </div>
+          <div className="py-5 border-b border-white/7">
+            <p className="text-[21px] font-bold leading-snug mb-2" style={{ textWrap: 'balance' as React.CSSProperties['textWrap'] }}>
+              {fact.text}
+            </p>
+            <div className="flex items-center gap-3.5 flex-wrap mt-3">
+              <Link href={fact.href} className="text-[13px] font-bold" style={{ color: FACT_CATEGORY_COLORS[fact.category] }}>
+                {fact.source} →
+              </Link>
+              <QuizButton />
+            </div>
+          </div>
+
+          {/* Ce jour-là */}
+          {sciEvent && (
+            <>
+              <div className="flex items-center gap-2.5 text-[11.5px] font-bold uppercase tracking-[0.22em] text-gray-500 mb-3.5 mt-7">
+                Ce jour-là dans l&apos;histoire
+                <span
+                  className="px-2 py-0.5 rounded-full text-[10px] font-semibold"
+                  style={{ color: SCI_EVENT_CATEGORY_COLORS[sciEvent.category], background: `${SCI_EVENT_CATEGORY_COLORS[sciEvent.category]}12` }}
+                >
+                  {sciEvent.category}
+                </span>
+                <span className="font-mono normal-case tracking-normal text-gray-600">{sciEvent.yearLabel}</span>
+              </div>
+              <div className="py-5 border-b border-white/7">
+                <p className="text-[15px] text-gray-300 leading-relaxed mb-2">{sciEvent.text}</p>
+                {sciEvent.href ? (
+                  <Link href={sciEvent.href} className="text-[13px] font-bold" style={{ color: SCI_EVENT_CATEGORY_COLORS[sciEvent.category] }}>
+                    {sciEvent.source} →
+                  </Link>
+                ) : (
+                  <span className="text-[13px] font-bold" style={{ color: SCI_EVENT_CATEGORY_COLORS[sciEvent.category] }}>
+                    {sciEvent.source}
+                  </span>
+                )}
+              </div>
+            </>
+          )}
+
+          {/* Derniers articles */}
+          {leadPost && (
+            <div className="mt-10">
+              <div className="text-[11.5px] font-bold uppercase tracking-[0.22em] text-gray-500 mb-4">Derniers articles</div>
+              <Link href={leadPost.href} className="group block mb-2">
+                <div className="relative h-64 rounded-2xl overflow-hidden mb-3">
+                  <Image
+                    src={leadPost.image}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 66vw"
+                    alt={leadPost.title}
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-linear-to-t from-black/85 to-transparent flex items-end p-6">
+                    <h3 className="text-3xl font-extrabold text-white" style={{ textWrap: 'balance' as React.CSSProperties['textWrap'] }}>
+                      {leadPost.title}
+                    </h3>
+                  </div>
+                </div>
+                <div className="text-[11px] text-gray-600 font-mono mb-1">{leadPost.dateLabel}</div>
+                {leadPost.excerpt && (
+                  <p className="text-sm text-gray-500 leading-relaxed">{leadPost.excerpt}</p>
+                )}
+              </Link>
+
+              {restPosts.map(post => (
+                <Link key={post.key} href={post.href} className="group flex gap-4 py-4 border-b border-white/6">
+                  <div className="relative w-16 h-16 rounded-xl overflow-hidden shrink-0">
+                    <Image src={post.image} fill sizes="64px" alt={post.title} className="object-cover" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="text-[16.5px] font-bold mb-1 group-hover:text-blue-300 transition-colors">{post.title}</div>
+                    <div className="text-[13px] text-gray-500 leading-relaxed line-clamp-2">{post.excerpt}</div>
+                  </div>
+                </Link>
+              ))}
+              <div className="pt-4">
+                <Link href="/posts" className="text-xs text-violet-400 hover:text-violet-300 transition-colors">
+                  Tous les articles →
+                </Link>
+              </div>
+            </div>
+          )}
+
+          {/* Projets récents — liste numérotée */}
+          <div className="mt-14 pt-14 border-t border-white/8">
+            <div className="flex items-center gap-4 mb-2">
+              <div className="text-[11.5px] font-bold uppercase tracking-[0.22em] text-gray-500">Projets récents</div>
+              <div className="flex-1 h-px bg-white/6" />
+              <Link href="/projects" className="text-xs text-violet-400 hover:text-violet-300 transition-colors">
+                Tous les projets →
+              </Link>
+            </div>
+            {projects.map((p, i) => (
+              <Link key={p.href} href={p.href} className="group flex items-baseline gap-6 py-5 border-b border-white/6">
+                <span className="font-mono text-2xl font-bold shrink-0 w-10" style={{ color: 'rgba(96,165,250,0.35)' }}>
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <div className="flex-1 min-w-0">
+                  <div className="text-[17.5px] font-bold mb-1 flex items-center gap-2">
+                    <span>{p.icon}</span>
+                    <span className="group-hover:text-blue-300 transition-colors">{p.title}</span>
+                  </div>
+                  <p className="text-[13.5px] text-gray-500 leading-relaxed mb-2">{p.desc}</p>
+                  <div className="flex gap-2.5">
+                    {p.tags.map(tag => (
+                      <span key={tag} className="text-[11px] text-gray-600">{tag}</span>
+                    ))}
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 text-xs shrink-0" style={{ color: p.statusColor }}>
+                  <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: p.statusColor }} />
+                  {p.status}
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          {/* Formations */}
+          <div className="pt-8 mt-2">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="text-[11.5px] font-bold uppercase tracking-[0.22em] text-gray-500">Formations à explorer</div>
+              <div className="flex-1 h-px bg-white/6" />
+            </div>
+            <div className="flex flex-wrap gap-2.5 text-[12.5px]">
+              {moocs.map(m => (
+                <a
+                  key={m.href}
+                  href={m.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="px-3.5 py-1.5 border border-white/10 rounded-lg text-gray-500 hover:text-white hover:border-white/25 transition-all"
+                >
+                  MOOC · {m.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* ── Rail latéral ── */}
+        <div className="md:col-span-4 flex flex-col gap-8">
+
+          {/* Carte du ciel — module compressé */}
           <Link
             href="/solar-system/astronomie/ciel"
-            className="group flex items-center gap-5 rounded-2xl border border-blue-500/20 px-6 py-4 transition-all duration-300 hover:border-blue-400/40 hover:brightness-110 overflow-hidden relative"
-            style={{ background: 'radial-gradient(ellipse at 20% 50%, rgba(15,30,80,0.7) 0%, rgba(5,8,25,0.8) 100%)' }}
+            className="group relative overflow-hidden rounded-2xl px-6 py-6 text-center border border-blue-500/15 transition-all hover:border-blue-400/35"
+            style={{ background: 'radial-gradient(ellipse at 30% 20%, rgba(15,30,80,0.9) 0%, rgba(5,8,25,0.95) 100%)' }}
           >
-            {/* Micro-stars background */}
             <svg className="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg">
               {[
-                [8,20],[15,70],[25,40],[35,15],[45,80],[55,35],[65,60],[72,18],[80,75],[88,45],[93,28],[97,65],
-                [12,55],[30,88],[50,12],[70,90],[85,20],[42,65],[58,48],[78,38],
+                [8,20],[15,70],[25,40],[35,15],[45,80],[55,35],[65,60],[72,18],[80,75],[88,45],
               ].map(([cx, cy], i) => (
                 <circle key={i} cx={`${cx}%`} cy={`${cy}%`} r={i % 3 === 0 ? '1' : '0.6'} fill="white" opacity={0.08 + (i % 4) * 0.04}>
                   <animate attributeName="opacity" values={`${0.06 + (i % 4) * 0.04};${0.18 + (i % 3) * 0.06};${0.06 + (i % 4) * 0.04}`} dur={`${2.2 + (i % 5) * 0.5}s`} repeatCount="indefinite" />
                 </circle>
               ))}
             </svg>
-
-            {/* Moon + stars icon */}
-            <div className="shrink-0 relative z-10" style={{ filter: 'drop-shadow(0 0 14px rgba(96,165,250,0.5))' }}>
-              <svg width="52" height="52" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="22" cy="28" r="13" fill="#0b1a42" stroke="#60A5FA" strokeWidth="1.2" strokeOpacity="0.6" />
-                <path d="M 22 15 A 13 13 0 0 1 35 28 A 9 9 0 1 0 22 15 Z" fill="#1e3a7a" opacity="0.9" />
-                {[
-                  [40, 10, 1.4], [44, 22, 1.0], [36, 6, 0.9], [48, 14, 0.8], [42, 30, 0.7],
-                ].map(([x, y, r], i) => (
-                  <circle key={i} cx={x} cy={y} r={r} fill="white" opacity="0.7">
-                    <animate attributeName="opacity" values="0.7;0.2;0.7" dur={`${1.8 + i * 0.4}s`} repeatCount="indefinite" />
-                  </circle>
-                ))}
-              </svg>
-            </div>
-
-            {/* Text */}
-            <div className="flex-1 relative z-10 min-w-0">
-              <div className="text-xs font-mono text-blue-400/60 uppercase tracking-widest mb-0.5 capitalize">{todayFr}</div>
-              <div className="text-base font-bold text-white mb-2">Carte du ciel du soir</div>
-              <div className="flex flex-wrap gap-2">
+            <div className="relative z-10">
+              <div className="flex justify-center mb-3" style={{ filter: 'drop-shadow(0 0 14px rgba(96,165,250,0.5))' }}>
+                <svg width="44" height="44" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="22" cy="28" r="13" fill="#0b1a42" stroke="#60A5FA" strokeWidth="1.2" strokeOpacity="0.6" />
+                  <path d="M 22 15 A 13 13 0 0 1 35 28 A 9 9 0 1 0 22 15 Z" fill="#1e3a7a" opacity="0.9" />
+                  {[[40, 10, 1.4], [44, 22, 1.0], [36, 6, 0.9]].map(([x, y, r], i) => (
+                    <circle key={i} cx={x} cy={y} r={r} fill="white" opacity="0.7">
+                      <animate attributeName="opacity" values="0.7;0.2;0.7" dur={`${1.8 + i * 0.4}s`} repeatCount="indefinite" />
+                    </circle>
+                  ))}
+                </svg>
+              </div>
+              <div className="text-[10px] font-mono text-blue-400/60 uppercase tracking-widest mb-1 capitalize">{todayFr}</div>
+              <div className="text-[16.5px] font-bold text-white mb-4">Carte du ciel du soir</div>
+              <div className="flex flex-col gap-2 text-left mb-4">
                 {([
                   { svg: <SvgSunrise />,  label: 'Lever',    value: daily.sunriseStr },
                   { svg: <SvgSunset />,   label: 'Coucher',  value: daily.sunsetStr  },
                   { svg: <SvgMoonPhase percent={daily.moonPercent} isWaxing={daily.isWaxing} />, label: 'Lune', value: `${daily.moonPercent}%` },
                   { svg: <SvgPlanet />,   label: 'Planètes', value: daily.visiblePlanetNames.length > 0 ? `${daily.visiblePlanetNames.length} visible${daily.visiblePlanetNames.length > 1 ? 's' : ''}` : 'aucune' },
                 ] as { svg: React.ReactNode; label: string; value: string }[]).map(chip => (
-                  <span key={chip.label} className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-lg text-xs font-medium border border-white/8"
-                    style={{ background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.55)' }}>
-                    <span className="flex items-center">{chip.svg}</span>
-                    <span style={{ color: 'rgba(255,255,255,0.28)' }}>{chip.label}</span>
-                    <span className="font-semibold" style={{ color: 'rgba(255,255,255,0.82)' }}>{chip.value}</span>
-                  </span>
+                  <div key={chip.label} className="flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs" style={{ background: 'rgba(255,255,255,0.04)' }}>
+                    <span className="flex items-center gap-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                      {chip.svg}{chip.label}
+                    </span>
+                    <span className="font-semibold" style={{ color: 'rgba(255,255,255,0.85)' }}>{chip.value}</span>
+                  </div>
                 ))}
               </div>
-            </div>
-
-            {/* CTA */}
-            <div className="shrink-0 relative z-10 flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-blue-300 border border-blue-500/25 transition-all group-hover:bg-blue-500/10 group-hover:border-blue-400/40"
-              style={{ background: 'rgba(96,165,250,0.06)' }}>
-              Voir la carte
-              <svg className="w-4 h-4 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 18l6-6-6-6" />
-              </svg>
+              <span className="text-[12.5px] font-bold text-blue-300">Voir la carte →</span>
             </div>
           </Link>
-        );
-      })()}
 
-      {/* ── Éphémérides — prochains événements ── */}
-      {events.length > 0 && (
-        <div>
-          <h2 className="text-sm font-bold tracking-widest uppercase text-gray-500 mb-5">
-            Éphémérides à venir
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {events.map((e, i) => (
-              <div
-                key={i}
-                className="flex items-start gap-3 rounded-2xl border border-white/8 p-4"
-                style={{ background: 'rgba(255,255,255,0.02)' }}
-              >
-                <span className="text-2xl shrink-0" style={{ filter: 'drop-shadow(0 0 8px rgba(167,139,250,0.4))' }}>
-                  {e.icon}
-                </span>
-                <div className="min-w-0">
-                  <div className="text-xs font-mono text-violet-400/70 uppercase tracking-wider mb-0.5">{e.date}</div>
-                  <p className="text-sm text-gray-300 leading-snug">{e.text}</p>
+          {/* Éphémérides — agenda */}
+          {events.length > 0 && (
+            <div>
+              <div className="text-[11.5px] font-bold uppercase tracking-[0.18em] text-gray-500 mb-2.5">Éphémérides à venir</div>
+              {events.map((e, i) => (
+                <div key={i} className="flex gap-3 py-2.5 border-b border-white/6 text-[13px]">
+                  <span className="font-mono text-violet-400 shrink-0 w-12">{e.date}</span>
+                  <span className="text-gray-500 leading-snug">{e.icon} {e.text}</span>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+              ))}
+            </div>
+          )}
 
-      {/* ── Widgets ── */}
-      <div className="grid md:grid-cols-3 gap-6">
-        {/* Météo */}
-        <div
-          className="p-5 rounded-2xl border border-white/8"
-          style={{ background: 'rgba(255,255,255,0.02)' }}
-        >
-          <h3 className="text-base font-bold text-gray-300 mb-3 flex items-center gap-2">
-            <SunriseIcon size={22} />
-            <span>Météo</span>
-          </h3>
-          <div className="space-y-2">
+          {/* Météo */}
+          <div>
+            <div className="text-[11.5px] font-bold uppercase tracking-[0.18em] text-gray-500 mb-2.5 flex items-center gap-1.5">
+              <SunriseIcon size={14} /> Météo
+            </div>
             <ErrorBoundary label="Météo Paris">    <Weather city="Paris" />    </ErrorBoundary>
             <ErrorBoundary label="Météo Madrid">   <Weather city="Madrid" />   </ErrorBoundary>
             <ErrorBoundary label="Météo Arcachon"> <Weather city="Arcachon" /> </ErrorBoundary>
           </div>
-        </div>
 
-        {/* Transports */}
-        <div
-          className="p-5 rounded-2xl border border-white/8"
-          style={{ background: 'rgba(255,255,255,0.02)' }}
-        >
-          <h3 className="text-base font-bold text-gray-300 mb-3 flex items-center gap-2">
-            <MetroIcon size={22} />
-            <span>Transports</span>
-          </h3>
-          <ErrorBoundary label="Métro ligne 10"><Ratp /></ErrorBoundary>
-          <div className="my-3 h-px" style={{ background: 'rgba(255,255,255,0.06)' }} />
-          <ErrorBoundary label="Trains Arcachon"><Sncf /></ErrorBoundary>
-        </div>
-
-        {/* Compétences */}
-        <div
-          className="p-5 rounded-2xl border border-white/8"
-          style={{ background: 'rgba(255,255,255,0.02)' }}
-        >
-          <style>{`
-            @keyframes skillShimmer {
-              0%   { transform: translateX(-130%) skewX(-14deg); }
-              100% { transform: translateX(230%)  skewX(-14deg); }
-            }
-            .skill-badge {
-              position: relative;
-              overflow: hidden;
-              cursor: default;
-              transition: transform .28s ease, border-color .28s, color .28s, background .28s, box-shadow .28s;
-            }
-            .skill-badge:hover {
-              transform: translateY(-2px) scale(1.06);
-              border-color: rgba(196,181,253,0.75);
-              color: #fff;
-              background: rgba(139,92,246,0.22);
-              box-shadow: 0 10px 26px rgba(139,92,246,0.35), 0 0 0 1px rgba(196,181,253,0.15) inset;
-            }
-            .skill-shimmer {
-              position: absolute;
-              top: 0; bottom: 0; left: -20%; right: -20%;
-              background: linear-gradient(90deg, transparent 10%, rgba(245,243,255,0.45) 50%, transparent 90%);
-              transform: translateX(-130%) skewX(-14deg);
-              pointer-events: none;
-            }
-            .skill-badge:hover .skill-shimmer {
-              animation: skillShimmer .9s ease-out;
-            }
-          `}</style>
-          <h3 className="text-base font-bold text-gray-300 mb-3 flex items-center gap-2">
-            <SparkIcon size={22} />
-            <span>Compétences</span>
-          </h3>
-          <div className="flex flex-wrap gap-2 mt-2">
-            {skills.map((s) => (
-              <span
-                key={s}
-                className="skill-badge inline-flex items-center px-3 py-1.5 rounded-xl text-sm font-semibold border border-violet-500/30 text-violet-300"
-                style={{ background: 'rgba(139,92,246,0.10)' }}
-              >
-                <span className="skill-shimmer" aria-hidden />
-                <span className="relative z-[1]">{s}</span>
-              </span>
-            ))}
+          {/* Transports */}
+          <div>
+            <div className="text-[11.5px] font-bold uppercase tracking-[0.18em] text-gray-500 mb-2.5 flex items-center gap-1.5">
+              <MetroIcon size={14} /> Transports
+            </div>
+            <ErrorBoundary label="Métro ligne 10"><Ratp /></ErrorBoundary>
+            <div className="my-2 h-px bg-white/6" />
+            <ErrorBoundary label="Trains Arcachon"><Sncf /></ErrorBoundary>
           </div>
-        </div>
-      </div>
 
-      {/* ── Latest articles ── */}
-      {latestPosts.length > 0 && (
-        <div>
-          <div className="flex items-center gap-4 mb-6">
-            <h2 className="text-sm font-bold tracking-widest uppercase text-gray-500">Derniers articles</h2>
-            <div className="flex-1 h-px bg-white/6" />
-            <Link href="/posts" className="text-xs text-violet-400 hover:text-violet-300 transition-colors">
-              Tous les articles →
-            </Link>
-          </div>
-          <div className="grid sm:grid-cols-3 gap-4">
-            {latestPosts.map((post) => (
-              <Link
-                key={post.key}
-                href={post.href}
-                className="group relative block rounded-2xl border border-white/8 overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:brightness-110"
-                style={{ background: 'rgba(255,255,255,0.02)', backdropFilter: 'blur(8px)' }}
-              >
-                <div className="relative h-36 w-full overflow-hidden">
-                  <Image
-                    src={post.image}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    alt={post.title}
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-linear-to-t from-black/70 to-transparent" />
-                </div>
-                <div className="p-4">
-                  <div className="text-xs text-gray-600 font-mono mb-1">{post.dateLabel}</div>
-                  <h3 className="text-base font-bold text-white mb-1.5 leading-snug">{post.title}</h3>
-                  {post.excerpt && (
-                    <p className="text-sm text-gray-400 leading-relaxed line-clamp-2">{post.excerpt}</p>
-                  )}
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* ── Recent projects ── */}
-      <div>
-        <div className="flex items-center gap-4 mb-6">
-          <h2 className="text-sm font-bold tracking-widest uppercase text-gray-500">Projets récents</h2>
-          <div className="flex-1 h-px bg-white/6" />
-          <Link href="/projects" className="text-xs text-violet-400 hover:text-violet-300 transition-colors">
-            Tous les projets →
-          </Link>
-        </div>
-        <div className="grid sm:grid-cols-2 gap-4">
-          {projects.map((p) => (
-            <Link
-              key={p.title}
-              href={p.href}
-              className={`group relative p-5 rounded-2xl border ${p.border} bg-linear-to-br ${p.gradient} transition-all duration-300 hover:scale-[1.02] hover:brightness-110 overflow-hidden`}
-              style={{ backdropFilter: 'blur(8px)' }}
-            >
-              {/* glow corner */}
-              <div
-                className="absolute -top-6 -right-6 w-24 h-24 rounded-full opacity-10 blur-2xl pointer-events-none"
-                style={{ background: p.glow }}
-              />
-
-              <div className="flex items-start justify-between mb-3">
+          {/* Compétences */}
+          <div>
+            <style>{`
+              @keyframes skillShimmer {
+                0%   { transform: translateX(-130%) skewX(-14deg); }
+                100% { transform: translateX(230%)  skewX(-14deg); }
+              }
+              .skill-badge {
+                position: relative;
+                overflow: hidden;
+                cursor: default;
+                transition: transform .28s ease, border-color .28s, color .28s, background .28s, box-shadow .28s;
+              }
+              .skill-badge:hover {
+                transform: translateY(-2px) scale(1.06);
+                border-color: rgba(196,181,253,0.75);
+                color: #fff;
+                background: rgba(139,92,246,0.22);
+                box-shadow: 0 10px 26px rgba(139,92,246,0.35), 0 0 0 1px rgba(196,181,253,0.15) inset;
+              }
+              .skill-shimmer {
+                position: absolute;
+                top: 0; bottom: 0; left: -20%; right: -20%;
+                background: linear-gradient(90deg, transparent 10%, rgba(245,243,255,0.45) 50%, transparent 90%);
+                transform: translateX(-130%) skewX(-14deg);
+                pointer-events: none;
+              }
+              .skill-badge:hover .skill-shimmer {
+                animation: skillShimmer .9s ease-out;
+              }
+            `}</style>
+            <div className="text-[11.5px] font-bold uppercase tracking-[0.18em] text-gray-500 mb-2.5 flex items-center gap-1.5">
+              <SparkIcon size={14} /> Compétences
+            </div>
+            <div className="flex flex-wrap gap-1.5">
+              {skills.map((s) => (
                 <span
-                  className="text-3xl"
-                  style={{ filter: `drop-shadow(0 0 10px ${p.glow})` }}
+                  key={s}
+                  className="skill-badge inline-flex items-center px-2.5 py-1 rounded-lg text-[11.5px] font-semibold border border-violet-500/30 text-violet-300"
+                  style={{ background: 'rgba(139,92,246,0.10)' }}
                 >
-                  {p.icon}
+                  <span className="skill-shimmer" aria-hidden />
+                  <span className="relative z-[1]">{s}</span>
                 </span>
-                <span className={`flex items-center gap-1.5 text-xs font-medium ${p.statusColor}`}>
-                  <span className={`w-1.5 h-1.5 rounded-full ${p.statusDot} animate-pulse`} />
-                  {p.status}
-                </span>
-              </div>
-
-              <h3 className="text-base font-bold text-white mb-1.5">{p.title}</h3>
-              <p className="text-sm text-gray-400 leading-relaxed mb-4">{p.desc}</p>
-
-              <div className="flex items-end justify-between">
-                <div className="flex flex-wrap gap-1.5">
-                  {p.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-2 py-0.5 rounded-md text-xs font-medium text-gray-300 border border-white/10"
-                      style={{ background: 'rgba(255,255,255,0.05)' }}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <span className="text-xs text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity shrink-0 ml-3">
-                  Voir →
-                </span>
-              </div>
-            </Link>
-          ))}
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
       {/* ── Media / links ── */}
-      <div className="border-t border-white/6 pt-10">
-        <h2 className="text-sm font-bold tracking-widest uppercase text-gray-500 mb-6">
+      <div className="border-t border-white/6 pt-10 mt-14">
+        <h2 className="text-[15px] font-bold tracking-widest uppercase text-gray-500 mb-6">
           Médias et ressources utiles
         </h2>
         <Links />
       </div>
-
     </div>
   );
 }
