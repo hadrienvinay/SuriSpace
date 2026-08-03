@@ -284,31 +284,6 @@ export default async function Home() {
           <Link href="/about" className="px-6 py-3 rounded-xl font-semibold text-white border border-white/10 hover:bg-white/6 transition-all">
             Qui suis-je ?
           </Link>
-          <a
-            href="/mooc/telecom-spatiale.html"
-            target="_blank"
-            rel="noreferrer"
-            className="px-6 py-3 rounded-xl font-semibold text-blue-300 border border-blue-500/25 hover:bg-blue-500/10 transition-all"
-          >
-            MOOC · Télécom Spatiale
-          </a>
-          <a
-            href="/mooc/programmation-spatiale.html"
-            target="_blank"
-            rel="noreferrer"
-            className="px-6 py-3 rounded-xl font-semibold text-violet-300 border border-violet-500/25 hover:bg-violet-500/10 transition-all"
-          >
-            MOOC · Programmation Spatiale
-          </a>
-          <a
-            href="https://astrum-rouge.vercel.app/"
-            target="_blank"
-            rel="noreferrer"
-            className="px-6 py-3 rounded-xl font-semibold text-emerald-300 border border-emerald-500/25 hover:bg-emerald-500/10 transition-all"
-          >
-            MOOC · Astronomie
-          </a>
-          <QuizButton />
         </div>
       </div>
 
@@ -341,6 +316,47 @@ export default async function Home() {
         </div>
       </div>
 
+      {/* ── Formations à explorer ── */}
+      <div>
+        <h2 className="text-sm font-bold tracking-widest uppercase text-gray-500 mb-5">
+          Formations à explorer
+        </h2>
+        <div className="flex flex-wrap gap-4">
+          <a
+            href="/mooc/telecom-spatiale.html"
+            target="_blank"
+            rel="noreferrer"
+            className="px-6 py-3 rounded-xl font-semibold text-blue-300 border border-blue-500/25 hover:bg-blue-500/10 transition-all"
+          >
+            MOOC · Télécom Spatiale
+          </a>
+          <a
+            href="/mooc/programmation-spatiale.html"
+            target="_blank"
+            rel="noreferrer"
+            className="px-6 py-3 rounded-xl font-semibold text-violet-300 border border-violet-500/25 hover:bg-violet-500/10 transition-all"
+          >
+            MOOC · Programmation Spatiale
+          </a>
+          <a
+            href="https://astrum-rouge.vercel.app/"
+            target="_blank"
+            rel="noreferrer"
+            className="px-6 py-3 rounded-xl font-semibold text-emerald-300 border border-emerald-500/25 hover:bg-emerald-500/10 transition-all"
+          >
+            MOOC · Astronomie
+          </a>
+          <a
+            href="/mooc/formation-solaire.html"
+            target="_blank"
+            rel="noreferrer"
+            className="px-6 py-3 rounded-xl font-semibold text-amber-300 border border-amber-500/25 hover:bg-amber-500/10 transition-all"
+          >
+            MOOC · Énergie Solaire
+          </a>
+        </div>
+      </div>
+
       {/* ── Le savais-tu ? ── */}
       <div
         className="rounded-2xl border border-white/8 p-6"
@@ -360,13 +376,16 @@ export default async function Home() {
           </span>
         </div>
         <p className="text-gray-300 text-base leading-relaxed mb-3">{fact.text}</p>
-        <Link
-          href={fact.href}
-          className="text-sm font-semibold transition-colors"
-          style={{ color: FACT_CATEGORY_COLORS[fact.category] }}
-        >
-          {fact.source} →
-        </Link>
+        <div className="flex items-center justify-between flex-wrap gap-3">
+          <Link
+            href={fact.href}
+            className="text-sm font-semibold transition-colors"
+            style={{ color: FACT_CATEGORY_COLORS[fact.category] }}
+          >
+            {fact.source} →
+          </Link>
+          <QuizButton />
+        </div>
       </div>
 
       {/* ── Timeline scientifique du jour ── */}
