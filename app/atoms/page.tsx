@@ -92,13 +92,23 @@ export default function AtomsHome() {
           description: "Tableau périodique interactif, histoire de la physique atomique, nucléosynthèse stellaire et abondance des éléments.",
           inLanguage: 'fr', isPartOf: { '@type': 'WebSite', name: 'Suri Space', url: 'https://suri-space.vercel.app' } },
       ]}} />
-      <div className="max-w-7xl mx-auto px-4 py-16">
-        {/* Hero */}
-        <div className="text-center mb-20">
+      {/* Hero immersif */}
+      <div className="relative min-h-[58vh] flex flex-col items-center justify-center text-center overflow-hidden px-6 py-16">
+        <div
+          className="absolute rounded-full pointer-events-none"
+          style={{
+            width: 620, height: 620, top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+            background: '#A78BFA', opacity: 0.28, filter: 'blur(110px)',
+          }}
+        />
+        <div className="relative z-10">
           <div className="mb-6 flex justify-center" style={{ filter: 'drop-shadow(0 0 30px #7C3AED)' }}>
-            <AtomIcon size={130} />
+            <AtomIcon size={112} />
           </div>
-          <h1 className="text-4xl sm:text-6xl font-bold mb-4 tracking-tight"
+          <div className="text-xs font-bold tracking-[0.3em] uppercase mb-5" style={{ color: '#A78BFA' }}>
+            Encyclopédie · Atomes
+          </div>
+          <h1 className="text-5xl sm:text-6xl font-bold mb-5 tracking-tight"
             style={{
               background: 'linear-gradient(135deg, #A78BFA, #60A5FA, #F472B6)',
               WebkitBackgroundClip: 'text',
@@ -111,9 +121,36 @@ export default function AtomsHome() {
             dans des explosions cosmiques. Explorez leur naissance, leur abondance et leur histoire.
           </p>
         </div>
+      </div>
 
-        {/* Feature cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-16">
+      <div className="max-w-6xl mx-auto px-4 pb-20">
+
+        {/* En bref — faits remarquables */}
+        <div className="pb-9 mb-11" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+          <h2 className="text-[10.5px] font-bold tracking-[0.2em] uppercase text-gray-500 mb-4">
+            En bref
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            {funFacts.map((fact, i) => (
+              <div
+                key={i}
+                className="text-center rounded-xl border py-3.5 px-3"
+                style={{ background: 'rgba(167,139,250,0.04)', borderColor: 'rgba(167,139,250,0.16)' }}
+              >
+                <div
+                  className="text-[15px] font-extrabold"
+                  style={{ color: '#A78BFA', fontFamily: "'Exo 2', monospace" }}
+                >
+                  {fact.value}
+                </div>
+                <div className="text-[10.5px] text-gray-500 leading-snug mt-0.5">{fact.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Feature cards — doors */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {features.map(f => (
             <Link key={f.href} href={f.href}
               className={`group relative block rounded-2xl border ${f.border} bg-gradient-to-br ${f.gradient} p-6 transition-all duration-300 hover:scale-[1.02] hover:brightness-110`}
@@ -121,7 +158,7 @@ export default function AtomsHome() {
               <div className="mb-3 flex justify-center transition-transform duration-500 group-hover:scale-110">
                 <f.Icon />
               </div>
-              <h2 className={`text-xl font-bold mb-2 ${f.accent} text-center`}>{f.title}</h2>
+              <h3 className={`text-xl font-bold mb-2 ${f.accent} text-center`}>{f.title}</h3>
               <p className="text-gray-400 text-sm leading-relaxed text-center">{f.description}</p>
               <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
                 <span className="text-xs text-gray-500">Explorer →</span>
@@ -130,26 +167,6 @@ export default function AtomsHome() {
           ))}
         </div>
 
-        {/* Fun facts */}
-        <div className="rounded-2xl border border-white/10 p-8"
-          style={{ background: 'rgba(255,255,255,0.03)' }}>
-          <h2 className="text-sm font-bold tracking-widest uppercase text-gray-500 mb-6">Faits remarquables</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
-            {funFacts.map((fact, i) => (
-              <div key={i} className="text-center">
-                <div className="text-2xl font-bold mb-1"
-                  style={{
-                    background: 'linear-gradient(135deg, #A78BFA, #60A5FA)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                  }}>
-                  {fact.value}
-                </div>
-                <div className="text-xs text-gray-500 leading-tight">{fact.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
     </AtomicLayout>
   );

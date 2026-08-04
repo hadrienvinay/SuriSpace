@@ -134,15 +134,25 @@ export default function EspaceHome() {
           description: "Explorez le système solaire, les galaxies, les missions spatiales, les étoiles et l'astronomie.",
           inLanguage: 'fr', isPartOf: { '@type': 'WebSite', name: 'Suri Space', url: 'https://suri-space.vercel.app' } },
       ]}} />
-      <div className="max-w-7xl mx-auto px-4 py-12">
 
-        {/* Hero */}
-        <div className="text-center mb-16">
+      {/* Hero immersif */}
+      <div className="relative min-h-[58vh] flex flex-col items-center justify-center text-center overflow-hidden px-6 py-16">
+        <div
+          className="absolute rounded-full pointer-events-none"
+          style={{
+            width: 620, height: 620, top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+            background: '#60A5FA', opacity: 0.28, filter: 'blur(110px)',
+          }}
+        />
+        <div className="relative z-10">
           <div className="mb-6 flex justify-center" style={{ filter: 'drop-shadow(0 0 40px #60A5FA)' }}>
-            <SolarSystemIcon size={140} />
+            <SolarSystemIcon size={120} />
+          </div>
+          <div className="text-xs font-bold tracking-[0.3em] uppercase mb-5" style={{ color: '#60A5FA' }}>
+            Encyclopédie · Espace
           </div>
           <h1
-            className="text-5xl sm:text-6xl font-bold mb-4 tracking-tight"
+            className="text-5xl sm:text-6xl font-bold mb-5 tracking-tight"
             style={{
               background: 'linear-gradient(135deg, #60A5FA, #A78BFA, #34D399)',
               WebkitBackgroundClip: 'text',
@@ -157,24 +167,49 @@ export default function EspaceHome() {
             les missions spatiales, les étoiles et les galaxies lointaines.
           </p>
         </div>
+      </div>
 
-        {/* Quick highlights */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-12">
-          {highlights.map((h) => (
-            <div
-              key={h.label}
-              className="text-center rounded-2xl border border-white/6 py-4 px-3"
-              style={{ background: 'rgba(255,255,255,0.02)' }}
-            >
-              <div className="mb-2 flex justify-center" style={{ color: h.color }}><h.Icon size={32} /></div>
-              <div className="text-sm font-bold text-white">{h.label}</div>
-              <div className="text-xs text-gray-500 mt-0.5">{h.sub}</div>
-            </div>
-          ))}
+      <div className="max-w-6xl mx-auto px-4 pb-20">
+
+        {/* En bref — chiffres clés + highlights */}
+        <div className="pb-9 mb-11" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+          <h2 className="text-[10.5px] font-bold tracking-[0.2em] uppercase text-gray-500 mb-4">
+            En bref
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {facts.map((f, i) => (
+              <div
+                key={i}
+                className="text-center rounded-xl border py-3.5 px-3"
+                style={{ background: 'rgba(96,165,250,0.04)', borderColor: 'rgba(96,165,250,0.16)' }}
+              >
+                <div
+                  className="text-[15px] font-extrabold"
+                  style={{ color: '#60A5FA', fontFamily: "'Exo 2', monospace" }}
+                >
+                  {f.value}
+                </div>
+                <div className="text-[10.5px] text-gray-500 leading-snug mt-0.5">{f.label}</div>
+              </div>
+            ))}
+            {highlights.map((h) => (
+              <div
+                key={h.label}
+                className="flex items-center gap-2.5 rounded-xl border border-white/8 py-3 px-3.5"
+                style={{ background: 'rgba(255,255,255,0.02)' }}
+              >
+                <span className="shrink-0" style={{ color: h.color }}><h.Icon size={22} /></span>
+                <div>
+                  <div className="text-xs font-bold text-white">{h.label}</div>
+                  <div className="text-[10.5px] text-gray-500">{h.sub}</div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* Section cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
+        {/* Section cards — doors */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {sections.map((s) => (
             <Link
               key={s.href}
@@ -190,43 +225,15 @@ export default function EspaceHome() {
               <div className="mb-3 flex justify-center transition-transform duration-500 group-hover:scale-110">
                 <s.Icon />
               </div>
-              <h2 className={`text-xl font-bold mb-2 ${s.accent} text-center`} style={{ fontFamily: "'Exo 2', sans-serif" }}>
+              <h3 className={`text-xl font-bold mb-2 ${s.accent} text-center`} style={{ fontFamily: "'Exo 2', sans-serif" }}>
                 {s.title}
-              </h2>
+              </h3>
               <p className="text-gray-400 text-sm leading-relaxed text-center">{s.description}</p>
               <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
                 <span className="text-xs text-gray-500">Explorer →</span>
               </div>
             </Link>
           ))}
-        </div>
-
-        {/* Fun facts */}
-        <div
-          className="rounded-2xl border border-white/10 p-8"
-          style={{ background: 'rgba(255,255,255,0.02)' }}
-        >
-          <h2 className="text-sm font-bold tracking-widest uppercase text-gray-500 mb-6">
-            Quelques chiffres
-          </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
-            {facts.map((f, i) => (
-              <div key={i} className="text-center">
-                <div
-                  className="text-2xl font-bold mb-1"
-                  style={{
-                    background: 'linear-gradient(135deg, #60A5FA, #A78BFA)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    fontFamily: "'Exo 2', monospace",
-                  }}
-                >
-                  {f.value}
-                </div>
-                <div className="text-xs text-gray-500 leading-tight">{f.label}</div>
-              </div>
-            ))}
-          </div>
         </div>
 
       </div>
