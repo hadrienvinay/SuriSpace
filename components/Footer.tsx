@@ -27,23 +27,10 @@ export default function Footer() {
 
         {/* Brand */}
         <Link href="/" className="inline-flex items-center gap-2 group shrink-0">
-          <Image
-            src="/marsu.png"
-            alt="Logo"
-            width={25}
-            height={25}
-            className="rounded opacity-70 group-hover:opacity-100 transition-opacity"
-          />
-          <span
-            className="text-md font-bold"
-            style={{
-              background: 'linear-gradient(135deg, #60A5FA, #A78BFA)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}
-          >
-            Suri&apos;s Blog
-          </span>
+          <Image src="/icon.svg" alt="Logo" width={24} height={24} className="rounded shrink-0" />
+          <span className="font-bold text-white text-m hidden sm:block group-hover:text-violet-300 transition-colors">
+            Suri<span className="text-violet-400">&apos;s Blog</span>
+          </span>        
         </Link>
 
         {/* Nav links */}

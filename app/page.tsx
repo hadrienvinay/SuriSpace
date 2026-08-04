@@ -22,6 +22,7 @@ import { ErrorBoundary } from '@/components/ErrorBoundary';
 import Links from '@/components/ShowLinks';
 import CVButton from '@/components/CVButton';
 import QuizButton from '@/components/QuizModal';
+import ScrollTrajectory from '@/components/ScrollTrajectory';
 import { getCitationDuJour } from '@/data/citations';
 import { getFactDuJour } from '@/data/facts';
 import { getScientificEventDuJour } from '@/data/scientificEvents';
@@ -89,16 +90,16 @@ const universeNav = [
 const skills = ['C / C++', 'Python', 'Next.js', 'SQL', 'Embarqué', 'Git','LLM','HTML/CSS', 'Docker', 'CI/CD', 'PHP', 'JavaScript', 'TypeScript'];
 
 const moocs = [
-  { href: '/mooc/telecom-spatiale.html', label: 'Télécom Spatiale' },
-  { href: '/mooc/programmation-spatiale.html', label: 'Programmation Spatiale' },
-  { href: 'https://astrum-rouge.vercel.app/', label: 'Astronomie' },
-  { href: '/mooc/formation-solaire.html', label: 'Énergie Solaire' },
+  { href: '/mooc/telecom-spatiale.html', label: 'Télécom Spatiale', Icon: IconAntenna, color: '#60A5FA' },
+  { href: '/mooc/programmation-spatiale.html', label: 'Programmation Spatiale', Icon: IconCodeBrackets, color: '#A78BFA' },
+  { href: 'https://astrum-rouge.vercel.app/', label: 'Astronomie', Icon: IconTelescopeSmall, color: '#34D399' },
+  { href: '/mooc/formation-solaire.html', label: 'Énergie Solaire', Icon: IconSunRays, color: '#FBBF24' },
 ];
 
 const projects = [
   {
     href: '/projects/2',
-    icon: '🃏',
+    Icon: IconCards,
     title: 'Belote Coinchée',
     desc: 'Jeu de coinche en Python — entraînement contre IA, moteur de règles complet.',
     tags: ['Python', 'IA', 'Pygame'],
@@ -107,7 +108,7 @@ const projects = [
   },
   {
     href: '/projects/1',
-    icon: '🪐',
+    Icon: IconRingedPlanet,
     title: 'Simulation système solaire',
     desc: 'Modèle gravitationnel 2D/3D avec les lois de Newton — système Terre-Lune et solaire complet.',
     tags: ['Python', 'C++', 'OpenGL'],
@@ -116,7 +117,7 @@ const projects = [
   },
   {
     href: '/projects/8',
-    icon: '📈',
+    Icon: IconTrendUp,
     title: 'Bot de trading',
     desc: 'Reconnaissance de patterns chartistes sur métaux précieux — or et argent.',
     tags: ['Python', 'ML', 'Finance'],
@@ -125,7 +126,7 @@ const projects = [
   },
   {
     href: '/projects/10',
-    icon: '🌐',
+    Icon: IconGlobeNetwork,
     title: 'Online Casino',
     desc: 'Casino en ligne multijoueur — backend en Node.js, frontend React, WebSocket.',
     tags: ['Next.js', 'React', 'WebSocket'],
@@ -194,6 +195,89 @@ function SvgPlanet() {
   );
 }
 
+// ── Project icons ────────────────────────────────────────────────────────────
+function IconCards({ size = 18 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="3" y="6" width="12" height="16" rx="2" transform="rotate(-12 3 6)" stroke="currentColor" strokeWidth="1.3" fill="none"/>
+      <rect x="8" y="4" width="12" height="16" rx="2" stroke="currentColor" strokeWidth="1.3" fill="none"/>
+      <path d="M14 9 L14.9 11 L17 11.2 L15.5 12.6 L15.9 14.7 L14 13.6 L12.1 14.7 L12.5 12.6 L11 11.2 L13.1 11 Z" stroke="currentColor" strokeWidth="1" strokeLinejoin="round" fill="none"/>
+    </svg>
+  );
+}
+
+function IconRingedPlanet({ size = 18 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="5" stroke="currentColor" strokeWidth="1.3"/>
+      <ellipse cx="12" cy="12" rx="10.5" ry="3.6" stroke="currentColor" strokeWidth="1.3" transform="rotate(-18 12 12)"/>
+    </svg>
+  );
+}
+
+function IconTrendUp({ size = 18 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M3 17 L9.5 10.5 L13.5 14.5 L21 6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M15 6 H21 V12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
+}
+
+function IconGlobeNetwork({ size = 18 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="8.5" stroke="currentColor" strokeWidth="1.3"/>
+      <ellipse cx="12" cy="12" rx="3.6" ry="8.5" stroke="currentColor" strokeWidth="1.1" opacity="0.7"/>
+      <path d="M3.5 12 H20.5" stroke="currentColor" strokeWidth="1.1" opacity="0.7"/>
+      <path d="M5 7.5 H19 M5 16.5 H19" stroke="currentColor" strokeWidth="1.1" opacity="0.7"/>
+    </svg>
+  );
+}
+
+// ── MOOC icons ────────────────────────────────────────────────────────────────
+function IconAntenna({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 3 L12 12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+      <circle cx="12" cy="13.5" r="1.6" fill="currentColor"/>
+      <path d="M8 6 Q12 2 16 6" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" fill="none"/>
+      <path d="M5.5 8.5 Q12 1.5 18.5 8.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" fill="none" opacity="0.6"/>
+      <path d="M8 21 L16 21 L14 15 L10 15 Z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" fill="none"/>
+    </svg>
+  );
+}
+
+function IconCodeBrackets({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9 6 L3.5 12 L9 18" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M15 6 L20.5 12 L15 18" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M13.5 4 L10.5 20" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.6"/>
+    </svg>
+  );
+}
+
+function IconTelescopeSmall({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 14 L16 8 L18 12 L6 18 Z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" fill="none"/>
+      <path d="M6 18 L4.5 21" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+      <path d="M17 15 L20 16.5" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round"/>
+      <circle cx="17.5" cy="6" r="2" stroke="currentColor" strokeWidth="1.1"/>
+    </svg>
+  );
+}
+
+function IconSunRays({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="4.5" stroke="currentColor" strokeWidth="1.3"/>
+      <path d="M12 2.5 V5 M12 19 V21.5 M21.5 12 H19 M5 12 H2.5 M18.5 5.5 L16.8 7.2 M7.2 16.8 L5.5 18.5 M18.5 18.5 L16.8 16.8 M7.2 7.2 L5.5 5.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
 export default async function Home() {
   const citation   = getCitationDuJour();
   const fact       = getFactDuJour();
@@ -244,7 +328,7 @@ export default async function Home() {
       }} />
 
       {/* ── Hero ── */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-14 py-12 md:py-16 items-start">
+      <div id="wp-hero" className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-14 py-12 md:py-16 items-start">
         <div className="md:col-span-7">
           <h1
             className="font-extrabold leading-[1.04] tracking-tight mb-7 text-[46px] sm:text-[58px] lg:text-[72px]"
@@ -254,11 +338,10 @@ export default async function Home() {
             <span style={{ color: '#C4B5FD' }}>l&apos;espace</span>
             , les{' '}
             <span style={{ color: '#C4B5FD' }}>sciences</span>{' '}
-            et l&apos;ingénierie
+            et mon parcours 
           </h1>
           <p className="text-gray-400 text-[15px] leading-relaxed max-w-md mb-7">
-            Portfolio et blog d&apos;Hadrien Vinay — projets, connaissances et idées sur l&apos;univers, l&apos;atome et le vivant.
-            Réalisé avec Next.js, Prisma, NextAuth et diverses API.
+            Un carnet de bord pour partager mes projets, mon parcours, mes idées et tout ce qui me passionne, de l&apos;infiniment grand à l&apos;infiniment petit.
           </p>
           <div className="flex items-center gap-6 flex-wrap">
             <CVButton />
@@ -293,7 +376,7 @@ export default async function Home() {
       </div>
 
       {/* ── Univers à explorer (bande de navigation) ── */}
-      <div className="flex flex-col sm:flex-row border-y border-white/8 py-5">
+      <div id="wp-univers" className="flex flex-col sm:flex-row border-y border-white/8 py-5">
         {universeNav.map((u, i) => (
           <Link
             key={u.href}
@@ -318,7 +401,7 @@ export default async function Home() {
         <div className="md:col-span-8">
 
           {/* Le savais-tu */}
-          <div className="flex items-center gap-2.5 text-[11.5px] font-bold uppercase tracking-[0.22em] text-gray-500 mb-3.5">
+          <div id="wp-savais-tu" className="flex items-center gap-2.5 text-[11.5px] font-bold uppercase tracking-[0.22em] text-gray-500 mb-3.5">
             Le savais-tu ?
             <span
               className="px-2 py-0.5 rounded-full text-[10px] font-semibold"
@@ -412,7 +495,7 @@ export default async function Home() {
           )}
 
           {/* Projets récents — liste numérotée */}
-          <div className="mt-14 pt-14 border-t border-white/8">
+          <div id="wp-projets" className="mt-14 pt-14 border-t border-white/8">
             <div className="flex items-center gap-4 mb-2">
               <div className="text-[11.5px] font-bold uppercase tracking-[0.22em] text-gray-500">Projets récents</div>
               <div className="flex-1 h-px bg-white/6" />
@@ -427,7 +510,9 @@ export default async function Home() {
                 </span>
                 <div className="flex-1 min-w-0">
                   <div className="text-[17.5px] font-bold mb-1 flex items-center gap-2">
-                    <span>{p.icon}</span>
+                    <span className="shrink-0 flex items-center" style={{ color: 'rgba(255,255,255,0.55)' }}>
+                      <p.Icon size={18} />
+                    </span>
                     <span className="group-hover:text-blue-300 transition-colors">{p.title}</span>
                   </div>
                   <p className="text-[13.5px] text-gray-500 leading-relaxed mb-2">{p.desc}</p>
@@ -451,16 +536,35 @@ export default async function Home() {
               <div className="text-[11.5px] font-bold uppercase tracking-[0.22em] text-gray-500">Formations à explorer</div>
               <div className="flex-1 h-px bg-white/6" />
             </div>
-            <div className="flex flex-wrap gap-2.5 text-[12.5px]">
+            <style>{`
+              .mooc-pill {
+                background: color-mix(in srgb, var(--mooc-color) 4%, transparent);
+                border-color: color-mix(in srgb, var(--mooc-color) 19%, transparent);
+                box-shadow: 0 0 0 rgba(0,0,0,0);
+              }
+              .mooc-pill:hover {
+                background: color-mix(in srgb, var(--mooc-color) 10%, transparent);
+                border-color: color-mix(in srgb, var(--mooc-color) 33%, transparent);
+                box-shadow: 0 6px 20px color-mix(in srgb, var(--mooc-color) 15%, transparent);
+              }
+            `}</style>
+            <div className="flex flex-wrap gap-3">
               {moocs.map(m => (
                 <a
                   key={m.href}
                   href={m.href}
                   target="_blank"
                   rel="noreferrer"
-                  className="px-3.5 py-1.5 border border-white/10 rounded-lg text-gray-500 hover:text-white hover:border-white/25 transition-all"
+                  className="mooc-pill group flex items-center gap-2.5 pl-3 pr-4 py-2.5 rounded-xl text-[13px] font-semibold border transition-all hover:-translate-y-0.5"
+                  style={{ ['--mooc-color' as string]: m.color, color: m.color }}
                 >
-                  MOOC · {m.label}
+                  <span className="shrink-0 flex items-center justify-center">
+                    <m.Icon size={16} />
+                  </span>
+                  <span className="flex flex-col leading-tight">
+                    <span className="text-[9px] uppercase tracking-[0.14em] opacity-60">MOOC</span>
+                    <span>{m.label}</span>
+                  </span>
                 </a>
               ))}
             </div>
@@ -602,12 +706,14 @@ export default async function Home() {
       </div>
 
       {/* ── Media / links ── */}
-      <div className="border-t border-white/6 pt-10 mt-14">
+      <div id="wp-liens" className="border-t border-white/6 pt-10 mt-14">
         <h2 className="text-[15px] font-bold tracking-widest uppercase text-gray-500 mb-6">
           Médias et ressources utiles
         </h2>
         <Links />
       </div>
+
+      <ScrollTrajectory />
     </div>
   );
 }
