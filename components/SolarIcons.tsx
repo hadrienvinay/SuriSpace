@@ -1,4 +1,4 @@
-// components/SolarIcons.tsx — Small SVG icons for the solar-system section
+// components/SolarIcons.tsx — Small SVG icons for the space section
 
 export function IcoSearch({ size = 14 }: { size?: number }) {
   return (

@@ -132,7 +132,7 @@ const TAG_COLORS: Record<string, string> = {
 };
 
 const SITE_SECTIONS = [
-  { label: 'Espace',   href: '/solar-system', pages: 13, color: '#60A5FA', Icon: SolarSystemIcon },
+  { label: 'Espace',   href: '/space', pages: 13, color: '#60A5FA', Icon: SolarSystemIcon },
   { label: 'Sciences', href: '/sciences',     pages: 6,  color: '#A78BFA', Icon: TelescopeIcon   },
   { label: 'Atomes',   href: '/atoms',        pages: 7,  color: '#34D399', Icon: AtomIcon        },
   { label: 'Nature',   href: '/nature',       pages: 6,  color: '#4ADE80', Icon: LeafIcon        },

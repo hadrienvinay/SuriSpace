@@ -65,7 +65,7 @@ function getUpcomingEvents(count: number, from: Date = new Date()): EventItem[] 
 
 const universeNav = [
   {
-    href: '/solar-system',
+    href: '/space',
     Icon: SolarSystemIcon,
     title: 'Espace',
     description: 'Système solaire, galaxies, missions spatiales et carte du ciel.',
@@ -341,7 +341,7 @@ export default async function Home() {
             et mon parcours 
           </h1>
           <p className="text-gray-400 text-[15px] leading-relaxed max-w-md mb-7">
-            Un carnet de bord pour partager mes projets, mon parcours, mes idées et tout ce qui me passionne, de l&apos;infiniment grand à l&apos;infiniment petit.
+            Un carnet de bord pour partager mes projets, mon profil, mes idées et tout ce qui me passionne, de l&apos;infiniment grand à l&apos;infiniment petit.
           </p>
           <div className="flex items-center gap-6 flex-wrap">
             <CVButton />
@@ -576,7 +576,7 @@ export default async function Home() {
 
           {/* Carte du ciel — module compressé */}
           <Link
-            href="/solar-system/astronomie/ciel"
+            href="/space/astronomie/ciel"
             className="group relative overflow-hidden rounded-2xl px-6 py-6 text-center border border-blue-500/15 transition-all hover:border-blue-400/35"
             style={{ background: 'radial-gradient(ellipse at 30% 20%, rgba(15,30,80,0.9) 0%, rgba(5,8,25,0.95) 100%)' }}
           >

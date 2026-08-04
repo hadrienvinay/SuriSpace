@@ -66,7 +66,7 @@ function getUpcomingEvents(count: number, from: Date = new Date()): EventItem[] 
 
 const universeCards = [
   {
-    href: '/solar-system',
+    href: '/space',
     Icon: SolarSystemIcon,
     title: 'Espace',
     description: 'Système solaire, galaxies, missions spatiales et carte du ciel.',
@@ -432,7 +432,7 @@ export default async function Home() {
         const todayFr = new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
         return (
           <Link
-            href="/solar-system/astronomie/ciel"
+            href="/space/astronomie/ciel"
             className="group flex items-center gap-5 rounded-2xl border border-blue-500/20 px-6 py-4 transition-all duration-300 hover:border-blue-400/40 hover:brightness-110 overflow-hidden relative"
             style={{ background: 'radial-gradient(ellipse at 20% 50%, rgba(15,30,80,0.7) 0%, rgba(5,8,25,0.8) 100%)' }}
           >

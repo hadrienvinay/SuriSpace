@@ -90,7 +90,7 @@ function TelescopeSearching() {
 
 const SUGGESTIONS = [
   { href: '/',               label: 'Accueil'         },
-  { href: '/solar-system',   label: 'Espace'          },
+  { href: '/space',   label: 'Espace'          },
   { href: '/sciences',       label: 'Sciences'        },
   { href: '/atoms',          label: 'Atomes'          },
   { href: '/biologie',       label: 'Biologie'        },

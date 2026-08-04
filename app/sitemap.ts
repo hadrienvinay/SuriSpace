@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next';
 import prisma from '@/lib/prisma';
-import { missions, solarSystem } from '@/data/solar-system';
+import { missions, solarSystem } from '@/data/space';
 import { scientists } from '@/data/scientists';
 import { stars } from '@/data/stars';
 
@@ -37,19 +37,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE}/atoms/particules`,            changeFrequency: monthly, priority: 0.6 },
 
     // Solar system
-    { url: `${BASE}/solar-system`,                changeFrequency: monthly, priority: 0.8 },
-    { url: `${BASE}/solar-system/carte`,          changeFrequency: monthly, priority: 0.7 },
-    { url: `${BASE}/solar-system/bodys`,          changeFrequency: monthly, priority: 0.7 },
-    { url: `${BASE}/solar-system/missions`,       changeFrequency: monthly, priority: 0.7 },
-    { url: `${BASE}/solar-system/galaxies`,       changeFrequency: monthly, priority: 0.7 },
-    { url: `${BASE}/solar-system/stars`,          changeFrequency: monthly, priority: 0.7 },
-    { url: `${BASE}/solar-system/stars/constellations`, changeFrequency: monthly, priority: 0.6 },
-    { url: `${BASE}/solar-system/stars/star`,     changeFrequency: monthly, priority: 0.6 },
-    { url: `${BASE}/solar-system/astronomie`,     changeFrequency: monthly, priority: 0.7 },
-    { url: `${BASE}/solar-system/exoplanetes`,   changeFrequency: monthly, priority: 0.7 },
-    { url: `${BASE}/solar-system/astronomie/messier`,    changeFrequency: monthly, priority: 0.6 },
-    { url: `${BASE}/solar-system/astronomie/instruments`,changeFrequency: monthly, priority: 0.6 },
-    { url: `${BASE}/solar-system/astronomie/ciel`,       changeFrequency: monthly, priority: 0.6 },
+    { url: `${BASE}/space`,                changeFrequency: monthly, priority: 0.8 },
+    { url: `${BASE}/space/carte`,          changeFrequency: monthly, priority: 0.7 },
+    { url: `${BASE}/space/bodys`,          changeFrequency: monthly, priority: 0.7 },
+    { url: `${BASE}/space/missions`,       changeFrequency: monthly, priority: 0.7 },
+    { url: `${BASE}/space/galaxies`,       changeFrequency: monthly, priority: 0.7 },
+    { url: `${BASE}/space/stars`,          changeFrequency: monthly, priority: 0.7 },
+    { url: `${BASE}/space/stars/constellations`, changeFrequency: monthly, priority: 0.6 },
+    { url: `${BASE}/space/stars/star`,     changeFrequency: monthly, priority: 0.6 },
+    { url: `${BASE}/space/astronomie`,     changeFrequency: monthly, priority: 0.7 },
+    { url: `${BASE}/space/exoplanetes`,   changeFrequency: monthly, priority: 0.7 },
+    { url: `${BASE}/space/astronomie/messier`,    changeFrequency: monthly, priority: 0.6 },
+    { url: `${BASE}/space/astronomie/instruments`,changeFrequency: monthly, priority: 0.6 },
+    { url: `${BASE}/space/astronomie/ciel`,       changeFrequency: monthly, priority: 0.6 },
 
     // Biologie
     { url: `${BASE}/biologie`,          changeFrequency: monthly, priority: 0.8 },
@@ -80,7 +80,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   /* ── Dynamic routes from static data files ─────────────── */
   const missionRoutes: MetadataRoute.Sitemap = missions.map(m => ({
-    url: `${BASE}/solar-system/missions/${m.id}`,
+    url: `${BASE}/space/missions/${m.id}`,
     changeFrequency: monthly,
     priority: 0.5,
   }));
@@ -88,7 +88,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const bodyRoutes: MetadataRoute.Sitemap = solarSystem
     .filter(b => ['planet','star','dwarf-planet','moon'].includes(b.type))
     .map(b => ({
-      url: `${BASE}/solar-system/bodys/${b.id}`,
+      url: `${BASE}/space/bodys/${b.id}`,
       changeFrequency: monthly,
       priority: 0.5,
     }));
@@ -100,7 +100,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   const starRoutes: MetadataRoute.Sitemap = stars.map(s => ({
-    url: `${BASE}/solar-system/stars/star/${s.id}`,
+    url: `${BASE}/space/stars/star/${s.id}`,
     changeFrequency: monthly,
     priority: 0.4,
   }));

@@ -55,14 +55,15 @@ export function QuizModal({ onClose }: { onClose: () => void }) {
 
   return (
     <div
-      className="fixed inset-0 z-[200] flex items-center justify-center p-4"
+      className="fixed inset-0 z-[200] flex items-center justify-center p-4 overflow-y-auto"
       style={{ background: 'rgba(0,0,8,0.88)', backdropFilter: 'blur(10px)' }}
       onClick={onClose}
     >
       <div
-        className="relative w-full rounded-2xl flex flex-col"
+        className="relative w-full rounded-2xl flex flex-col my-auto"
         style={{
           maxWidth: 560,
+          maxHeight: '88vh',
           background: 'rgba(8,12,28,0.97)',
           border: '1px solid rgba(255,255,255,0.1)',
           boxShadow: '0 30px 90px rgba(0,0,0,0.7)',
@@ -70,7 +71,7 @@ export function QuizModal({ onClose }: { onClose: () => void }) {
         onClick={e => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+        <div className="shrink-0 flex items-center justify-between px-6 py-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
           <div className="flex items-center gap-2.5">
             <div className="w-2 h-2 rounded-full" style={{ background: '#A78BFA', boxShadow: '0 0 8px #A78BFA' }} />
             <span className="text-white font-mono text-sm tracking-wide">Quiz Suri Space</span>
@@ -85,7 +86,7 @@ export function QuizModal({ onClose }: { onClose: () => void }) {
         </div>
 
         {/* Body */}
-        <div className="px-6 py-6">
+        <div className="px-6 py-6 overflow-y-auto">
           {!finished ? (
             <>
               <div className="flex items-center justify-between mb-4">

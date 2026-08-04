@@ -25,7 +25,7 @@ const starFacts: Fact[] = stars
     text: s.description,
     source: s.nameFr || s.name,
     category: 'Étoile',
-    href: `/solar-system/stars/star/${s.id}`,
+    href: `/space/stars/star/${s.id}`,
   }));
 
 const scientistFacts: Fact[] = scientists

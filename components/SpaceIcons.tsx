@@ -1,4 +1,4 @@
-// Animated SVG icons for the /solar-system page.
+// Animated SVG icons for the /space page.
 // Uses SMIL — no JS runtime.
 
 type IconProps = { size?: number };
