@@ -5,7 +5,7 @@ import SolarLayout from '@/components/layout/SolarLayout';
 
 import {
   constellations, stars, getStarsByConstellation,
-  SPECTRAL_COLORS, raDecToXY,
+  SPECTRAL_COLORS, getStarPlotXY,
   type Constellation, type Star,
 } from '@/data/stars';
 import { GalaxyIcon } from '@/components/icons/AtomsIcons';
@@ -42,8 +42,13 @@ function ConstellationViewer({ constellation }: { constellation: Constellation }
     );
   }
 
-  // Normalize coordinates to fit the constellation snugly
-  const rawPos = allStars.map(s => { const { x, y } = raDecToXY(s.ra, s.dec); return { id: s.id, rx: x, ry: y }; });
+  // Normalize coordinates to fit the constellation snugly.
+  // Orion uses a fixed artistic layout (see ORION_LAYOUT in data/stars.ts) instead
+  // of raw sky coordinates — getStarPlotXY handles the substitution.
+  const rawPos = allStars.map(s => {
+    const { x, y } = getStarPlotXY(constellation.id, s.ra, s.dec, s.id);
+    return { id: s.id, rx: x, ry: y };
+  });
   const xs = rawPos.map(p => p.rx);
   const ys = rawPos.map(p => p.ry);
   const minX = Math.min(...xs), maxX = Math.max(...xs);
@@ -56,7 +61,34 @@ function ConstellationViewer({ constellation }: { constellation: Constellation }
   const offX = W / 2 - ((minX + maxX) / 2) * scale;
   const offY = H / 2 - ((minY + maxY) / 2) * scale;
 
-  const posMap = new Map(rawPos.map(p => [p.id, { px: p.rx * scale + offX, py: p.ry * scale + offY }]));
+  // Minimum inter-star separation — bbox-fit scale alone can leave two angularly
+  // close stars (Orion's Belt, Aquila's wingtips…) with overlapping discs, and no
+  // single canvas-wide scale can fix that without shrinking the whole figure. Instead,
+  // after projecting, symmetrically nudge apart any pair still closer than MIN_SEP,
+  // iterating a few passes so a chain of near-neighbors (e.g. Mintaka-Alnilam-Alnitak)
+  // relaxes into a readable line instead of a single knot.
+  const MIN_SEP = 16;
+  const positions = rawPos.map(p => ({ id: p.id, px: p.rx * scale + offX, py: p.ry * scale + offY }));
+  for (let pass = 0; pass < 4; pass++) {
+    for (let i = 0; i < positions.length; i++) {
+      for (let j = i + 1; j < positions.length; j++) {
+        const a = positions[i], b = positions[j];
+        const dx = b.px - a.px, dy = b.py - a.py;
+        const dist = Math.hypot(dx, dy);
+        if (dist > 0 && dist < MIN_SEP) {
+          const push = (MIN_SEP - dist) / 2;
+          const ux = dx / dist, uy = dy / dist;
+          a.px -= ux * push; a.py -= uy * push;
+          b.px += ux * push; b.py += uy * push;
+        } else if (dist === 0) {
+          // Exact overlap (shouldn't happen with real coords) — nudge deterministically.
+          a.px -= MIN_SEP / 2; b.px += MIN_SEP / 2;
+        }
+      }
+    }
+  }
+
+  const posMap = new Map(positions.map(p => [p.id, { px: p.px, py: p.py }]));
 
   // Display stars (with magnitude info), sorted brightest first for layering
   const displayStars = allStars.slice().sort((a, b) => b.magnitude - a.magnitude);

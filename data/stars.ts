@@ -641,6 +641,16 @@ export const stars: Star[] = [
     features: ["Angle du parallélogramme de la Lyre", "Encadre la Nébuleuse de l'Anneau M57"],
     nakedEye: true,
   },
+  {
+    id: 'delta-lyrae', name: 'Delta Lyrae', bayerDesignation: 'δ Lyrae', constellation: 'lyra',
+    ra: 18.90, dec: 36.90, distanceLy: 899.0, magnitude: 4.30,
+    spectralType: 'M4 II', spectralClass: 'M', starType: 'giant',
+    luminosity: 4400.0, mass: 4.0, radius: 100.0, temperature: 3660,
+    color: '#ff8844',
+    description: "Le 4e coin du parallélogramme de la Lyre — géante rouge formant une large double optique avec Delta¹ Lyrae voisine.",
+    features: ["Ferme le parallélogramme de la Lyre", "Large double optique"],
+    nakedEye: true,
+  },
 
   // ════════════════ AIGLE ════════════════
   {
@@ -670,6 +680,44 @@ export const stars: Star[] = [
     luminosity: 6.0, mass: 1.31, radius: 1.87, temperature: 5100,
     color: '#ffe4a0',
     description: "L'aile sud de l'Aigle — sous-géante jaune la plus proche du trio Tarazed-Altaïr-Alshain.",
+    nakedEye: true,
+  },
+  {
+    id: 'deneb-el-okab', name: 'Deneb el Okab', bayerDesignation: 'ζ Aquilae', constellation: 'aquila',
+    ra: 19.09, dec: 13.86, distanceLy: 83.5, magnitude: 2.99,
+    spectralType: 'A0 IV-Vn', spectralClass: 'A', starType: 'main-sequence',
+    luminosity: 39.0, mass: 2.5, radius: 2.6, temperature: 9620,
+    color: '#cad7ff',
+    description: "L'extrémité de l'aile nord de l'Aigle — étoile blanche à rotation rapide. Son nom arabe signifie 'la queue de l'aigle'.",
+    features: ["Extrémité de l'aile nord", "Rotation rapide"],
+    nakedEye: true,
+  },
+  {
+    id: 'okab', name: 'Okab', bayerDesignation: 'δ Aquilae', constellation: 'aquila',
+    ra: 19.42, dec: 3.11, distanceLy: 50.4, magnitude: 3.36,
+    spectralType: 'F0 IV', spectralClass: 'F', starType: 'main-sequence',
+    luminosity: 8.7, mass: 1.53, radius: 1.9, temperature: 7100,
+    color: '#fff4d0',
+    description: "Le corps de l'Aigle, entre Altaïr et l'aile sud — sous-géante blanche-jaune marquant le poitrail.",
+    nakedEye: true,
+  },
+  {
+    id: 'theta-aquilae', name: 'Theta Aquilae', bayerDesignation: 'θ Aquilae', constellation: 'aquila',
+    ra: 20.20, dec: -0.82, distanceLy: 286.0, magnitude: 3.24,
+    spectralType: 'B9.5 III', spectralClass: 'B', starType: 'giant',
+    luminosity: 316.0, mass: 3.5, radius: 4.8, temperature: 10000,
+    color: '#d0ddff',
+    description: "La queue de l'Aigle — géante blanche-bleue marquant l'extrémité sud du corps, prolongeant la ligne depuis Altaïr.",
+    features: ["Queue de l'Aigle"],
+    nakedEye: true,
+  },
+  {
+    id: 'lambda-aquilae', name: 'Lambda Aquilae', bayerDesignation: 'λ Aquilae', constellation: 'aquila',
+    ra: 19.11, dec: -4.88, distanceLy: 125.0, magnitude: 3.44,
+    spectralType: 'B9 V', spectralClass: 'B', starType: 'main-sequence',
+    luminosity: 87.0, mass: 3.5, radius: 2.2, temperature: 10730,
+    color: '#cad7ff',
+    description: "L'aile sud-ouest de l'Aigle — étoile bleue-blanche complétant l'envergure de la constellation avec Deneb el Okab.",
     nakedEye: true,
   },
 
@@ -891,6 +939,24 @@ export const stars: Star[] = [
     features: ["Lever héliaque = début vendanges (Antiquité)", "Nom latin : 'Vendangeuse'"],
     nakedEye: true,
   },
+  {
+    id: 'zavijava', name: 'Zavijava', bayerDesignation: 'β Virginis', constellation: 'virgo',
+    ra: 11.85, dec: 1.76, distanceLy: 35.6, magnitude: 3.60,
+    spectralType: 'F9 V', spectralClass: 'F', starType: 'main-sequence',
+    luminosity: 3.6, mass: 1.24, radius: 1.68, temperature: 6132,
+    color: '#fff4d0',
+    description: "L'aile ouest de la Vierge — étoile jaune-blanche proche marquant le coin nord-ouest de la constellation.",
+    nakedEye: true,
+  },
+  {
+    id: 'heze', name: 'Heze', bayerDesignation: 'ζ Virginis', constellation: 'virgo',
+    ra: 13.58, dec: -0.60, distanceLy: 74.1, magnitude: 3.37,
+    spectralType: 'A3 V', spectralClass: 'A', starType: 'main-sequence',
+    luminosity: 16.8, mass: 1.8, radius: 1.85, temperature: 8247,
+    color: '#dce8ff',
+    description: "L'aile est de la Vierge — étoile blanche reliant Porrima à Spica pour compléter la silhouette en Y.",
+    nakedEye: true,
+  },
 
   // ════════════════ OPHIUCHUS ════════════════
   {
@@ -910,6 +976,66 @@ export const stars: Star[] = [
     luminosity: 41.0, mass: 2.2, radius: 2.4, temperature: 8900,
     color: '#d0ddff',
     description: "2e étoile d'Ophiuchus — binaire de deux étoiles A orbitant en 87.58 ans dans une région riche vers le centre galactique.",
+    nakedEye: true,
+  },
+  {
+    id: 'cebalrai', name: 'Cebalrai', bayerDesignation: 'β Ophiuchi', constellation: 'ophiuchus',
+    ra: 17.72, dec: 4.57, distanceLy: 82.0, magnitude: 2.76,
+    spectralType: 'K2 III', spectralClass: 'K', starType: 'giant',
+    luminosity: 62.0, mass: 1.13, radius: 12.42, temperature: 4467,
+    color: '#ffb860',
+    description: "L'épaule droite du Porte-Serpent — géante orange dont le nom arabe signifie 'le troupeau du berger'.",
+    features: ["Épaule droite d'Ophiuchus"],
+    nakedEye: true,
+  },
+  {
+    id: 'yed-prior', name: 'Yed Prior', bayerDesignation: 'δ Ophiuchi', constellation: 'ophiuchus',
+    ra: 16.24, dec: -3.69, distanceLy: 170.0, magnitude: 2.74,
+    spectralType: 'M0.5 III', spectralClass: 'M', starType: 'giant',
+    luminosity: 590.0, mass: 1.5, radius: 59.0, temperature: 3679,
+    color: '#ff8844',
+    description: "La main gauche du Porte-Serpent — géante rouge formant avec Yed Posterior les 'mains' tenant le serpent.",
+    features: ["Main gauche d'Ophiuchus (avec Yed Posterior)"],
+    nakedEye: true,
+  },
+  {
+    id: 'yed-posterior', name: 'Yed Posterior', bayerDesignation: 'ε Ophiuchi', constellation: 'ophiuchus',
+    ra: 16.30, dec: -4.69, distanceLy: 108.0, magnitude: 3.24,
+    spectralType: 'G9.5 III', spectralClass: 'G', starType: 'giant',
+    luminosity: 65.0, mass: 1.86, radius: 11.0, temperature: 4915,
+    color: '#ffd090',
+    description: "L'autre main du Porte-Serpent, juste à côté de Yed Prior — les deux forment une paire facile à distinguer aux jumelles.",
+    features: ["Main droite d'Ophiuchus (avec Yed Prior)"],
+    nakedEye: true,
+  },
+  {
+    id: 'han', name: 'Han', bayerDesignation: 'ζ Ophiuchi', constellation: 'ophiuchus',
+    ra: 16.61, dec: -10.57, distanceLy: 366.0, magnitude: 2.56,
+    spectralType: 'O9.5 V', spectralClass: 'O', starType: 'main-sequence',
+    luminosity: 68000.0, mass: 20.2, radius: 8.9, temperature: 34300,
+    color: '#9bb0ff',
+    description: "La ceinture du Porte-Serpent — étoile bleue massive fonçant dans l'espace à 30 km/s, créant une onde de choc dans la poussière interstellaire.",
+    features: ["Étoile 'runaway' à grande vitesse", "Onde de choc interstellaire visible en infrarouge"],
+    nakedEye: true,
+  },
+  {
+    id: 'kappa-ophiuchi', name: 'Kappa Ophiuchi', bayerDesignation: 'κ Ophiuchi', constellation: 'ophiuchus',
+    ra: 16.96, dec: 9.38, distanceLy: 88.0, magnitude: 3.20,
+    spectralType: 'K2 III', spectralClass: 'K', starType: 'giant',
+    luminosity: 55.0, mass: 1.5, radius: 11.0, temperature: 4475,
+    color: '#ffb860',
+    description: "L'épaule gauche du Porte-Serpent — géante orange complétant la silhouette entre Rasalhague et Cebalrai.",
+    features: ["Épaule gauche d'Ophiuchus"],
+    nakedEye: true,
+  },
+  {
+    id: 'theta-ophiuchi', name: 'Theta Ophiuchi', bayerDesignation: 'θ Ophiuchi', constellation: 'ophiuchus',
+    ra: 17.34, dec: -25.00, distanceLy: 590.0, magnitude: 3.27,
+    spectralType: 'B2 IV', spectralClass: 'B', starType: 'main-sequence',
+    luminosity: 3630.0, mass: 8.0, radius: 5.0, temperature: 21500,
+    color: '#aabfff',
+    description: "Le pied droit du Porte-Serpent — étoile bleue chaude marquant l'extrémité sud de la constellation, proche de la Voie Lactée.",
+    features: ["Pied droit d'Ophiuchus"],
     nakedEye: true,
   },
   {
@@ -945,6 +1071,25 @@ export const stars: Star[] = [
     color: '#aabfff',
     description: "11e étoile la plus brillante du ciel. Forme avec Alpha Centauri les 'Pointeurs' vers la Croix du Sud. Système triple de géantes B.",
     features: ["11e du ciel", "Pointeur vers la Croix du Sud", "Système triple B"],
+    nakedEye: true,
+  },
+  {
+    id: 'menkent', name: 'Menkent', bayerDesignation: 'θ Centauri', constellation: 'centaurus',
+    ra: 14.11, dec: -36.37, distanceLy: 60.9, magnitude: 2.06,
+    spectralType: 'K0 III', spectralClass: 'K', starType: 'giant',
+    luminosity: 60.4, mass: 1.27, radius: 10.6, temperature: 4980,
+    color: '#ffb860',
+    description: "L'épaule du Centaure — géante orange proche et brillante, à l'écart du Bras du chasseur formé par Alpha et Hadar.",
+    features: ["Épaule du Centaure"],
+    nakedEye: true,
+  },
+  {
+    id: 'epsilon-centauri', name: 'Epsilon Centauri', bayerDesignation: 'ε Centauri', constellation: 'centaurus',
+    ra: 13.66, dec: -53.47, distanceLy: 376.0, magnitude: 2.29,
+    spectralType: 'B1 III', spectralClass: 'B', starType: 'variable',
+    luminosity: 18600.0, mass: 11.6, radius: 6.5, temperature: 24000,
+    color: '#aabfff',
+    description: "Étoile du corps du Centaure — géante bleue variable Beta Cephei, reliant les Pointeurs au reste de la silhouette.",
     nakedEye: true,
   },
   {
@@ -984,6 +1129,36 @@ export const stars: Star[] = [
     luminosity: 38700, mass: 12.6, radius: 13.9, temperature: 22900,
     color: '#aabfff',
     description: "2e étoile du Grand Chien. Dans l'UV extrême, serait l'étoile la plus brillante du ciel.",
+    nakedEye: true,
+  },
+  {
+    id: 'mirzam', name: 'Mirzam', bayerDesignation: 'β Canis Majoris', constellation: 'canis-major',
+    ra: 6.38, dec: -17.96, distanceLy: 499.0, magnitude: 1.98,
+    spectralType: 'B1 II-III', spectralClass: 'B', starType: 'giant',
+    luminosity: 25700.0, mass: 13.5, radius: 9.7, temperature: 25000,
+    color: '#aabfff',
+    description: "La patte avant du Grand Chien — étoile bleue variable Beta Cephei pulsant sur plusieurs périodes simultanées. Son nom arabe signifie 'l'annonceur' (de Sirius).",
+    features: ["Variable Beta Cephei", "'L'annonceur' de Sirius"],
+    nakedEye: true,
+  },
+  {
+    id: 'wezen', name: 'Wezen', bayerDesignation: 'δ Canis Majoris', constellation: 'canis-major',
+    ra: 7.14, dec: -26.39, distanceLy: 1791.0, magnitude: 1.83,
+    spectralType: 'F8 Ia', spectralClass: 'F', starType: 'supergiant',
+    luminosity: 129000.0, mass: 16.9, radius: 215.0, temperature: 6390,
+    color: '#fff4d0',
+    description: "L'arrière-train du Grand Chien — supergéante jaune-blanche colossale de 215 R☉. Son nom arabe signifie 'le poids'.",
+    features: ["215× le rayon solaire", "Supergéante lumineuse"],
+    nakedEye: true,
+  },
+  {
+    id: 'aludra', name: 'Aludra', bayerDesignation: 'η Canis Majoris', constellation: 'canis-major',
+    ra: 7.40, dec: -29.30, distanceLy: 3196.0, magnitude: 2.45,
+    spectralType: 'B5 Ia', spectralClass: 'B', starType: 'supergiant',
+    luminosity: 176000.0, mass: 18.2, radius: 54.0, temperature: 15500,
+    color: '#aabfff',
+    description: "La queue du Grand Chien — supergéante bleue extrêmement lointaine (3196 al) mais toujours visible à l'œil nu grâce à sa luminosité phénoménale.",
+    features: ["Extrémité de la queue", "176 000× la luminosité solaire"],
     nakedEye: true,
   },
 
@@ -1180,10 +1355,12 @@ export const constellations: Constellation[] = [
   },
   {
     id: 'virgo', name: 'Virgo', nameFr: 'Vierge', abbreviation: 'Vir',
-    mainStars: ['spica','porrima','vindemiatrix'],
+    mainStars: ['spica','porrima','vindemiatrix','zavijava','heze'],
     lines: [
       ['vindemiatrix','porrima'],
-      ['porrima','spica'],
+      ['porrima','zavijava'],
+      ['porrima','heze'],
+      ['heze','spica'],
     ],
     mythology: "Déméter pleurant Perséphone, ou Astrée déesse de la justice portant l'épi de blé.",
     description: "2e plus grande constellation. Arc Grande Ourse → Arcturus → Spica pour la trouver. Superamas de la Vierge (~2000 galaxies) dont M87.",
@@ -1244,11 +1421,12 @@ export const constellations: Constellation[] = [
   },
   {
     id: 'lyra', name: 'Lyra', nameFr: 'Lyre', abbreviation: 'Lyr',
-    mainStars: ['vega','sheliak','sulafat'],
+    mainStars: ['vega','sheliak','sulafat','delta-lyrae'],
     lines: [
       ['vega','sheliak'],
-      ['vega','sulafat'],
+      ['vega','delta-lyrae'],
       ['sheliak','sulafat'],
+      ['sulafat','delta-lyrae'],
     ],
     mythology: "La lyre d'Orphée qui charmait les pierres et les animaux, placée dans le ciel par Zeus.",
     description: "Petite constellation estivale. Véga était l'étoile polaire il y a 14 000 ans. M57 (Nébuleuse de l'Anneau) — étoile mourante.",
@@ -1259,10 +1437,15 @@ export const constellations: Constellation[] = [
   },
   {
     id: 'aquila', name: 'Aquila', nameFr: 'Aigle', abbreviation: 'Aql',
-    mainStars: ['altair','tarazed','alshain'],
+    mainStars: ['altair','tarazed','alshain','deneb-el-okab','okab','theta-aquilae','lambda-aquilae'],
     lines: [
       ['tarazed','altair'],
       ['altair','alshain'],
+      ['tarazed','deneb-el-okab'],
+      ['deneb-el-okab','lambda-aquilae'],
+      ['lambda-aquilae','altair'],
+      ['alshain','okab'],
+      ['okab','theta-aquilae'],
     ],
     mythology: "L'aigle de Zeus portant ses foudres et ayant enlevé Ganymède.",
     description: "Altaïr — 3e sommet du Triangle d'Été — tourne si vite qu'il est aplati de 20%. Nova Aquilae 1918 fut la nova la plus brillante du 20e siècle.",
@@ -1336,8 +1519,13 @@ export const constellations: Constellation[] = [
   },
   {
     id: 'canis-major', name: 'Canis Major', nameFr: 'Grand Chien', abbreviation: 'CMa',
-    mainStars: ['sirius','adhara'],
-    lines: [['sirius','adhara']],
+    mainStars: ['sirius','adhara','mirzam','wezen','aludra'],
+    lines: [
+      ['mirzam','sirius'],
+      ['sirius','wezen'],
+      ['wezen','adhara'],
+      ['wezen','aludra'],
+    ],
     mythology: "Chien de chasse d'Orion — Laelaps le chien si rapide qu'il ne manquait jamais sa proie.",
     description: "Sirius (la plus brillante du ciel) en est la tête. Les Canicules romaines — jours les plus chauds quand Sirius se lève avec le Soleil.",
     bestSeason: 'winter', hemisphere: 'both', ra: 7.0, dec: -22.0, area: 380,
@@ -1347,8 +1535,12 @@ export const constellations: Constellation[] = [
   },
   {
     id: 'centaurus', name: 'Centaurus', nameFr: 'Centaure', abbreviation: 'Cen',
-    mainStars: ['alpha-centauri-a','hadar'],
-    lines: [['alpha-centauri-a','hadar']],
+    mainStars: ['alpha-centauri-a','hadar','menkent','epsilon-centauri'],
+    lines: [
+      ['alpha-centauri-a','hadar'],
+      ['hadar','epsilon-centauri'],
+      ['epsilon-centauri','menkent'],
+    ],
     mythology: "Chiron, le plus sage des Centaures, mentor d'Achille et Jason — blessé par Héraclès, il choisit la mort.",
     description: "9e plus grande constellation. Alpha+Hadar forment les 'Pointeurs' vers la Croix du Sud. Oméga Centauri — le plus grand amas globulaire de la Galaxie.",
     bestSeason: 'spring', hemisphere: 'south', ra: 13.1, dec: -47.0, area: 1060,
@@ -1358,8 +1550,17 @@ export const constellations: Constellation[] = [
   },
   {
     id: 'ophiuchus', name: 'Ophiuchus', nameFr: 'Ophiuchus', abbreviation: 'Oph',
-    mainStars: ['rasalhague','sabik','barnard'],
-    lines: [['rasalhague','sabik']],
+    mainStars: ['rasalhague','sabik','cebalrai','yed-prior','yed-posterior','han','kappa-ophiuchi','theta-ophiuchi'],
+    lines: [
+      ['kappa-ophiuchi','rasalhague'],
+      ['rasalhague','cebalrai'],
+      ['kappa-ophiuchi','yed-prior'],
+      ['yed-prior','yed-posterior'],
+      ['yed-posterior','han'],
+      ['han','sabik'],
+      ['sabik','cebalrai'],
+      ['han','theta-ophiuchi'],
+    ],
     mythology: "Asclépios tenant un serpent — dieu de la médecine foudroyé par Zeus pour avoir ressuscité des morts.",
     description: "13e constellation zodiacale — traversée par le Soleil 18 jours/an mais ignorée de l'astrologie. Étoile de Barnard (2e plus proche) + nombreux amas globulaires.",
     bestSeason: 'summer', hemisphere: 'both', ra: 17.4, dec: -8.0, area: 948,
@@ -1399,4 +1600,31 @@ export const raDecToXY = (ra: number, dec: number): { x: number; y: number } => 
     x: x * scale * 0.48,
     y: y * scale * 0.48 - dec * 0.003,
   };
+};
+
+// Orion's real sky geometry (via raDecToXY) squashes the Belt into a near-vertical
+// line and crowds the Sword against it — unrecognizable next to the traditional
+// "hunter" figure everyone knows. Use a fixed artistic layout instead, matching the
+// classic depiction: shoulders (Betelgeuse/Bellatrix) and hips (Saiph/Rigel) framing
+// a horizontal Belt, Meissa as the head, Hatsya hanging below as the Sword.
+// Coordinates are normalized to a 0–1 unit square (x: left→right, y: top→bottom).
+// Horizontally mirrored vs. real sky orientation to match the reference artwork —
+// hence 1 - x below.
+export const ORION_LAYOUT: Record<string, { x: number; y: number }> = {
+  meissa:     { x: 1 - 0.50, y: 0.08 },
+  betelgeuse: { x: 1 - 0.72, y: 0.34 },
+  bellatrix:  { x: 1 - 0.28, y: 0.34 },
+  mintaka:    { x: 1 - 0.40, y: 0.55 },
+  alnilam:    { x: 1 - 0.50, y: 0.58 },
+  alnitak:    { x: 1 - 0.60, y: 0.61 },
+  hatsya:     { x: 1 - 0.52, y: 0.82 },
+  saiph:      { x: 1 - 0.62, y: 0.95 },
+  rigel:      { x: 1 - 0.35, y: 0.95 },
+};
+
+// Wraps raDecToXY, substituting the Orion artistic layout when applicable —
+// use this everywhere a constellation is rendered from a star's coordinates.
+export const getStarPlotXY = (constellationId: string, ra: number, dec: number, starId: string): { x: number; y: number } => {
+  if (constellationId === 'orion' && ORION_LAYOUT[starId]) return ORION_LAYOUT[starId];
+  return raDecToXY(ra, dec);
 };

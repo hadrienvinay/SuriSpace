@@ -3,7 +3,7 @@
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import {
-  stars, constellations, SPECTRAL_COLORS, raDecToXY,
+  stars, constellations, SPECTRAL_COLORS, getStarPlotXY,
   getStarsByConstellation,
   type Constellation,
 } from '@/data/stars';
@@ -21,7 +21,7 @@ function ConstellationMiniMap({ c, size = 120 }: { c: Constellation; size?: numb
   );
 
   // Compute bounds and normalize
-  const positions = constStars.map(s => raDecToXY(s.ra, s.dec));
+  const positions = constStars.map(s => getStarPlotXY(c.id, s.ra, s.dec, s.id));
   const xs = positions.map(p => p.x);
   const ys = positions.map(p => p.y);
   const minX = Math.min(...xs), maxX = Math.max(...xs);
@@ -34,8 +34,8 @@ function ConstellationMiniMap({ c, size = 120 }: { c: Constellation; size?: numb
   const cx = size / 2 - ((minX + maxX) / 2) * scale;
   const cy = size / 2 - ((minY + maxY) / 2) * scale;
 
-  const toXY = (ra: number, dec: number) => {
-    const { x, y } = raDecToXY(ra, dec);
+  const toXY = (ra: number, dec: number, starId: string) => {
+    const { x, y } = getStarPlotXY(c.id, ra, dec, starId);
     return { px: x * scale + cx, py: y * scale + cy };
   };
 
@@ -61,8 +61,8 @@ function ConstellationMiniMap({ c, size = 120 }: { c: Constellation; size?: numb
         const sa = starById[aId];
         const sb = starById[bId];
         if (!sa || !sb) return null;
-        const a = toXY(sa.ra, sa.dec);
-        const b = toXY(sb.ra, sb.dec);
+        const a = toXY(sa.ra, sa.dec, sa.id);
+        const b = toXY(sb.ra, sb.dec, sb.id);
         return (
           <line
             key={i}
@@ -77,7 +77,7 @@ function ConstellationMiniMap({ c, size = 120 }: { c: Constellation; size?: numb
 
       {/* Stars */}
       {constStars.map(s => {
-        const { px, py } = toXY(s.ra, s.dec);
+        const { px, py } = toXY(s.ra, s.dec, s.id);
         const r = Math.max(2.2, Math.min(5.5, 6 - s.magnitude * 0.38));
         const clr = SPECTRAL_COLORS[s.spectralClass] ?? '#fff';
         const isMain = c.brightestStar === s.id;
