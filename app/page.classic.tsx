@@ -16,21 +16,21 @@ export const metadata: Metadata = {
   },
 };
 import Image from 'next/image';
-import { JsonLd } from '@/components/JsonLd';
-import Weather from '@/components/Weather';
-import Ratp from '@/components/Ratp';
-import Sncf from '@/components/Sncf';
-import { ErrorBoundary } from '@/components/ErrorBoundary';
-import Links from '@/components/ShowLinks';
-import CVButton from '@/components/CVButton';
-import QuizButton from '@/components/QuizModal';
+import { JsonLd } from '@/components/common/JsonLd';
+import Weather from '@/components/widgets/Weather';
+import Ratp from '@/components/widgets/Ratp';
+import Sncf from '@/components/widgets/Sncf';
+import { ErrorBoundary } from '@/components/common/ErrorBoundary';
+import Links from '@/components/common/ShowLinks';
+import CVButton from '@/components/buttons/CVButton';
+import QuizButton from '@/components/modal/QuizModal';
 import { getCitationDuJour } from '@/data/citations';
 import { getFactDuJour } from '@/data/facts';
 import { getScientificEventDuJour } from '@/data/scientificEvents';
 import { STATIC_POSTS } from '@/data/posts';
 import { computeDailyInfo, computeEvents, type EventItem } from '@/lib/ephemerides';
-import { SolarSystemIcon, TelescopeIcon, AtomIcon } from '@/components/UniverseIcons';
-import { SunriseIcon, MetroIcon, SparkIcon } from '@/components/WidgetIcons';
+import { SolarSystemIcon, TelescopeIcon, AtomIcon } from '@/components/icons/UniverseIcons';
+import { SunriseIcon, MetroIcon, SparkIcon } from '@/components/icons/WidgetIcons';
 import prisma from '@/lib/prisma';
 
 const FACT_CATEGORY_COLORS: Record<string, string> = {

@@ -2,10 +2,10 @@
 'use client';
 import { useState, useRef, useEffect, useCallback } from 'react';
 import Link from 'next/link';
-import SolarLayout from '@/components/SolarLayout';
-import { GalaxyIcon } from '@/components/AtomsIcons';
-import { IcoEye, IcoPlanetRing, IcoPin, IcoCalendar, IcoGlobeEarth } from '@/components/SolarIcons';
-import { ConstellationIcon } from '@/components/ConstellationIcons';
+import SolarLayout from '@/components/layout/SolarLayout';
+import { GalaxyIcon } from '@/components/icons/AtomsIcons';
+import { IcoEye, IcoPlanetRing, IcoPin, IcoCalendar, IcoGlobeEarth } from '@/components/icons/SolarIcons';
+import { ConstellationIcon } from '@/components/icons/ConstellationIcons';
 
 import {
   stars, constellations, SPECTRAL_COLORS,

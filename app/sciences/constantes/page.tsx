@@ -3,9 +3,9 @@
 import { useState } from 'react';
 import type React from 'react';
 import Link from 'next/link';
-import ScienceLayout from '@/components/ScienceLayout';
-import { ScientistIcon } from '@/components/ScientistIcons';
-import { SIUnitIcon } from '@/components/PhysicsIcons';
+import ScienceLayout from '@/components/layout/ScienceLayout';
+import { ScientistIcon } from '@/components/icons/ScientistIcons';
+import { SIUnitIcon } from '@/components/icons/PhysicsIcons';
 
 function IcoRulerSm() {
   return (

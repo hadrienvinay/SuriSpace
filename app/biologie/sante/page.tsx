@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import BiologieLayout from '@/components/BiologieLayout';
-import { JsonLd } from '@/components/JsonLd';
+import BiologieLayout from '@/components/layout/BiologieLayout';
+import { JsonLd } from '@/components/common/JsonLd';
 
 export const metadata: Metadata = {
   title: 'Santé | Biologie',

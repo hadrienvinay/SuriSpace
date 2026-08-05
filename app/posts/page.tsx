@@ -14,10 +14,10 @@ export const metadata: Metadata = {
 };
 import Image from 'next/image';
 import prisma from '@/lib/prisma';
-import DeletePostButton from '@/components/DeletePostButton';
+import DeletePostButton from '@/components/buttons/DeletePostButton';
 import { auth } from '@/lib/auth';
-import { QuillIcon, BookIcon } from '@/components/ArticlesIcons';
-import { JsonLd } from '@/components/JsonLd';
+import { QuillIcon, BookIcon } from '@/components/icons/ArticlesIcons';
+import { JsonLd } from '@/components/common/JsonLd';
 import { STATIC_POSTS } from '@/data/posts';
 
 export default async function Posts() {

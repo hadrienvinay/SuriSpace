@@ -7,9 +7,9 @@ import {
   getStarsByConstellation,
   type Constellation,
 } from '@/data/stars';
-import SolarLayout from '@/components/SolarLayout';
-import { IcoSnowflake, IcoFlower, IcoSunStar, IcoLeaf, IcoOrbiter } from '@/components/SolarIcons';
-import { ConstellationIcon } from '@/components/ConstellationIcons';
+import SolarLayout from '@/components/layout/SolarLayout';
+import { IcoSnowflake, IcoFlower, IcoSunStar, IcoLeaf, IcoOrbiter } from '@/components/icons/SolarIcons';
+import { ConstellationIcon } from '@/components/icons/ConstellationIcons';
 
 // ─── Mini SVG constellation map ───────────────────────────────────────────────
 function ConstellationMiniMap({ c, size = 120 }: { c: Constellation; size?: number }) {

@@ -1,9 +1,9 @@
 import "./globals.css";
 import type { Metadata } from 'next';
-import NavBar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-import ScrollToTop from '@/components/ScrollToTop';
-import { JsonLd } from '@/components/JsonLd';
+import NavBar from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
+import ScrollToTop from '@/components/buttons/ScrollToTop';
+import { JsonLd } from '@/components/common/JsonLd';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://suri-space.vercel.app'),

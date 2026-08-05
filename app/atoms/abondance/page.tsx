@@ -2,10 +2,10 @@
 // pages/atoms/abondance.tsx
 import { useState } from 'react';
 import Link from 'next/link';
-import AtomicLayout from '@/components/AtomicLayout';
+import AtomicLayout from '@/components/layout/AtomicLayout';
 import { allElements, CATEGORY_COLORS } from '@/data/elements';
-import { GalaxyIcon } from '@/components/AtomsIcons';
-import { EarthIcon } from '@/components/SpaceIcons';
+import { GalaxyIcon } from '@/components/icons/AtomsIcons';
+import { EarthIcon } from '@/components/icons/SpaceIcons';
 
 function IcoCompare({ size = 14 }: { size?: number }) {
   return (

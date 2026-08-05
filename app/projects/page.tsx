@@ -15,10 +15,10 @@ export const metadata: Metadata = {
 import Image from 'next/image';
 import prisma from '@/lib/prisma';
 import { auth } from '@/lib/auth';
-import DeleteProjectButton from '@/components/DeleteProjectButton';
-import ProjectSiteLinkBadge from '@/components/ProjectSiteLinkBadge';
-import { ToolsIcon, CodeIcon } from '@/components/ProjectsIcons';
-import { JsonLd } from '@/components/JsonLd';
+import DeleteProjectButton from '@/components/buttons/DeleteProjectButton';
+import ProjectSiteLinkBadge from '@/components/common/ProjectSiteLinkBadge';
+import { ToolsIcon, CodeIcon } from '@/components/icons/ProjectsIcons';
+import { JsonLd } from '@/components/common/JsonLd';
 
 const STATIC_PROJECTS = [
   {

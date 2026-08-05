@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import NatureLayout from '@/components/NatureLayout';
-import { LeafIcon, SproutIcon, SunIcon, AppleIcon, GardenIcon } from '@/components/NatureIcons';
-import { JsonLd } from '@/components/JsonLd';
+import NatureLayout from '@/components/layout/NatureLayout';
+import { LeafIcon, SproutIcon, SunIcon, AppleIcon, GardenIcon } from '@/components/icons/NatureIcons';
+import { JsonLd } from '@/components/common/JsonLd';
 
 export const metadata: Metadata = {
   title: 'Nature',

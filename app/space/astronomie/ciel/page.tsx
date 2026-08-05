@@ -2,9 +2,9 @@
 // app/space/astronomie/ciel/page.tsx
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import Link from 'next/link';
-import SolarLayout from '@/components/SolarLayout';
-import EarthOrbitMap from '@/components/EarthOrbitMap';
-import IssPasses from '@/components/IssPasses';
+import SolarLayout from '@/components/layout/SolarLayout';
+import EarthOrbitMap from '@/components/widgets/EarthOrbitMap';
+import IssPasses from '@/components/widgets/IssPasses';
 import { computeMoonPhasesRange, moonDistanceKm } from '@/lib/ephemerides';
 
 // ── Math helpers ─────────────────────────────────────────────────────────────

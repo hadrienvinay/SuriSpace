@@ -1,5 +1,5 @@
 // app/posts/new/page.tsx
-import CreatePostForm from '@/components/addPost';
+import CreatePostForm from '@/components/forms/addPost';
 
 export default function NewPostPage() {
   return (

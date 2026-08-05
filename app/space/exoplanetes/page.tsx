@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import SolarLayout from '@/components/SolarLayout';
-import { JsonLd } from '@/components/JsonLd';
+import SolarLayout from '@/components/layout/SolarLayout';
+import { JsonLd } from '@/components/common/JsonLd';
 
 export const metadata: Metadata = {
   title: 'Exoplanètes | Espace',

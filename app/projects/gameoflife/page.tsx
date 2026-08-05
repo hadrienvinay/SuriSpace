@@ -1,4 +1,4 @@
-import GameofLife from '@/components/GameOfLife';
+import GameofLife from '@/components/widgets/GameOfLife';
 import Image from 'next/image';
 
 export const metadata = {

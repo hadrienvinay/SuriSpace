@@ -2,7 +2,7 @@
 // app/space/astronomie/messier/page.tsx
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
-import SolarLayout from '@/components/SolarLayout';
+import SolarLayout from '@/components/layout/SolarLayout';
 import {
   MESSIER_OBJECTS,
   MESSIER_TYPE_LABELS,
@@ -11,10 +11,10 @@ import {
   type MessierObject,
   type MessierType,
 } from '@/data/messier';
-import { IcoSearch, IcoNebula } from '@/components/SolarIcons';
-import { GalaxyIcon } from '@/components/AtomsIcons';
-import { TelescopeIcon } from '@/components/UniverseIcons';
-import { StarIcon } from '@/components/SpaceIcons';
+import { IcoSearch, IcoNebula } from '@/components/icons/SolarIcons';
+import { GalaxyIcon } from '@/components/icons/AtomsIcons';
+import { TelescopeIcon } from '@/components/icons/UniverseIcons';
+import { StarIcon } from '@/components/icons/SpaceIcons';
 
 /* ── Modal ─────────────────────────────────────────────────── */
 function MessierModal({ obj, onClose }: { obj: MessierObject; onClose: () => void }) {

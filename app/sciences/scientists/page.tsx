@@ -1,8 +1,8 @@
 // app/sciences/scientists/page.tsx
 import Link from 'next/link';
-import ScienceLayout from '@/components/ScienceLayout';
+import ScienceLayout from '@/components/layout/ScienceLayout';
 import { scientists, DOMAIN_COLORS, ERA_LABELS } from '@/data/scientists';
-import { ScientistIcon } from '@/components/ScientistIcons';
+import { ScientistIcon } from '@/components/icons/ScientistIcons';
 
 export default function ScientistsPage() {
   return (

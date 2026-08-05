@@ -19,6 +19,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE}/posts`,                       changeFrequency: weekly,  priority: 0.9 },
     { url: `${BASE}/projects`,                    changeFrequency: monthly, priority: 0.8 },
     { url: `${BASE}/metals`,                      changeFrequency: monthly, priority: 0.5 },
+    { url: `${BASE}/echelles`,                    changeFrequency: yearly,  priority: 0.7 },
 
     // Sciences
     { url: `${BASE}/sciences`,                    changeFrequency: monthly, priority: 0.8 },
@@ -76,6 +77,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE}/posts/space`,                 changeFrequency: monthly, priority: 0.7 },
     { url: `${BASE}/posts/algoculture`,           changeFrequency: monthly, priority: 0.7 },
     { url: `${BASE}/posts/negative`,              changeFrequency: monthly, priority: 0.7 },
+    { url: `${BASE}/posts/earth`,                 changeFrequency: monthly, priority: 0.7 },
   ];
 
   /* ── Dynamic routes from static data files ─────────────── */

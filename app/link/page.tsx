@@ -1,4 +1,4 @@
-import ShowLinks from "@/components/ShowLinks"
+import ShowLinks from "@/components/common/ShowLinks"
 
 export default function LinkPage() {
   return (

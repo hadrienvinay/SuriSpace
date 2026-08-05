@@ -1,5 +1,5 @@
 // app/edit/[id]/page.tsx
-import ActionForm from '@/components/ActionsForm'
+import ActionForm from '@/components/forms/ActionsForm'
 import { notFound } from 'next/navigation'
 import prisma from '@/lib/prisma'
 import Action from '@/lib/Action'

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import NatureLayout from '@/components/NatureLayout';
-import { AppleIcon } from '@/components/NatureIcons';
+import NatureLayout from '@/components/layout/NatureLayout';
+import { AppleIcon } from '@/components/icons/NatureIcons';
 import WeekPlan from './WeekPlan';
 
 export const metadata: Metadata = {

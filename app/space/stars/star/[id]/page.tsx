@@ -2,7 +2,7 @@
 // Individual star detail page
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import SolarLayout from '@/components/SolarLayout';
+import SolarLayout from '@/components/layout/SolarLayout';
 import {
   stars, constellations, SPECTRAL_COLORS,
   getConstellationById,
@@ -20,9 +20,9 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     alternates: { canonical: `/space/stars/star/${id}` },
   };
 }
-import { IcoPin, IcoSunStar, IcoPlanetRing, IcoGlobeEarth, IcoTarget } from '@/components/SolarIcons';
-import { ConstellationIcon } from '@/components/ConstellationIcons';
-import { IcoRuler, IcoBalance, IcoThermometer } from '@/components/PhysicsIcons';
+import { IcoPin, IcoSunStar, IcoPlanetRing, IcoGlobeEarth, IcoTarget } from '@/components/icons/SolarIcons';
+import { ConstellationIcon } from '@/components/icons/ConstellationIcons';
+import { IcoRuler, IcoBalance, IcoThermometer } from '@/components/icons/PhysicsIcons';
 
 function IcoMagStar({ size = 18 }: { size?: number }) {
   const c = size / 2;

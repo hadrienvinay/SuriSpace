@@ -4,8 +4,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import prisma from '@/lib/prisma';
 import { notFound } from 'next/navigation';
-import { JsonLd } from '@/components/JsonLd';
-import ReadingProgress, { readingTime } from '@/components/ReadingProgress';
+import { JsonLd } from '@/components/common/JsonLd';
+import ReadingProgress, { readingTime } from '@/components/common/ReadingProgress';
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;

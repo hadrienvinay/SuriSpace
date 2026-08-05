@@ -1,9 +1,9 @@
 // app/posts/algoculture/page.tsx
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import Algo from '@/components/algo';
-import { JsonLd } from '@/components/JsonLd';
-import ReadingProgress from '@/components/ReadingProgress';
+import Algo from '@/components/widgets/algo';
+import { JsonLd } from '@/components/common/JsonLd';
+import ReadingProgress from '@/components/common/ReadingProgress';
 
 export const metadata: Metadata = {
   title: "L'algoculture",

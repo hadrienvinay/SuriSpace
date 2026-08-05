@@ -1,10 +1,10 @@
 // app/sciences/scientists/[id]/page.tsx
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import ScienceLayout from '@/components/ScienceLayout';
+import ScienceLayout from '@/components/layout/ScienceLayout';
 import { scientists, revolutions, DOMAIN_COLORS, ERA_LABELS } from '@/data/scientists';
-import { ClockIcon, MicroscopeIcon } from '@/components/SciencesIcons';
-import { ScientistIcon } from '@/components/ScientistIcons';
+import { ClockIcon, MicroscopeIcon } from '@/components/icons/SciencesIcons';
+import { ScientistIcon } from '@/components/icons/ScientistIcons';
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;

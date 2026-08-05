@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { JsonLd } from '@/components/JsonLd';
-import ReadingProgress from '@/components/ReadingProgress';
+import { JsonLd } from '@/components/common/JsonLd';
+import ReadingProgress from '@/components/common/ReadingProgress';
 
 export const metadata: Metadata = {
   title: "L'hydrogène vert marin",

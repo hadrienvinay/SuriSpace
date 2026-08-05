@@ -1,7 +1,7 @@
 // components/ScientistIcons.tsx
 // SVG icons for each scientist — keyed by scientist id
-import { TelescopeIcon, AtomIcon } from '@/components/UniverseIcons';
-import { FlaskIcon, RadiationIcon } from '@/components/AtomsIcons';
+import { TelescopeIcon, AtomIcon } from '@/components/icons/UniverseIcons';
+import { FlaskIcon, RadiationIcon } from '@/components/icons/AtomsIcons';
 
 type IconFn = (props: { size?: number }) => React.JSX.Element;
 

@@ -2,8 +2,8 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { JsonLd } from '@/components/JsonLd';
-import ReadingProgress from '@/components/ReadingProgress';
+import { JsonLd } from '@/components/common/JsonLd';
+import ReadingProgress from '@/components/common/ReadingProgress';
 
 export const metadata: Metadata = {
   title: 'La masse négative',
@@ -93,7 +93,7 @@ export default function Negative() {
         <figure>
           <div className="rounded-2xl overflow-hidden border border-white/8">
             <Image
-              src="/univers.webp"
+              src="/posts/univers.webp"
               width={1200}
               height={600}
               alt="Structure lacunaire de l'univers"

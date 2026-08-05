@@ -25,7 +25,7 @@ export const STATIC_POSTS: StaticPost[] = [
   },
   {
     href: '/posts/negative',
-    image: '/univers.webp',
+    image: '/posts/univers.webp',
     title: 'La masse négative',
     excerpt: "Réfutée dans les années 50, l'hypothèse de la masse négative pourrait s'avérer un candidat sérieux pour expliquer la structure de l'univers.",
     tag: 'Physique',
@@ -36,7 +36,7 @@ export const STATIC_POSTS: StaticPost[] = [
   },
   {
     href: '/posts/space',
-    image: '/artemis.jpg',
+    image: '/posts/artemis.jpg',
     title: "L'actualité spatiale 2026",
     excerpt: "Un panorama des dernières nouvelles et missions prévues pour le spatial en 2026.",
     tag: 'Espace',
@@ -47,7 +47,7 @@ export const STATIC_POSTS: StaticPost[] = [
   },
   {
     href: '/posts/hydrogene',
-    image: '/hydrogene.png',
+    image: '/posts/hydrogene.png',
     title: "L'hydrogène vert marin",
     excerpt: "Produire de l'hydrogène grâce aux courants marins et à la houle : le potentiel des océans pour la transition énergétique.",
     tag: 'Energie',
@@ -58,7 +58,7 @@ export const STATIC_POSTS: StaticPost[] = [
   },
   {
     href: '/posts/astro',
-    image: '/astro.jpg',
+    image: '/posts/astro.jpg',
     title: 'Le ciel en 2026',
     excerpt: "Éclipses, comètes, étoiles filantes et rendez-vous planétaires : le calendrier astronomique complet de 2026.",
     tag: 'Astronomie',
@@ -66,5 +66,16 @@ export const STATIC_POSTS: StaticPost[] = [
     color: 'border-indigo-500/30',
     accent: 'text-indigo-400',
     tagBg: 'bg-indigo-500/10',
+  },
+  {
+    href: '/posts/earth',
+    image: '/posts/earth.jpg',
+    title: "L'histoire de la Terre",
+    excerpt: "De boule de lave à monde vivant : 4,5 milliards d'années d'histoire, entre extinctions de masse et explosions de vie.",
+    tag: 'Sciences de la Terre',
+    year: '2026',
+    color: 'border-orange-500/30',
+    accent: 'text-orange-400',
+    tagBg: 'bg-orange-500/10',
   },
 ];

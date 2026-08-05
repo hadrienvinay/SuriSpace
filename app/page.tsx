@@ -14,22 +14,22 @@ export const metadata: Metadata = {
   },
 };
 import Image from 'next/image';
-import { JsonLd } from '@/components/JsonLd';
-import Weather from '@/components/Weather';
-import Ratp from '@/components/Ratp';
-import Sncf from '@/components/Sncf';
-import { ErrorBoundary } from '@/components/ErrorBoundary';
-import Links from '@/components/ShowLinks';
-import CVButton from '@/components/CVButton';
-import QuizButton from '@/components/QuizModal';
-import ScrollTrajectory from '@/components/ScrollTrajectory';
+import { JsonLd } from '@/components/common/JsonLd';
+import Weather from '@/components/widgets/Weather';
+import Ratp from '@/components/widgets/Ratp';
+import Sncf from '@/components/widgets/Sncf';
+import { ErrorBoundary } from '@/components/common/ErrorBoundary';
+import Links from '@/components/common/ShowLinks';
+import CVButton from '@/components/buttons/CVButton';
+import QuizButton from '@/components/modal/QuizModal';
+import ScrollTrajectory from '@/components/widgets/ScrollTrajectory';
 import { getCitationDuJour } from '@/data/citations';
 import { getFactDuJour } from '@/data/facts';
 import { getScientificEventDuJour } from '@/data/scientificEvents';
 import { STATIC_POSTS } from '@/data/posts';
 import { computeDailyInfo, computeEvents, type EventItem } from '@/lib/ephemerides';
-import { SolarSystemIcon, TelescopeIcon, AtomIcon } from '@/components/UniverseIcons';
-import { SunriseIcon, MetroIcon, SparkIcon } from '@/components/WidgetIcons';
+import { SolarSystemIcon, TelescopeIcon, AtomIcon } from '@/components/icons/UniverseIcons';
+import { SunriseIcon, MetroIcon, SparkIcon } from '@/components/icons/WidgetIcons';
 import prisma from '@/lib/prisma';
 
 const FACT_CATEGORY_COLORS: Record<string, string> = {
@@ -399,6 +399,31 @@ export default async function Home() {
       {/* ── Corps : colonne principale + rail latéral ── */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-14 pt-12">
         <div className="md:col-span-8">
+
+          {/* Échelles de l'Univers */}
+          <Link
+            href="/echelles"
+            className="group flex items-center gap-4 rounded-2xl border border-white/8 px-5 py-4 mb-8 transition-all hover:border-white/20"
+            style={{ background: 'rgba(255,255,255,0.02)' }}
+          >
+            <div
+              className="shrink-0 w-10 h-10 rounded-xl flex items-center justify-center text-lg"
+              style={{
+                background: 'linear-gradient(135deg, rgba(96,165,250,0.18), rgba(167,139,250,0.18))',
+                border: '1px solid rgba(167,139,250,0.25)',
+              }}
+              aria-hidden
+            >
+              ✦
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="text-[14.5px] font-bold text-white">Les Échelles de l&apos;Univers</div>
+              <div className="text-[12.5px] text-gray-500 leading-relaxed">
+                De la longueur de Planck aux confins de l&apos;univers observable — 62 ordres de grandeur à explorer.
+              </div>
+            </div>
+            <span className="shrink-0 text-sm text-gray-500 group-hover:text-white transition-colors">→</span>
+          </Link>
 
           {/* Le savais-tu */}
           <div id="wp-savais-tu" className="flex items-center gap-2.5 text-[11.5px] font-bold uppercase tracking-[0.22em] text-gray-500 mb-3.5">

@@ -1,17 +1,17 @@
 // app/space/stars/[id].tsx
 // Constellation detail page
 import Link from 'next/link';
-import SolarLayout from '@/components/SolarLayout';
+import SolarLayout from '@/components/layout/SolarLayout';
 
 import {
   constellations, stars, getStarsByConstellation,
   SPECTRAL_COLORS, raDecToXY,
   type Constellation, type Star,
 } from '@/data/stars';
-import { GalaxyIcon } from '@/components/AtomsIcons';
-import { TelescopeIcon } from '@/components/UniverseIcons';
-import { IcoGlobeEarth, IcoPlanetRing, IcoCalendar } from '@/components/SolarIcons';
-import { ConstellationIcon } from '@/components/ConstellationIcons';
+import { GalaxyIcon } from '@/components/icons/AtomsIcons';
+import { TelescopeIcon } from '@/components/icons/UniverseIcons';
+import { IcoGlobeEarth, IcoPlanetRing, IcoCalendar } from '@/components/icons/SolarIcons';
+import { ConstellationIcon } from '@/components/icons/ConstellationIcons';
 
 const MAG_TO_RADIUS = (mag: number) => Math.max(1.5, 8 - mag * 0.55);
 

@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import BiologieLayout from '@/components/BiologieLayout';
-import { JsonLd } from '@/components/JsonLd';
-import { HeartIcon, CellIcon, TreeOfLifeIcon } from '@/components/BiologieIcons';
+import BiologieLayout from '@/components/layout/BiologieLayout';
+import { JsonLd } from '@/components/common/JsonLd';
+import { HeartIcon, CellIcon, TreeOfLifeIcon } from '@/components/icons/BiologieIcons';
 
 export const metadata: Metadata = {
   title: 'Biologie',

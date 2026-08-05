@@ -1,11 +1,11 @@
 // pages/space/bodys/[id].tsx
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import SolarLayout from '@/components/SolarLayout';
+import SolarLayout from '@/components/layout/SolarLayout';
 import { solarSystem, getMoons, getMissionsForTarget } from '@/data/space';
-import { IcoMoon, IcoWind, IcoLayers, IcoMap } from '@/components/SolarIcons';
-import { RocketIcon } from '@/components/SpaceIcons';
-import { MissionIcon } from '@/components/SolarBodyIcons';
+import { IcoMoon, IcoWind, IcoLayers, IcoMap } from '@/components/icons/SolarIcons';
+import { RocketIcon } from '@/components/icons/SpaceIcons';
+import { MissionIcon } from '@/components/icons/SolarBodyIcons';
 
 const BODY_TYPE_LABELS: Record<string, string> = {
   star: 'étoile', planet: 'planète', 'dwarf-planet': 'planète naine', moon: 'lune', asteroid: 'astéroïde',

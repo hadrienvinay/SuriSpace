@@ -12,12 +12,12 @@ export const metadata: Metadata = {
     url: 'https://suri-space.vercel.app/space',
   },
 };
-import SolarLayout from '@/components/SolarLayout';
-import { MapIcon, EarthIcon, RocketIcon, StarIcon } from '@/components/SpaceIcons';
-import { GalaxyIcon } from '@/components/AtomsIcons';
-import { SolarSystemIcon, TelescopeIcon } from '@/components/UniverseIcons';
-import { JsonLd } from '@/components/JsonLd';
-import { IcoMoon, IcoDish, IcoSunStar, IcoPlanetRing } from '@/components/SolarIcons';
+import SolarLayout from '@/components/layout/SolarLayout';
+import { MapIcon, EarthIcon, RocketIcon, StarIcon } from '@/components/icons/SpaceIcons';
+import { GalaxyIcon } from '@/components/icons/AtomsIcons';
+import { SolarSystemIcon, TelescopeIcon } from '@/components/icons/UniverseIcons';
+import { JsonLd } from '@/components/common/JsonLd';
+import { IcoMoon, IcoDish, IcoSunStar, IcoPlanetRing } from '@/components/icons/SolarIcons';
 
 const sections = [
   {

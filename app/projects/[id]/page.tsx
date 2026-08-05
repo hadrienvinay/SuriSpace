@@ -5,7 +5,7 @@ import Image from 'next/image';
 import prisma from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import { auth } from '@/lib/auth';
-import DeleteProjectButton from '@/components/DeleteProjectButton';
+import DeleteProjectButton from '@/components/buttons/DeleteProjectButton';
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;

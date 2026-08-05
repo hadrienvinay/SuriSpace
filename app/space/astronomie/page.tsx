@@ -12,13 +12,13 @@ export const metadata: Metadata = {
     url: 'https://suri-space.vercel.app/space/astronomie',
   },
 };
-import SolarLayout from '@/components/SolarLayout';
+import SolarLayout from '@/components/layout/SolarLayout';
 import { computeMoonPhases, computePlanets, computeEvents, getCurrentMonthInfo } from '@/lib/ephemerides';
-import { TelescopeIcon, AtomIcon } from '@/components/UniverseIcons';
-import { StarIcon, RocketIcon, MapIcon } from '@/components/SpaceIcons';
-import { GalaxyIcon } from '@/components/AtomsIcons';
-import { ClockIcon, SigmaIcon, LightbulbIcon } from '@/components/SciencesIcons';
-import { IcoShootingStar, IcoFlower, IcoSunStar, IcoMoon, IcoLeaf, IcoSnowflake } from '@/components/SolarIcons';
+import { TelescopeIcon, AtomIcon } from '@/components/icons/UniverseIcons';
+import { StarIcon, RocketIcon, MapIcon } from '@/components/icons/SpaceIcons';
+import { GalaxyIcon } from '@/components/icons/AtomsIcons';
+import { ClockIcon, SigmaIcon, LightbulbIcon } from '@/components/icons/SciencesIcons';
+import { IcoShootingStar, IcoFlower, IcoSunStar, IcoMoon, IcoLeaf, IcoSnowflake } from '@/components/icons/SolarIcons';
 import type React from 'react';
 
 const TIMELINE = [

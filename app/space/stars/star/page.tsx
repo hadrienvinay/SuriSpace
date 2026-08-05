@@ -6,8 +6,8 @@ import {
   stars, constellations, SPECTRAL_COLORS,
   type Star, type SpectralClass,
 } from '@/data/stars';
-import SolarLayout from '@/components/SolarLayout';
-import { IcoEye, IcoGlobeEarth, IcoSearch } from '@/components/SolarIcons';
+import SolarLayout from '@/components/layout/SolarLayout';
+import { IcoEye, IcoGlobeEarth, IcoSearch } from '@/components/icons/SolarIcons';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 const SPECTRAL_LABELS: Record<SpectralClass, string> = {

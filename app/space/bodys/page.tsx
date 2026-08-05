@@ -4,11 +4,11 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import SolarLayout from '@/components/SolarLayout';
+import SolarLayout from '@/components/layout/SolarLayout';
 import { solarSystem } from '@/data/space';
-import { IcoSearch } from '@/components/SolarIcons';
-import { TelescopeIcon } from '@/components/UniverseIcons';
-import { BodyIcon } from '@/components/SolarBodyIcons';
+import { IcoSearch } from '@/components/icons/SolarIcons';
+import { TelescopeIcon } from '@/components/icons/UniverseIcons';
+import { BodyIcon } from '@/components/icons/SolarBodyIcons';
 
 // ─── Stable NASA / Wikimedia image URLs ──────────────────────────────────────
 // Planets: science.nasa.gov (official, stable)

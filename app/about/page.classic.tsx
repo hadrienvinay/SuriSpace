@@ -5,9 +5,9 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
-import MyMap from "@/components/Map_Suri";
-import { SportCarousel, TripCarousel } from "@/components/Carousel";
-import CVButton, { CVModal } from "@/components/CVButton";
+import MyMap from "@/components/widgets/Map_Suri";
+import { SportCarousel, TripCarousel } from "@/components/widgets/Carousel";
+import CVButton, { CVModal } from "@/components/buttons/CVButton";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 

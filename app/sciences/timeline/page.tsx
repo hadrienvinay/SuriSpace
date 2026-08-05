@@ -2,9 +2,9 @@
 // app/sciences/timeline/page.tsx
 import { useState } from 'react';
 import Link from 'next/link';
-import ScienceLayout from '@/components/ScienceLayout';
-import { MicroscopeIcon } from '@/components/SciencesIcons';
-import { ScientistIcon } from '@/components/ScientistIcons';
+import ScienceLayout from '@/components/layout/ScienceLayout';
+import { MicroscopeIcon } from '@/components/icons/SciencesIcons';
+import { ScientistIcon } from '@/components/icons/ScientistIcons';
 import { scientists, revolutions, DOMAIN_COLORS, type Scientist, type Revolution } from '@/data/scientists';
 
 // ── Timeline geometry ────────────────────────────────────────────────────────

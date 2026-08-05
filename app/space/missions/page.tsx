@@ -1,7 +1,7 @@
 // app/space/missions/page.tsx  — server component
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import SolarLayout from '@/components/SolarLayout';
+import SolarLayout from '@/components/layout/SolarLayout';
 import { missions, solarSystem } from '@/data/space';
 import MissionsClient from './MissionsClient';
 

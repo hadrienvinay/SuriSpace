@@ -2,9 +2,9 @@
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import type { Mission } from '@/data/space';
-import { TelescopeIcon } from '@/components/UniverseIcons';
-import { IcoPin, IcoDocument, IcoFlyby, IcoOrbiter, IcoLander, IcoRover, IcoDish, IcoSampleReturn, IcoAstronaut, IcoGlobeEarth, IcoCheckmark, IcoAgency, IcoTarget, IcoSunStar } from '@/components/SolarIcons';
-import { BodyIcon, MissionIcon } from '@/components/SolarBodyIcons';
+import { TelescopeIcon } from '@/components/icons/UniverseIcons';
+import { IcoPin, IcoDocument, IcoFlyby, IcoOrbiter, IcoLander, IcoRover, IcoDish, IcoSampleReturn, IcoAstronaut, IcoGlobeEarth, IcoCheckmark, IcoAgency, IcoTarget, IcoSunStar } from '@/components/icons/SolarIcons';
+import { BodyIcon, MissionIcon } from '@/components/icons/SolarBodyIcons';
 
 // ── Types ─────────────────────────────────────────────────────
 type BodyStub = { id: string; nameFr: string; color: string };

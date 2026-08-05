@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     url: 'https://suri-space.vercel.app/sciences',
   },
 };
-import ScienceLayout from '@/components/ScienceLayout';
+import ScienceLayout from '@/components/layout/ScienceLayout';
 
 function HlApple() {
   return (
@@ -53,14 +53,14 @@ function HlDna() {
     </svg>
   );
 }
-import { JsonLd } from '@/components/JsonLd';
+import { JsonLd } from '@/components/common/JsonLd';
 import {
   ClockIcon,
   ScientistIcon,
   SigmaIcon,
   InfinityIcon,
   MicroscopeIcon,
-} from '@/components/SciencesIcons';
+} from '@/components/icons/SciencesIcons';
 
 const sections = [
   {

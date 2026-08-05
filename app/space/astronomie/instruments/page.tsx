@@ -2,9 +2,9 @@
 // app/space/astronomie/instruments/page.tsx
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import SolarLayout from '@/components/SolarLayout';
-import { IcoPin, IcoDish, IcoMountain } from '@/components/SolarIcons';
-import { TelescopeIcon } from '@/components/UniverseIcons';
+import SolarLayout from '@/components/layout/SolarLayout';
+import { IcoPin, IcoDish, IcoMountain } from '@/components/icons/SolarIcons';
+import { TelescopeIcon } from '@/components/icons/UniverseIcons';
 
 type InstrumentCategory = 'spatial' | 'terrestre';
 

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import BookFormModal from '@/components/BookFormModal';
+import BookFormModal from '@/components/modal/BookFormModal';
 
 interface Book {
   id: number;

@@ -1,12 +1,12 @@
 // pages/space/missions/[id].tsx
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import SolarLayout from '@/components/SolarLayout';
+import SolarLayout from '@/components/layout/SolarLayout';
 import { missions, solarSystem } from '@/data/space';
-import { TelescopeIcon } from '@/components/UniverseIcons';
-import { RocketIcon } from '@/components/SpaceIcons';
-import { IcoPin, IcoCalendar, IcoTarget, IcoFinish, IcoAgency, IcoFlyby, IcoOrbiter, IcoLander, IcoRover, IcoDish, IcoSampleReturn, IcoAstronaut, IcoSunStar } from '@/components/SolarIcons';
-import { MissionIcon } from '@/components/SolarBodyIcons';
+import { TelescopeIcon } from '@/components/icons/UniverseIcons';
+import { RocketIcon } from '@/components/icons/SpaceIcons';
+import { IcoPin, IcoCalendar, IcoTarget, IcoFinish, IcoAgency, IcoFlyby, IcoOrbiter, IcoLander, IcoRover, IcoDish, IcoSampleReturn, IcoAstronaut, IcoSunStar } from '@/components/icons/SolarIcons';
+import { MissionIcon } from '@/components/icons/SolarBodyIcons';
 
 const STATUS_STYLES = {
   active: { bg: '#052e16', border: '#166534', text: '#4ade80', label: '● MISSION ACTIVE' },

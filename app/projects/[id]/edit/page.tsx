@@ -1,5 +1,5 @@
 // app/posts/new/page.tsx
-import { EditProjectForm } from '@/components/ProjectForm';
+import { EditProjectForm } from '@/components/forms/ProjectForm';
 import prisma from '@/lib/prisma'
 import { notFound } from "next/navigation";
 

@@ -2,7 +2,7 @@
 // pages/atoms/tableau.tsx
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
-import AtomicLayout from '@/components/AtomicLayout';
+import AtomicLayout from '@/components/layout/AtomicLayout';
 import { allElements, CATEGORY_COLORS, CATEGORY_LABELS, Element } from '@/data/elements';
 
 // Periodic table grid positions [period, group]

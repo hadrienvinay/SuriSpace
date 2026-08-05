@@ -2,10 +2,10 @@
 // app/sciences/formules/page.tsx
 import { useState } from 'react';
 import Link from 'next/link';
-import ScienceLayout from '@/components/ScienceLayout';
-import { MicroscopeIcon } from '@/components/SciencesIcons';
-import { ScientistIcon } from '@/components/ScientistIcons';
-import { CategoryIcon } from '@/components/PhysicsIcons';
+import ScienceLayout from '@/components/layout/ScienceLayout';
+import { MicroscopeIcon } from '@/components/icons/SciencesIcons';
+import { ScientistIcon } from '@/components/icons/ScientistIcons';
+import { CategoryIcon } from '@/components/icons/PhysicsIcons';
 
 function IcoRuler() {
   return (

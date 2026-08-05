@@ -7,7 +7,7 @@ interface Waypoint {
   label: string;
 }
 
-const WAYPOINTS: Waypoint[] = [
+const DEFAULT_WAYPOINTS: Waypoint[] = [
   { id: 'wp-hero',       label: 'Accueil' },
   { id: 'wp-univers',    label: 'Univers' },
   { id: 'wp-savais-tu',  label: 'Savais-tu ?' },
@@ -32,7 +32,7 @@ function RocketIcon({ size = 14 }: { size?: number }) {
   );
 }
 
-export default function ScrollTrajectory() {
+export default function ScrollTrajectory({ waypoints = DEFAULT_WAYPOINTS }: { waypoints?: Waypoint[] }) {
   const [progress, setProgress] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -45,7 +45,7 @@ export default function ScrollTrajectory() {
       setProgress(total > 0 ? Math.min(100, Math.max(0, (scrolled / total) * 100)) : 0);
 
       let current = 0;
-      WAYPOINTS.forEach((wp, i) => {
+      waypoints.forEach((wp, i) => {
         const node = document.getElementById(wp.id);
         if (node && node.getBoundingClientRect().top <= window.innerHeight * 0.5) {
           current = i;
@@ -60,7 +60,7 @@ export default function ScrollTrajectory() {
       window.removeEventListener('scroll', update);
       window.removeEventListener('resize', update);
     };
-  }, []);
+  }, [waypoints]);
 
   const jumpTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -80,12 +80,12 @@ export default function ScrollTrajectory() {
         />
 
         {/* waypoint dots */}
-        {WAYPOINTS.map((wp, i) => (
+        {waypoints.map((wp, i) => (
           <button
             key={wp.id}
             onClick={() => jumpTo(wp.id)}
             className="group absolute -translate-x-1/2 -translate-y-1/2 flex items-center cursor-pointer"
-            style={{ left: 0, top: `${(i / (WAYPOINTS.length - 1)) * 100}%` }}
+            style={{ left: 0, top: `${(i / (waypoints.length - 1)) * 100}%` }}
             aria-label={`Aller à la section ${wp.label}`}
           >
             <span

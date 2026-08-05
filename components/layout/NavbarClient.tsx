@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Session } from 'next-auth';
-// import SearchModal from '@/components/SearchModal';
+// import SearchModal from '@/components/modal/SearchModal';
 import {
   NavPlanetIcon, NavScienceIcon, NavAtomIcon, NavLeafIcon, NavBiologieIcon,
   IcoHome, IcoMap, IcoGlobe, IcoGalaxy, IcoRocket, IcoTelescope, IcoStar,
@@ -15,7 +15,7 @@ import {
   IcoHeart, IcoDna, IcoTree, IcoEvolution, IcoAtp,
   IcoGene, IcoShield, IcoEarth,
   IcoScroll, IcoExoplanet,
-} from '@/components/NavIcons';
+} from '@/components/icons/NavIcons';
 
 /* ─── Types ───────────────────────────────────────────────── */
 type ItemIcon = React.ComponentType<{ color: string }>;

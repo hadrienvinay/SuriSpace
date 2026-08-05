@@ -12,16 +12,16 @@ export const metadata: Metadata = {
     url: 'https://suri-space.vercel.app/atoms',
   },
 };
-import AtomicLayout from '@/components/AtomicLayout';
-import { JsonLd } from '@/components/JsonLd';
+import AtomicLayout from '@/components/layout/AtomicLayout';
+import { JsonLd } from '@/components/common/JsonLd';
 import {
   FlaskIcon,
   RadiationIcon,
   ExplosionIcon,
   BarChartIcon,
   GalaxyIcon,
-} from '@/components/AtomsIcons';
-import { AtomIcon } from '@/components/UniverseIcons';
+} from '@/components/icons/AtomsIcons';
+import { AtomIcon } from '@/components/icons/UniverseIcons';
 
 const features = [
   {

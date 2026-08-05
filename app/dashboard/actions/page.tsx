@@ -1,4 +1,4 @@
-import ActionsManager from '@/components/ActionsManager';
+import ActionsManager from '@/components/common/ActionsManager';
 
 export const metadata = {
   title: 'Mes actions',

@@ -1,8 +1,8 @@
 // components/SolarBodyIcons.tsx
 // Visual icons for CelestialBody (colored sphere) and Mission (type-based SVG)
-import { IcoDish, IcoFlyby, IcoOrbiter, IcoLander, IcoRover, IcoSampleReturn, IcoAstronaut, IcoShootingStar, IcoSunStar } from '@/components/SolarIcons';
-import { RocketIcon } from '@/components/SpaceIcons';
-import { TelescopeIcon } from '@/components/UniverseIcons';
+import { IcoDish, IcoFlyby, IcoOrbiter, IcoLander, IcoRover, IcoSampleReturn, IcoAstronaut, IcoShootingStar, IcoSunStar } from '@/components/icons/SolarIcons';
+import { RocketIcon } from '@/components/icons/SpaceIcons';
+import { TelescopeIcon } from '@/components/icons/UniverseIcons';
 
 // ── Celestial body — gradient sphere using body.color ─────────────────────────
 export function BodyIcon({ color, size = 28 }: { color: string; size?: number }) {

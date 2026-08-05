@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import BiologieLayout from '@/components/BiologieLayout';
-import { JsonLd } from '@/components/JsonLd';
+import BiologieLayout from '@/components/layout/BiologieLayout';
+import { JsonLd } from '@/components/common/JsonLd';
 import GenetiqueClient from './GenetiqueClient';
 
 export const metadata: Metadata = {

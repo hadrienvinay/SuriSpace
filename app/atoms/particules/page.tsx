@@ -1,9 +1,9 @@
 'use client';
-import AtomicLayout from '@/components/AtomicLayout';
+import AtomicLayout from '@/components/layout/AtomicLayout';
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { RadiationIcon } from '@/components/AtomsIcons';
-import { TelescopeIcon } from '@/components/UniverseIcons';
+import { RadiationIcon } from '@/components/icons/AtomsIcons';
+import { TelescopeIcon } from '@/components/icons/UniverseIcons';
 
 function IcoLightningFrc({ size = 18 }: { size?: number }) {
   return <svg width={size} height={size} viewBox="0 0 18 18" fill="none"><path d="M 11 2 L 5 10 H 9.5 L 6 16 L 13 8 H 8.5 Z" fill="#FBBF24" stroke="#FCD34D" strokeWidth="0.5" strokeLinejoin="round"/></svg>;

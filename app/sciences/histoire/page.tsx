@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import ScienceLayout from '@/components/ScienceLayout';
-import { JsonLd } from '@/components/JsonLd';
+import ScienceLayout from '@/components/layout/ScienceLayout';
+import { JsonLd } from '@/components/common/JsonLd';
 
 export const metadata: Metadata = {
   title: 'Histoire des Sciences | Sciences',

@@ -3,11 +3,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import SolarLayout from '@/components/SolarLayout';
+import SolarLayout from '@/components/layout/SolarLayout';
 import { GALAXIES, GALAXY_TYPES, type Galaxy, type GalaxyType } from '@/data/galaxies';
-import { GalaxyIcon } from '@/components/AtomsIcons';
-import { TelescopeIcon } from '@/components/UniverseIcons';
-import { IcoSearch, IcoPin, IcoDocument } from '@/components/SolarIcons';
+import { GalaxyIcon } from '@/components/icons/AtomsIcons';
+import { TelescopeIcon } from '@/components/icons/UniverseIcons';
+import { IcoSearch, IcoPin, IcoDocument } from '@/components/icons/SolarIcons';
 
 /* ─── Helpers ─────────────────────────────────────────────── */
 const fmtDist = (d: number) => {

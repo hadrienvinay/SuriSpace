@@ -1,7 +1,7 @@
 // components/Footer.tsx
 import Link from 'next/link';
 import Image from 'next/image';
-import { NavPlanetIcon, NavScienceIcon, NavAtomIcon, NavLeafIcon } from '@/components/NavIcons';
+import { NavPlanetIcon, NavScienceIcon, NavAtomIcon, NavLeafIcon } from '@/components/icons/NavIcons';
 
 const WORLD_LINKS = [
   { href: '/space', label: 'Espace',   Icon: NavPlanetIcon,  color: '#60A5FA' },

@@ -2,9 +2,9 @@
 // pages/atoms/nucleosynthese.tsx
 import { useState } from 'react';
 import Link from 'next/link';
-import AtomicLayout from '@/components/AtomicLayout';
-import { GalaxyIcon, ExplosionIcon } from '@/components/AtomsIcons';
-import { StarIcon } from '@/components/SpaceIcons';
+import AtomicLayout from '@/components/layout/AtomicLayout';
+import { GalaxyIcon, ExplosionIcon } from '@/components/icons/AtomsIcons';
+import { StarIcon } from '@/components/icons/SpaceIcons';
 
 function IcoRedStar({ size = 24 }: { size?: number }) {
   return (

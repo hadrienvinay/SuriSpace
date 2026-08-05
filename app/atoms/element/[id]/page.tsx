@@ -1,10 +1,10 @@
 // pages/atoms/element/[symbol].tsx
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import AtomicLayout from '@/components/AtomicLayout';
+import AtomicLayout from '@/components/layout/AtomicLayout';
 import { allElements, CATEGORY_COLORS, CATEGORY_LABELS } from '@/data/elements';
-import { GalaxyIcon } from '@/components/AtomsIcons';
-import { EarthIcon } from '@/components/SpaceIcons';
+import { GalaxyIcon } from '@/components/icons/AtomsIcons';
+import { EarthIcon } from '@/components/icons/SpaceIcons';
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;

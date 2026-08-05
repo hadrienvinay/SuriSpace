@@ -2,17 +2,17 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { CreateLinkModal } from '@/components/CreateLinkModal';
-import { ProjectLinkModal } from '@/components/ProjectLinkModal';
-import DeleteLinkButton from '@/components/DeleteLinkButton';
-import DeleteProjectButton from '@/components/DeleteProjectButton';
-import { QuillIcon, BookIcon }                          from '@/components/ArticlesIcons';
-import { BarChartIcon, GalaxyIcon }                     from '@/components/AtomsIcons';
-import { CodeIcon }                                     from '@/components/ProjectsIcons';
-import { SolarSystemIcon, TelescopeIcon, AtomIcon }     from '@/components/UniverseIcons';
-import { LeafIcon, SunIcon }                            from '@/components/NatureIcons';
-import { StarIcon }                                     from '@/components/SpaceIcons';
-import { SigmaIcon, ScientistIcon }                     from '@/components/SciencesIcons';
+import { CreateLinkModal } from '@/components/modal/CreateLinkModal';
+import { ProjectLinkModal } from '@/components/modal/ProjectLinkModal';
+import DeleteLinkButton from '@/components/buttons/DeleteLinkButton';
+import DeleteProjectButton from '@/components/buttons/DeleteProjectButton';
+import { QuillIcon, BookIcon }                          from '@/components/icons/ArticlesIcons';
+import { BarChartIcon, GalaxyIcon }                     from '@/components/icons/AtomsIcons';
+import { CodeIcon }                                     from '@/components/icons/ProjectsIcons';
+import { SolarSystemIcon, TelescopeIcon, AtomIcon }     from '@/components/icons/UniverseIcons';
+import { LeafIcon, SunIcon }                            from '@/components/icons/NatureIcons';
+import { StarIcon }                                     from '@/components/icons/SpaceIcons';
+import { SigmaIcon, ScientistIcon }                     from '@/components/icons/SciencesIcons';
 
 // ── Inline dashboard icons ────────────────────────────────────────────────────
 

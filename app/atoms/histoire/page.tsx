@@ -1,10 +1,10 @@
 // app/atoms/histoire/page.tsx
 import Link from 'next/link';
-import AtomicLayout from '@/components/AtomicLayout';
-import { GalaxyIcon } from '@/components/AtomsIcons';
-import { StarIcon } from '@/components/SpaceIcons';
-import { SunIcon } from '@/components/NatureIcons';
-import { AtomIcon } from '@/components/UniverseIcons';
+import AtomicLayout from '@/components/layout/AtomicLayout';
+import { GalaxyIcon } from '@/components/icons/AtomsIcons';
+import { StarIcon } from '@/components/icons/SpaceIcons';
+import { SunIcon } from '@/components/icons/NatureIcons';
+import { AtomIcon } from '@/components/icons/UniverseIcons';
 
 function IcoPlanck({ size = 28 }: { size?: number }) {
   return (

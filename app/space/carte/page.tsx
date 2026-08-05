@@ -2,10 +2,10 @@
 'use client';
 import { useState, useRef, useEffect, useMemo } from 'react';
 import Link from 'next/link';
-import SolarLayout from '@/components/SolarLayout';
+import SolarLayout from '@/components/layout/SolarLayout';
 import { solarSystem, missions, planets, sun, dwarfPlanets, getActiveProbes, type Mission } from '@/data/space';
-import { IcoPin } from '@/components/SolarIcons';
-import { BodyIcon, MissionIcon } from '@/components/SolarBodyIcons';
+import { IcoPin } from '@/components/icons/SolarIcons';
+import { BodyIcon, MissionIcon } from '@/components/icons/SolarBodyIcons';
 import { Body, HelioVector } from 'astronomy-engine';
 
 // ─── Scale helpers ──────────────────────────────────────────────────────────

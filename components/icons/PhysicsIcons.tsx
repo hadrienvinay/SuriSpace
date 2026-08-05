@@ -1,8 +1,8 @@
 // components/PhysicsIcons.tsx
 // SVG icons for physics categories and SI base units
-import { EarthIcon } from '@/components/SpaceIcons';
-import { FlaskIcon } from '@/components/AtomsIcons';
-import { ClockIcon } from '@/components/SciencesIcons';
+import { EarthIcon } from '@/components/icons/SpaceIcons';
+import { FlaskIcon } from '@/components/icons/AtomsIcons';
+import { ClockIcon } from '@/components/icons/SciencesIcons';
 
 type IconFn = (props: { size?: number }) => React.JSX.Element;
 
