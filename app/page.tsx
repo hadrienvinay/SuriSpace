@@ -30,7 +30,6 @@ import { STATIC_POSTS } from '@/data/posts';
 import { computeDailyInfo, computeEvents, type EventItem } from '@/lib/ephemerides';
 import { SolarSystemIcon, TelescopeIcon, AtomIcon } from '@/components/icons/UniverseIcons';
 import { SunriseIcon, MetroIcon, SparkIcon } from '@/components/icons/WidgetIcons';
-import prisma from '@/lib/prisma';
 
 const FACT_CATEGORY_COLORS: Record<string, string> = {
   'Élément': '#34D399',
@@ -284,27 +283,16 @@ export default async function Home() {
   const sciEvent   = getScientificEventDuJour();
   const daily      = computeDailyInfo();
   const events     = getUpcomingEvents(3);
-  const dbPosts = await prisma.post.findMany({
-    where: { published: true },
-    orderBy: { createdAt: 'desc' },
-    select: { id: true, title: true, resume: true, image: true, createdAt: true },
-  });
 
-  // Fusionne les articles DB (publiés) avec les articles statiques (en dur, hors DB)
-  const allPosts = [
-    ...dbPosts.map(p => ({
-      key: `db-${p.id}`, href: `/posts/${p.id}`, title: p.title,
-      excerpt: p.resume, image: p.image || '/default.png',
-      dateLabel: p.createdAt.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' }),
-      sortTime: p.createdAt.getTime(),
-    })),
-    ...STATIC_POSTS.map(p => ({
+  // Articles statiques (en dur), triés par date décroissante
+  const allPosts = [...STATIC_POSTS]
+    .map(p => ({
       key: p.href, href: p.href, title: p.title,
       excerpt: p.excerpt, image: p.image,
       dateLabel: p.year,
       sortTime: new Date(`${p.year}-06-30`).getTime(),
-    })),
-  ].sort((a, b) => b.sortTime - a.sortTime);
+    }))
+    .sort((a, b) => b.sortTime - a.sortTime);
 
   const [leadPost, ...restPosts] = allPosts.slice(0, 3);
   const todayFr = new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });

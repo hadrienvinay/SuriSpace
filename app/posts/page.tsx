@@ -13,20 +13,14 @@ export const metadata: Metadata = {
   },
 };
 import Image from 'next/image';
-import prisma from '@/lib/prisma';
-import DeletePostButton from '@/components/buttons/DeletePostButton';
-import { auth } from '@/lib/auth';
 import { QuillIcon, BookIcon } from '@/components/icons/ArticlesIcons';
 import { JsonLd } from '@/components/common/JsonLd';
 import { STATIC_POSTS } from '@/data/posts';
 
-export default async function Posts() {
-  const posts = await prisma.post.findMany({ orderBy: { createdAt: 'desc' } });
-  const session = await auth();
-
+export default function Posts() {
   return (
     <div
-      className="max-w-7xl mx-auto px-4 py-12"
+      className="max-w-5xl mx-auto px-4 py-12"
       style={{ fontFamily: "'Exo 2', 'Space Grotesk', sans-serif" }}
     >
       <JsonLd data={{ '@context': 'https://schema.org', '@graph': [
@@ -40,13 +34,16 @@ export default async function Posts() {
       ]}} />
 
       {/* Hero */}
-      <div className="text-center mb-12">
-        <div className="flex items-center justify-between gap-4 mb-3 max-w-2xl mx-auto">
-          <div style={{ filter: 'drop-shadow(0 0 16px #6366F1)' }}>
-            <QuillIcon size={72} />
-          </div>
+      <div className="mb-10">
+        <div className="flex items-center gap-2 mb-3">
+          <span className="w-1.5 h-1.5 rounded-full" style={{ background: '#818CF8', boxShadow: '0 0 8px #818CF8' }} />
+          <span className="text-xs font-mono uppercase tracking-widest text-indigo-300/80">
+            Journal — {STATIC_POSTS.length} article{STATIC_POSTS.length > 1 ? 's' : ''}
+          </span>
+        </div>
+        <div className="flex items-center gap-4">
           <h1
-            className="text-5xl sm:text-6xl font-extrabold tracking-tight pb-2"
+            className="text-4xl sm:text-5xl font-extrabold tracking-tight pb-1"
             style={{
               background: 'linear-gradient(135deg, #60A5FA, #A78BFA)',
               WebkitBackgroundClip: 'text',
@@ -55,107 +52,48 @@ export default async function Posts() {
           >
             Articles
           </h1>
-          <div style={{ filter: 'drop-shadow(0 0 16px #818CF8)' }}>
-            <BookIcon size={72} />
+          <div style={{ filter: 'drop-shadow(0 0 14px #6366F1)' }}>
+            <QuillIcon size={40} />
+          </div>
+          <div style={{ filter: 'drop-shadow(0 0 14px #818CF8)' }}>
+            <BookIcon size={40} />
           </div>
         </div>
-        <p className="text-gray-400 text-lg max-w-xl mx-auto">
+        <p className="text-gray-400 text-base mt-2">
           Explorations scientifiques, technologiques et culturelles.
         </p>
       </div>
 
-      {/* New post button (admin only) */}
-      {session && (
-        <div className="flex justify-end mb-6">
-          <Link
-            href="/posts/new"
-            className="px-5 py-2.5 rounded-xl font-semibold text-white text-sm transition-all hover:brightness-110"
-            style={{ background: 'linear-gradient(135deg, #3B82F6, #6366F1)' }}
-          >
-            + Nouvel article
-          </Link>
-        </div>
-      )}
-
-      {/* Cards grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-
-        {/* Static posts */}
+      {/* Rail list */}
+      <div className="flex flex-col gap-2.5">
         {STATIC_POSTS.map((p) => (
           <Link
             key={p.href}
             href={p.href}
-            className={`group relative block rounded-2xl border ${p.color} overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:brightness-110`}
-            style={{ background: 'rgba(255,255,255,0.02)', backdropFilter: 'blur(8px)' }}
+            className="group flex items-stretch gap-5 rounded-xl border border-white/6 bg-white/[0.02] px-4 py-3.5 sm:px-5 transition-all duration-200 hover:bg-white/[0.045] hover:border-white/12 hover:translate-x-0.5"
           >
-            <div className="relative h-44 w-full overflow-hidden">
+            <span className={`w-1 rounded-full shrink-0 ${p.rail}`} />
+            <div className="hidden sm:flex w-20 h-14 shrink-0 rounded-lg overflow-hidden relative bg-white/5">
               <Image
                 src={p.image}
                 fill
-                sizes="(max-width: 768px) 100vw, 33vw"
+                sizes="80px"
                 alt={p.title}
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                className="object-cover"
               />
-              <div className="absolute inset-0 bg-linear-to-t from-black/70 to-transparent" />
             </div>
-            <div className="p-5">
-              <div className="flex items-center gap-2 mb-2">
-                <span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${p.tagBg} ${p.accent} border ${p.color}`}>
-                  {p.tag}
-                </span>
-                <span className="text-xs text-gray-600 font-mono">{p.year}</span>
-              </div>
-              <h2 className="text-base font-bold text-white mb-1.5 leading-snug">{p.title}</h2>
-              <p className="text-sm text-gray-400 leading-relaxed line-clamp-3">{p.excerpt}</p>
+            <div className="flex-1 min-w-0 flex flex-col justify-center">
+              <h2 className="text-base font-bold text-white mb-1 leading-snug truncate">{p.title}</h2>
+              <p className="text-sm text-gray-400 leading-relaxed line-clamp-1 sm:line-clamp-2 max-w-lg">{p.excerpt}</p>
+            </div>
+            <div className="shrink-0 flex flex-col items-end justify-center gap-1.5 pl-2">
+              <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${p.tagBg} ${p.accent} whitespace-nowrap`}>
+                {p.tag}
+              </span>
+              <span className="text-xs text-gray-600 font-mono">{p.year}</span>
             </div>
           </Link>
         ))}
-
-        {/* Dynamic posts from DB — empty state */}
-        {posts.length === 0 && (
-          <div className="col-span-full rounded-2xl border border-white/6 p-10 text-center" style={{ background: 'rgba(255,255,255,0.01)' }}>
-            <div className="text-3xl mb-3 opacity-30">📝</div>
-            <p className="text-sm text-gray-600">Aucun article publié pour l&apos;instant.</p>
-          </div>
-        )}
-        {posts.map((post) => (
-          <div
-            key={post.id}
-            className="relative group block rounded-2xl border border-white/8 overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:brightness-110"
-            style={{ background: 'rgba(255,255,255,0.02)', backdropFilter: 'blur(8px)' }}
-          >
-            {session && (
-              <div className="absolute top-3 right-3 z-10">
-                <DeletePostButton postId={post.id} />
-              </div>
-            )}
-            <Link href={`/posts/${post.id}`} className="block">
-              <div className="relative h-44 w-full overflow-hidden">
-                <Image
-                  src={post.image || '/default.png'}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  alt={post.title}
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-linear-to-t from-black/70 to-transparent" />
-              </div>
-              <div className="p-5">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-gray-500/10 text-gray-400 border border-gray-500/20">
-                    Article
-                  </span>
-                  <span className="text-xs text-gray-600 font-mono">{post.createdAt.getUTCFullYear()}</span>
-                </div>
-                <h2 className="text-base font-bold text-white mb-1.5 leading-snug">{post.title}</h2>
-                <p className="text-sm text-gray-400 leading-relaxed line-clamp-3">
-                  Lire l&apos;article complet →
-                </p>
-              </div>
-            </Link>
-          </div>
-        ))}
-
       </div>
     </div>
   );

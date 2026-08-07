@@ -108,17 +108,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   /* ── Dynamic routes from DB ────────────────────────────── */
-  const [posts, projects] = await Promise.all([
-    prisma.post.findMany({ where: { published: true }, select: { id: true, updatedAt: true } }),
-    prisma.project.findMany({ select: { id: true, updatedAt: true } }),
-  ]);
-
-  const postRoutes: MetadataRoute.Sitemap = posts.map(p => ({
-    url: `${BASE}/posts/${p.id}`,
-    lastModified: p.updatedAt,
-    changeFrequency: monthly,
-    priority: 0.7,
-  }));
+  const projects = await prisma.project.findMany({ select: { id: true, updatedAt: true } });
 
   const projectRoutes: MetadataRoute.Sitemap = projects.map(p => ({
     url: `${BASE}/projects/${p.id}`,
@@ -133,7 +123,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...bodyRoutes,
     ...scientistRoutes,
     ...starRoutes,
-    ...postRoutes,
     ...projectRoutes,
   ];
 }

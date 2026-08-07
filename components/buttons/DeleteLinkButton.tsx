@@ -37,9 +37,14 @@ export default function DeleteLinkButton({ linkId }: { linkId: number }) {
     <button
       onClick={handleDelete}
       disabled={isDeleting}
-      className="px-2 bg-red-500 text-white rounded hover:bg-red-600 disabled:opacity-50 cursor-pointer"
+      style={{
+        background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)',
+        color: '#f87171', borderRadius: 6, padding: '2px 10px', fontSize: 11,
+        cursor: 'pointer', fontWeight: 600, whiteSpace: 'nowrap',
+      }}
+      className="disabled:opacity-50"
     >
-      {isDeleting ? 'Suppression...' : 'X'}
+      {isDeleting ? '…' : 'Supprimer'}
     </button>
   );
 }

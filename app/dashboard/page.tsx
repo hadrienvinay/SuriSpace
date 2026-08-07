@@ -1,12 +1,12 @@
 import prisma from "@/lib/prisma";
 import DashboardClient, { type DashboardProps } from "@/app/dashboard/DashboardClient";
+import { STATIC_POSTS } from "@/data/posts";
 
 export default async function Dashboard() {
   const [
     messages,
     links,
     bookCount,
-    articleCount,
     projectCount,
     messageCount,
     actionCount,
@@ -15,7 +15,6 @@ export default async function Dashboard() {
     prisma.message.findMany(),
     prisma.link.findMany(),
     prisma.book.count(),
-    prisma.post.count(),
     prisma.project.count(),
     prisma.message.count(),
     prisma.action.count(),
@@ -46,7 +45,7 @@ export default async function Dashboard() {
     messages,
     links,
     projects,
-    articleCount:     articleCount + 3,
+    articleCount:     STATIC_POSTS.length,
     projectCount:     projectCount + 1,
     messageCount,
     bookCount,
@@ -55,7 +54,7 @@ export default async function Dashboard() {
     pageCount:        74,
     componentCount:   46,
     apiRouteCount:    21,
-    prismaModelCount: 11,
+    prismaModelCount: 10,
     dataFileCount:    10,
     totalDataLines:   7811,
     daysSinceCreation,

@@ -9,6 +9,7 @@ export interface StaticPost {
   color: string;
   accent: string;
   tagBg: string;
+  rail: string;
 }
 
 export const STATIC_POSTS: StaticPost[] = [
@@ -22,6 +23,7 @@ export const STATIC_POSTS: StaticPost[] = [
     color: 'border-emerald-500/30',
     accent: 'text-emerald-400',
     tagBg: 'bg-emerald-500/10',
+    rail: 'bg-emerald-500/60',
   },
   {
     href: '/posts/negative',
@@ -33,6 +35,7 @@ export const STATIC_POSTS: StaticPost[] = [
     color: 'border-violet-500/30',
     accent: 'text-violet-400',
     tagBg: 'bg-violet-500/10',
+    rail: 'bg-violet-500/60',
   },
   {
     href: '/posts/space',
@@ -44,6 +47,7 @@ export const STATIC_POSTS: StaticPost[] = [
     color: 'border-blue-500/30',
     accent: 'text-blue-400',
     tagBg: 'bg-blue-500/10',
+    rail: 'bg-blue-500/60',
   },
   {
     href: '/posts/hydrogene',
@@ -55,6 +59,7 @@ export const STATIC_POSTS: StaticPost[] = [
     color: 'border-yellow-500/30',
     accent: 'text-yellow-400',
     tagBg: 'bg-yellow-500/10',
+    rail: 'bg-yellow-500/60',
   },
   {
     href: '/posts/astro',
@@ -66,6 +71,7 @@ export const STATIC_POSTS: StaticPost[] = [
     color: 'border-indigo-500/30',
     accent: 'text-indigo-400',
     tagBg: 'bg-indigo-500/10',
+    rail: 'bg-indigo-500/60',
   },
   {
     href: '/posts/earth',
@@ -77,5 +83,6 @@ export const STATIC_POSTS: StaticPost[] = [
     color: 'border-orange-500/30',
     accent: 'text-orange-400',
     tagBg: 'bg-orange-500/10',
+    rail: 'bg-orange-500/60',
   },
 ];

@@ -1,6 +1,5 @@
 // app/feed.xml/route.ts — RSS 2.0 feed for all articles
 import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
 
 const BASE    = 'https://suri-space.vercel.app';
 const SITE    = 'Suri Space — Hadrien Vinay';
@@ -32,21 +31,11 @@ function item(title: string, link: string, desc: string, date: string, category?
 }
 
 export async function GET() {
-  const dbPosts = await prisma.post.findMany({
-    where: { published: true },
-    orderBy: { createdAt: 'desc' },
-    select: { id: true, title: true, resume: true, createdAt: true },
-  });
-
-  const dbItems = dbPosts.map(p =>
-    item(p.title, `${BASE}/posts/${p.id}`, p.resume ?? p.title, p.createdAt.toISOString(), 'Article')
-  );
-
   const staticItems = STATIC.map(s =>
     item(s.title, `${BASE}/posts/${s.id}`, s.desc, s.date, s.tag)
   );
 
-  const allItems = [...dbItems, ...staticItems].join('');
+  const allItems = staticItems.join('');
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
