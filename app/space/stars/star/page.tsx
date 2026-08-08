@@ -38,6 +38,16 @@ function magToSize(mag: number): number {
   return Math.max(4, Math.min(18, 14 - mag * 1.1));
 }
 
+// Délai de scintillement déterministe (dérivé de l'id) : identique serveur/client,
+// contrairement à Math.random() qui provoque un mismatch d'hydratation.
+function twinkleDelay(id: string): number {
+  let hash = 0;
+  for (let i = 0; i < id.length; i++) {
+    hash = (hash * 31 + id.charCodeAt(i)) >>> 0;
+  }
+  return (hash % 300) / 100; // 0 – 2.99s
+}
+
 function StarGlyph({ star, size = 28 }: { star: Star; size?: number }) {
   const r = magToSize(star.magnitude) * (size / 28);
   const glowColor = SPECTRAL_COLORS[star.spectralClass] ?? '#fff';
@@ -67,7 +77,7 @@ export default function CataloguePage() {
   const [filterConst, setFilterConst] = useState<string>('all');
   const [filterNaked, setFilterNaked] = useState<boolean>(false);
   const [filterExo, setFilterExo] = useState<boolean>(false);
-  const [sortBy, setSortBy] = useState<'magnitude' | 'distance' | 'name' | 'temperature' | 'luminosity'>('magnitude');
+  const [sortBy, setSortBy] = useState<'magnitude' | 'distance' | 'name' | 'temperature' | 'luminosity' | 'constellation' | 'spectralType'>('magnitude');
   const [sortAsc, setSortAsc] = useState(true);
   const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid');
 
@@ -99,6 +109,12 @@ export default function CataloguePage() {
       let va: number, vb: number;
       switch (sortBy) {
         case 'name': return sortAsc ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
+        case 'constellation': {
+          const ca = constellations.find(c => c.id === a.constellation)?.nameFr ?? a.constellation;
+          const cb = constellations.find(c => c.id === b.constellation)?.nameFr ?? b.constellation;
+          return sortAsc ? ca.localeCompare(cb) : cb.localeCompare(ca);
+        }
+        case 'spectralType': return sortAsc ? a.spectralType.localeCompare(b.spectralType) : b.spectralType.localeCompare(a.spectralType);
         case 'distance': va = a.distanceLy; vb = b.distanceLy; break;
         case 'temperature': va = a.temperature ?? 0; vb = b.temperature ?? 0; break;
         case 'luminosity': va = a.luminosity ?? 0; vb = b.luminosity ?? 0; break;
@@ -176,15 +192,30 @@ export default function CataloguePage() {
         .search-input::placeholder { color: rgba(255,255,255,0.3); }
 
         .select-filter {
-          background: rgba(255,255,255,0.04);
+          appearance: none;
+          -webkit-appearance: none;
+          background-color: rgba(255,255,255,0.04);
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6' fill='none'%3E%3Cpath d='M1 1L5 5L9 1' stroke='rgba(255,255,255,0.4)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-position: right 12px center;
           border: 1px solid rgba(255,255,255,0.1);
-          border-radius: 8px;
-          padding: 6px 10px;
+          border-radius: 10px;
+          padding: 8px 32px 8px 14px;
           color: rgba(255,255,255,0.7);
           font-family: 'Exo 2', sans-serif;
           font-size: 15px;
           outline: none;
           cursor: pointer;
+          transition: border-color 0.15s, background-color 0.15s, color 0.15s;
+        }
+        .select-filter:hover {
+          border-color: rgba(255,255,255,0.22);
+          background-color: rgba(255,255,255,0.06);
+          color: rgba(255,255,255,0.9);
+        }
+        .select-filter:focus {
+          border-color: rgba(255,255,255,0.35);
+          background-color: rgba(255,255,255,0.06);
         }
         .select-filter option { background: #0a0f1e; color: #fff; }
 
@@ -417,7 +448,7 @@ export default function CataloguePage() {
                     <div className="catalogue-card" style={{ borderLeft: `2px solid ${glowColor}20` }}>
                       {/* Top row */}
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14 }}>
-                        <div className="star-glyph-wrap" style={{ animationDelay: `${Math.random() * 3}s` }}>
+                        <div className="star-glyph-wrap" style={{ animationDelay: `${twinkleDelay(star.id)}s` }}>
                           <StarGlyph star={star} size={36} />
                         </div>
                         <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
@@ -514,91 +545,96 @@ export default function CataloguePage() {
             background: 'rgba(255,255,255,0.02)',
             border: '1px solid rgba(255,255,255,0.07)',
             borderRadius: 16,
-            overflow: 'hidden',
+            overflowX: 'auto',
           }}>
             <div style={{
+              minWidth: 900,
               display: 'grid',
               gridTemplateColumns: '2fr 1.5fr 1.2fr 1fr 1fr 1fr 1fr',
-              borderBottom: '1px solid rgba(255,255,255,0.08)',
-              padding: '0',
             }}>
-              {[
-                { key: 'name' as const, label: 'Étoile' },
-                { key: null, label: 'Constellation' },
-                { key: null, label: 'Type spectral' },
-                { key: 'magnitude' as const, label: 'Mag.' },
-                { key: 'distance' as const, label: 'Distance' },
-                { key: 'temperature' as const, label: 'Temp. (K)' },
-                { key: 'luminosity' as const, label: 'Lum. (L☉)' },
-              ].map((col, i) => (
-                <div key={i} style={{
-                  padding: '12px 14px',
-                  borderRight: i < 6 ? '1px solid rgba(255,255,255,0.04)' : undefined,
-                }}>
-                  {col.key ? (
-                    <button className={`sort-btn ${sortBy === col.key ? 'active' : ''}`} onClick={() => toggleSort(col.key!)}>
-                      {col.label}{sortIcon(col.key)}
-                    </button>
-                  ) : (
-                    <span style={{ fontSize: 13, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)' }}>
-                      {col.label}
-                    </span>
-                  )}
-                </div>
-              ))}
-            </div>
-
-            {filtered.map((star, idx) => {
-              const constName = constellations.find(c => c.id === star.constellation)?.nameFr ?? star.constellation;
-              const glowColor = SPECTRAL_COLORS[star.spectralClass] ?? '#fff';
-              return (
-                <Link key={star.id} href={`/space/stars/star/${star.id}`} style={{ textDecoration: 'none', color: 'inherit', display: 'contents' }}>
-                  <div className="table-row" style={{ cursor: 'pointer' }}>
-                    {/* Name */}
-                    <div style={{ padding: '12px 14px', borderBottom: '1px solid rgba(255,255,255,0.04)', display: 'flex', alignItems: 'center', gap: 10 }}>
-                      <StarGlyph star={star} size={22} />
-                      <div>
-                        <div style={{ fontSize: 16, fontWeight: 500, color: '#fff' }}>{star.nameFr ?? star.name}</div>
-                        {star.bayerDesignation && <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)' }}>{star.bayerDesignation}</div>}
-                      </div>
-                      {star.nakedEye && <span style={{ marginLeft: 'auto', opacity: 0.5 }}><IcoEye size={15} /></span>}
-                      {star.exoplanets?.length ? <span style={{ opacity: 0.5 }}><IcoGlobeEarth size={12} /></span> : null}
-                    </div>
-                    {/* Constellation */}
-                    <div style={{ padding: '12px 14px', borderBottom: '1px solid rgba(255,255,255,0.04)', fontSize: 13, color: 'rgba(255,255,255,0.5)', alignItems: 'center', display: 'flex' }}>
-                      {constName}
-                    </div>
-                    {/* Spectral */}
-                    <div style={{ padding: '12px 14px', borderBottom: '1px solid rgba(255,255,255,0.04)', display: 'flex', alignItems: 'center', gap: 6 }}>
-                      <span className="spectral-dot" style={{ background: glowColor }} />
-                      <span style={{ fontSize: 16, color: glowColor }}>{star.spectralType}</span>
-                    </div>
-                    {/* Magnitude */}
-                    <div style={{ padding: '12px 14px', borderBottom: '1px solid rgba(255,255,255,0.04)', fontSize: 13, color: 'rgba(255,255,255,0.8)', fontVariantNumeric: 'tabular-nums', alignItems: 'center', display: 'flex' }}>
-                      {star.magnitude.toFixed(2)}
-                    </div>
-                    {/* Distance */}
-                    <div style={{ padding: '12px 14px', borderBottom: '1px solid rgba(255,255,255,0.04)', fontSize: 16, color: 'rgba(255,255,255,0.6)', fontVariantNumeric: 'tabular-nums', alignItems: 'center', display: 'flex' }}>
-                      {star.distanceLy < 100 ? `${star.distanceLy.toFixed(1)} al` : `${Math.round(star.distanceLy).toLocaleString('fr')} al`}
-                    </div>
-                    {/* Temperature */}
-                    <div style={{ padding: '12px 14px', borderBottom: '1px solid rgba(255,255,255,0.04)', fontSize: 16, color: 'rgba(255,255,255,0.6)', fontVariantNumeric: 'tabular-nums', alignItems: 'center', display: 'flex' }}>
-                      {star.temperature ? star.temperature.toLocaleString('fr') : '—'}
-                    </div>
-                    {/* Luminosity */}
-                    <div style={{ padding: '12px 14px', borderBottom: '1px solid rgba(255,255,255,0.04)', fontSize: 16, color: 'rgba(255,255,255,0.6)', fontVariantNumeric: 'tabular-nums', alignItems: 'center', display: 'flex' }}>
-                      {star.luminosity ? (star.luminosity >= 1000 ? `${(star.luminosity / 1000).toFixed(1)}k` : star.luminosity.toFixed(1)) : '—'}
-                    </div>
+              <div style={{
+                display: 'contents',
+              }}>
+                {([
+                  { key: 'name', label: 'Étoile' },
+                  { key: 'constellation', label: 'Constellation' },
+                  { key: 'spectralType', label: 'Type spectral' },
+                  { key: 'magnitude', label: 'Mag.' },
+                  { key: 'distance', label: 'Distance' },
+                  { key: 'temperature', label: 'Temp. (K)' },
+                  { key: 'luminosity', label: 'Lum. (L☉)' },
+                ] as { key: typeof sortBy; label: string }[]).map((col, i) => (
+                  <div key={i} style={{
+                    padding: '12px 14px',
+                    borderRight: i < 6 ? '1px solid rgba(255,255,255,0.04)' : undefined,
+                    borderBottom: '1px solid rgba(255,255,255,0.08)',
+                    whiteSpace: 'nowrap',
+                  }}>
+                    {col.key ? (
+                      <button className={`sort-btn ${sortBy === col.key ? 'active' : ''}`} onClick={() => toggleSort(col.key!)}>
+                        {col.label}{sortIcon(col.key)}
+                      </button>
+                    ) : (
+                      <span style={{ fontSize: 13, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)' }}>
+                        {col.label}
+                      </span>
+                    )}
                   </div>
-                </Link>
-              );
-            })}
-
-            {filtered.length === 0 && (
-              <div style={{ textAlign: 'center', padding: '60px', color: 'rgba(255,255,255,0.3)', fontSize: 16 }}>
-                Aucune étoile ne correspond
+                ))}
               </div>
-            )}
+
+              {filtered.map((star, idx) => {
+                const constName = constellations.find(c => c.id === star.constellation)?.nameFr ?? star.constellation;
+                const glowColor = SPECTRAL_COLORS[star.spectralClass] ?? '#fff';
+                return (
+                  <Link key={star.id} href={`/space/stars/star/${star.id}`} style={{ textDecoration: 'none', color: 'inherit', display: 'contents' }}>
+                    <div className="table-row" style={{ cursor: 'pointer' }}>
+                      {/* Name */}
+                      <div style={{ padding: '12px 14px', borderBottom: '1px solid rgba(255,255,255,0.04)', display: 'flex', alignItems: 'center', gap: 10, whiteSpace: 'nowrap', overflow: 'hidden' }}>
+                        <StarGlyph star={star} size={22} />
+                        <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, overflow: 'hidden' }}>
+                          <span style={{ fontSize: 16, fontWeight: 500, color: '#fff', overflow: 'hidden', textOverflow: 'ellipsis' }}>{star.nameFr ?? star.name}</span>
+                          {star.bayerDesignation && <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)', flexShrink: 0 }}>{star.bayerDesignation}</span>}
+                        </div>
+                        {star.nakedEye && <span style={{ marginLeft: 'auto', opacity: 0.5, flexShrink: 0 }}><IcoEye size={15} /></span>}
+                        {star.exoplanets?.length ? <span style={{ opacity: 0.5, flexShrink: 0 }}><IcoGlobeEarth size={12} /></span> : null}
+                      </div>
+                      {/* Constellation */}
+                      <div style={{ padding: '12px 14px', borderBottom: '1px solid rgba(255,255,255,0.04)', fontSize: 13, color: 'rgba(255,255,255,0.5)', alignItems: 'center', display: 'flex', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        {constName}
+                      </div>
+                      {/* Spectral */}
+                      <div style={{ padding: '12px 14px', borderBottom: '1px solid rgba(255,255,255,0.04)', display: 'flex', alignItems: 'center', gap: 6, whiteSpace: 'nowrap' }}>
+                        <span className="spectral-dot" style={{ background: glowColor }} />
+                        <span style={{ fontSize: 16, color: glowColor }}>{star.spectralType}</span>
+                      </div>
+                      {/* Magnitude */}
+                      <div style={{ padding: '12px 14px', borderBottom: '1px solid rgba(255,255,255,0.04)', fontSize: 13, color: 'rgba(255,255,255,0.8)', fontVariantNumeric: 'tabular-nums', alignItems: 'center', display: 'flex', whiteSpace: 'nowrap' }}>
+                        {star.magnitude.toFixed(2)}
+                      </div>
+                      {/* Distance */}
+                      <div style={{ padding: '12px 14px', borderBottom: '1px solid rgba(255,255,255,0.04)', fontSize: 16, color: 'rgba(255,255,255,0.6)', fontVariantNumeric: 'tabular-nums', alignItems: 'center', display: 'flex', whiteSpace: 'nowrap' }}>
+                        {star.distanceLy < 100 ? `${star.distanceLy.toFixed(1)} al` : `${Math.round(star.distanceLy).toLocaleString('fr')} al`}
+                      </div>
+                      {/* Temperature */}
+                      <div style={{ padding: '12px 14px', borderBottom: '1px solid rgba(255,255,255,0.04)', fontSize: 16, color: 'rgba(255,255,255,0.6)', fontVariantNumeric: 'tabular-nums', alignItems: 'center', display: 'flex', whiteSpace: 'nowrap' }}>
+                        {star.temperature ? star.temperature.toLocaleString('fr') : '—'}
+                      </div>
+                      {/* Luminosity */}
+                      <div style={{ padding: '12px 14px', borderBottom: '1px solid rgba(255,255,255,0.04)', fontSize: 16, color: 'rgba(255,255,255,0.6)', fontVariantNumeric: 'tabular-nums', alignItems: 'center', display: 'flex', whiteSpace: 'nowrap' }}>
+                        {star.luminosity ? (star.luminosity >= 1000 ? `${(star.luminosity / 1000).toFixed(1)}k` : star.luminosity.toFixed(1)) : '—'}
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
+
+              {filtered.length === 0 && (
+                <div style={{ textAlign: 'center', padding: '60px', color: 'rgba(255,255,255,0.3)', fontSize: 16 }}>
+                  Aucune étoile ne correspond
+                </div>
+              )}
+            </div>
           </div>
         )}
 

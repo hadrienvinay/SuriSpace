@@ -97,12 +97,21 @@ const moocs = [
 
 const projects = [
   {
-    href: '/projects/2',
-    Icon: IconCards,
-    title: 'Belote Coinchée',
-    desc: 'Jeu de coinche en Python — entraînement contre IA, moteur de règles complet.',
-    tags: ['Python', 'IA', 'Pygame'],
-    status: 'Terminé',
+    href: '/projects/11',
+    Icon: IconAntennaSignal,
+    title: "Station d'écoute radio autonome",
+    desc: 'Satellites météo NOAA, ISS, GNSS et ADS-B décodés en temps réel.',
+    tags: ['C', 'Microcontrolleur', 'Raspberry Pi'],
+    status: 'En ligne',
+    statusColor: '#34D399',
+  },
+  {
+    href: '/projects/8',
+    Icon: IconTrendUp,
+    title: 'Finance App',
+    desc: "Cours en direct, analyse technique et bot de trading simulé sur un catalogue d'actions.",
+    tags: ['Next.Js', 'TypeScript', 'Prisma'],
+    status: 'En ligne',
     statusColor: '#34D399',
   },
   {
@@ -115,22 +124,13 @@ const projects = [
     statusColor: '#22D3EE',
   },
   {
-    href: '/projects/8',
-    Icon: IconTrendUp,
-    title: 'Bot de trading',
-    desc: 'Reconnaissance de patterns chartistes sur métaux précieux — or et argent.',
-    tags: ['Python', 'ML', 'Finance'],
-    status: 'En cours',
-    statusColor: '#FBBF24',
-  },
-  {
-    href: '/projects/10',
-    Icon: IconGlobeNetwork,
-    title: 'Online Casino',
-    desc: 'Casino en ligne multijoueur — backend en Node.js, frontend React, WebSocket.',
-    tags: ['Next.js', 'React', 'WebSocket'],
+    href: '/projects/6',
+    Icon: IconWaveform,
+    title: 'Media Controller',
+    desc: 'Création de mix audio/vidéo et convertisseurs universels de fichiers (pdf, image, audio…).',
+    tags: ['Next.Js', 'TypeScript', 'ffmpeg'],
     status: 'En ligne',
-    statusColor: '#60A5FA',
+    statusColor: '#34D399',
   },
 ];
 
@@ -195,16 +195,6 @@ function SvgPlanet() {
 }
 
 // ── Project icons ────────────────────────────────────────────────────────────
-function IconCards({ size = 18 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="3" y="6" width="12" height="16" rx="2" transform="rotate(-12 3 6)" stroke="currentColor" strokeWidth="1.3" fill="none"/>
-      <rect x="8" y="4" width="12" height="16" rx="2" stroke="currentColor" strokeWidth="1.3" fill="none"/>
-      <path d="M14 9 L14.9 11 L17 11.2 L15.5 12.6 L15.9 14.7 L14 13.6 L12.1 14.7 L12.5 12.6 L11 11.2 L13.1 11 Z" stroke="currentColor" strokeWidth="1" strokeLinejoin="round" fill="none"/>
-    </svg>
-  );
-}
-
 function IconRingedPlanet({ size = 18 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -223,13 +213,25 @@ function IconTrendUp({ size = 18 }: { size?: number }) {
   );
 }
 
-function IconGlobeNetwork({ size = 18 }: { size?: number }) {
+function IconAntennaSignal({ size = 18 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="12" cy="12" r="8.5" stroke="currentColor" strokeWidth="1.3"/>
-      <ellipse cx="12" cy="12" rx="3.6" ry="8.5" stroke="currentColor" strokeWidth="1.1" opacity="0.7"/>
-      <path d="M3.5 12 H20.5" stroke="currentColor" strokeWidth="1.1" opacity="0.7"/>
-      <path d="M5 7.5 H19 M5 16.5 H19" stroke="currentColor" strokeWidth="1.1" opacity="0.7"/>
+      <path d="M12 21 L12 10.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+      <circle cx="12" cy="8.5" r="2" stroke="currentColor" strokeWidth="1.3"/>
+      <path d="M8.5 5 Q12 1.5 15.5 5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" fill="none"/>
+      <path d="M6 7.5 Q12 0.5 18 7.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" fill="none" opacity="0.55"/>
+      <path d="M8.5 21 H15.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
+function IconWaveform({ size = 18 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M3 12 H6 L8 6 L11 18 L14 3 L17 21 L19 12 H21"
+        stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"
+      />
     </svg>
   );
 }

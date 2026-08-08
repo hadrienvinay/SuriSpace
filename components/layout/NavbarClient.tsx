@@ -14,7 +14,7 @@ import {
   IcoLeaf, IcoHouse, IcoSun, IcoApple,
   IcoHeart, IcoDna, IcoTree, IcoEvolution, IcoAtp,
   IcoGene, IcoShield, IcoEarth,
-  IcoScroll, IcoExoplanet,
+  IcoExoplanet,
 } from '@/components/icons/NavIcons';
 
 /* ─── Types ───────────────────────────────────────────────── */
@@ -49,7 +49,6 @@ const DROPDOWNS: { label: string; Icon: TopIcon; color: string; items: NavItem[]
       { href: '/sciences/scientists', label: 'Scientifiques', Icon: IcoUser     },
       { href: '/sciences/formules',   label: 'Formules',      Icon: IcoSigma    },
       { href: '/sciences/constantes', label: 'Constantes',    Icon: IcoInfinity },
-      { href: '/sciences/histoire',  label: 'Histoire',      Icon: IcoScroll   },
     ],
   },
   {

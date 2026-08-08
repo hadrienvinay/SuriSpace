@@ -23,11 +23,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // Sciences
     { url: `${BASE}/sciences`,                    changeFrequency: monthly, priority: 0.8 },
-    { url: `${BASE}/sciences/timeline`,           changeFrequency: monthly, priority: 0.6 },
+    { url: `${BASE}/sciences/timeline`,           changeFrequency: monthly, priority: 0.8 },
     { url: `${BASE}/sciences/formules`,           changeFrequency: monthly, priority: 0.6 },
     { url: `${BASE}/sciences/constantes`,         changeFrequency: monthly, priority: 0.6 },
     { url: `${BASE}/sciences/scientists`,         changeFrequency: monthly, priority: 0.7 },
-    { url: `${BASE}/sciences/histoire`,           changeFrequency: monthly, priority: 0.7 },
 
     // Atoms
     { url: `${BASE}/atoms`,                       changeFrequency: monthly, priority: 0.8 },

@@ -67,7 +67,7 @@ const sections = [
     href: '/sciences/timeline',
     Icon: ClockIcon,
     title: 'Timeline Interactive',
-    description: 'De l\'Antiquité à aujourd\'hui — révolutions scientifiques, grands scientifiques et découvertes sur une frise chronologique.',
+    description: 'De l\'Antiquité à aujourd\'hui — frise chronologique interactive, six grandes révolutions détaillées et moments charnières.',
     gradient: 'from-indigo-600/20 to-violet-600/20',
     border: 'border-indigo-500/30',
     accent: 'text-indigo-300',
@@ -98,28 +98,6 @@ const sections = [
     gradient: 'from-emerald-600/20 to-green-600/20',
     border: 'border-emerald-500/30',
     accent: 'text-emerald-300',
-  },
-  {
-    href: '/sciences/histoire',
-    Icon: function HistoryIcon() {
-      return (
-        <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="12" y="8" width="32" height="40" rx="5" fill="rgba(167,139,250,0.12)" stroke="#A78BFA" strokeWidth="1.5" />
-          <rect x="16" y="14" width="24" height="2.5" rx="1.2" fill="#A78BFA" opacity="0.7" />
-          <rect x="16" y="20" width="20" height="2" rx="1" fill="#A78BFA" opacity="0.5" />
-          <rect x="16" y="26" width="22" height="2" rx="1" fill="#A78BFA" opacity="0.4" />
-          <rect x="16" y="32" width="16" height="2" rx="1" fill="#A78BFA" opacity="0.3" />
-          <circle cx="40" cy="40" r="9" fill="rgba(96,165,250,0.15)" stroke="#60A5FA" strokeWidth="1.5" />
-          <line x1="40" y1="37" x2="40" y2="40" stroke="#60A5FA" strokeWidth="1.5" strokeLinecap="round" />
-          <line x1="40" y1="40" x2="42.5" y2="42.5" stroke="#60A5FA" strokeWidth="1.5" strokeLinecap="round" />
-        </svg>
-      );
-    },
-    title: 'Histoire des Sciences',
-    description: 'Six révolutions scientifiques — de la philosophie grecque à l\'IA — paradigmes, ruptures et figures fondatrices.',
-    gradient: 'from-violet-600/20 to-blue-600/20',
-    border: 'border-violet-500/30',
-    accent: 'text-violet-300',
   },
 ];
 

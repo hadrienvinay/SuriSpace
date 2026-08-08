@@ -13,11 +13,13 @@ function ElementCell({
   element,
   isHighlighted,
   isDimmed,
+  titleSuffix,
   onClick,
 }: {
   element: Element;
   isHighlighted?: boolean;
   isDimmed?: boolean;
+  titleSuffix?: string;
   onClick: (e: Element) => void;
 }) {
   const bg = CATEGORY_COLORS[element.category] ?? '#868E96';
@@ -25,7 +27,7 @@ function ElementCell({
   return (
     <button
       onClick={() => onClick(element)}
-      title={element.nameFr}
+      title={titleSuffix ? `${element.nameFr} ${titleSuffix}` : element.nameFr}
       className="relative group rounded transition-all duration-150 flex flex-col items-center justify-center cursor-pointer select-none"
       style={{
         background: isDimmed ? 'rgba(255,255,255,0.04)' : `${bg}22`,
@@ -101,10 +103,15 @@ function buildGrid(elements: Element[]): (Element | null)[][] {
   return grid;
 }
 
+const YEAR_MIN = 1249;
+const YEAR_MAX = new Date().getFullYear();
+
 export default function PeriodicTable() {
   const [selected, setSelected] = useState<Element | null>(null);
   const [filterCategory, setFilterCategory] = useState<string | null>(null);
   const [search, setSearch] = useState('');
+  const [timelineEnabled, setTimelineEnabled] = useState(false);
+  const [year, setYear] = useState(YEAR_MAX);
 
   const grid = useMemo(() => buildGrid(allElements), []);
 
@@ -123,17 +130,29 @@ export default function PeriodicTable() {
     );
   }, [search]);
 
+  // Un élément est "connu" à l'année sélectionnée si découvert avant/à cette date,
+  // ou de tout temps (yearDiscovered === null, ex: carbone, fer, or...)
+  const isKnownAtYear = (el: Element) =>
+    el.yearDiscovered === null || el.yearDiscovered <= year;
+
   const isHighlighted = (el: Element) => {
+    if (timelineEnabled) return isKnownAtYear(el);
     if (search) return searchMatches?.has(el.number) ?? false;
     if (filterCategory) return el.category === filterCategory;
     return false;
   };
 
   const isDimmed = (el: Element) => {
+    if (timelineEnabled) return !isKnownAtYear(el);
     if (search) return !(searchMatches?.has(el.number) ?? true);
     if (filterCategory) return el.category !== filterCategory;
     return false;
   };
+
+  const knownCount = useMemo(
+    () => (timelineEnabled ? allElements.filter(isKnownAtYear).length : 0),
+    [timelineEnabled, year]
+  );
 
   return (
     <AtomicLayout>
@@ -155,7 +174,8 @@ export default function PeriodicTable() {
               value={search}
               onChange={e => { setSearch(e.target.value); setFilterCategory(null); }}
               placeholder="Chercher un élément…"
-              className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-violet-500 w-48"
+              disabled={timelineEnabled}
+              className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-violet-500 w-48 disabled:opacity-40 disabled:cursor-not-allowed"
             />
           </div>
         </div>
@@ -166,7 +186,8 @@ export default function PeriodicTable() {
             <button
               key={key}
               onClick={() => { setFilterCategory(filterCategory === key ? null : key); setSearch(''); }}
-              className={`px-2 py-1 rounded text-l font-medium transition-all border ${filterCategory === key ? 'opacity-100 scale-105' : 'opacity-60 hover:opacity-80'}`}
+              disabled={timelineEnabled}
+              className={`px-2 py-1 rounded text-l font-medium transition-all border ${filterCategory === key ? 'opacity-100 scale-105' : 'opacity-60 hover:opacity-80'} disabled:opacity-30 disabled:pointer-events-none`}
               style={{
                 borderColor: CATEGORY_COLORS[key] + '66',
                 background: CATEGORY_COLORS[key] + '22',
@@ -207,6 +228,7 @@ export default function PeriodicTable() {
                           element={el}
                           isHighlighted={isHighlighted(el)}
                           isDimmed={isDimmed(el)}
+                          titleSuffix={timelineEnabled ? (el.yearDiscovered ? `(${el.yearDiscovered})` : '(préhistoire)') : undefined}
                           onClick={setSelected}
                         />
                       ) : (
@@ -217,6 +239,44 @@ export default function PeriodicTable() {
                 </div>
               );
             })}
+          </div>
+        </div>
+
+        {/* Timeline slider: quels éléments étaient connus à une date donnée */}
+        <div className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 mt-4">
+          <div className="flex flex-wrap items-center gap-3">
+            <label className="flex items-center gap-2 cursor-pointer select-none shrink-0">
+              <span className="relative inline-block w-9 h-5">
+                <input
+                  type="checkbox"
+                  checked={timelineEnabled}
+                  onChange={e => setTimelineEnabled(e.target.checked)}
+                  className="peer sr-only"
+                />
+                <span className="absolute inset-0 rounded-full bg-white/15 peer-checked:bg-violet-600 transition-colors" />
+                <span className="absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white transition-transform peer-checked:translate-x-4" />
+              </span>
+              <span className="text-sm font-medium text-gray-300">Frise de découverte</span>
+            </label>
+
+            <input
+              type="range"
+              min={YEAR_MIN}
+              max={YEAR_MAX}
+              step={1}
+              value={year}
+              onChange={e => setYear(Number(e.target.value))}
+              disabled={!timelineEnabled}
+              className="flex-1 min-w-[160px] accent-violet-500 disabled:opacity-30 disabled:cursor-not-allowed"
+            />
+
+            <div className={`text-sm font-mono w-14 text-right shrink-0 ${timelineEnabled ? 'text-violet-300' : 'text-gray-600'}`}>
+              {year}
+            </div>
+
+            <div className={`text-xs shrink-0 ${timelineEnabled ? 'text-gray-400' : 'text-gray-700'}`}>
+              {timelineEnabled ? `${knownCount} / ${allElements.length} éléments connus` : 'Désactivé'}
+            </div>
           </div>
         </div>
 
