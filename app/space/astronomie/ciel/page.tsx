@@ -797,23 +797,6 @@ export default function CielPage() {
               </div>
             </div>
 
-            {/* Display options */}
-            <div className="rounded-2xl border border-white/8 p-4" style={{ background: 'rgba(255,255,255,0.02)' }}>
-              <h3 className="text-xs uppercase tracking-wider text-gray-500 mb-3">Affichage</h3>
-              <div className="space-y-2">
-                {[
-                  { label: 'Constellations',   val: showConst,   set: setShowConst },
-                  { label: "Noms des étoiles", val: showLabels,  set: setShowLabels },
-                  { label: 'Planètes',          val: showPlanets, set: setShowPlanets },
-                ].map(opt => (
-                  <label key={opt.label} className="flex items-center gap-2.5 cursor-pointer">
-                    <input type="checkbox" checked={opt.val} onChange={e => opt.set(e.target.checked)} className="accent-violet-500 w-3.5 h-3.5" />
-                    <span className="text-sm text-gray-300">{opt.label}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-
             {/* Planets & Moon status */}
             <div className="rounded-2xl border border-white/8 p-4" style={{ background: 'rgba(255,255,255,0.02)' }}>
               <h3 className="text-xs uppercase tracking-wider text-gray-500 mb-3">Lune & Planètes</h3>
@@ -861,6 +844,23 @@ export default function CielPage() {
                     </div>
                   );
                 })}
+              </div>
+            </div>
+
+            {/* Display options */}
+            <div className="rounded-2xl border border-white/8 p-4" style={{ background: 'rgba(255,255,255,0.02)' }}>
+              <h3 className="text-xs uppercase tracking-wider text-gray-500 mb-3">Affichage</h3>
+              <div className="space-y-2">
+                {[
+                  { label: 'Constellations',   val: showConst,   set: setShowConst },
+                  { label: "Noms des étoiles", val: showLabels,  set: setShowLabels },
+                  { label: 'Planètes',          val: showPlanets, set: setShowPlanets },
+                ].map(opt => (
+                  <label key={opt.label} className="flex items-center gap-2.5 cursor-pointer">
+                    <input type="checkbox" checked={opt.val} onChange={e => opt.set(e.target.checked)} className="accent-violet-500 w-3.5 h-3.5" />
+                    <span className="text-sm text-gray-300">{opt.label}</span>
+                  </label>
+                ))}
               </div>
             </div>
 

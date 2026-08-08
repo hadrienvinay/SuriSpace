@@ -33,7 +33,7 @@
     "yahoo-finance2": "^3.13.0"
   },
   "devDependencies": {
-    "@prisma/client": "^7.3.0",
+    "@prisma/client": "^7.9.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/pg": "^8.16.0",
@@ -43,7 +43,7 @@
     "eslint-config-next": "16.1.4",
     "i": "^0.3.7",
     "npm": "^11.8.0",
-    "prisma": "^7.3.0",
+    "prisma": "^7.9.1",
     "tailwindcss": "^4",
     "ts-node": "^10.9.2",
     "tsx": "^4.21.0",
