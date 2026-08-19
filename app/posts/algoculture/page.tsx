@@ -1,94 +1,69 @@
-import Image from 'next/image'
-import { notFound } from "next/navigation";
-import Algo from '@/components/algo';
+// app/posts/algoculture/page.tsx
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import Algo from '@/components/widgets/algo';
+import { JsonLd } from '@/components/common/JsonLd';
+import ReadingProgress from '@/components/common/ReadingProgress';
 
-export default async function Algoculture() {
-  
+export const metadata: Metadata = {
+  title: "L'algoculture",
+  description: "La culture des algues est vieille de plusieurs siècles, mais connaît aujourd'hui une croissance rapide à l'échelle mondiale.",
+  keywords: ['algoculture', 'algues', 'aquaculture', 'environnement', 'alimentation durable'],
+  openGraph: { title: "L'algoculture", description: "La culture des algues et son essor mondial.", type: 'article', url: 'https://suri-space.vercel.app/posts/algoculture' },
+  alternates: { canonical: '/posts/algoculture' },
+};
+
+const JSONLD = {
+  '@context': 'https://schema.org', '@type': 'BlogPosting',
+  headline: "L'algoculture",
+  description: "La culture des algues est vieille de plusieurs siècles, mais connaît aujourd'hui une croissance rapide à l'échelle mondiale.",
+  datePublished: '2025-11-10', inLanguage: 'fr',
+  author: { '@type': 'Person', name: 'Hadrien Vinay' },
+  url: 'https://suri-space.vercel.app/posts/algoculture',
+  isPartOf: { '@type': 'Blog', name: 'Suri Space', url: 'https://suri-space.vercel.app' },
+};
+
+export default function Algoculture() {
   return (
-    <section className="space-y-16">
-    <div className="max-w-4xl px-4 pt-6 lg:pt-10 pb-12 sm:px-6 lg:px-8 mx-auto">
-        <div className="max-w-4xl">
-            <div className="flex justify-between items-center mb-6">
-                <div className="flex w-full sm:items-center gap-x-5 sm:gap-x-3">
-                    <div className="shrink-0">
-                        <Image
-                        src="/python_img.webp"
-                        width={100}
-                        height={100}
-                        alt="image"
-                        className="size-12 rounded-full"
-                        />
-                    </div>
-
-                    <div className="grow">
-                        <div className="flex justify-between items-center gap-x-2">
-                            <div>
-                            <div className="hs-tooltip [--trigger:hover] [--placement:bottom] inline-block">
-                                <div className="hs-tooltip-toggle sm:mb-1 block text-start cursor-pointer">
-                                <span className="font-semibold">
-                                    Hadrien Vinay
-                                </span>
-
-                                <div className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 max-w-xs cursor-default bg-gray-900 divide-y divide-gray-700 shadow-lg rounded-xl" role="tooltip">
-                                    <div className="p-4 sm:p-5">
-                                    <div className="mb-2 flex w-full sm:items-center gap-x-5 sm:gap-x-3">
-                                        <div className="shrink-0">
-                                        <Image
-                                            src="/python_img.webp"
-                                            width={100}
-                                            height={100}
-                                            alt="image"
-                                            className="size-8 rounded-full"
-                                            />
-                                        </div>
-
-                                        
-                                    </div>
-                                    </div>
-
-                                    <div className="flex justify-between items-center px-4 py-3 sm:px-5">
-                                        <div>
-                                             <a href="/posts" id="back-button" type="button" className="py-1.5 px-2.5 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 shadow-2xs hover:bg-gray-50 focus:outline-hidden focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                    <path d="M19 12H5M12 19l-7-7 7-7"/>
-                                                </svg>
-                                                Retour
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            </div>
-
-                            <ul className="text-xs">
-                                <li className="inline-block relative pe-6 last:pe-0 last-of-type:before:hidden before:absolute before:top-1/2 before:end-2 before:-translate-y-1/2 before:size-1 before:bg-gray-300 before:rounded-full ">
-                                18 Janvier 2026
-                                </li>
-                                <li className="inline-block relative pe-6 last:pe-0 last-of-type:before:hidden before:absolute before:top-1/2 before:end-2 before:-translate-y-1/2 before:size-1 before:bg-gray-300 before:rounded-full">
-                                2 min de lecture
-                                </li>
-                            </ul>
-                            </div>
-
-                            <div>
-                                <a href="/posts" type="button" className="py-1.5 px-2.5 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50 focus:outline-hidden focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none   ">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                        <path d="M19 12H5M12 19l-7-7 7-7"/>
-                                    </svg>
-                                    Retour
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div
+      className="max-w-4xl mx-auto px-4 py-12"
+      style={{ fontFamily: "'Exo 2', 'Space Grotesk', sans-serif" }}
+    >
+      <ReadingProgress />
+      <JsonLd data={JSONLD} />
+      {/* Header bar */}
+      <div className="flex items-center justify-between mb-10">
+        <Link
+          href="/posts"
+          className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
+        >
+          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
+          Articles
+        </Link>
+        <div className="flex items-center gap-3 text-xs text-gray-600 font-mono">
+          <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            Environnement
+          </span>
+          Hadrien Vinay · 18 Janvier 2026 · 2 min
         </div>
-            
-    <Algo />
-       
+      </div>
+
+      <Algo />
+
+      {/* Back link */}
+      <div className="mt-12 pt-8 border-t border-white/8">
+        <Link
+          href="/posts"
+          className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
+        >
+          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
+          Retour aux articles
+        </Link>
+      </div>
     </div>
-
-    </section>
-
   );
 }

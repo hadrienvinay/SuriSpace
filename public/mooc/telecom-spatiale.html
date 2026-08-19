@@ -1,0 +1,2089 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MOOC — Télécommunications Spatiales (niveau Master)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,700;9..144,900&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,500;8..60,600;8..60,700&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet" />
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(','\\)'],['$','$']], displayMath: [['$$','$$'],['\\[','\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js" id="MathJax-script" async></script>
+<style>
+  :root {
+    --bg: #07090f;
+    --bg-elev: #0d1220;
+    --bg-elev-2: #131a2c;
+    --border: #1f2a44;
+    --border-soft: #182037;
+    --text: #e7e5df;
+    --text-dim: #9aa1b3;
+    --text-mute: #6b7184;
+    --accent: #f5a524;          /* amber — thrust / solar */
+    --accent-2: #6ee7e7;        /* signal cyan */
+    --accent-3: #b794f4;        /* coding violet */
+    --danger: #ff6b6b;
+    --ok: #5eead4;
+    --code-bg: #0a0f1e;
+    --maxw: 880px;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 17px;
+    line-height: 1.7;
+    font-feature-settings: "ss01", "ss02";
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* faint grid backdrop */
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(110,231,231,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(110,231,231,0.025) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  body::after {
+    content: "";
+    position: fixed; inset: 0;
+    background: radial-gradient(ellipse at 15% 0%, rgba(245,165,36,0.08), transparent 50%),
+                radial-gradient(ellipse at 85% 100%, rgba(110,231,231,0.06), transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 0;
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* === SIDEBAR === */
+  aside.toc {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 32px 24px 32px 32px;
+    border-right: 1px solid var(--border-soft);
+    background: rgba(7,9,15,0.85);
+    backdrop-filter: blur(8px);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12.5px;
+    line-height: 1.55;
+  }
+  aside.toc .brand {
+    font-family: "Fraunces", serif;
+    font-weight: 900;
+    font-size: 18px;
+    color: var(--text);
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    margin-bottom: 4px;
+  }
+  aside.toc .brand em {
+    color: var(--accent);
+    font-style: normal;
+  }
+  aside.toc .subtitle {
+    color: var(--text-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 10px;
+    margin-bottom: 28px;
+  }
+  aside.toc ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: chap;
+  }
+  aside.toc ol > li {
+    counter-increment: chap;
+    margin-bottom: 4px;
+  }
+  aside.toc ol > li > a {
+    display: block;
+    padding: 6px 8px 6px 36px;
+    color: var(--text-dim);
+    text-decoration: none;
+    border-radius: 4px;
+    position: relative;
+    transition: all 0.15s ease;
+  }
+  aside.toc ol > li > a::before {
+    content: counter(chap, decimal-leading-zero);
+    position: absolute;
+    left: 8px;
+    color: var(--text-mute);
+    font-size: 10px;
+    top: 8px;
+  }
+  aside.toc ol > li > a:hover {
+    background: var(--bg-elev);
+    color: var(--accent);
+  }
+  aside.toc ol > li > a:hover::before { color: var(--accent); }
+
+  aside.toc .meta {
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px dashed var(--border);
+    color: var(--text-mute);
+    font-size: 11px;
+    line-height: 1.6;
+  }
+
+  /* === MAIN CONTENT === */
+  main {
+    padding: 64px 56px 120px 56px;
+    max-width: var(--maxw);
+  }
+
+  /* HERO */
+  header.hero {
+    margin-bottom: 80px;
+    border-bottom: 1px solid var(--border-soft);
+    padding-bottom: 48px;
+  }
+  header.hero .tagline {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    margin-bottom: 24px;
+  }
+  header.hero h1 {
+    font-family: "Fraunces", serif;
+    font-weight: 900;
+    font-size: clamp(38px, 5vw, 64px);
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    margin: 0 0 24px 0;
+    color: var(--text);
+  }
+  header.hero h1 .accent {
+    color: var(--accent);
+    font-style: italic;
+    font-weight: 500;
+  }
+  header.hero .lede {
+    font-size: 19px;
+    color: var(--text-dim);
+    line-height: 1.55;
+    max-width: 720px;
+  }
+  header.hero .meta-row {
+    margin-top: 32px;
+    display: flex;
+    gap: 32px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    color: var(--text-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    flex-wrap: wrap;
+  }
+  header.hero .meta-row span strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  /* CHAPTERS */
+  section.chapter {
+    margin-bottom: 120px;
+    scroll-margin-top: 24px;
+  }
+  section.chapter > .chap-num {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  section.chapter > h2 {
+    font-family: "Fraunces", serif;
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    margin: 0 0 8px 0;
+    color: var(--text);
+  }
+  section.chapter > .chap-lede {
+    font-size: 18px;
+    color: var(--text-dim);
+    margin-bottom: 48px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border-soft);
+    max-width: 720px;
+  }
+
+  h3 {
+    font-family: "Fraunces", serif;
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    margin: 56px 0 16px 0;
+    padding-left: 14px;
+    border-left: 3px solid var(--accent);
+  }
+  h4 {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent-2);
+    font-weight: 500;
+    margin: 32px 0 12px 0;
+  }
+
+  p { margin: 0 0 16px 0; }
+  p + p { margin-top: 0; }
+
+  strong { color: var(--text); font-weight: 600; }
+  em { color: var(--accent-2); font-style: italic; }
+
+  a { color: var(--accent); text-decoration: none; border-bottom: 1px dotted var(--accent); }
+  a:hover { color: var(--text); border-bottom-color: var(--text); }
+
+  ul, ol {
+    padding-left: 22px;
+    margin: 0 0 20px 0;
+  }
+  li { margin-bottom: 6px; }
+  ul li::marker { color: var(--accent); }
+
+  /* CODE / MONO */
+  code {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.88em;
+    background: var(--code-bg);
+    color: var(--accent-2);
+    padding: 2px 6px;
+    border-radius: 3px;
+    border: 1px solid var(--border-soft);
+  }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent-2);
+    border-radius: 4px;
+    padding: 16px 20px;
+    overflow-x: auto;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--text);
+    margin: 24px 0;
+  }
+
+  /* CALLOUT BOXES */
+  .callout {
+    margin: 28px 0;
+    padding: 20px 24px;
+    border-radius: 4px;
+    background: var(--bg-elev);
+    border-left: 3px solid var(--accent);
+    font-size: 16px;
+  }
+  .callout .label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .callout.cyan { border-left-color: var(--accent-2); }
+  .callout.cyan .label { color: var(--accent-2); }
+  .callout.violet { border-left-color: var(--accent-3); }
+  .callout.violet .label { color: var(--accent-3); }
+  .callout.danger { border-left-color: var(--danger); }
+  .callout.danger .label { color: var(--danger); }
+
+  /* TABLES */
+  .tbl-wrap {
+    overflow-x: auto;
+    margin: 24px 0;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+  }
+  th, td {
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border-soft);
+    vertical-align: top;
+  }
+  th {
+    background: var(--bg-elev);
+    color: var(--accent);
+    font-weight: 500;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  td { color: var(--text-dim); }
+  td strong { color: var(--text); }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(245,165,36,0.03); }
+
+  /* EQUATION DISPLAY */
+  .eq {
+    margin: 28px 0;
+    padding: 20px 24px;
+    background: var(--bg-elev);
+    border-radius: 4px;
+    border: 1px solid var(--border-soft);
+    text-align: center;
+    overflow-x: auto;
+    font-size: 17px;
+  }
+  .eq .eq-label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    color: var(--text-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 8px;
+    text-align: left;
+  }
+  .eq .eq-note {
+    font-family: "Source Serif 4", serif;
+    font-size: 13px;
+    color: var(--text-mute);
+    margin-top: 10px;
+    text-align: left;
+    font-style: italic;
+  }
+
+  /* KEY TAKEAWAYS */
+  .takeaways {
+    margin: 48px 0 0 0;
+    padding: 24px 28px;
+    background: linear-gradient(180deg, rgba(245,165,36,0.04), transparent);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+  .takeaways h4 {
+    margin-top: 0;
+    color: var(--accent);
+  }
+  .takeaways ul { padding-left: 18px; }
+  .takeaways li { color: var(--text); margin-bottom: 8px; }
+
+  /* CHAPTER DIVIDER */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 80px 0;
+  }
+
+  /* mini-glossary inline */
+  .gloss {
+    border-bottom: 1px dotted var(--text-mute);
+    cursor: help;
+    color: var(--text);
+  }
+
+  /* responsive */
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    aside.toc {
+      position: relative;
+      height: auto;
+      border-right: none;
+      border-bottom: 1px solid var(--border-soft);
+    }
+    main { padding: 32px 24px 80px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+<aside class="toc">
+  <div class="brand">Télécoms<br><em>Spatiales</em></div>
+  <div class="subtitle">MOOC · Niveau Master</div>
+  <ol>
+    <li><a href="#ch1">Introduction & architecture</a></li>
+    <li><a href="#ch2">Liaisons radiofréquences</a></li>
+    <li><a href="#ch3">Aspects réglementaires</a></li>
+    <li><a href="#ch4">Accès multiple</a></li>
+    <li><a href="#ch5">Communications numériques</a></li>
+    <li><a href="#ch6">Stations terriennes</a></li>
+    <li><a href="#ch7">Charge utile satellite</a></li>
+    <li><a href="#ch8">Exercice — dimensionnement</a></li>
+    <li><a href="#ch9">Diffusion & interactivité</a></li>
+    <li><a href="#ch10">HTS, LEO, 5G-NTN</a></li>
+    <li><a href="#ch11">Contexte économique</a></li>
+    <li><a href="#ch12">Synthèse & perspectives</a></li>
+  </ol>
+  <div class="meta">
+    Volume estimé : 25–30 h<br>
+    Pré-requis : maths d'ingé, traitement du signal de base<br>
+    Édition : 2026
+  </div>
+</aside>
+
+<main>
+
+<header class="hero">
+  <div class="tagline">Formation continue · ECE → Espace</div>
+  <h1>Télécommunications <span class="accent">par satellite</span> — du bilan de liaison aux constellations LEO.</h1>
+  <p class="lede">
+    Un cours complet sur les architectures, les techniques de transmission, les standards (DVB-S2X, RCS2, 5G-NTN) et le dimensionnement des liaisons satellitaires. Pensé pour préparer une transition vers l'industrie spatiale française — IVV, charge utile, segment sol.
+  </p>
+  <div class="meta-row">
+    <span><strong>12</strong> chapitres</span>
+    <span><strong>~120</strong> équations</span>
+    <span><strong>1</strong> exercice de dimensionnement</span>
+    <span>Lecture estimée : <strong>~4 h</strong></span>
+  </div>
+</header>
+
+<!-- ========================================================== -->
+<!-- CHAPITRE 1 — INTRODUCTION                                    -->
+<!-- ========================================================== -->
+<section class="chapter" id="ch1">
+  <div class="chap-num">Chapitre 01</div>
+  <h2>Introduction & architecture des systèmes</h2>
+  <p class="chap-lede">
+    Ce premier chapitre pose les fondations : à quoi sert un système satellitaire, comment il s'organise spatialement et physiquement, et pourquoi le choix de l'orbite gouverne la quasi-totalité des compromis techniques en aval.
+  </p>
+
+  <h3>1.1 Qu'est-ce qu'un système de télécommunication par satellite ?</h3>
+  <p>
+    Un système de télécommunication par satellite est un système de transmission radioélectrique dont au moins un nœud de relais ou d'émission est en orbite autour de la Terre. Sa raison d'être tient à trois propriétés fondamentales que les réseaux terrestres ne peuvent pas reproduire :
+  </p>
+  <ul>
+    <li><strong>Couverture étendue</strong> — un seul satellite géostationnaire éclaire jusqu'à 42 % de la surface terrestre. Une constellation LEO suffisamment dense couvre l'ensemble du globe, y compris les océans et les pôles.</li>
+    <li><strong>Diffusion (broadcast) native</strong> — le signal descendant est intrinsèquement reçu par tous les terminaux dans la zone de couverture, ce qui en fait le canal idéal pour la télévision, les mises à jour logicielles ou la dissémination de données massives.</li>
+    <li><strong>Indépendance des infrastructures locales</strong> — un terminal VSAT, un téléphone Iridium ou un récepteur GNSS fonctionnent sans aucun élément de réseau au sol à proximité. Cette propriété est stratégique pour la défense, le maritime, l'aéronautique et la résilience face aux catastrophes.</li>
+  </ul>
+
+  <h3>1.2 Architecture générale</h3>
+  <p>
+    Tout système satellitaire se décompose en trois segments dont l'ingénieur doit comprendre les interfaces. La frontière entre eux n'est pas physique mais fonctionnelle, et chaque segment fait l'objet d'industries, de standards et de cycles de vie distincts.
+  </p>
+
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Segment</th><th>Composants</th><th>Acteurs typiques</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Spatial</strong></td><td>Plateforme (bus) + charge utile (payload). Antennes, répéteur, alimentation, contrôle thermique, AOCS.</td><td>Airbus DS, Thales Alenia Space, Lockheed, Maxar, MELCO</td></tr>
+      <tr><td><strong>Sol</strong></td><td>Stations gateway (passerelles vers Internet/PSTN), centres de contrôle (TT&C, mission), réseaux de distribution.</td><td>CS Group, ViaSat, Hughes, ST Engineering iDirect</td></tr>
+      <tr><td><strong>Usager</strong></td><td>Terminaux fixes (parabole DTH, VSAT), mobiles (Iridium, Inmarsat), embarqués (avion, navire), smartphones (5G-NTN).</td><td>Sagemcom, Cobham, Hughes, SpaceX, Sercel</td></tr>
+    </tbody>
+  </table></div>
+
+  <p>
+    On distingue par ailleurs deux <strong>liens fonctionnels</strong> distincts :
+  </p>
+  <ul>
+    <li>Le <em>lien mission</em> (ou lien utile) transporte les données applicatives — vidéo, IP, voix, télémétrie utilisateur. Il fait l'objet de l'essentiel du dimensionnement RF.</li>
+    <li>Le <em>lien TT&C</em> (Telemetry, Tracking & Command) assure la gestion de la plateforme satellite. Bandes dédiées (S, parfois X), débit modeste (quelques kbps à quelques Mbps), critique à la survie du satellite.</li>
+  </ul>
+
+  <div class="callout cyan">
+    <div class="label">Note d'ingénieur</div>
+    Dans l'organisation industrielle française, ces deux liens sont souvent traités par des équipes différentes : la mission tombe sous la responsabilité des architectes système télécom ; le TT&C est l'affaire des équipes mécanique/AOCS et des opérations. C'est une donnée importante quand on candidate sur des postes IVV : préciser si l'on vise un rôle <em>side</em> mission ou plateforme.
+  </div>
+
+  <h3>1.3 Applications</h3>
+  <p>
+    Les applications satellitaires couvrent un spectre fonctionnel très large. On les classe utilement par <strong>type de service</strong> (et non par bande), parce que les contraintes sur la couche physique en découlent directement.
+  </p>
+
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Famille</th><th>Exemples</th><th>Caractéristiques clés</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Diffusion (broadcast)</strong></td><td>DTH (Eutelsat, SES), radio numérique, météo</td><td>Asymétrique fort, qualité de service élevée, latence non critique</td></tr>
+      <tr><td><strong>Bidirectionnel fixe</strong></td><td>VSAT entreprise, accès Internet HTS (KONNECT VHTS, Jupiter-3)</td><td>Voie retour faible débit (RCS2) ou symétrique (HTS multifaisceaux)</td></tr>
+      <tr><td><strong>Mobilité</strong></td><td>Maritime (Inmarsat FleetXpress), aéronautique (GX), automobile</td><td>Trajet du faisceau dynamique, handover, masquage</td></tr>
+      <tr><td><strong>Bidirectionnel mobile</strong></td><td>Iridium, Globalstar, Starlink mini, OneWeb</td><td>LEO, faible latence, terminaux compacts, doppler important</td></tr>
+      <tr><td><strong>IoT / M2M</strong></td><td>Argos, Kinéis, Sateliot, Astrocast, Lacuna</td><td>Très bas débit, faible coût terminal, longue durée de vie batterie</td></tr>
+      <tr><td><strong>Direct-to-Device</strong></td><td>Starlink + T-Mobile, AST SpaceMobile, Apple + Globalstar</td><td>Smartphone non modifié, 5G NTN ou bandes terrestres réutilisées</td></tr>
+      <tr><td><strong>Navigation (GNSS)</strong></td><td>GPS, Galileo, Glonass, BeiDou</td><td>MEO, signaux CDMA, ranging précis, hors scope de ce cours mais architecturalement proche</td></tr>
+      <tr><td><strong>Observation Terre</strong></td><td>Pléiades, Sentinel, ICEYE</td><td>Hors scope télécom, mais les liaisons de données satellite-sol (X-band, optique) relèvent des mêmes outils</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>1.4 Les orbites — la décision structurante</h3>
+  <p>
+    Le choix de l'orbite détermine la latence, la couverture instantanée, le bilan de liaison, la complexité du segment sol, la stratégie de constellation et — en pratique — l'économie du système. C'est probablement la décision architecturale la plus structurante.
+  </p>
+
+  <p>
+    Le mouvement orbital est gouverné par la troisième loi de Kepler, qui relie la période \(T\) au demi-grand axe \(a\) :
+  </p>
+
+  <div class="eq">
+    <div class="eq-label">Période orbitale képlerienne</div>
+    \[ T = 2\pi \sqrt{\frac{a^3}{\mu}} \qquad \text{avec } \mu_\oplus = G M_\oplus \approx 3{,}986 \times 10^{14} \ \mathrm{m^3 s^{-2}} \]
+    <div class="eq-note">Pour un satellite circulaire, \(a = R_\oplus + h\) avec \(R_\oplus \approx 6378\) km. Une période sidérale terrestre (\(T \approx 86\,164\) s) fixe l'altitude géostationnaire à \(h \approx 35\,786\) km.</div>
+  </div>
+
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Orbite</th><th>Altitude</th><th>Période</th><th>RTT (aller-retour)</th><th>FSPL @20 GHz</th><th>Caractéristique</th></tr></thead>
+    <tbody>
+      <tr><td><strong>LEO</strong></td><td>400 – 2000 km</td><td>~90–120 min</td><td>~5–25 ms</td><td>~170 dB</td><td>Faible latence, visibilité courte (5–15 min/passage), constellation requise pour continuité</td></tr>
+      <tr><td><strong>MEO</strong></td><td>8000 – 20 000 km</td><td>~4–12 h</td><td>~70–135 ms</td><td>~186 dB</td><td>Compromis couverture/latence ; utilisée par O3b (SES) et la navigation</td></tr>
+      <tr><td><strong>GEO</strong></td><td>35 786 km</td><td>23 h 56 min 4 s</td><td>~480 ms</td><td>~209 dB</td><td>Satellite "fixe" vu du sol, simplifie le segment sol, latence forte</td></tr>
+      <tr><td><strong>HEO / Molniya</strong></td><td>500 / 39 000 km</td><td>12 h</td><td>variable</td><td>variable</td><td>Apogée long sur hautes latitudes — couverture polaire (russe, parfois militaire)</td></tr>
+      <tr><td><strong>SSO</strong></td><td>~600–800 km</td><td>~100 min</td><td>n/a (obs)</td><td>n/a</td><td>Héliosynchrone — passage à heure solaire fixe, surtout observation Terre</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="callout">
+    <div class="label">Latence — pourquoi c'est l'enjeu central</div>
+    Pour un service Internet, le <strong>round-trip time</strong> domine l'expérience utilisateur dès que TCP entre en jeu : à chaque cycle de congestion, le débit dépend de la fenêtre TCP divisée par le RTT. En GEO, le RTT ≈ 480 ms limite mécaniquement le débit perçu d'un flux TCP unique non optimisé à quelques Mbps, indépendamment de la bande passante physique. C'est précisément ce qui justifie les <strong>PEP</strong> (Performance Enhancing Proxies) et l'irruption massive des constellations LEO depuis 2019.
+  </div>
+
+  <h3>1.5 Couverture instantanée — la géométrie de base</h3>
+  <p>
+    L'angle de demi-couverture vu depuis le satellite (\(\alpha\)) et l'angle d'élévation minimum acceptable depuis le sol (\(\varepsilon_\min\)) sont liés par la géométrie sphérique. Pour un satellite à l'altitude \(h\) et un angle d'élévation minimum \(\varepsilon_\min\) (typiquement 10° en Ku, 20° en Ka pour limiter l'atténuation atmosphérique) :
+  </p>
+
+  <div class="eq">
+    <div class="eq-label">Angle nadir et distance oblique</div>
+    \[ \sin\alpha = \frac{R_\oplus}{R_\oplus + h} \cos\varepsilon \qquad d = R_\oplus\left(\sqrt{\left(\frac{R_\oplus + h}{R_\oplus}\right)^2 - \cos^2\varepsilon} \;-\; \sin\varepsilon\right) \]
+    <div class="eq-note">\(d\) est la distance oblique satellite–station — c'est cette distance qui entre dans la perte espace libre, pas \(h\).</div>
+  </div>
+
+  <p>
+    On en déduit la couverture instantanée \(A\) (surface terrestre éclairée) et, pour une constellation, le nombre minimum de satellites pour assurer une couverture globale continue. À 550 km (Starlink), avec \(\varepsilon_\min = 25°\), on couvre instantanément \(\sim 0{,}2\,\%\) de la sphère terrestre par satellite — d'où les milliers d'engins nécessaires.
+  </p>
+
+  <h3>1.6 Bandes de fréquences</h3>
+  <p>
+    Les bandes utilisées en télécom spatiale couvrent du VHF (~100 MHz) au Q/V (~50 GHz), avec quelques pistes en optique. Le choix de la bande est dicté par : la disponibilité spectrale (très contrainte par l'UIT, cf. ch. 3), l'atténuation atmosphérique (cf. ch. 2), la taille raisonnable des antennes (proportionnelle à \(\lambda\)), et l'écosystème de composants.
+  </p>
+
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Bande</th><th>Fréquence</th><th>Usages typiques</th></tr></thead>
+    <tbody>
+      <tr><td><strong>L</strong></td><td>1–2 GHz</td><td>Inmarsat BGAN, Iridium, GNSS, IoT</td></tr>
+      <tr><td><strong>S</strong></td><td>2–4 GHz</td><td>TT&C, Globalstar, mobilité bas débit</td></tr>
+      <tr><td><strong>C</strong></td><td>4–8 GHz</td><td>DTH historique zones tropicales (peu sensible pluie), backhaul</td></tr>
+      <tr><td><strong>X</strong></td><td>8–12 GHz</td><td>Militaire, dump scientifique (observation)</td></tr>
+      <tr><td><strong>Ku</strong></td><td>12–18 GHz</td><td>DTH, VSAT entreprise — bande la plus mature</td></tr>
+      <tr><td><strong>Ka</strong></td><td>26–40 GHz</td><td>HTS, Starlink, KONNECT — large bande, sensible pluie</td></tr>
+      <tr><td><strong>Q/V</strong></td><td>40–75 GHz</td><td>Liens gateway HTS prochaine génération, ISL</td></tr>
+      <tr><td><strong>Optique</strong></td><td>~1550 nm</td><td>Inter-satellite links (ISL) Starlink, futurs liens sol</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="takeaways">
+    <h4>Points clés du chapitre 1</h4>
+    <ul>
+      <li>Le système se décompose en trois segments : <strong>spatial, sol, usager</strong>. Chaque segment a ses propres acteurs et son propre cycle de vie.</li>
+      <li>Le choix de l'orbite (LEO/MEO/GEO/HEO) est la décision la plus structurante. Il fixe latence, couverture, bilan de liaison et économie.</li>
+      <li>Le RTT en GEO (~480 ms) impose des contraponies architecturales (PEP, QUIC, ACM agressif).</li>
+      <li>La bande RF est un compromis entre disponibilité réglementaire, atténuation atmosphérique et taille d'antenne. <strong>Ku</strong> reste mature, <strong>Ka</strong> est devenue la bande HTS standard, <strong>Q/V</strong> et <strong>optique</strong> prennent le relais pour les gateways et ISL.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- CHAPITRE 2 — LIAISONS RF                                     -->
+<!-- ========================================================== -->
+<section class="chapter" id="ch2">
+  <div class="chap-num">Chapitre 02</div>
+  <h2>Liaisons radiofréquences — bilan de liaison</h2>
+  <p class="chap-lede">
+    Le bilan de liaison est la compétence-pivot du télécommunicant spatial. Toute l'architecture d'un système — choix de bande, taille d'antenne, MODCOD, marges — découle de ce calcul. Ce chapitre construit l'équation pas à pas.
+  </p>
+
+  <h3>2.1 L'équation de Friis — point de départ</h3>
+  <p>
+    Considérons une antenne d'émission isotrope rayonnant une puissance \(P_T\). À la distance \(d\), la densité de puissance est \(P_T / (4\pi d^2)\). Une antenne directive concentre cette puissance ; on définit le gain \(G_T\) comme le rapport entre la densité dans la direction visée et la densité isotrope.
+  </p>
+
+  <p>
+    On nomme <strong>EIRP</strong> (Equivalent Isotropic Radiated Power, ou PIRE en français) le produit \(P_T \cdot G_T\), qui caractérise la puissance "vue" par le récepteur. La puissance captée par l'antenne réceptrice d'aire effective \(A_e = G_R \lambda^2 / (4\pi)\) s'écrit :
+  </p>
+
+  <div class="eq">
+    <div class="eq-label">Équation de Friis</div>
+    \[ P_R = \frac{P_T \, G_T \, G_R \, \lambda^2}{(4\pi d)^2} = \mathrm{EIRP} \cdot G_R \cdot \left(\frac{\lambda}{4\pi d}\right)^2 \]
+    <div class="eq-note">La fraction au carré est l'inverse des <strong>pertes en espace libre</strong> (FSPL). En télécom on travaille en décibels.</div>
+  </div>
+
+  <p>En décibels, en exprimant \(d\) en km et \(f\) en GHz, on retient la formule pratique :</p>
+
+  <div class="eq">
+    <div class="eq-label">FSPL — Free Space Path Loss</div>
+    \[ L_\mathrm{fs}\ \mathrm{[dB]} = 92{,}45 + 20\log_{10} f_\mathrm{GHz} + 20\log_{10} d_\mathrm{km} \]
+    <div class="eq-note">Exemple : liaison GEO Ka downlink (20 GHz, d ≈ 38 600 km au bord de couverture) → \(L_\mathrm{fs} \approx 92{,}45 + 26 + 91{,}73 \approx 210{,}2\) dB. C'est l'<em>ordre de grandeur</em> à mémoriser pour le GEO/Ka.</div>
+  </div>
+
+  <h3>2.2 EIRP, gain et G/T</h3>
+  <p>
+    On définit deux figures de mérite duales :
+  </p>
+  <ul>
+    <li><strong>EIRP émetteur</strong> : \(\mathrm{EIRP} = P_T - L_\mathrm{feed} + G_T\) (en dBW). Caractérise la "force" du rayonnement.</li>
+    <li><strong>G/T récepteur</strong> : \(G_R / T_\mathrm{sys}\) (en dB/K). Caractérise la "sensibilité" du récepteur — gain d'antenne divisé par la température de bruit système.</li>
+  </ul>
+
+  <p>
+    Le gain d'une antenne réflecteur de diamètre \(D\) et de rendement d'ouverture \(\eta\) (typiquement 0,55–0,70) s'écrit :
+  </p>
+
+  <div class="eq">
+    \[ G = \eta \cdot \left(\frac{\pi D}{\lambda}\right)^2 \qquad \Longrightarrow \qquad G\ [\mathrm{dBi}] = 20\log_{10}\!\left(\frac{\pi D}{\lambda}\right) + 10\log_{10}\eta \]
+    <div class="eq-note">Une parabole de 60 cm en bande Ku (12 GHz) donne typiquement \(G \approx 35{,}5\) dBi. La même en bande Ka (20 GHz) gagne près de 4,4 dB.</div>
+  </div>
+
+  <h3>2.3 Bruit thermique et température système</h3>
+  <p>
+    Le récepteur ajoute du bruit thermique d'origines multiples : bruit captéeacute; par l'antenne (ciel, sol, soleil), bruit du LNA en tête, bruit des étages successifs. On les agrège dans une <strong>température système</strong> \(T_\mathrm{sys}\) référencée à l'entrée de l'antenne.
+  </p>
+
+  <p>La formule de Friis pour les bruits cascadés est essentielle :</p>
+
+  <div class="eq">
+    <div class="eq-label">Friis — facteur de bruit en cascade</div>
+    \[ F_\mathrm{tot} = F_1 + \frac{F_2 - 1}{G_1} + \frac{F_3 - 1}{G_1 G_2} + \dots \]
+    <div class="eq-note">Le bruit du premier étage (LNA) domine. C'est pourquoi le <strong>LNA</strong> est placé au plus près de l'antenne, et pourquoi sa figure de bruit est l'un des paramètres critiques d'un récepteur.</div>
+  </div>
+
+  <p>
+    Le bruit thermique disponible dans une bande \(B\) à la température \(T\) est \(N = k T B\), avec \(k = 1{,}38 \times 10^{-23}\) J/K. En décibels :
+  </p>
+
+  <div class="eq">
+    \[ N\ \mathrm{[dBW]} = -228{,}6 + 10\log_{10} T + 10\log_{10} B \qquad k\ \mathrm{[dBW/Hz/K]} = -228{,}6 \]
+    <div class="eq-note">À retenir : \(-228{,}6\) dBW/Hz/K est la "constante de Boltzmann en dB". On l'utilise dans toutes les expressions de bilan.</div>
+  </div>
+
+  <h3>2.4 Rapport porteuse à bruit — C/N et C/N₀</h3>
+  <p>
+    On définit deux indicateurs équivalents :
+  </p>
+
+  <div class="eq">
+    \[ \frac{C}{N_0} = \mathrm{EIRP} - L_\mathrm{total} + \frac{G}{T} - k \quad\text{[dBHz]} \qquad \frac{C}{N} = \frac{C}{N_0} - 10\log_{10} B \quad\text{[dB]} \]
+    <div class="eq-note">\(C/N_0\) est en dBHz (densité spectrale), \(C/N\) en dB (sur une bande \(B\)). On préfère souvent \(C/N_0\) en spatial parce que la bande effective n'est pas toujours fixée a priori.</div>
+  </div>
+
+  <p>
+    Pour les communications numériques, l'indicateur utile est plutôt \(E_b/N_0\) (énergie par bit sur densité de bruit) :
+  </p>
+
+  <div class="eq">
+    \[ \frac{E_b}{N_0} = \frac{C}{N_0} - 10\log_{10} R_b \]
+    <div class="eq-note">avec \(R_b\) le débit binaire en bits/s. C'est cet indicateur que les courbes de BER (Bit Error Rate) utilisent en abscisse.</div>
+  </div>
+
+  <h3>2.5 Atténuations atmosphériques</h3>
+  <p>
+    Le signal traverse l'atmosphère et subit des dégradations différentes selon la bande. Les principaux contributeurs, codifiés dans la recommandation <strong>UIT-R P.618</strong> et les modèles associés (P.676 pour les gaz, P.840 pour les nuages, P.837 pour l'intensité de pluie) sont :
+  </p>
+
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Phénomène</th><th>Modèle UIT</th><th>Bandes affectées</th><th>Ordre de grandeur</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Absorption gaz</strong> (O₂, H₂O)</td><td>P.676</td><td>Tout, pics à 22, 60 GHz</td><td>0,1–1 dB en Ku, 1–3 dB en Ka</td></tr>
+      <tr><td><strong>Atténuation pluie</strong></td><td>P.618 / P.838</td><td>Ku+, critique en Ka/Q/V</td><td>Quelques dB à plusieurs dizaines (Ka, pluies tropicales)</td></tr>
+      <tr><td><strong>Nuages, brouillard</strong></td><td>P.840</td><td>Ka et au-delà</td><td>1–2 dB</td></tr>
+      <tr><td><strong>Scintillation troposphérique</strong></td><td>P.618</td><td>Basses élévations</td><td>~1 dB rms à \(\varepsilon\) faible</td></tr>
+      <tr><td><strong>Dépolarisation</strong></td><td>P.618</td><td>Pluie, glace</td><td>Affecte la réutilisation par polarisation</td></tr>
+    </tbody>
+  </table></div>
+
+  <p>
+    L'atténuation pluie est modélisée par la relation puissance \(\gamma_R = k R^\alpha\) (en dB/km) où \(R\) est l'intensité de pluie en mm/h et \(k\), \(\alpha\) dépendent de la fréquence et de la polarisation. On intègre ensuite sur la trajectoire effective \(L_E\) dans la cellule de pluie (modèle P.618). Le résultat est l'<strong>atténuation pluie dépassée pendant \(p\,\%\) du temps</strong>, \(A_p\) — typiquement \(p = 0{,}01\,\%\) (soit 52 min/an d'indisponibilité).
+  </p>
+
+  <div class="callout violet">
+    <div class="label">Stratégies de mitigation pluie</div>
+    Trois leviers principaux : <strong>(1) marges figées</strong> dans le bilan (simple mais coûteux en EIRP), <strong>(2) ACM</strong> — adaptation du MODCOD au C/N instantané (norme DVB-S2/S2X), <strong>(3) site diversity</strong> — gateway doublée à 30+ km de distance, le signal bascule sur la gateway non affectée. ACM est devenu la stratégie dominante depuis l'irruption du Ka.
+  </div>
+
+  <h3>2.6 Bilan de liaison complet</h3>
+  <p>
+    On agrège tout dans une équation unique. Pour une liaison <strong>uplink</strong> (station → satellite) :
+  </p>
+
+  <div class="eq">
+    <div class="eq-label">Bilan uplink</div>
+    \[ \left(\frac{C}{N_0}\right)_\mathrm{up} = \mathrm{EIRP}_\mathrm{ES} - L_\mathrm{fs,up} - L_\mathrm{atm,up} - L_\mathrm{point,up} + \left(\frac{G}{T}\right)_\mathrm{SC} - k \]
+  </div>
+
+  <p>Et pour le <strong>downlink</strong> (satellite → station) :</p>
+
+  <div class="eq">
+    <div class="eq-label">Bilan downlink</div>
+    \[ \left(\frac{C}{N_0}\right)_\mathrm{dn} = \mathrm{EIRP}_\mathrm{SC} - L_\mathrm{fs,dn} - L_\mathrm{atm,dn} - L_\mathrm{point,dn} + \left(\frac{G}{T}\right)_\mathrm{ES} - k \]
+  </div>
+
+  <p>
+    Pour un répéteur <strong>transparent</strong> (la quasi-totalité des satellites télécom), le bruit de l'uplink est réamplifié et retransmis avec le signal — ce qui impose de combiner les deux bilans <strong>en puissance</strong> :
+  </p>
+
+  <div class="eq">
+    <div class="eq-label">Bilan global (transparent)</div>
+    \[ \left(\frac{C}{N_0}\right)_\mathrm{tot}^{-1} = \left(\frac{C}{N_0}\right)_\mathrm{up}^{-1} + \left(\frac{C}{N_0}\right)_\mathrm{dn}^{-1} + \left(\frac{C}{I}\right)_\mathrm{tot}^{-1} \]
+    <div class="eq-note">Sommation en linéaire (pas en dB !). Si l'uplink est sur-dimensionné (C/N₀ très grand devant le downlink), le total est essentiellement gouverné par le downlink — situation typique en DTH GEO.</div>
+  </div>
+
+  <p>
+    Pour un répéteur <strong>régénératif</strong> (démod/remod à bord — rare en GEO, plus fréquent en LEO), les deux liaisons sont décorrélées : il suffit que chacune dépasse son seuil. Cela permet un gain de marge significatif (~1–3 dB) au prix d'une complexité bord majorée.
+  </p>
+
+  <h3>2.7 Pertes non idéales — non-linéarités et brouillages</h3>
+
+  <h4>Non-linéarités du HPA</h4>
+  <p>
+    Les amplificateurs de puissance (TWTA bord, klystron sol historique, SSPA bord et sol) ont une caractéristique entrée/sortie non-linéaire. On les caractérise par leur point de compression à 1 dB et leur point de saturation \(P_\mathrm{sat}\). On les opère avec un <strong>back-off</strong> par rapport à la saturation :
+  </p>
+  <ul>
+    <li><strong>IBO</strong> (Input Back-Off) : recul à l'entrée par rapport au point de saturation en entrée.</li>
+    <li><strong>OBO</strong> (Output Back-Off) : recul à la sortie.</li>
+  </ul>
+
+  <p>
+    Plus le back-off est grand, plus l'amplificateur est linéaire (et donc moins il génère d'<strong>intermodulation</strong> entre porteuses simultanées), mais moins on exploite sa puissance. C'est un compromis classique. Pour le DVB-S2X, les MODCOD à haute efficacité spectrale (32-APSK, 64-APSK) imposent typiquement un OBO de l'ordre de 3–5 dB, contre 0,5–1 dB pour QPSK.
+  </p>
+
+  <div class="callout cyan">
+    <div class="label">Multiporteuse vs monoporteuse</div>
+    En mode <strong>multiporteuse</strong> (plusieurs porteuses partageant un même TWTA, typique en FDMA), l'intermodulation entre porteuses devient le facteur limitant. On parle de <strong>NPR</strong> (Noise Power Ratio) pour caractériser la qualité. En mode <strong>monoporteuse</strong> (TDMA, ou DVB-S2X large bande), on peut pousser l'OBO bien plus près de la saturation — gain typique de 2–3 dB sur l'EIRP utile.
+  </div>
+
+  <h4>Brouillages</h4>
+  <p>
+    Les brouillages incluent :
+  </p>
+  <ul>
+    <li><strong>ASI</strong> (Adjacent Satellite Interference) — depuis les satellites GEO voisins partageant la même bande (typiquement espacés de 2° à 3° en orbite). On le borne via les <strong>masques de rayonnement</strong> UIT-R S.580 (antennes ES) et S.524 (rayonnement EIRP).</li>
+    <li><strong>Brouillages co-canal NGSO/GSO</strong> — les constellations LEO traversant les arcs GEO doivent éteindre certains faisceaux ou réduire leur puissance dans les zones d'exclusion équatoriale (cf. ch. 3).</li>
+    <li><strong>Brouillages terrestres</strong> — réutilisation 5G dans des bandes proches (le combat 5G/aérien sur la bande 3,7–4,2 GHz reste emblématique).</li>
+    <li><strong>Brouillages intra-système</strong> — fuite entre faisceaux adjacents dans un système multifaisceaux (cf. ch. 4).</li>
+  </ul>
+
+  <p>
+    Le brouillage \(I\) entre dans le bilan sous forme d'un \((C/I)\) qui se combine au C/N pour donner un C/(N+I) effectif :
+  </p>
+
+  <div class="eq">
+    \[ \left(\frac{C}{N+I}\right)^{-1} = \left(\frac{C}{N}\right)^{-1} + \left(\frac{C}{I}\right)^{-1} \]
+  </div>
+
+  <div class="takeaways">
+    <h4>Points clés du chapitre 2</h4>
+    <ul>
+      <li>L'<strong>EIRP émetteur</strong> et le <strong>G/T récepteur</strong> sont les deux figures de mérite à manier au quotidien.</li>
+      <li>La FSPL domine le bilan : ~210 dB pour un GEO en Ka. Toute la conception RF compense ce déficit.</li>
+      <li>L'<strong>atténuation pluie</strong> dans les bandes ≥ Ku conditionne les marges. <strong>ACM</strong> est la stratégie standard moderne.</li>
+      <li>Le bilan global s'obtient en <strong>sommant les inverses</strong> de C/N₀ uplink, downlink et brouillage. Le côté faible domine.</li>
+      <li>Les non-linéarités HPA imposent un back-off — compromis entre rendement de puissance et linéarité des hautes modulations.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- CHAPITRE 3 — REGLEMENTATION                                  -->
+<!-- ========================================================== -->
+<section class="chapter" id="ch3">
+  <div class="chap-num">Chapitre 03</div>
+  <h2>Aspects réglementaires — orbite & spectre</h2>
+  <p class="chap-lede">
+    Le spectre radio et l'arc GEO sont des ressources rares, gérées par traités internationaux. Comprendre la mécanique réglementaire est indispensable pour tout architecte système : la coordination peut prendre 5–7 ans et conditionne la viabilité commerciale d'un projet.
+  </p>
+
+  <h3>3.1 L'UIT et le Règlement des Radiocommunications</h3>
+  <p>
+    L'<strong>UIT</strong> (Union internationale des télécommunications), institution spécialisée des Nations unies basée à Genève, est l'autorité mondiale qui édicte le <strong>Règlement des Radiocommunications</strong> (RR) — traité international qui a force de loi pour les pays signataires.
+  </p>
+
+  <p>
+    Le RR est révisé tous les 3 à 4 ans lors des <strong>CMR</strong> (Conférences Mondiales des Radiocommunications, en anglais WRC). Les CMR récentes pertinentes pour le spatial :
+  </p>
+  <ul>
+    <li><strong>CMR-19</strong> — première ouverture sur la 5G millimétrique (24,25–27,5 GHz, 37–43,5 GHz), avec contraintes de protection des satellites EESS et FSS.</li>
+    <li><strong>CMR-23</strong> — extension des bandes IMT (5G), discussion sur l'allocation 6G, mises à jour pour les constellations NGSO.</li>
+    <li><strong>CMR-27</strong> (prévue) — règles d'usage spatial des bandes mmWave, accès D2D (direct-to-device).</li>
+  </ul>
+
+  <h3>3.2 Régions UIT et tableau des attributions</h3>
+  <p>
+    Le monde est divisé en trois régions UIT pour la gestion du spectre :
+  </p>
+  <ul>
+    <li><strong>Région 1</strong> : Europe, Afrique, Moyen-Orient, ex-URSS.</li>
+    <li><strong>Région 2</strong> : Amériques.</li>
+    <li><strong>Région 3</strong> : Asie, Océanie.</li>
+  </ul>
+  <p>
+    Chaque bande est attribuée par région à un (ou plusieurs) <strong>service</strong>. Pour le spatial, les services pertinents sont notamment :
+  </p>
+
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Code</th><th>Service</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><strong>FSS</strong></td><td>Fixed-Satellite Service</td><td>Communications entre stations fixes via satellite (DTH, VSAT, gateways).</td></tr>
+      <tr><td><strong>BSS</strong></td><td>Broadcasting-Satellite Service</td><td>Diffusion directe (DTH régulé) — protection renforcée.</td></tr>
+      <tr><td><strong>MSS</strong></td><td>Mobile-Satellite Service</td><td>Communications avec terminaux mobiles (maritimes, aéronautiques, terrestres).</td></tr>
+      <tr><td><strong>RDSS</strong></td><td>Radiodetermination-Satellite Service</td><td>Navigation (GNSS).</td></tr>
+      <tr><td><strong>ISS</strong></td><td>Inter-Satellite Service</td><td>Liens entre satellites (ISL).</td></tr>
+      <tr><td><strong>SOS / SRS</strong></td><td>Space Operation / Research</td><td>TT&C, science spatiale.</td></tr>
+      <tr><td><strong>EESS</strong></td><td>Earth Exploration-Satellite</td><td>Observation de la Terre.</td></tr>
+    </tbody>
+  </table></div>
+
+  <p>
+    Un service peut être attribué à <strong>titre primaire</strong> (P) ou <strong>secondaire</strong> (S). Les services secondaires ne doivent pas brouiller les primaires et ne peuvent pas réclamer de protection contre eux. C'est une notion structurante : un système secondaire est intrinsèquement à risque.
+  </p>
+
+  <h3>3.3 La procédure de coordination — Articles 9 et 11</h3>
+  <p>
+    Pour lancer un satellite, un État (ou son administration déléguée) doit suivre une procédure formelle inscrite dans les articles 9 et 11 du RR. Les grandes étapes :
+  </p>
+  <ol>
+    <li><strong>API</strong> (Advance Publication Information) — déclaration préliminaire à l'UIT, qui publie l'information. Les autres administrations ont 4 mois pour signaler une potentielle interférence.</li>
+    <li><strong>Coordination</strong> (CR/C, Article 9.7) — négociation bilatérale entre les administrations dont les systèmes sont susceptibles de se brouiller. Peut durer plusieurs années.</li>
+    <li><strong>Notification</strong> (Article 11) — une fois la coordination achevée, l'administration notifie le système à l'UIT pour inscription au <strong>MIFR</strong> (Master International Frequency Register).</li>
+    <li><strong>Mise en service</strong> — le satellite doit être effectivement en orbite et opérationnel dans un délai réglementaire (7 ans après le filing pour GEO, étalements échelonnés pour NGSO).</li>
+  </ol>
+
+  <div class="callout danger">
+    <div class="label">Bring into use — la pression temporelle</div>
+    Une administration qui ne met pas en service son filing dans le délai imparti perd ses droits. Cela donne lieu à des stratégies de <strong>"paper satellites"</strong> (filings sans intention de lancer) et à des sanctions UIT. Pour les constellations NGSO, la CMR-19 a introduit des jalons (10 %, 50 %, 100 % du nombre déclaré dans 2, 5, 7 ans) précisément pour éviter le squat orbital.
+  </div>
+
+  <h3>3.4 Plans préétablis vs filings ad hoc</h3>
+  <p>
+    Pour certaines bandes critiques (BSS, FSS partielle), l'UIT a établi des <strong>plans</strong> attribuant a priori des positions orbitales et fréquences à chaque pays. C'est notamment le cas de :
+  </p>
+  <ul>
+    <li><strong>Appendice 30/30A</strong> — plan BSS Région 1 et 3 (DTH) : chaque pays a une position GEO et des canaux attribués.</li>
+    <li><strong>Appendice 30B</strong> — plan FSS d'extension : assure à chaque pays un accès minimum garanti aux ressources FSS.</li>
+  </ul>
+  <p>
+    Les autres bandes suivent le principe <strong>"first come, first served"</strong> via la procédure de coordination ordinaire — d'où la course historique aux positions orbitales 19,2°E (Astra), 13°E (Hotbird), 28,2°E (Sky), etc.
+  </p>
+
+  <h3>3.5 Le cas NGSO — un régime réglementaire en mutation</h3>
+  <p>
+    L'irruption de constellations massives (Starlink, OneWeb, Kuiper, IRIS² européen) a bousculé un cadre conçu pour le GEO. Les enjeux clés :
+  </p>
+  <ul>
+    <li><strong>Protection des GSO</strong> : limites <strong>EPFD</strong> (Equivalent Power Flux Density) imposées aux constellations NGSO dans les bandes partagées avec le GSO (RR Article 22, Annexe 1). Concrètement, les satellites LEO doivent éteindre ou atténuer leur faisceau quand ils traversent les zones équatoriales où la station GSO pointe.</li>
+    <li><strong>Coordination entre constellations NGSO</strong> — règles encore en cours de stabilisation. La CMR-23 a introduit un cadre limité de coordination NGSO/NGSO.</li>
+    <li><strong>Débris spatiaux</strong> — pas une compétence UIT stricto sensu (relève du COPUOS et des agences spatiales), mais conditionne l'autorisation de lancement (cap. <strong>FCC</strong> aux États-Unis, <strong>CNES/DGAC</strong> en France via la LOS — Loi Opérations Spatiales).</li>
+  </ul>
+
+  <h3>3.6 Cadre national — la France</h3>
+  <p>
+    En France, plusieurs autorités interviennent :
+  </p>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Autorité</th><th>Compétence</th></tr></thead>
+    <tbody>
+      <tr><td><strong>ANFR</strong></td><td>Agence Nationale des Fréquences — coordonne la position française à l'UIT, gère l'allocation nationale.</td></tr>
+      <tr><td><strong>ARCEP</strong></td><td>Autorité de régulation des communications électroniques — attribue les autorisations d'usage du spectre aux opérateurs.</td></tr>
+      <tr><td><strong>CSA / Arcom</strong></td><td>Pour le BSS audiovisuel.</td></tr>
+      <tr><td><strong>CNES</strong></td><td>Autorité technique pour la Loi Opérations Spatiales (LOS, 2008) — sécurité des personnes/biens, débris, conformité environnementale.</td></tr>
+      <tr><td><strong>DGAC</strong></td><td>Volet aviation pour les liaisons mobiles aéronautiques.</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="callout cyan">
+    <div class="label">Pour un ingénieur IVV — pourquoi ça compte</div>
+    Même sur un poste très technique (validation logicielle, IVV charge utile), les contraintes réglementaires se traduisent en <strong>exigences testables</strong> : conformité aux gabarits de rayonnement S.580, respect des limites EPFD, vérification du gel des fréquences au point de saturation. Une part non négligeable des plans de test d'antennes ou de chaînes émission consiste à <em>démontrer</em> la conformité aux masques UIT. Connaître la terminologie (CMR, RR, EPFD, MIFR) est attendu dès les entretiens.
+  </div>
+
+  <div class="takeaways">
+    <h4>Points clés du chapitre 3</h4>
+    <ul>
+      <li>L'<strong>UIT</strong> et son <strong>Règlement des Radiocommunications</strong> (révisé en CMR) gouvernent l'accès au spectre et à l'orbite à l'échelle mondiale.</li>
+      <li>Les <strong>services FSS, BSS, MSS, ISS</strong> structurent les attributions par bande. Notion primaire/secondaire à manier.</li>
+      <li>La procédure de coordination (API → coordination → notification → mise en service) peut s'étaler sur 5–7 ans.</li>
+      <li>Les <strong>limites EPFD</strong> protègent le GSO contre les constellations NGSO et imposent des contraintes opérationnelles strictes (mise en veille des faisceaux dans les zones d'exclusion).</li>
+      <li>En France : <strong>ANFR + ARCEP + CNES (LOS)</strong> sont les guichets principaux.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- CHAPITRE 4 — ACCES MULTIPLE                                  -->
+<!-- ========================================================== -->
+<section class="chapter" id="ch4">
+  <div class="chap-num">Chapitre 04</div>
+  <h2>Accès multiple — partage de la ressource</h2>
+  <p class="chap-lede">
+    Plusieurs utilisateurs doivent partager les mêmes ressources (puissance, bande, faisceau). Les techniques d'accès multiple — FDMA, TDMA, CDMA et leurs hybrides — gouvernent l'efficacité spectrale, la complexité du terminal et la capacité agrégée d'un système.
+  </p>
+
+  <h3>4.1 Les trois familles canoniques</h3>
+
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Technique</th><th>Ressource partagée</th><th>Discrimination</th><th>Exemple</th></tr></thead>
+    <tbody>
+      <tr><td><strong>FDMA</strong></td><td>Bande</td><td>Fréquences distinctes par utilisateur</td><td>VSAT historique, voie aller DVB-S2 (canaux par transpondeur)</td></tr>
+      <tr><td><strong>TDMA</strong></td><td>Temps</td><td>Slots temporels distincts</td><td>DVB-RCS2 voie retour, Inmarsat BGAN</td></tr>
+      <tr><td><strong>CDMA</strong></td><td>Code</td><td>Codes d'étalement orthogonaux</td><td>Globalstar, IS-95 historique, GNSS</td></tr>
+      <tr><td><strong>SDMA</strong></td><td>Espace</td><td>Faisceaux (beams) directifs distincts</td><td>HTS multibeam (KONNECT VHTS, Viasat-3)</td></tr>
+      <tr><td><strong>MF-TDMA</strong></td><td>Fréquence + temps</td><td>Bande sous-divisée puis slottée</td><td>DVB-RCS2 mode standard</td></tr>
+      <tr><td><strong>OFDMA</strong></td><td>Sous-porteuses</td><td>Allocation par sous-porteuses</td><td>5G-NTN, terrestre LTE/5G</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>4.2 FDMA — Frequency Division Multiple Access</h3>
+  <p>
+    Chaque utilisateur se voit allouer une sous-bande disjointe. Simple à mettre en œuvre, FDMA souffre de deux limitations :
+  </p>
+  <ul>
+    <li>Nécessite des <strong>bandes de garde</strong> entre porteuses pour éviter les chevauchements (perte d'efficacité spectrale).</li>
+    <li>En multiporteuse sur un même amplificateur, l'<strong>intermodulation</strong> impose un back-off important (cf. ch. 2).</li>
+  </ul>
+  <p>
+    On le retrouve néanmoins partout en télécom spatiale comme couche de partage entre <em>transpondeurs</em> ou entre flux DVB-S2X coexistant dans la même bande.
+  </p>
+
+  <h3>4.3 TDMA — Time Division Multiple Access</h3>
+  <p>
+    Tous les utilisateurs émettent sur la même fréquence, mais à tour de rôle dans des <strong>slots temporels</strong>. La synchronisation est critique : chaque terminal doit connaître sa distance au satellite (donc son retard) pour ne pas chevaucher le slot voisin. Cette synchronisation utilise un <strong>burst de référence</strong> émis périodiquement par la station maître (NCC, Network Control Center).
+  </p>
+
+  <p>
+    Avantage majeur : un seul amplificateur émet à pleine puissance (monoporteuse), donc on peut le pousser près de saturation (OBO faible) — gain de quelques dB sur le bilan. C'est pourquoi TDMA reste la voie retour standard dans DVB-RCS2.
+  </p>
+
+  <h3>4.4 CDMA — Code Division Multiple Access</h3>
+  <p>
+    Les utilisateurs partagent la même bande au même moment, mais leurs signaux sont étalés par des <strong>codes pseudo-aléatoires</strong> orthogonaux. La porteuse étalée d'un utilisateur est vue comme du bruit à large bande par les autres. Le gain de traitement \(G_p = R_c / R_b\) (chip rate / bit rate) mesure l'étalement.
+  </p>
+
+  <div class="eq">
+    \[ \left(\frac{E_b}{N_0}\right)_\mathrm{utile} = G_p \cdot \left(\frac{C}{N + I}\right) \]
+  </div>
+
+  <p>
+    Le CDMA est élégant en mobilité car robuste au multitrajet et à la masque (le récepteur RAKE additionne plusieurs trajets). Il a été dominant en mobile spatial (Globalstar) et reste universel en GNSS (chaque satellite émet sur la même fréquence avec un code différent). Son inconvénient : sensibilité au <strong>near-far problem</strong> — un émetteur trop fort écrase les autres, ce qui impose un contrôle de puissance fin.
+  </p>
+
+  <h3>4.5 Comparaison des capacités — la borne de Shannon</h3>
+  <p>
+    Pour un canal AWGN à bande \(B\) et rapport \(S/N\), la capacité de Shannon est :
+  </p>
+  <div class="eq">
+    \[ C_\mathrm{Sh} = B \log_2\!\left(1 + \frac{S}{N}\right) \quad \text{[bits/s]} \]
+  </div>
+  <p>
+    Cette borne est <em>en principe</em> indépendante de la technique d'accès (FDMA, TDMA, CDMA atteignent toutes la capacité dans le cas idéal). En pratique, le choix dépend des contraintes : burstiness du trafic, taille du terminal, latence acceptable, complexité du modem, intermodulation.
+  </p>
+
+  <div class="callout cyan">
+    <div class="label">Mythe à dissiper</div>
+    On entend parfois que "le CDMA est plus capacitif que le FDMA". C'est <strong>faux</strong> dans un cadre purement information-théorique. Ce qui peut être vrai en pratique, c'est que le CDMA tolère mieux certains scenarii de brouillage non-coopératif, ou qu'il dégrade plus gracieusement (graceful degradation) sous surcharge. Mais à puissance et bande données, la borne de Shannon est la même.
+  </div>
+
+  <h3>4.6 SDMA — la réutilisation par faisceaux</h3>
+  <p>
+    Le SDMA (Space Division Multiple Access) repose sur la <strong>discrimination spatiale</strong> par antennes directives. C'est la technique-clé des systèmes HTS : on découpe la zone de couverture en N petits faisceaux (typiquement 50 à 500), chacun avec sa propre fréquence et polarisation, ce qui permet de réutiliser la même bande dans plusieurs faisceaux non adjacents.
+  </p>
+
+  <p>
+    On parle de <strong>schéma de réutilisation</strong> — généralement noté <em>N-color</em> où N est le nombre de combinaisons {fréquence × polarisation} distinctes :
+  </p>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Schéma</th><th>Combinaisons</th><th>Facteur de réutilisation</th><th>Isolation typique requise (C/I)</th></tr></thead>
+    <tbody>
+      <tr><td><strong>4-color</strong></td><td>2 fréquences × 2 polarisations</td><td>K = N_beams / 4</td><td>> 18 dB</td></tr>
+      <tr><td><strong>3-color</strong></td><td>3 fréquences (1 polar)</td><td>K = N_beams / 3</td><td>> 20 dB</td></tr>
+      <tr><td><strong>7-color</strong></td><td>Plus large garde</td><td>K = N_beams / 7</td><td>plus tolérant</td></tr>
+    </tbody>
+  </table></div>
+
+  <p>
+    La capacité agrégée d'un système HTS s'écrit alors :
+  </p>
+  <div class="eq">
+    \[ C_\mathrm{HTS} \approx N_\mathrm{beams} \cdot \frac{B_\mathrm{tot}}{N_\mathrm{color}} \cdot \eta_\mathrm{spectrale} \]
+    <div class="eq-note">Pour KONNECT VHTS (TAS, 2022) : ~500 faisceaux Ka, 4-color, ~500 MHz par couleur, ~3 bits/s/Hz → environ <strong>500 Gbps</strong> de capacité totale, contre ~6 Gbps pour un satellite GEO non multifaisceaux des années 2000. C'est ce facteur ~100 qui a rendu l'Internet par satellite compétitif.</div>
+  </div>
+
+  <h3>4.7 OFDMA et 5G-NTN</h3>
+  <p>
+    L'OFDMA (Orthogonal Frequency Division Multiple Access) est l'évolution moderne du FDMA : on alloue dynamiquement des groupes de sous-porteuses orthogonales (<em>resource blocks</em>) à chaque utilisateur. C'est la technique de la 5G terrestre, étendue désormais au spatial par la <strong>5G-NTN</strong> (Non-Terrestrial Networks, 3GPP Releases 17 et au-delà).
+  </p>
+  <p>
+    Le défi du portage au spatial : le <strong>doppler</strong> en LEO (jusqu'à ±40 kHz en bande S, soit plusieurs sous-porteuses 5G) et le <strong>délai de propagation</strong> qui dépasse largement les hypothèses temporelles natives du protocole 5G. Les amendements 3GPP introduisent compensation Doppler côté terminal, structures de trame étendues et timing advance allongé.
+  </p>
+
+  <div class="takeaways">
+    <h4>Points clés du chapitre 4</h4>
+    <ul>
+      <li><strong>FDMA / TDMA / CDMA / SDMA</strong> sont les quatre familles canoniques. En pratique, les systèmes modernes combinent (MF-TDMA, OFDMA, multifaisceaux).</li>
+      <li>TDMA monoporteuse permet d'opérer le HPA près de saturation — gain typique 2–3 dB sur le bilan.</li>
+      <li>SDMA par réutilisation multifaisceaux est <strong>le levier capacitif majeur</strong> des HTS modernes : facteur ×50–100 de capacité.</li>
+      <li>La 5G-NTN repose sur OFDMA, avec des adaptations spécifiques au canal satellite (doppler, timing).</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- CHAPITRE 5 — COMMS NUMERIQUES                                -->
+<!-- ========================================================== -->
+<section class="chapter" id="ch5">
+  <div class="chap-num">Chapitre 05</div>
+  <h2>Communications numériques sur canal satellite</h2>
+  <p class="chap-lede">
+    Modulation, codage canal, traitement du signal — les outils de la communication numérique appliqués au cas particulier du canal satellite : essentiellement AWGN, mais avec des contraintes spécifiques (non-linéarités, doppler en LEO, scintillation).
+  </p>
+
+  <h3>5.1 Le canal satellite — un canal AWGN à grande latence</h3>
+  <p>
+    Pour les liaisons fixes (DTH, gateway HTS), le canal satellite est <strong>quasi-AWGN</strong> : pas de multitrajet (vue directe), bruit thermique du récepteur dominant. Cela en fait un terrain de jeu privilégié pour les codes correcteurs proches de la limite de Shannon.
+  </p>
+  <p>
+    Pour les liaisons mobiles ou D2D, le canal devient plus complexe : masquages, multitrajets en LEO basse, doppler. On retrouve alors des outils proches du terrestre (canaux de Rice/Rayleigh, OFDM).
+  </p>
+
+  <h3>5.2 Modulations numériques</h3>
+  <p>
+    Les modulations utilisées en spatial sont essentiellement des <strong>modulations de phase</strong> (PSK) et leurs extensions APSK pour les hautes efficacités. La QAM est moins courante en spatial à cause de sa sensibilité aux non-linéarités HPA.
+  </p>
+
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Modulation</th><th>Bits / symbole</th><th>\(E_b/N_0\) pour BER 10⁻⁶ (uncoded)</th><th>Sensibilité non-linéarités</th></tr></thead>
+    <tbody>
+      <tr><td><strong>BPSK</strong></td><td>1</td><td>10,5 dB</td><td>Très faible</td></tr>
+      <tr><td><strong>QPSK</strong></td><td>2</td><td>10,5 dB</td><td>Faible</td></tr>
+      <tr><td><strong>8-PSK</strong></td><td>3</td><td>14 dB</td><td>Modérée</td></tr>
+      <tr><td><strong>16-APSK</strong></td><td>4</td><td>~16 dB</td><td>Modérée — optimisée HPA</td></tr>
+      <tr><td><strong>32-APSK</strong></td><td>5</td><td>~18,5 dB</td><td>Forte (OBO requis)</td></tr>
+      <tr><td><strong>64-APSK</strong></td><td>6</td><td>~21 dB</td><td>Très forte</td></tr>
+      <tr><td><strong>128-APSK / 256-APSK</strong></td><td>7/8</td><td>> 23 dB</td><td>HPA très linéaire requis</td></tr>
+    </tbody>
+  </table></div>
+
+  <p>
+    L'<strong>APSK</strong> (Amplitude and Phase Shift Keying) répartit les points sur 2 à 4 cercles concentriques plutôt que sur une grille carrée (QAM). Cela limite le PAPR et tolère mieux les non-linéarités — propriété recherchée en spatial. Le DVB-S2X étend la palette à 64-APSK voire 256-APSK pour les liaisons gateway et professionnels avec C/N très élevés.
+  </p>
+
+  <h3>5.3 Codage canal — la révolution LDPC/turbo</h3>
+  <p>
+    L'objectif du codage canal est de s'approcher de la borne de Shannon. Les générations successives :
+  </p>
+  <ul>
+    <li><strong>Codes convolutifs</strong> (décodage Viterbi) — DVB-S originel, ~3 dB de la limite.</li>
+    <li><strong>Reed-Solomon concaténé avec convolutif</strong> — DVB-S, ~2 dB.</li>
+    <li><strong>Turbo-codes</strong> (Berrou-Glavieux 1993) — révolution, ~0,5–1 dB de la limite. Utilisés en CDMA 2000, UMTS, et DVB-RCS.</li>
+    <li><strong>LDPC</strong> (Low-Density Parity Check, Gallager 1962 redécouvert) — DVB-S2/S2X. ~0,3 dB de la limite avec des blocs longs (64 800 bits).</li>
+    <li><strong>Polar codes</strong> (Arıkan 2008) — adoption en 5G NR (signalisation).</li>
+  </ul>
+
+  <p>
+    En DVB-S2X, on combine <strong>LDPC</strong> avec un <strong>BCH externe</strong> (Bose-Chaudhuri-Hocquenghem) qui nettoie le <em>error floor</em> du LDPC. Les rendements de code disponibles vont de 1/4 (extension S2X très faible C/N) à 9/10. Le couple {modulation, rendement} forme un <strong>MODCOD</strong>, défini par exemple comme "32APSK 5/6" ou "QPSK 3/4".
+  </p>
+
+  <div class="eq">
+    <div class="eq-label">Efficacité spectrale d'un MODCOD</div>
+    \[ \eta = m \cdot r \quad\text{[bits/symbole]} \quad ; \quad R_b = \eta \cdot R_s \]
+    <div class="eq-note">avec \(m\) le nombre de bits/symbole modulés, \(r\) le rendement de code et \(R_s\) le débit symbole. Exemple : 16APSK 3/4 sur 27,5 Mbaud → \(R_b = 4 \times 0{,}75 \times 27{,}5 = 82{,}5\) Mbps.</div>
+  </div>
+
+  <h3>5.4 ACM — Adaptive Coding and Modulation</h3>
+  <p>
+    Plutôt que de figer un MODCOD pessimiste pour couvrir le pire cas (pluie tropicale dépassée 0,01 % du temps), l'<strong>ACM</strong> ajuste dynamiquement le MODCOD en fonction du C/N instantané remonté par le terminal. En conditions nominales (ciel clair), on utilise un MODCOD à haute efficacité (8PSK 9/10, 16APSK) ; en cas de pluie, on bascule vers QPSK 1/3 (voire des MODCOD très bas de S2X).
+  </p>
+
+  <p>
+    L'ACM est devenue la norme en HTS Ka. Elle nécessite :
+  </p>
+  <ul>
+    <li>Une voie retour rapide pour la remontée des C/N.</li>
+    <li>Une trame de signalisation dans la voie aller pour annoncer le MODCOD du burst suivant (PLHEADER en DVB-S2).</li>
+    <li>Un ordonnancement dynamique côté gateway (algorithmes propriétaires — différenciant industriel important).</li>
+  </ul>
+
+  <div class="callout">
+    <div class="label">Gain ACM en pratique</div>
+    Sur un système Ka européen typique, l'ACM apporte un gain de capacité moyen de l'ordre de 40 à 60 % par rapport à un système à MODCOD figé dimensionné pour 99,99 % de disponibilité. C'est le principal levier d'efficacité capacitive des HTS modernes.
+  </div>
+
+  <h3>5.5 Synchronisation</h3>
+  <p>
+    Le récepteur doit synchroniser :
+  </p>
+  <ul>
+    <li>La <strong>fréquence porteuse</strong> (compensation du décalage local et du doppler).</li>
+    <li>La <strong>phase</strong> de la porteuse (PLL).</li>
+    <li>L'<strong>horloge symbole</strong> (recouvrement de timing).</li>
+    <li>Le <strong>début de trame</strong> (frame sync — séquence SOF en DVB-S2).</li>
+  </ul>
+
+  <p>
+    En LEO, le doppler atteint ±20 à ±50 kHz selon la bande. Le récepteur doit l'estimer (souvent en deux étapes : doppler grossier à l'acquisition, puis fin) avant que la PLL ne puisse verrouiller. Le doppler-rate (dérivée du doppler) atteint des centaines de Hz/s lors du passage au plus près — exigence forte sur la bande de boucle.
+  </p>
+
+  <h3>5.6 Couches hautes — TCP/IP adapté au satellite</h3>
+  <p>
+    TCP a été conçu pour des réseaux à RTT modéré (~ms à dizaines de ms) et taux de perte faible. Sur GEO, deux problèmes émergent :
+  </p>
+  <ul>
+    <li><strong>BDP élevé</strong> (Bandwidth-Delay Product) — pour un lien 100 Mbps en GEO (RTT 600 ms), le BDP atteint 7,5 Mo. TCP doit avoir une fenêtre congestion d'au moins cette taille pour remplir le lien, ce qui nécessite des <em>window scaling</em>.</li>
+    <li><strong>Slow start lent</strong> — la fenêtre double à chaque RTT, donc atteindre la bande nominale prend plusieurs secondes. Pour des sessions courtes (requête HTTP typique), TCP n'a jamais le temps d'accélérer.</li>
+    <li><strong>Confusion perte/congestion</strong> — TCP réduit sa fenêtre dès qu'il observe une perte. En spatial, les pertes sont parfois dues à du bruit (rare avec FEC moderne) plutôt qu'à une congestion.</li>
+  </ul>
+
+  <p>
+    Les stratégies de mitigation :
+  </p>
+  <ul>
+    <li><strong>PEP</strong> (Performance Enhancing Proxies) — déployés aux deux extrémités du segment satellite. Ils <em>terminent</em> les connexions TCP localement, acquittent rapidement, puis utilisent un protocole de transport optimisé (souvent propriétaire — XCP, ou SCPS-TP) entre les deux PEP. Inconvénient majeur : casse TLS (besoin de proxy applicatif si chiffrement nécessaire).</li>
+    <li><strong>QUIC</strong> (sur UDP, Google) — protocole de transport moderne, embarqué dans HTTP/3. Mieux comporté en latence, mais chiffré bout-en-bout — donc incompatible avec les PEP classiques. Tendance lourde depuis ~2022.</li>
+    <li><strong>BBR</strong> (Bottleneck Bandwidth and RTT, Google) — algorithme de contrôle de congestion alternatif à Reno/Cubic, plus efficace sur liaisons à forte latence.</li>
+  </ul>
+
+  <div class="callout violet">
+    <div class="label">Profils recherchés en industrie</div>
+    Les stacks IP embarquées dans les modems DVB-S2X et terminaux mobiles spatiaux sont un terrain où l'expérience C/C++ embedded est particulièrement valorisée. Sur les postes V&V chez les industriels du télécom spatial (Thales Alenia Space, Airbus DS, équipementiers), on retrouve souvent du test d'intégration de stack PEP, de la validation de scénarios pluie + ACM + TCP, et de la caractérisation de QoS. Les compétences réseau, CI/CD, SDR et développement de dashboards de visualisation y sont directement transférables.
+  </div>
+
+  <div class="takeaways">
+    <h4>Points clés du chapitre 5</h4>
+    <ul>
+      <li>Modulations PSK/APSK dominantes en spatial à cause de la robustesse aux non-linéarités HPA.</li>
+      <li><strong>LDPC + BCH</strong> est le standard de codage en DVB-S2/S2X, à 0,3 dB de Shannon.</li>
+      <li>L'<strong>ACM</strong> apporte +40–60 % de capacité moyenne sur les systèmes Ka multibeam.</li>
+      <li>La synchronisation en LEO est dominée par le doppler (±20 à ±50 kHz).</li>
+      <li><strong>TCP n'est pas natif spatial</strong> : PEP, BBR, QUIC sont les outils de mitigation. La transition TLS/QUIC remet en question les PEP traditionnels.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- CHAPITRE 6 — STATIONS TERRIENNES                             -->
+<!-- ========================================================== -->
+<section class="chapter" id="ch6">
+  <div class="chap-num">Chapitre 06</div>
+  <h2>Stations terriennes — segment sol & terminaux</h2>
+  <p class="chap-lede">
+    Le segment sol concentre une part majeure de la complexité système : antennes, chaînes RF, modems, gestion réseau, interconnexion avec l'Internet ou le PSTN. Ce chapitre couvre l'architecture des stations gateway et des terminaux utilisateur.
+  </p>
+
+  <h3>6.1 Architecture générique</h3>
+  <p>
+    Du signal radio à l'application, une station se décompose en trois grandes parties :
+  </p>
+  <ol>
+    <li>La <strong>chaîne RF</strong> — antenne, LNA en réception, HPA en émission, mélangeurs et filtres.</li>
+    <li>La <strong>chaîne bande de base</strong> — modem (modulation/démodulation, FEC, framing), traitement protocolaire.</li>
+    <li>L'<strong>interconnexion réseau</strong> — interface IP avec l'utilisateur ou le cœur de réseau opérateur.</li>
+  </ol>
+
+  <p>
+    On distingue typiquement :
+  </p>
+
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Type</th><th>Antenne typique</th><th>EIRP</th><th>Usage</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Gateway HTS</strong></td><td>5–9 m</td><td>~70–85 dBW</td><td>Passerelle vers Internet, ~50 par système</td></tr>
+      <tr><td><strong>VSAT pro</strong></td><td>1,2–2,4 m</td><td>~45–55 dBW</td><td>Entreprise, point de vente, ATM</td></tr>
+      <tr><td><strong>VSAT consumer (Tooway/KONNECT)</strong></td><td>74–84 cm</td><td>~40 dBW</td><td>Internet résidentiel</td></tr>
+      <tr><td><strong>Terminal Starlink user</strong></td><td>Phased array ~50 cm</td><td>~40 dBW</td><td>LEO consumer</td></tr>
+      <tr><td><strong>Terminal Iridium</strong></td><td>Patch / omni</td><td>~5 dBW</td><td>Mobile L-band</td></tr>
+      <tr><td><strong>Smartphone 5G-NTN</strong></td><td>Antenne intégrée</td><td>~0–3 dBW</td><td>D2D</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>6.2 L'antenne — pointage et poursuite</h3>
+  <p>
+    Les antennes paraboliques classiques exigent un pointage mécanique. On distingue :
+  </p>
+  <ul>
+    <li><strong>Pointage fixe</strong> — vers GEO. Ajusté une fois à l'installation, dérive ensuite uniquement par dilatation, vent, neige. Tolérance : pointage à ~0,1° pour une parabole 60 cm en Ka (mi-3dB beamwidth ~1°).</li>
+    <li><strong>Poursuite</strong> — pour cibles non géostationnaires (LEO, MEO, satellites GEO en station-keeping marginal). Plusieurs techniques :
+      <ul>
+        <li><em>Step-tracking</em> : on bouge l'antenne d'un petit pas et on mesure si le signal monte ou baisse. Simple, robuste.</li>
+        <li><em>Monopulse</em> : utilisation d'un mode TM₀₁ supplémentaire de l'antenne pour mesurer l'erreur de pointage de manière analogique. Précis, complexe.</li>
+        <li><em>Conscan</em> (conical scanning) : balayage conique du faisceau autour du nominal pour mesurer l'erreur.</li>
+        <li><em>Program track</em> : la trajectoire du satellite est connue par éphémérides, l'antenne suit "à l'aveugle". Suffisant pour les LEO bien orbités.</li>
+      </ul>
+    </li>
+    <li><strong>Antennes électroniques (phased array)</strong> — pas de moteur mécanique, le faisceau est formé par déphasages numériques entre éléments. Latence de pointage ~µs, idéal pour les terminaux LEO grand public (Starlink, OneWeb). Plus chères mais en chute rapide grâce à l'effet d'échelle.</li>
+  </ul>
+
+  <h3>6.3 LNA — la tête de réception</h3>
+  <p>
+    Le LNA (Low Noise Amplifier) est le composant critique du récepteur : c'est lui qui dicte la figure de bruit globale (cf. formule de Friis du ch. 2). On trouve aujourd'hui :
+  </p>
+  <ul>
+    <li><strong>LNA GaAs</strong> traditionnels — figure de bruit ~1 dB en Ku, ~1,5–2 dB en Ka.</li>
+    <li><strong>LNA GaN</strong> — meilleurs en puissance que GaAs, comparables en bruit, utilisés surtout en HPA et BUC.</li>
+    <li><strong>LNA cryogéniques</strong> — pour les très grandes antennes (DSN, radioastronomie). Figure de bruit < 0,3 dB. Pas généralisable.</li>
+  </ul>
+
+  <p>
+    Pour un terminal VSAT moderne, on intègre LNA, BUC (Block UpConverter) et OMT (OrthoMode Transducer pour les deux polarisations) dans un seul module RF positionné au foyer de la parabole — appelé <strong>ODU</strong> (OutDoor Unit). L'IDU (InDoor Unit) contient le modem.
+  </p>
+
+  <h3>6.4 HPA — la tête d'émission</h3>
+  <p>
+    L'HPA sol couvre une gamme large de puissances :
+  </p>
+  <ul>
+    <li><strong>SSPA</strong> (Solid State Power Amplifier) — généralement GaN aujourd'hui. Quelques W à plusieurs kW. Domine en gateway moderne.</li>
+    <li><strong>TWTA sol</strong> — utilisé historiquement, encore présent en très haute puissance (klystrons et TWT > 1 kW).</li>
+    <li><strong>Klystron</strong> — historique, en disparition.</li>
+  </ul>
+
+  <h3>6.5 Modem — la chaîne bande de base</h3>
+  <p>
+    Le modem implémente les couches physique et liaison de données : modulation, codage, framing, ACM, synchronisation, gestion des trames. Côté gateway, on parle de <strong>hub</strong> en VSAT, ou de <strong>gateway DVB-S2X / RCS2</strong> en HTS. Côté terminal, le modem est intégré à l'IDU.
+  </p>
+
+  <p>
+    Architectures classiques :
+  </p>
+  <ul>
+    <li><strong>FPGA + ASIC</strong> — pour les fonctions à fort débit (LDPC décodeur, démodulation). On retrouve des Xilinx Zynq, Versal, Intel Stratix dans la plupart des modems récents.</li>
+    <li><strong>SDR</strong> (Software Defined Radio) — montée en puissance progressive. Le traitement signal devient logiciel jusqu'aux débits accessibles aux CPU/GPU/DPU. Permet une grande agilité (mise à jour OTA d'un nouveau MODCOD ou waveform).</li>
+  </ul>
+
+  <h3>6.6 Interconnexion réseau</h3>
+  <p>
+    Côté gateway, on s'interface avec les réseaux IP terrestres via :
+  </p>
+  <ul>
+    <li>Liens optiques 10/100 GbE vers le POP (Point of Presence) opérateur.</li>
+    <li>Routeurs IP/MPLS classiques.</li>
+    <li>Pile de fonctions <strong>HUB</strong> : terminaison des sessions terminaux, ordonnancement ACM, gestion QoS, accounting, terminaison TLS (rare en raison de QUIC), PEP TCP, NAT.</li>
+    <li>Interconnexion avec le cœur 5G (UPF, AMF) dans le cas de la 5G-NTN.</li>
+  </ul>
+
+  <p>
+    Côté terminal, l'utilisateur récupère un port Ethernet ou WiFi sur l'IDU, ainsi qu'un téléphone IP en option. Pour la 5G-NTN, c'est le terminal mobile lui-même qui est l'interface (smartphone, IoT).
+  </p>
+
+  <div class="callout cyan">
+    <div class="label">Tendances 2024–2026</div>
+    Trois tendances structurantes à connaître pour les entretiens : (1) la <strong>virtualisation</strong> des hubs sur serveurs COTS (cloud-native gateway, Telesat, Hughes), (2) le passage au <strong>tout-IP</strong> jusqu'au modem (suppression des interfaces L-band physiques au profit de DigIF), (3) l'<strong>open-RAN spatial</strong> (3GPP, Open Air Interface) qui mutualise les interfaces 5G NTN et terrestres.
+  </div>
+
+  <div class="takeaways">
+    <h4>Points clés du chapitre 6</h4>
+    <ul>
+      <li>Trois grands blocs : <strong>chaîne RF</strong>, <strong>chaîne bande de base</strong>, <strong>interconnexion réseau</strong>.</li>
+      <li>Le <strong>LNA</strong> dicte la figure de bruit globale. Le <strong>HPA</strong> détermine l'EIRP.</li>
+      <li>Le <strong>phased array</strong> électronique a démocratisé les terminaux LEO grand public.</li>
+      <li>La virtualisation et le SDR transforment l'architecture des gateways modernes.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- CHAPITRE 7 — CHARGE UTILE                                    -->
+<!-- ========================================================== -->
+<section class="chapter" id="ch7">
+  <div class="chap-num">Chapitre 07</div>
+  <h2>Charge utile du satellite — payload</h2>
+  <p class="chap-lede">
+    La charge utile est l'équipement qui réalise la mission télécom (par opposition à la plateforme, qui assure le maintien orbital, l'alimentation et la thermique). Ce chapitre détaille les architectures transparent / régénératif, les sous-systèmes (répéteur, antennes) et les technologies clés.
+  </p>
+
+  <h3>7.1 Plateforme vs charge utile</h3>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Plateforme (bus)</th><th>Charge utile (payload)</th></tr></thead>
+    <tbody>
+      <tr><td>Structure mécanique</td><td>Antennes (Rx, Tx)</td></tr>
+      <tr><td>Alimentation (panneaux solaires, batteries, PCDU)</td><td>Répéteur (LNA, OMUX, IMUX, HPA, switching)</td></tr>
+      <tr><td>Contrôle thermique</td><td>Réseau de filtres et préamplificateurs</td></tr>
+      <tr><td>AOCS — Attitude & Orbit Control System</td><td>Beam forming network (BFN) si actif</td></tr>
+      <tr><td>Propulsion (chimique ou électrique)</td><td>Processeurs de bord (DSP, DBFN) si régénératif</td></tr>
+      <tr><td>TT&C (telemetry, command)</td><td>OISL (optical inter-satellite link) si applicable</td></tr>
+    </tbody>
+  </table></div>
+
+  <p>
+    Les acteurs industriels structurent leurs offres en plateformes génériques (Eurostar Neo d'Airbus, Spacebus NEO de TAS, A2100 de Lockheed, GEOStar de Northrop) sur lesquelles vient se greffer la charge utile mission-spécifique.
+  </p>
+
+  <h3>7.2 Répéteur transparent — l'architecture historique</h3>
+  <p>
+    La quasi-totalité des satellites télécom GEO commerciaux opèrent en mode <strong>transparent</strong> ou <em>bent-pipe</em> : le signal reçu est juste amplifié, transposé en fréquence et retransmis. Pas de démodulation à bord. Schéma typique :
+  </p>
+
+  <pre><code>Antenne Rx → LNA → Mélangeur (frequency converter) → IMUX → HPA → OMUX → Antenne Tx
+   ↑                ↑                                              ↑
+   uplink         OL local                                  downlink
+   (e.g. 30 GHz)                                            (e.g. 20 GHz)</code></pre>
+
+  <p>
+    Détaillons les blocs :
+  </p>
+  <ul>
+    <li><strong>LNA</strong> bord — figure de bruit ~1,5 dB en Ka. Redondance active (chaud) typique.</li>
+    <li><strong>Frequency converter</strong> — translation entre bande montante et bande descendante via un oscillateur local très stable. En FSS Ka classique : uplink 27,5–30 GHz, downlink 17,7–20,2 GHz.</li>
+    <li><strong>IMUX</strong> (Input Multiplexer) — banc de filtres qui découpe la bande totale en sous-bandes (transpondeurs). Typiquement 4 à 16 transpondeurs de 36, 54 ou 72 MHz en GEO classique.</li>
+    <li><strong>HPA</strong> bord — TWTA pour les hautes puissances (100–250 W en bande Ka spatiale), SSPA GaN pour les plus faibles puissances et les LEO. Redondance par <em>switch matrix</em>.</li>
+    <li><strong>OMUX</strong> (Output Multiplexer) — combine les sorties des transpondeurs vers l'antenne avec une faible perte.</li>
+  </ul>
+
+  <div class="callout">
+    <div class="label">TWTA spatial — la composante hors prix</div>
+    Un TWTA bande Ka classe 150 W spatial coûte plusieurs centaines de k€, qualifié vide spatial avec une durée de vie >15 ans. Les acteurs : Thales (Vélizy), L3Harris (ex-CPI), NEC. Le rendement (60–65 %) est meilleur que les SSPA en très haute puissance. Mais le SSPA GaN gagne du terrain en moyenne puissance grâce à sa robustesse et son intégration.
+  </div>
+
+  <h3>7.3 Répéteur régénératif et processed payload</h3>
+  <p>
+    Une charge utile <strong>régénérative</strong> démodule à bord, traite (ou route) en bande de base, puis re-module avant émission. Avantages :
+  </p>
+  <ul>
+    <li>Découplage des bilans uplink/downlink (gain ~1–3 dB sur le total).</li>
+    <li>Routage par paquet possible à bord — un satellite peut basculer dynamiquement le trafic d'un faisceau à un autre, ou vers une gateway alternative.</li>
+    <li>Compatible avec l'architecture <strong>OISL</strong> (Optical Inter-Satellite Links) — clé des constellations LEO modernes (Starlink, OneWeb dans sa V2).</li>
+  </ul>
+
+  <p>
+    Inconvénients : complexité, consommation, masse, dissipation thermique. Le régénératif est encore minoritaire en GEO commercial mais s'impose en LEO et dans les nouvelles missions militaires/gouvernementales (Syracuse IV, Athena-Fidus, IRIS²).
+  </p>
+
+  <h3>7.4 Antennes embarquées</h3>
+  <p>
+    Trois grandes familles :
+  </p>
+  <ul>
+    <li><strong>Antennes à réflecteur</strong> — typiquement 2 à 3 m de diamètre en GEO Ka, parfois déployables jusqu'à 9 m (L-band MSS). Faisceau formé par la géométrie du réflecteur et de la source (illuminateur). Économique, mature.</li>
+    <li><strong>Antennes multifaisceaux à réflecteur</strong> — un même réflecteur (typiquement deux à trois réflecteurs au total) éclairé par une grappe de plusieurs dizaines voire centaines de sources, chaque source formant un faisceau (cellule). Configuration <strong>SFB</strong> (Single Feed per Beam) ou <strong>MFB</strong> (Multiple Feeds per Beam) avec BFN.</li>
+    <li><strong>Antennes actives à formation de faisceau (DBF — Digital Beam Forming)</strong> — chaque élément rayonnant a son propre module RF (amplificateur, déphaseur). Les faisceaux sont synthétisés numériquement. Permet la <strong>flexibilité maximale</strong> : reconfiguration des faisceaux en orbite, allocation dynamique de puissance par zone, formation de nuls vers les brouilleurs. Beaucoup plus chère, mais c'est l'architecture des charges utiles software-defined modernes (Eutelsat Quantum, ArianeGroup IRIS², Maxar des dernières années).</li>
+  </ul>
+
+  <h3>7.5 La couverture — design des faisceaux</h3>
+  <p>
+    Pour un HTS multibeam, la couverture est l'objet d'un compromis fin :
+  </p>
+  <ul>
+    <li>Plus le faisceau est étroit, plus le gain d'antenne (et donc l'EIRP / G/T) est élevé.</li>
+    <li>Mais plus il faut de faisceaux pour couvrir une zone donnée — et plus le coût/masse/complexité montent.</li>
+    <li>La taille du faisceau au sol \(d_\mathrm{spot}\) est liée à l'ouverture d'antenne et à la distance : \(d_\mathrm{spot} \approx 2 \theta_{3\mathrm{dB}} \cdot d\) avec \(\theta_{3\mathrm{dB}} \approx 70 \lambda / D\) (en degrés).</li>
+  </ul>
+
+  <p>
+    Pour KONNECT VHTS (Thales Alenia Space, GEO Ka), un spot a un diamètre au sol d'environ 250 km, avec ~500 spots couvrant l'Europe et le bassin méditerranéen.
+  </p>
+
+  <h3>7.6 Le software-defined satellite</h3>
+  <p>
+    La grande mutation des charges utiles ces 5 dernières années : la <strong>reconfigurabilité en orbite</strong>. Exemples emblématiques :
+  </p>
+  <ul>
+    <li><strong>Eutelsat Quantum</strong> (Airbus, 2021) — premier satellite GEO commercial entièrement reconfigurable : faisceaux, bande passante allouée, puissance par faisceau ajustables en orbite par logiciel. Précurseur historique.</li>
+    <li><strong>OneSat</strong> (Airbus) — plateforme commerciale full software-defined.</li>
+    <li><strong>Spacebus NEO + DBFN</strong> (TAS) — déclinaisons reconfigurables.</li>
+    <li><strong>Starlink V2</strong> — non commercial pour les opérateurs tiers, mais entièrement software-defined avec mises à jour fréquentes.</li>
+  </ul>
+
+  <div class="callout violet">
+    <div class="label">Passerelle avionique → spatial</div>
+    Les charges utiles software-defined (FPGA processors à bord, piles DBFN, firmware temps réel) constituent un domaine où les compétences en embedded systems sont directement transférables. Les standards de qualification spatiale (<strong>ECSS-E-ST-40C</strong> pour le logiciel, <strong>ECSS-Q-ST-80C</strong> pour l'assurance qualité) sont l'équivalent ECSS du <strong>DO-178C</strong> avionique : structure du cycle de vie, niveaux de criticité, traçabilité exigences/tests, qualification des outils. Pour les ingénieurs issus de l'avionique certifiée, c'est un pont naturel vers les postes IVV charge utile dans le secteur spatial.
+  </div>
+
+  <div class="takeaways">
+    <h4>Points clés du chapitre 7</h4>
+    <ul>
+      <li><strong>Plateforme</strong> et <strong>charge utile</strong> sont deux univers distincts (organisationnellement et industriellement).</li>
+      <li>Le répéteur <strong>transparent</strong> reste la norme en GEO commercial historique ; le <strong>régénératif</strong> s'impose en LEO et en software-defined.</li>
+      <li>Les antennes <strong>actives DBF</strong> sont la rupture technologique récente : flexibilité totale au prix d'une complexité élevée.</li>
+      <li>Les <strong>OISL optiques</strong> sont devenus standard sur les constellations LEO modernes.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- CHAPITRE 8 — EXERCICE                                        -->
+<!-- ========================================================== -->
+<section class="chapter" id="ch8">
+  <div class="chap-num">Chapitre 08</div>
+  <h2>Exercice — dimensionnement d'une liaison Ka</h2>
+  <p class="chap-lede">
+    Pas de compétence durable sans pratique. Cet exercice complet déroule le dimensionnement d'une liaison forward (gateway → user) sur un système HTS GEO Ka, du bilan de puissance au choix du MODCOD DVB-S2X et au débit utile final.
+  </p>
+
+  <h3>8.1 Énoncé</h3>
+  <p>
+    On dimensionne un système HTS GEO Ka couvrant l'Europe de l'Ouest. Les hypothèses :
+  </p>
+
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Paramètre</th><th>Valeur</th><th>Note</th></tr></thead>
+    <tbody>
+      <tr><td>Position satellite</td><td>9°E, GEO</td><td></td></tr>
+      <tr><td>Bande downlink</td><td>19,7–20,2 GHz</td><td>500 MHz allouée par couleur</td></tr>
+      <tr><td>Schéma de réutilisation</td><td>4-color</td><td>2 fréq × 2 polar</td></tr>
+      <tr><td>Nombre de faisceaux</td><td>200</td><td>Diamètre spot ~300 km</td></tr>
+      <tr><td>EIRP par faisceau saturé</td><td>62 dBW</td><td>À EOC (Edge Of Coverage), pire cas</td></tr>
+      <tr><td>OBO multicarrier downlink</td><td>1,5 dB</td><td>Mode quasi-monoporteuse DVB-S2X</td></tr>
+      <tr><td>Latitude station user</td><td>48° N (Paris)</td><td></td></tr>
+      <tr><td>Angle d'élévation</td><td>33°</td><td>Vers 9°E depuis Paris</td></tr>
+      <tr><td>Antenne terminal user</td><td>74 cm offset</td><td>Rendement 0,65</td></tr>
+      <tr><td>T_sys terminal</td><td>180 K (clair)</td><td>Antenne 50 K + LNA 130 K équiv.</td></tr>
+      <tr><td>Atténuation pluie 0,01 %</td><td>10 dB</td><td>Paris, ITU P.618</td></tr>
+      <tr><td>Pertes de pointage</td><td>0,5 dB</td><td></td></tr>
+      <tr><td>Atténuation gaz (ciel clair)</td><td>0,8 dB</td><td>20 GHz, 33°, troposphère moyenne</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>8.2 Calcul de la distance et de la FSPL</h3>
+  <p>
+    Depuis Paris (48,85° N, 2,35° E) vers une station GEO à 9° E, l'angle d'élévation est d'environ 33° et la distance oblique :
+  </p>
+
+  <div class="eq">
+    \[ d = R_\oplus\left(\sqrt{\left(\frac{R_\oplus + h}{R_\oplus}\right)^2 - \cos^2 33° } - \sin 33° \right) \]
+    <div class="eq-note">Avec \(R_\oplus = 6378\) km et \(h = 35\,786\) km : \(d \approx 38\,560\) km.</div>
+  </div>
+
+  <p>
+    FSPL à 20 GHz :
+  </p>
+  <div class="eq">
+    \[ L_\mathrm{fs} = 92{,}45 + 20\log_{10} 20 + 20\log_{10} 38\,560 = 92{,}45 + 26{,}02 + 91{,}72 = 210{,}19 \text{ dB} \]
+  </div>
+
+  <h3>8.3 G/T du terminal</h3>
+  <p>
+    Gain antenne 74 cm en Ka 20 GHz :
+  </p>
+  <div class="eq">
+    \[ G_R = 10\log_{10}\!\left[0{,}65 \times \left(\frac{\pi \times 0{,}74 \times 20 \times 10^9}{3 \times 10^8}\right)^2\right] \approx 41{,}5 \text{ dBi} \]
+  </div>
+
+  <p>Température système : \(T_\mathrm{sys} = 180\) K → \(10\log_{10} 180 \approx 22{,}55\) dBK</p>
+
+  <div class="eq">
+    \[ G/T = 41{,}5 - 22{,}55 = 18{,}95 \text{ dB/K} \quad (\text{ciel clair}) \]
+    <div class="eq-note">En pluie, le ciel se réchauffe et \(T_\mathrm{sys}\) augmente (jusqu'à ~290 K si pluie intense). Cela dégrade le G/T d'environ 2–3 dB en plus de l'atténuation directe — effet à intégrer dans le bilan dégradé.</div>
+  </div>
+
+  <h3>8.4 Bilan C/N₀ en ciel clair</h3>
+  <p>L'EIRP effectif en multiporteuse (OBO 1,5 dB) :</p>
+  <div class="eq">
+    \[ \mathrm{EIRP}_\mathrm{eff} = 62 - 1{,}5 = 60{,}5 \text{ dBW} \]
+  </div>
+
+  <p>Pertes totales (ciel clair) :</p>
+  <div class="eq">
+    \[ L_\mathrm{tot}^\mathrm{clair} = 210{,}19 + 0{,}8 + 0{,}5 = 211{,}49 \text{ dB} \]
+  </div>
+
+  <p>Application du bilan downlink :</p>
+  <div class="eq">
+    \[ \frac{C}{N_0} = 60{,}5 - 211{,}49 + 18{,}95 - (-228{,}6) = 96{,}56 \text{ dBHz} \]
+  </div>
+
+  <p>
+    Pour une bande de symbole \(R_s = 250\) MBaud occupant ~280 MHz avec roll-off 0,2 :
+  </p>
+  <div class="eq">
+    \[ \frac{C}{N} = 96{,}56 - 10\log_{10}(280 \times 10^6) = 96{,}56 - 84{,}47 = 12{,}09 \text{ dB} \]
+  </div>
+
+  <h3>8.5 Bilan C/N₀ en pluie (0,01 % du temps)</h3>
+  <p>
+    On ajoute 10 dB d'atténuation pluie et on dégrade le G/T de 2,5 dB :
+  </p>
+  <div class="eq">
+    \[ \frac{C}{N} \Big|_\mathrm{pluie} = 12{,}09 - 10 - 2{,}5 = -0{,}41 \text{ dB} \]
+    <div class="eq-note">Sans ACM, le système serait <em>down</em> pendant 52 minutes par an. Pas acceptable.</div>
+  </div>
+
+  <h3>8.6 Choix MODCOD avec ACM (DVB-S2X)</h3>
+  <p>
+    On choisit le MODCOD parmi le tableau DVB-S2X en fonction du C/N disponible. Quelques valeurs typiques (seuils PER 10⁻⁵, AWGN, blocs longs) :
+  </p>
+
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>MODCOD</th><th>η spectrale (b/Hz)</th><th>C/N seuil (dB)</th><th>Régime</th></tr></thead>
+    <tbody>
+      <tr><td>QPSK 2/9-L (S2X)</td><td>0,43</td><td>−2,85</td><td>Pluie profonde</td></tr>
+      <tr><td>QPSK 1/3</td><td>0,65</td><td>−1,24</td><td>Pluie modérée</td></tr>
+      <tr><td>QPSK 1/2</td><td>0,99</td><td>1,0</td><td>Pluie légère</td></tr>
+      <tr><td>QPSK 3/4</td><td>1,49</td><td>4,03</td><td></td></tr>
+      <tr><td>8PSK 3/4</td><td>2,23</td><td>7,91</td><td>Ciel dégagé moyen</td></tr>
+      <tr><td>16APSK 3/4</td><td>2,97</td><td>10,21</td><td></td></tr>
+      <tr><td>16APSK 4/5</td><td>3,17</td><td>11,03</td><td>Ciel clair Paris (12,09 dB)</td></tr>
+      <tr><td>32APSK 3/4</td><td>3,70</td><td>12,73</td><td></td></tr>
+      <tr><td>32APSK 4/5</td><td>3,95</td><td>13,64</td><td></td></tr>
+      <tr><td>64APSK 5/6 (S2X)</td><td>4,93</td><td>16,55</td><td>Gateway uplink</td></tr>
+    </tbody>
+  </table></div>
+
+  <p>
+    En ciel clair, on retient <strong>16APSK 4/5</strong> (seuil 11,03 dB ≤ 12,09 dB de marge). En pluie 0,01 %, le C/N tombe à −0,41 dB — le seul MODCOD viable est <strong>QPSK 2/9-L</strong> (seuil −2,85 dB).
+  </p>
+
+  <h3>8.7 Débit utile</h3>
+  <p>
+    Avec un baud rate \(R_s = 250\) MBaud :
+  </p>
+
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Condition</th><th>MODCOD</th><th>Débit utile</th><th>% du temps</th></tr></thead>
+    <tbody>
+      <tr><td>Ciel clair</td><td>16APSK 4/5</td><td>250 × 3,17 = 793 Mbps</td><td>~95 % (moyenne annuelle Paris)</td></tr>
+      <tr><td>Pluie légère</td><td>QPSK 3/4</td><td>250 × 1,49 = 373 Mbps</td><td>~4,5 %</td></tr>
+      <tr><td>Pluie profonde 0,01 %</td><td>QPSK 2/9-L</td><td>250 × 0,43 = 108 Mbps</td><td>~0,5 %</td></tr>
+    </tbody>
+  </table></div>
+
+  <p>
+    Débit utile moyen ≈ 0,95 × 793 + 0,045 × 373 + 0,005 × 108 ≈ <strong>770 Mbps</strong> par faisceau de 280 MHz. Avec 200 faisceaux et un facteur de réutilisation 4-color, on monte à une capacité système totale de l'ordre de 770 × 200 / 4 × (4) = environ <strong>150 Gbps</strong> de débit utile total (les 4 couleurs sont sommées, mais chaque faisceau exploite 1/4 de la bande totale — convention déjà incluse).
+  </p>
+
+  <div class="callout cyan">
+    <div class="label">Note méthodologique</div>
+    Dans une véritable étude de capacité, on intègre aussi : le profil statistique de pluie sur toute la zone de couverture (chaque faisceau a sa propre statistique), la surcharge de signalisation (PLHEADER, padding), le rendement BBFRAME, les effets de framing FEC, et la corrélation spatiale des événements pluie. Les outils industriels (SatLab, internal tools TAS/Airbus) automatisent ces calculs. L'objectif ici est de fixer les ordres de grandeur.
+  </div>
+
+  <h3>8.8 Le même exercice en ligne de commande Python</h3>
+  <p>
+    Un script Python minimal pour reproduire le calcul :
+  </p>
+
+<pre><code>import math
+
+# Hypothèses
+f_GHz = 20.0
+h = 35786e3           # altitude GEO
+Re = 6378e3
+elev_deg = 33.0
+D = 0.74              # diamètre antenne user
+eta_ant = 0.65
+T_sys = 180.0
+EIRP_sat = 62.0       # dBW saturé
+OBO = 1.5
+A_rain = 10.0
+A_gas = 0.8
+L_point = 0.5
+Rs = 250e6
+rolloff = 0.20
+B_occ = Rs * (1 + rolloff)
+k_dB = -228.6
+
+# Distance oblique
+elev = math.radians(elev_deg)
+d = Re * (math.sqrt(((Re + h)/Re)**2 - math.cos(elev)**2) - math.sin(elev))
+
+# FSPL
+L_fs = 92.45 + 20*math.log10(f_GHz) + 20*math.log10(d/1000)
+
+# Gain antenne
+lam = 3e8 / (f_GHz * 1e9)
+G_R = 10*math.log10(eta_ant * (math.pi * D / lam)**2)
+
+# G/T
+GT = G_R - 10*math.log10(T_sys)
+
+# Bilan
+EIRP_eff = EIRP_sat - OBO
+L_tot_clear = L_fs + L_point + A_gas
+CN0_clear = EIRP_eff - L_tot_clear + GT - k_dB
+CN_clear = CN0_clear - 10*math.log10(B_occ)
+
+# Pluie
+CN_rain = CN_clear - A_rain - 2.5  # dégradation G/T
+
+print(f"d = {d/1000:.0f} km, FSPL = {L_fs:.2f} dB")
+print(f"G_R = {G_R:.2f} dBi, G/T = {GT:.2f} dB/K")
+print(f"C/N0 ciel clair = {CN0_clear:.2f} dBHz, C/N = {CN_clear:.2f} dB")
+print(f"C/N en pluie 0.01% = {CN_rain:.2f} dB")
+</code></pre>
+
+  <p>Lance-le, vérifie les résultats à la main. C'est exactement le type de script qu'on retrouve dans les feuilles de calcul Excel ou Matlab utilisées en bureau d'études.</p>
+
+  <div class="takeaways">
+    <h4>Points clés du chapitre 8</h4>
+    <ul>
+      <li>Maîtriser le bilan downlink Ka GEO complet — c'est l'examen type en entretien.</li>
+      <li>L'<strong>ACM</strong> rend possible un service haut débit moyen tout en gardant une disponibilité &gt; 99,99 %.</li>
+      <li>Pluie + dégradation G/T : <strong>les deux effets s'additionnent</strong>, ne pas oublier le second.</li>
+      <li>Capacité système ≈ EIRP/faisceau × G/T × nb_faisceaux × (1/N_color) × efficacité spectrale moyenne.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- CHAPITRE 9 — DIFFUSION & INTERACTIVITE                       -->
+<!-- ========================================================== -->
+<section class="chapter" id="ch9">
+  <div class="chap-num">Chapitre 09</div>
+  <h2>Standards de diffusion & d'interactivité</h2>
+  <p class="chap-lede">
+    Le standard DVB structure depuis 30 ans le marché satellitaire grand public. DVB-S2X est la voie aller universelle, DVB-RCS2 la voie retour interactive. Ce chapitre explore leur architecture et leur usage moderne dans les systèmes HTS.
+  </p>
+
+  <h3>9.1 La famille DVB — historique</h3>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Standard</th><th>Année</th><th>Apport</th></tr></thead>
+    <tbody>
+      <tr><td><strong>DVB-S</strong></td><td>1994</td><td>Premier standard satellite : QPSK, RS + convolutionnel. ~38 Mbps par 36 MHz.</td></tr>
+      <tr><td><strong>DVB-DSNG</strong></td><td>1997</td><td>Modulation 8PSK ajoutée pour les liaisons newsgathering.</td></tr>
+      <tr><td><strong>DVB-S2</strong></td><td>2005</td><td>QPSK/8PSK/16APSK/32APSK + LDPC. ACM. ~50 Mbps par 36 MHz.</td></tr>
+      <tr><td><strong>DVB-S2X</strong></td><td>2014</td><td>Extension : MODCOD très faible C/N (descendant à −10 dB), 64/128/256-APSK, channel bonding, supertrames. +20 à +50 % de capacité vs S2.</td></tr>
+      <tr><td><strong>DVB-RCS</strong></td><td>2000</td><td>Voie retour interactive (MF-TDMA).</td></tr>
+      <tr><td><strong>DVB-RCS2</strong></td><td>2012</td><td>Voie retour modernisée : LDPC, turbo-Φ.</td></tr>
+      <tr><td><strong>DVB-NGH</strong></td><td>2013</td><td>Diffusion vers handheld (peu déployé).</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>9.2 DVB-S2X — la voie aller universelle</h3>
+  <p>
+    DVB-S2X est aujourd'hui la couche physique de référence pour la voie aller (forward link) de quasiment tous les systèmes GEO Ku/Ka et de nombreux LEO. Caractéristiques fondamentales :
+  </p>
+  <ul>
+    <li><strong>Trame physique</strong> : PLFRAME = PLHEADER (signalisation : MODCOD, FECFRAME long/court, pilote) + payload codé. La PLHEADER est en BPSK π/2 spread, démodulable même à très bas C/N.</li>
+    <li><strong>Codage</strong> : LDPC (taille de bloc 64 800 ou 16 200 bits) + BCH externe. Rendements de 1/4 à 9/10 (et jusqu'à 13/45 en S2X).</li>
+    <li><strong>Modulations</strong> : QPSK, 8PSK, 16APSK, 32APSK, et en S2X : 64, 128, 256-APSK.</li>
+    <li><strong>ACM</strong> : changement de MODCOD à chaque PLFRAME (~ms d'échelle de temps).</li>
+    <li><strong>Roll-off</strong> : 0,35 / 0,25 / 0,20 (S2) puis 0,15 / 0,10 / 0,05 (S2X) — réduit la bande occupée, augmente l'efficacité.</li>
+    <li><strong>Channel bonding</strong> (S2X) : possibilité d'agréger jusqu'à 3 canaux pour des services UHD à très haut débit.</li>
+    <li><strong>Trame de très bas C/N</strong> (S2X) : MODCOD utilisables jusqu'à −10 dB de C/N — essentiel pour la mobilité maritime et aéronautique en bord de couverture.</li>
+  </ul>
+
+  <h4>BBFRAME — la couche au-dessus du PHY</h4>
+  <p>
+    Au-dessus de la couche physique, DVB-S2 encapsule les paquets utilisateurs (IP, MPEG-TS, GSE — Generic Stream Encapsulation) dans des <strong>BBFRAME</strong> (Base-Band Frames). La GSE est l'encapsulation moderne pour IP, plus efficace que MPEG-TS sur lequel reposait DVB historiquement. Une BBFRAME contient :
+  </p>
+  <ul>
+    <li>Un BBHEADER (10 octets) : longueur, type de flux, mode, ISSY (input stream synchronization), …</li>
+    <li>Un payload de paquets utilisateur (typiquement fragmentés/concaténés).</li>
+    <li>Du padding éventuel pour atteindre la taille du FECFRAME du MODCOD choisi.</li>
+  </ul>
+
+  <h3>9.3 DVB-RCS2 — la voie retour interactive</h3>
+  <p>
+    Pour les systèmes bidirectionnels (Internet, voix), il faut une voie retour. DVB-RCS2 spécifie une couche physique <strong>MF-TDMA</strong> :
+  </p>
+  <ul>
+    <li>La bande est divisée en plusieurs <em>carrier groups</em>.</li>
+    <li>Chaque porteuse est divisée temporellement en <em>frames</em>, eux-mêmes en <em>slots</em>.</li>
+    <li>Le terminal demande de la bande sur la voie aller (capacity request), la gateway alloue dynamiquement les slots (capacity allocation).</li>
+    <li>Modulations : QPSK, 8PSK ; codage : turbo-Φ (continu) ou LDPC court.</li>
+  </ul>
+
+  <p>
+    DVB-RCS2 introduit aussi des modes <strong>CRA</strong> (Continuous Rate Assignment), <strong>RBDC</strong> (Rate-Based Dynamic Capacity), <strong>VBDC</strong> (Volume-Based) pour s'adapter à différents profils de trafic — du flux constant (VoIP) au transactionnel sporadique (web).
+  </p>
+
+  <h3>9.4 Mise en œuvre dans les systèmes HTS</h3>
+  <p>
+    Un système HTS Ka typique combine :
+  </p>
+  <ul>
+    <li><strong>Voie aller</strong> : DVB-S2X, 64-APSK 5/6 pour le lien gateway → satellite, 16/32-APSK avec ACM pour le lien satellite → user.</li>
+    <li><strong>Voie retour</strong> : DVB-RCS2 MF-TDMA, QPSK/8PSK avec rendement adapté au lien.</li>
+    <li><strong>Encapsulation</strong> : GSE bout-en-bout, ou DVB-S2/MPE en compatibilité.</li>
+  </ul>
+
+  <h3>9.5 Sécurité — chiffrement et authentification</h3>
+  <p>
+    Le standard DVB-S2 ne définit pas le chiffrement applicatif (laissé à des couches supérieures : CA en TV, IPSec ou TLS en data). Mais les systèmes HTS modernes implémentent :
+  </p>
+  <ul>
+    <li><strong>Conditional Access</strong> (CA) pour le DTH : DVB-CSA (legacy), CISSA, AES-128 (modern).</li>
+    <li><strong>Sécurité du lien</strong> : chiffrement bord (ex. AES-256 GCM sur les payloads GSE pour les liens militaires ou défense — Syracuse, Athena-Fidus).</li>
+    <li><strong>Sécurité protocolaire</strong> : authentification terminal au moment du logon (rendez-vous), via certificats X.509, dans les hubs modernes.</li>
+  </ul>
+
+  <div class="takeaways">
+    <h4>Points clés du chapitre 9</h4>
+    <ul>
+      <li><strong>DVB-S2X</strong> est le standard universel de voie aller : LDPC + APSK jusqu'à 256, ACM, channel bonding, supertrames.</li>
+      <li><strong>DVB-RCS2</strong> spécifie la voie retour MF-TDMA pour les systèmes interactifs.</li>
+      <li>L'encapsulation <strong>GSE</strong> a supplanté MPEG-TS pour les services IP modernes.</li>
+      <li>La sécurité (CA, AES, certificats) est traitée au-dessus de la couche physique.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- CHAPITRE 10 — HTS, LEO, 5G-NTN                               -->
+<!-- ========================================================== -->
+<section class="chapter" id="ch10">
+  <div class="chap-num">Chapitre 10</div>
+  <h2>HTS, constellations LEO, 5G-NTN</h2>
+  <p class="chap-lede">
+    Les systèmes opérationnels actuels — HTS GEO, constellations LEO, premiers services direct-to-device. Ce chapitre passe en revue les acteurs et leurs architectures, des liaisons fixes professionnelles à la connexion smartphone.
+  </p>
+
+  <h3>10.1 De VSAT à HTS — l'évolution des liaisons fixes</h3>
+  <p>
+    Les <strong>liaisons fixes</strong> par satellite ont historiquement suivi trois âges :
+  </p>
+  <ol>
+    <li><strong>Liaisons trunk</strong> (1965–1990) — Intelsat, point-à-point entre grandes stations C-band. Marché : opérateurs téléphoniques internationaux.</li>
+    <li><strong>VSAT</strong> (1990–2010) — Ku-band, terminaux 1–3 m, services entreprise (banque, distribution, point-de-vente, sites isolés). Pionniers : Hughes, Gilat, ViaSat, ST Engineering iDirect.</li>
+    <li><strong>HTS / VHTS</strong> (2010–) — Ka-band, multifaisceaux, capacité par satellite 100 Gbps à 1 Tbps. Cible : Internet grand public et entreprise très haut débit.</li>
+  </ol>
+
+  <p>
+    Quelques HTS emblématiques :
+  </p>
+
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Satellite</th><th>Opérateur</th><th>Capacité</th><th>Statut</th></tr></thead>
+    <tbody>
+      <tr><td>Viasat-1</td><td>Viasat (USA)</td><td>140 Gbps</td><td>Lancé 2011 — pionnier HTS</td></tr>
+      <tr><td>KA-SAT</td><td>Eutelsat → Viasat</td><td>90 Gbps</td><td>Europe, lancé 2010</td></tr>
+      <tr><td>Jupiter-3 / EchoStar XXIV</td><td>Hughes</td><td>500 Gbps</td><td>Lancé 2023</td></tr>
+      <tr><td>KONNECT VHTS</td><td>Eutelsat</td><td>500 Gbps</td><td>Europe, lancé 2022 — produit TAS</td></tr>
+      <tr><td>Viasat-3</td><td>Viasat</td><td>1 Tbps (théorique)</td><td>Premier satellite lancé 2023 (problème antenne en orbite)</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>10.2 Constellations LEO</h3>
+  <p>
+    Le LEO a connu une explosion à partir de 2019 grâce à : (a) la baisse drastique des coûts de lancement (SpaceX Falcon 9), (b) la maîtrise des phased arrays grand public, (c) les OISL optiques. Les acteurs majeurs :
+  </p>
+
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Constellation</th><th>Opérateur</th><th>Nb sat. déployés (2026)</th><th>Altitude</th><th>Bandes</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Starlink</strong></td><td>SpaceX</td><td>&gt; 7 000</td><td>~550 km</td><td>Ku user, Ka gateway, V/Q gateway V2</td></tr>
+      <tr><td><strong>OneWeb</strong> (Eutelsat Group)</td><td>Eutelsat</td><td>~650</td><td>1 200 km</td><td>Ku user, Ka gateway</td></tr>
+      <tr><td><strong>Kuiper</strong></td><td>Amazon</td><td>en déploiement</td><td>~600 km</td><td>Ka</td></tr>
+      <tr><td><strong>IRIS²</strong></td><td>UE / consortium</td><td>~2030</td><td>LEO + MEO</td><td>Multi-bande, souveraineté</td></tr>
+      <tr><td><strong>Telesat Lightspeed</strong></td><td>Telesat</td><td>en déploiement</td><td>~1 000 km</td><td>Ka</td></tr>
+    </tbody>
+  </table></div>
+
+  <p>
+    Caractéristiques architecturales spécifiques aux LEO :
+  </p>
+  <ul>
+    <li><strong>Handover</strong> rapide — un satellite défile en quelques minutes au-dessus d'un terminal donné. Il faut basculer le terminal sur le suivant sans coupure perceptible.</li>
+    <li><strong>OISL</strong> — typiquement 4 liens optiques par satellite (avant, arrière, latéraux), formant un maillage. Permet de router un paquet sans repasser par une gateway à chaque hop.</li>
+    <li><strong>Doppler</strong> important — compensé par les modems user et bord.</li>
+    <li><strong>EPFD</strong> — limites strictes près de l'équateur pour protéger les GEO (cf. ch. 3).</li>
+    <li><strong>Variabilité du bilan</strong> — la distance et l'élévation changent constamment ; ACM dynamique requis.</li>
+  </ul>
+
+  <h3>10.3 5G-NTN — l'intégration télécom mobile</h3>
+  <p>
+    Le 3GPP a entamé l'intégration du satellite dans la 5G dès la <strong>Release 17</strong> (2022), avec deux pistes :
+  </p>
+
+  <h4>NB-IoT / eMTC via NTN (IoT-NTN)</h4>
+  <p>
+    Adaptation des standards LPWAN (Low Power Wide Area) cellulaires existants au satellite. Cible : objets connectés à très faible débit, faible consommation. Acteurs : Sateliot, Skylo, OQ Technology. Bande L ou S, latence acceptée modérée (quelques secondes).
+  </p>
+
+  <h4>NR-NTN — la 5G NR via satellite</h4>
+  <p>
+    Extension du NR (New Radio) 5G aux satellites. Deux scénarios :
+  </p>
+  <ul>
+    <li><strong>Earth-fixed beams</strong> — typique en GEO ou MEO, le faisceau pointe une zone fixe au sol.</li>
+    <li><strong>Earth-moving beams</strong> — en LEO, le faisceau défile avec le satellite (le terminal est handover-ed entre faisceaux successifs).</li>
+  </ul>
+  <p>
+    Adaptations clés :
+  </p>
+  <ul>
+    <li><strong>Doppler precompensation</strong> côté terminal (qui connaît sa position GNSS et celle du satellite par ephémérides diffusées).</li>
+    <li><strong>Timing advance étendu</strong> — peut atteindre 540 ms en GEO.</li>
+    <li><strong>Structures de trame étendues</strong> avec des relations HARQ adaptées (HARQ classique non viable pour latences GEO).</li>
+    <li><strong>Bandes</strong> : n255/n256 (L/S) dédiées NTN ; pour le D2D, réutilisation des bandes terrestres dans des conditions précises.</li>
+  </ul>
+
+  <h3>10.4 Direct-to-Device (D2D)</h3>
+  <p>
+    La rupture en cours : faire fonctionner un smartphone standard avec un satellite, sans matériel additionnel. Trois approches :
+  </p>
+
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Approche</th><th>Exemples</th><th>Caractéristiques</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Bande satellite native + chipset compatible</strong></td><td>Apple/Globalstar (SOS messaging iPhone), Qualcomm/Iridium (avorté)</td><td>Service très limité (messagerie d'urgence), bande dédiée</td></tr>
+      <tr><td><strong>Réutilisation des bandes mobiles terrestres</strong></td><td>Starlink + T-Mobile, AST SpaceMobile</td><td>Smartphone sans modification ; nécessite très grande antenne satellite (AST : antennes plusieurs centaines de m²)</td></tr>
+      <tr><td><strong>5G-NTN standardisé</strong></td><td>3GPP Release 17+ avec mise à jour OS</td><td>Approche standard de long terme</td></tr>
+    </tbody>
+  </table></div>
+
+  <p>
+    Le défi RF du D2D est colossal : un smartphone a une antenne quasi-omni à très faible gain (~0 dBi), une puissance d'émission limitée à 23 dBm. Pour fermer le bilan vers un LEO à 550 km, il faut côté satellite :
+  </p>
+  <ul>
+    <li>Une antenne de très grande surface (AST SpaceMobile : 64 m² par BlueBird).</li>
+    <li>Une formation de faisceau très fine (beam de quelques km de diamètre au sol).</li>
+    <li>Une puissance d'émission élevée et un G/T très favorable.</li>
+  </ul>
+
+  <p>
+    Les chiffres typiques annoncés : quelques Mbps en download, quelques centaines de kbps en upload, latence ~30 ms. Pas un substitut à la 5G terrestre, mais une couverture des zones blanches.
+  </p>
+
+  <h3>10.5 Convergence terrestre-spatial</h3>
+  <p>
+    La grande tendance 2025–2030 est la convergence des architectures :
+  </p>
+  <ul>
+    <li><strong>3GPP 5G-NTN</strong> et 6G — un seul cœur de réseau pour les accès terrestres et satellitaires.</li>
+    <li><strong>SD-WAN</strong> multi-accès — l'entreprise utilise indifféremment fibre, 5G et satellite, avec sélection dynamique par l'orchestrateur SD-WAN.</li>
+    <li><strong>Cloud computing distribué</strong> — Microsoft Azure Orbital, AWS Ground Station ; gateways virtualisées dans le cloud.</li>
+    <li><strong>Souveraineté</strong> — IRIS² (Europe), SBN (BRICS variants), Athena-Fidus / Syracuse pour la défense française.</li>
+  </ul>
+
+  <div class="callout cyan">
+    <div class="label">Compétences-clés pour la convergence télécom/spatial</div>
+    Pour intégrer ce mouvement, les compétences les plus recherchées sont : <strong>networking IP</strong> (routage, MPLS, IPSec, QoS), <strong>protocoles 5G</strong> (RAN, core, NTN), <strong>SDR et FPGA</strong>, et la maîtrise des chaînes CI/CD. Les postes « ingénieur système 5G-NTN » et « IVV charge utile constellation » sont en croissance forte chez les industriels établis (Thales Alenia Space, Eutelsat, ArianeGroup, Airbus DS) ainsi que chez les nouveaux entrants français (Loft Orbital, Constellation Technologies, Unseenlabs).
+  </div>
+
+  <div class="takeaways">
+    <h4>Points clés du chapitre 10</h4>
+    <ul>
+      <li>Les <strong>HTS GEO</strong> atteignent 500 Gbps – 1 Tbps par satellite ; ils restent dominants en distribution professionnelle et résidentielle.</li>
+      <li>Les <strong>constellations LEO</strong> apportent faible latence et couverture polaire. Starlink est le leader dominant (>7 000 sat. en 2026).</li>
+      <li>La <strong>5G-NTN</strong> (3GPP Rel. 17+) standardise l'accès satellite, ouvrant la convergence terrestre/spatial.</li>
+      <li>Le <strong>D2D</strong> émerge — services initialement limités (messagerie SOS), montée en puissance progressive.</li>
+      <li>L'architecture devient <strong>multi-accès, multi-orbite, cloud-native</strong>.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- CHAPITRE 11 — CONTEXTE ECONOMIQUE                            -->
+<!-- ========================================================== -->
+<section class="chapter" id="ch11">
+  <div class="chap-num">Chapitre 11</div>
+  <h2>Contexte économique & industriel</h2>
+  <p class="chap-lede">
+    Au-delà de la technique, le secteur spatial est un écosystème industriel structuré. Comprendre les acteurs, leurs business models et la chaîne de valeur est essentiel pour s'orienter — et pour préparer ses entretiens.
+  </p>
+
+  <h3>11.1 La chaîne de valeur</h3>
+  <p>
+    Le secteur se décompose en plusieurs maillons :
+  </p>
+
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Maillon</th><th>Activité</th><th>Acteurs français / européens</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Constructeurs satellites</strong></td><td>Plateforme + charge utile, intégration, AIT</td><td>Airbus DS (Toulouse), TAS (Cannes/Toulouse), OHB (Allemagne)</td></tr>
+      <tr><td><strong>Équipementiers</strong></td><td>TWTA, antennes, FPGA, optique</td><td>Thales (TWTA, antennes), Latécoère, Safran Data Systems, ArianeGroup (propulsion, matériel)</td></tr>
+      <tr><td><strong>Lanceurs</strong></td><td>Mise en orbite</td><td>Arianespace, ArianeGroup (Ariane 6), MaiaSpace (futur)</td></tr>
+      <tr><td><strong>Opérateurs</strong></td><td>Exploitation commerciale</td><td>Eutelsat (incl. OneWeb), Telespazio, SES (Luxembourg), Inmarsat (acquis par Viasat 2023)</td></tr>
+      <tr><td><strong>Intégrateurs sol</strong></td><td>Gateways, hubs, services</td><td>CS Group, Thales Six, Telespazio</td></tr>
+      <tr><td><strong>Bureaux d'études</strong></td><td>Conseil, IVV, R&D</td><td>SERMA Technologies, ALTEN, Astek, Scalian, Akka, Capgemini Engineering</td></tr>
+      <tr><td><strong>Agences</strong></td><td>Programmes institutionnels, financement R&D</td><td>CNES (France), ESA (Europe), DGA (défense FR), DG-DEFIS / EUSPA (UE)</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>11.2 Géographie française et européenne</h3>
+  <p>
+    En France, l'industrie spatiale se concentre autour de quelques pôles :
+  </p>
+  <ul>
+    <li><strong>Toulouse</strong> — capitale européenne du spatial : Airbus DS, Thales Alenia Space, CNES, ArianeGroup, IRT Saint Exupéry, CS Group, écosystème de startups (Loft Orbital, U-Space, etc.).</li>
+    <li><strong>Cannes-Mandelieu</strong> — Thales Alenia Space (charge utile télécom historique).</li>
+    <li><strong>Paris-Vélizy / Île-de-France</strong> — Thales Electron Devices (TWTA), Eutelsat, CS Group, sièges sociaux.</li>
+    <li><strong>Bordeaux</strong> — ArianeGroup propulsion, Cnes Centre des essais.</li>
+    <li><strong>Liège (B), Bremen (D), Stevenage (UK)</strong> à l'échelle européenne.</li>
+  </ul>
+
+  <h3>11.3 Marché global et tendances macro</h3>
+  <p>
+    Le marché spatial mondial est estimé autour de 400–500 Md$ en 2025 (sources : Bryce Tech, ESPI), avec une croissance soutenue tirée par le segment commercial. Les segments :
+  </p>
+  <ul>
+    <li><strong>Services satellites</strong> (DTH, internet, IoT, mobilité) : ~150 Md$.</li>
+    <li><strong>Industrie satellite</strong> (construction) : ~20 Md$.</li>
+    <li><strong>Lanceurs</strong> : ~15 Md$.</li>
+    <li><strong>Équipement sol</strong> (terminaux, gateways) : ~150 Md$.</li>
+    <li><strong>Reste</strong> : observation, navigation, science.</li>
+  </ul>
+
+  <p>
+    Tendances structurelles :
+  </p>
+  <ul>
+    <li><strong>NewSpace</strong> — baisse drastique des coûts de lancement (SpaceX), montée des startups, démocratisation de l'accès à l'orbite.</li>
+    <li><strong>Constellations LEO</strong> — déplacement de la valeur du GEO vers le LEO, baisse des prix des services satellite.</li>
+    <li><strong>Souveraineté</strong> — programmes nationaux/européens (IRIS², GovSatCom, Syracuse IV).</li>
+    <li><strong>Direct-to-device</strong> — nouvel entrant disruptif (Starlink, AST).</li>
+    <li><strong>Consolidation</strong> — Eutelsat/OneWeb (2023), Viasat/Inmarsat (2023), Intelsat/SES (en cours).</li>
+  </ul>
+
+  <h3>11.4 Carrières et formations</h3>
+  <p>
+    Les filières types pour un ingénieur télécom spatial :
+  </p>
+  <ul>
+    <li><strong>Architecte système télécom</strong> — vision bout-en-bout, dimensionnement, simulation. Profil senior, souvent issus de Telecom Paris / SUPAERO.</li>
+    <li><strong>Ingénieur charge utile</strong> (HW ou SW) — équipements, qualification, AIT. Profils ECE / SUPELEC / ENSEEIHT.</li>
+    <li><strong>Ingénieur sol</strong> — gateways, modems, intégration réseau. Profils similaires + composante IT.</li>
+    <li><strong>Ingénieur IVV</strong> — plans de test, exécution, conformité ECSS. Profils embedded systems / V&V.</li>
+    <li><strong>Software-defined / NTN</strong> — protocoles 5G, SDR, FPGA. Profils en croissance forte, frontière entre télécom mobile et spatial.</li>
+  </ul>
+
+  <div class="callout violet">
+    <div class="label">Profils hybrides recherchés</div>
+    Les profils combinant <strong>embedded systems + standards de certification (DO-178, ECSS) + Python + projets SDR personnels</strong> sont particulièrement appréciés sur les postes IVV charge utile, software-defined payload, ou validation des sous-systèmes RF. Les principaux employeurs à Toulouse : <strong>Thales Alenia Space</strong> (charge utile télécom), <strong>Airbus DS</strong> (intégration), <strong>CS Group</strong> (segment sol), <strong>SERMA</strong> / <strong>ALTEN</strong> / <strong>Astek</strong> (assistance technique). Pour les ingénieurs issus de l'avionique, la transition DO-178C → ECSS-E-ST-40C est l'argument central à articuler en entretien.
+  </div>
+
+  <div class="takeaways">
+    <h4>Points clés du chapitre 11</h4>
+    <ul>
+      <li>Le secteur spatial pèse ~400–500 Md$ en 2025, dominé par les services et l'équipement sol.</li>
+      <li><strong>Toulouse</strong> est l'écosystème spatial de référence en Europe.</li>
+      <li><strong>NewSpace</strong>, <strong>constellations</strong>, <strong>souveraineté</strong>, <strong>D2D</strong> sont les quatre tendances structurelles à connaître.</li>
+      <li>Filières : architecte système, charge utile, sol, IVV, software-defined/NTN — toutes en croissance.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- CHAPITRE 12 — SYNTHESE                                       -->
+<!-- ========================================================== -->
+<section class="chapter" id="ch12">
+  <div class="chap-num">Chapitre 12</div>
+  <h2>Synthèse & perspectives</h2>
+  <p class="chap-lede">
+    En guise de conclusion : la cartographie des connaissances acquises, les tendances technologiques émergentes, et des pistes pour aller plus loin.
+  </p>
+
+  <h3>12.1 Le fil rouge du cours</h3>
+  <p>
+    Si l'on devait résumer le cours en une phrase : <em>un système de télécommunications par satellite est un compromis multi-couches où chaque décision (orbite → bande → modulation → architecture sol) propage ses contraintes dans toutes les autres dimensions</em>. L'ingénieur télécom spatial maîtrise ces compromis et les articule en termes économiques et réglementaires.
+  </p>
+
+  <p>
+    Les outils mathématiques fondamentaux à savoir manipuler à l'oral :
+  </p>
+  <ul>
+    <li><strong>Friis et FSPL</strong> — l'équation fondamentale.</li>
+    <li><strong>EIRP, G/T, C/N₀</strong> — les trois indicateurs de bilan.</li>
+    <li><strong>Capacité de Shannon</strong> — la borne théorique.</li>
+    <li><strong>Atténuation pluie ITU-R P.618</strong> — la dégradation principale en Ka.</li>
+    <li><strong>Friis cascade</strong> — pour le bruit composant.</li>
+    <li><strong>Combinaison up/down</strong> — somme des inverses C/N.</li>
+  </ul>
+
+  <h3>12.2 Sujets non couverts qui méritent une exploration</h3>
+  <ul>
+    <li><strong>Liaisons optiques spatiales</strong> — OISL, downlink optique (Bartolomeo, futurs liens sol optiques). Physique du laser, pointage micro-radian, atténuation atmosphérique optique, codage optique. Cours ESA / Telecom Paris dédiés.</li>
+    <li><strong>Quantum Key Distribution</strong> par satellite — pré-recherche pour la cryptographie post-quantique.</li>
+    <li><strong>GNSS</strong> en profondeur — signaux, ambiguïtés, RTK, multi-constellation, Galileo HAS.</li>
+    <li><strong>Météorologie de l'espace</strong> — effets ionosphère sur signaux GNSS et L-band, scintillation.</li>
+    <li><strong>Test d'antennes</strong> — chambre anéchoïque, near-field/far-field, mesure pattern.</li>
+    <li><strong>AIT</strong> et qualification spatiale — vibrations, thermal vacuum, radiations, cycle de TRL.</li>
+    <li><strong>ECSS</strong> — normes européennes complètes (E-ST-40, Q-ST-80, E-50, etc.).</li>
+  </ul>
+
+  <h3>12.3 Ressources pour approfondir</h3>
+  <ul>
+    <li><strong>Pratt, Bostian & Allnutt</strong> — <em>Satellite Communications</em>, 3rd ed. La bible du domaine, niveau master.</li>
+    <li><strong>Maral, Bousquet, Sun</strong> — <em>Satellite Communications Systems</em>, 6th ed. Référence française en anglais (les auteurs sont Telecom Paris / SUPAERO).</li>
+    <li><strong>Roddy</strong> — <em>Satellite Communications</em>. Plus accessible, bon pour réviser les bases.</li>
+    <li><strong>Telecom Paris Executive Education</strong> — formation continue télécom spatiale (5 jours).</li>
+    <li><strong>Documentations UIT</strong> — recommandations P.618, S.580, S.524 (gratuites en téléchargement).</li>
+    <li><strong>Standards ETSI/DVB</strong> — EN 302 307-1 (S2), EN 302 307-2 (S2X), EN 301 545-2 (RCS2). Téléchargeables gratuitement.</li>
+    <li><strong>3GPP</strong> — TR 38.811, TR 38.821, TS 38.331 (5G-NTN). Sur 3gpp.org.</li>
+    <li><strong>ECSS</strong> — ecss.nl, accès aux standards (gratuit après inscription).</li>
+    <li><strong>CNES Forms</strong> et cours en ligne du CNES (gratuits).</li>
+    <li><strong>Open-source</strong> : GNU Radio + Osmocom pour SDR, <code>poliastro</code> / <code>skyfield</code> pour la mécanique orbitale en Python.</li>
+  </ul>
+
+  <h3>12.4 La carte mentale finale</h3>
+  <p>
+    Pour clore : voici la cartographie de ce que l'on doit être capable d'articuler à l'oral d'un entretien d'architecte ou d'IVV spatial.
+  </p>
+
+  <ul>
+    <li>Décrire les 3 segments d'un système (spatial / sol / usager).</li>
+    <li>Choisir une orbite et justifier (latence, couverture, EIRP, économie).</li>
+    <li>Réaliser un bilan de liaison à l'envers d'une enveloppe.</li>
+    <li>Décrire un répéteur transparent et un régénératif, et leurs cas d'usage.</li>
+    <li>Citer les principales bandes et leurs sensibilités atmosphériques.</li>
+    <li>Expliquer ACM, MODCOD, et l'intérêt en HTS Ka.</li>
+    <li>Décrire DVB-S2X et DVB-RCS2 dans les grandes lignes.</li>
+    <li>Citer les acteurs majeurs (FR/EU/global).</li>
+    <li>Expliquer la procédure UIT (API → coordination → notification → mise en service).</li>
+    <li>Situer la 5G-NTN dans l'évolution des standards.</li>
+  </ul>
+
+  <div class="callout">
+    <div class="label">Le mot de la fin</div>
+    Ce MOOC est conçu comme un outil de transition pour les ingénieurs venant d'autres horizons (avionique, télécom terrestre, embedded, électronique RF) qui souhaitent intégrer le secteur des télécommunications spatiales : un dépôt structuré des connaissances nécessaires pour franchir le mur du langage et des références propres au domaine. Il se reprend par fragments. Refaire le bilan de liaison du chapitre 8 jusqu'à l'avoir en réflexe, et tisser les ponts entre son expérience antérieure (DO-178, IVV, réseau, RF) et les standards spatiaux (ECSS, DVB-S2X, 3GPP NTN) constituent la meilleure préparation à un entretien technique. Bon vol.
+  </div>
+
+  <div class="takeaways">
+    <h4>Points clés du chapitre 12</h4>
+    <ul>
+      <li>Le télécommunicant spatial articule des compromis multi-couches : orbite, bande, modulation, architecture.</li>
+      <li>Six équations à maîtriser : <strong>Friis, FSPL, C/N₀, Friis-cascade, Shannon, combinaison up/down</strong>.</li>
+      <li>Ressources : Pratt/Bostian, Maral/Bousquet, recommandations UIT, normes ETSI/DVB, ECSS.</li>
+      <li>Compétences à projeter à l'oral : architecture, dimensionnement, ACM, standards DVB, paysage industriel.</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+</div>
+
+<script>
+  // Highlight current TOC entry on scroll
+  const sections = document.querySelectorAll('section.chapter');
+  const tocLinks = document.querySelectorAll('aside.toc ol a');
+
+  function updateActive() {
+    let current = '';
+    const scrollY = window.scrollY + 100;
+    sections.forEach(s => {
+      if (s.offsetTop <= scrollY) current = s.id;
+    });
+    tocLinks.forEach(a => {
+      const href = a.getAttribute('href').slice(1);
+      if (href === current) {
+        a.style.color = 'var(--accent)';
+        a.style.background = 'var(--bg-elev)';
+      } else {
+        a.style.color = '';
+        a.style.background = '';
+      }
+    });
+  }
+  window.addEventListener('scroll', updateActive, { passive: true });
+  updateActive();
+</script>
+
+</body>
+</html>

@@ -1,5 +1,5 @@
 // app/posts/new/page.tsx
-import CreateLinkForm from '@/components/LinkForm';
+import CreateLinkForm from '@/components/forms/LinkForm';
 
 export default function NewLinkPage() {
   return (

@@ -1,7 +1,11 @@
 import { NextResponse, NextRequest } from 'next/server';
 import prisma from '@/lib/prisma';
+import { auth } from '@/lib/auth';
 
-export async function DELETE(req: NextRequest,  { params }: { params: Promise<{ id: string }> }) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const session = await auth();
+  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
   try {
     const id = Number((await params).id);
     if (!id) return NextResponse.json({ error: 'Invalid id' }, { status: 400 });
@@ -13,30 +17,31 @@ export async function DELETE(req: NextRequest,  { params }: { params: Promise<{ 
   }
 }
 
-export async function PUT(req: NextRequest,  { params }: { params: Promise<{ id: string }> }) {
+export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const session = await auth();
+  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   try {
     const id = Number((await params).id);
     if (!id) return NextResponse.json({ error: 'Invalid id' }, { status: 400 });
-    const formData = await req.formData();
-    const name = formData.get('name') as string;
-    const ticker = formData.get('ticker') as string;
-    const price = Number(formData.get('price') || 0);
-    const purchasePrice = Number(formData.get('purchasePrice') || 0);
-    const quantity = Number(formData.get('quantity') || 1);
-    const pe = formData.get('pe') ? Number(formData.get('pe')) : undefined;
+
+    const body = await req.json();
+    const { name, ticker, price, purchasePrice, quantity, pe, dividendYield, where } = body;
 
     if (!name || !ticker) return NextResponse.json({ error: 'Missing name or ticker' }, { status: 400 });
+
     const updated = await prisma.action.update({
       where: { id },
       data: {
         name,
         ticker,
-        price,
-        purchasePrice,
-        quantity,
-        pe,
-      }
+        price: Number(price || 0),
+        purchasePrice: Number(purchasePrice || 0),
+        quantity: Number(quantity || 1),
+        pe: pe != null ? Number(pe) : null,
+        dividendYield: dividendYield != null ? Number(dividendYield) : null,
+        where: where || null,
+      },
     });
     return NextResponse.json({ item: updated });
   } catch (err) {

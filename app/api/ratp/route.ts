@@ -1,11 +1,12 @@
-// app/api/metals/route.js
+// app/api/ratp/route.ts
 import { NextResponse } from 'next/server';
+
+// Cache the whole route response for 60 s — transit data doesn't need sub-minute freshness
+export const revalidate = 60;
 import { formatDistanceToNow } from 'date-fns';
 import { fr } from 'date-fns/locale';
 
 export async function GET() {
-  const API_KEY = process.env.WEATHER_API_KEY;
-  
   try {
 
     let subway_data = await fetch(
@@ -13,7 +14,7 @@ export async function GET() {
     {
     method: 'GET',
     headers: {
-        'apiKey': 'WfxAdqyUDcSKZQWkteHJJrCOUuOCfZXK'
+        'apiKey': process.env.RATP_API_KEY || ''
       }
     })
   let subway_10 = await subway_data.json()

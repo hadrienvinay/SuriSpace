@@ -1,5 +1,5 @@
 // app/edit/[id]/page.tsx
-import LinkForm from '@/components/LinkForm'
+import LinkForm from '@/components/forms/LinkForm'
 import { notFound } from 'next/navigation'
 import prisma from '@/lib/prisma'
 

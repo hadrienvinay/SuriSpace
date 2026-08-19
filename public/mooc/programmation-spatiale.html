@@ -1,0 +1,2694 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOOC — Programmation pour le Spatial · Niveau Master</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0d10;
+    --bg-2: #0f1318;
+    --bg-3: #151a21;
+    --panel: #11161c;
+    --line: #1f2730;
+    --line-2: #2a333e;
+    --ink: #e6ecf2;
+    --ink-2: #aab4be;
+    --ink-3: #6f7882;
+    --accent: #ff7a45;       /* orange industriel - heat shield */
+    --accent-2: #5ad1ff;     /* cyan - télémetrie */
+    --accent-3: #b8ff5a;     /* vert phosphore */
+    --accent-4: #ffd76a;     /* ambre - warning */
+    --crit: #ff5577;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+    --display: 'Syne', system-ui, sans-serif;
+    --body: 'Inter', system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--body);
+    font-weight: 300;
+    line-height: 1.65;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(circle at 15% 10%, rgba(255,122,69,0.06) 0%, transparent 40%),
+      radial-gradient(circle at 85% 60%, rgba(90,209,255,0.04) 0%, transparent 50%),
+      linear-gradient(180deg, var(--bg) 0%, #07090b 100%);
+    min-height: 100vh;
+  }
+
+  /* ============ Layout ============ */
+  .shell { display: grid; grid-template-columns: 280px 1fr; max-width: 1500px; margin: 0 auto; }
+  aside.toc {
+    position: sticky; top: 0; height: 100vh; overflow-y: auto;
+    border-right: 1px solid var(--line);
+    padding: 28px 22px;
+    background: linear-gradient(180deg, var(--bg-2), var(--bg));
+  }
+  main { padding: 50px 60px 120px; max-width: 1100px; }
+
+  /* ============ Branding ============ */
+  .brand {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+  }
+  .brand .dot { color: var(--accent); }
+  .brand-sub {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    margin-bottom: 30px;
+  }
+
+  /* ============ TOC ============ */
+  .toc-section {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    margin: 24px 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px dashed var(--line);
+  }
+  .toc a {
+    display: block;
+    font-size: 13px;
+    color: var(--ink-2);
+    text-decoration: none;
+    padding: 6px 10px;
+    border-left: 2px solid transparent;
+    transition: all 0.2s;
+    font-weight: 400;
+  }
+  .toc a:hover { color: var(--ink); border-left-color: var(--accent); background: var(--bg-3); }
+  .toc a .num {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--ink-3);
+    margin-right: 8px;
+  }
+
+  /* ============ Hero ============ */
+  .hero {
+    margin-bottom: 80px;
+    padding-bottom: 50px;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -20px; left: -20px;
+    width: 80px; height: 80px;
+    border: 1px solid var(--accent);
+    border-right: none; border-bottom: none;
+    opacity: 0.4;
+  }
+  .hero-tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--accent);
+    padding: 6px 14px;
+    border: 1px solid var(--accent);
+    border-radius: 2px;
+    margin-bottom: 24px;
+  }
+  h1 {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(38px, 5vw, 64px);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    margin-bottom: 24px;
+  }
+  h1 .em { color: var(--accent); font-style: italic; font-weight: 700; }
+  .hero-sub {
+    font-size: 18px;
+    color: var(--ink-2);
+    max-width: 720px;
+    line-height: 1.55;
+    margin-bottom: 36px;
+  }
+  .hero-meta {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-top: 36px;
+  }
+  .meta-card {
+    border-left: 2px solid var(--accent);
+    padding: 4px 0 4px 14px;
+  }
+  .meta-card .label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .meta-card .value {
+    font-family: var(--display);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  /* ============ Modules ============ */
+  .module {
+    margin-bottom: 100px;
+    scroll-margin-top: 20px;
+  }
+  .module-header {
+    margin-bottom: 40px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+  }
+  .module-num {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.25em;
+    color: var(--accent);
+    background: rgba(255,122,69,0.08);
+    padding: 6px 12px;
+    border: 1px solid rgba(255,122,69,0.3);
+  }
+  h2 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(28px, 3.5vw, 42px);
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    flex: 1;
+  }
+  h3 {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    margin: 40px 0 16px;
+  }
+  h3::before {
+    content: '§ ';
+    color: var(--accent);
+    font-family: var(--mono);
+    font-weight: 400;
+  }
+  h4 {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 17px;
+    color: var(--ink);
+    margin: 26px 0 10px;
+  }
+  p { margin-bottom: 14px; color: var(--ink-2); }
+  p strong, li strong { color: var(--ink); font-weight: 500; }
+  ul, ol { margin: 12px 0 18px 24px; color: var(--ink-2); }
+  li { margin-bottom: 6px; line-height: 1.55; }
+  a.link { color: var(--accent-2); text-decoration: none; border-bottom: 1px dotted var(--accent-2); }
+
+  /* ============ Code blocks ============ */
+  pre {
+    background: #0b0e12;
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    padding: 18px 22px;
+    overflow-x: auto;
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.6;
+    margin: 18px 0 24px;
+    border-radius: 2px;
+    position: relative;
+  }
+  pre::before {
+    content: attr(data-lang);
+    position: absolute;
+    top: 0; right: 0;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--ink-3);
+    padding: 4px 10px;
+    background: var(--bg-3);
+    border-left: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    text-transform: uppercase;
+  }
+  code { font-family: var(--mono); color: var(--accent-3); }
+  pre code { color: var(--ink); }
+  p code, li code {
+    background: var(--bg-3);
+    padding: 1px 6px;
+    border-radius: 2px;
+    font-size: 12.5px;
+    color: var(--accent-3);
+    border: 1px solid var(--line);
+  }
+  .k { color: #ff7a45; font-weight: 500; }   /* keyword */
+  .s { color: #b8ff5a; }                     /* string */
+  .n { color: #ffd76a; }                     /* number */
+  .c { color: #6f7882; font-style: italic; } /* comment */
+  .t { color: #5ad1ff; }                     /* type */
+  .f { color: #e6ecf2; font-weight: 500; }   /* function */
+  .p { color: #aab4be; }                     /* punct */
+
+  /* ============ Callouts ============ */
+  .callout {
+    margin: 24px 0;
+    padding: 18px 22px;
+    background: var(--panel);
+    border-left: 3px solid var(--accent-2);
+    border-radius: 0 4px 4px 0;
+  }
+  .callout.warn { border-left-color: var(--accent-4); }
+  .callout.crit { border-left-color: var(--crit); }
+  .callout.tip { border-left-color: var(--accent-3); }
+  .callout-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+    margin-bottom: 8px;
+  }
+  .callout.warn .callout-title { color: var(--accent-4); }
+  .callout.crit .callout-title { color: var(--crit); }
+  .callout.tip .callout-title { color: var(--accent-3); }
+
+  /* ============ Exercises ============ */
+  details.ex {
+    margin: 20px 0;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  details.ex > summary {
+    cursor: pointer;
+    padding: 16px 22px;
+    background: linear-gradient(90deg, rgba(255,122,69,0.06), transparent);
+    border-bottom: 1px solid transparent;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--ink);
+    user-select: none;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  details.ex > summary::-webkit-details-marker { display: none; }
+  details.ex > summary::before {
+    content: '+';
+    font-family: var(--mono);
+    color: var(--accent);
+    font-size: 22px;
+    transition: transform 0.2s;
+    width: 18px;
+  }
+  details.ex[open] > summary::before { transform: rotate(45deg); }
+  details.ex[open] > summary { border-bottom-color: var(--line); }
+  .ex-tag {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    padding: 3px 8px;
+    background: rgba(255,122,69,0.1);
+    border: 1px solid rgba(255,122,69,0.3);
+    text-transform: uppercase;
+    margin-right: 8px;
+  }
+  .ex-body { padding: 20px 22px; }
+  .ex-body .solution {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px dashed var(--line);
+  }
+  .ex-body .solution::before {
+    content: 'CORRIGÉ';
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--accent-3);
+    background: rgba(184,255,90,0.08);
+    padding: 4px 10px;
+    border: 1px solid rgba(184,255,90,0.3);
+    margin-bottom: 14px;
+  }
+
+  /* ============ Tables ============ */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0 24px;
+    font-size: 13.5px;
+  }
+  th, td {
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  th {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--line-2);
+    font-weight: 500;
+  }
+  td { color: var(--ink-2); }
+  td:first-child { color: var(--ink); font-weight: 500; }
+
+  /* ============ ASCII diagrams ============ */
+  pre.ascii {
+    border-left: 3px solid var(--accent-2);
+    color: var(--ink);
+    font-size: 12px;
+    line-height: 1.4;
+    background: #08090c;
+  }
+
+  /* ============ Footer ============ */
+  footer {
+    margin-top: 100px;
+    padding-top: 40px;
+    border-top: 1px solid var(--line);
+    color: var(--ink-3);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+  }
+
+  /* ============ Responsive ============ */
+  @media (max-width: 1000px) {
+    .shell { grid-template-columns: 1fr; }
+    aside.toc { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--line); }
+    main { padding: 30px 24px 60px; }
+    .hero-meta { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* ============ Print ============ */
+  @media print {
+    aside.toc { display: none; }
+    .shell { grid-template-columns: 1fr; }
+    main { padding: 20px; }
+    body { background: white; color: black; }
+    pre { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+<!-- ====================== SIDEBAR ====================== -->
+<aside class="toc">
+  <div class="brand">SURI<span class="dot">·</span>SPACE / MOOC</div>
+  <div class="brand-sub">Programmation Spatiale · v1.0</div>
+
+  <div class="toc-section">Fondations</div>
+  <a href="#m0"><span class="num">M0</span>Introduction & écosystème</a>
+  <a href="#m1"><span class="num">M1</span>Architecture des systèmes</a>
+
+  <div class="toc-section">Langages</div>
+  <a href="#m2"><span class="num">M2</span>Python pour le spatial</a>
+  <a href="#m3"><span class="num">M3</span>C embarqué bord</a>
+  <a href="#m4"><span class="num">M4</span>C++ moderne bord</a>
+  <a href="#m5"><span class="num">M5</span>Ada & SPARK critique</a>
+  <a href="#m6"><span class="num">M6</span>Web pour segment sol</a>
+
+  <div class="toc-section">Intégration</div>
+  <a href="#m7"><span class="num">M7</span>Cas concrets intégrés</a>
+  <a href="#m8"><span class="num">M8</span>Évaluation finale</a>
+  <a href="#refs"><span class="num">RÉF</span>Bibliographie & standards</a>
+</aside>
+
+<!-- ====================== MAIN ====================== -->
+<main>
+
+<!-- HERO -->
+<section class="hero">
+  <span class="hero-tag">FORMATION NIVEAU MASTER · M2</span>
+  <h1>Programmation pour les <span class="em">systèmes spatiaux</span></h1>
+  <p class="hero-sub">
+    Une formation dense et structurée couvrant les cinq écosystèmes logiciels du spatial — Python, C, C++, Ada/SPARK, et Web — depuis l'architecture des systèmes bord/sol jusqu'à la mise en œuvre concrète selon les standards ECSS et DO-178C. Pensée pour ingénieurs en transition vers l'industrie spatiale.
+  </p>
+  <div class="hero-meta">
+    <div class="meta-card">
+      <div class="label">Modules</div>
+      <div class="value">9</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">Exercices corrigés</div>
+      <div class="value">28+</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">Volume estimé</div>
+      <div class="value">~120h</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">Prérequis</div>
+      <div class="value">Bac+4 EE/SE</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================== -->
+<!-- MODULE 0 — INTRODUCTION                                        -->
+<!-- ============================================================== -->
+<section class="module" id="m0">
+  <div class="module-header">
+    <div class="module-num">MODULE 0</div>
+    <h2>Introduction à l'écosystème logiciel spatial</h2>
+  </div>
+
+  <p>
+    Le logiciel spatial vit sous des contraintes que peu d'autres domaines connaissent simultanément : déterminisme temps réel dur, ressources matérielles extrêmement limitées (CPU à 100 MHz, RAM en Mo), absence totale d'intervention humaine post-lancement, environnement radiatif hostile (SEU, latch-up), et exigences de certification couvrant des décennies. Cette formation part de ces contraintes pour expliquer <strong>pourquoi</strong> chaque langage occupe sa place — et non l'inverse.
+  </p>
+
+  <h3>0.1 La pyramide logicielle d'une mission</h3>
+
+  <p>Une mission spatiale typique mobilise quatre couches logicielles distinctes, chacune avec ses langages et ses standards :</p>
+
+  <table>
+    <thead><tr><th>Couche</th><th>Langages dominants</th><th>Standards</th><th>Exemples</th></tr></thead>
+    <tbody>
+      <tr><td>OBSW (bord, vol)</td><td>C, Ada, C++ restreint</td><td>ECSS-E-ST-40C, ECSS-Q-ST-80C</td><td>AOCS, FDIR, gestion bord</td></tr>
+      <tr><td>FSW critique vol</td><td>Ada/SPARK, C MISRA</td><td>DO-178C DAL A/B</td><td>Lanceurs, commande</td></tr>
+      <tr><td>EGSE / banc test</td><td>Python, C++, TCL</td><td>ECSS-E-ST-10-25</td><td>Bancs IVV, validation</td></tr>
+      <tr><td>Segment sol / MCS</td><td>Java, C++, Python, TS/React</td><td>CCSDS, ECSS-E-ST-70</td><td>Centres de contrôle</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <div class="callout-title">Repère terminologique</div>
+    <p style="margin:0">
+      <strong>OBSW</strong> = On-Board Software · <strong>FSW</strong> = Flight Software · <strong>EGSE</strong> = Electrical Ground Support Equipment · <strong>MCS</strong> = Mission Control System · <strong>AOCS</strong> = Attitude and Orbit Control System · <strong>FDIR</strong> = Failure Detection, Isolation and Recovery · <strong>TM/TC</strong> = Télémétrie/Télécommande
+    </p>
+  </div>
+
+  <h3>0.2 Pourquoi cinq langages cohabitent</h3>
+
+  <p>
+    L'allocation langage → couche n'est pas un héritage : elle découle de propriétés vérifiables. Le bord exige déterminisme et faible empreinte, donc C ou Ada. Le sol exige productivité et intégration, donc Java/Python/TypeScript. Les bancs exigent scripting rapide mais fiable, donc Python avec discipline. Au milieu, le C++ moderne (depuis C++14/17) gagne du terrain pour le bord non critique parce qu'il combine zéro-coût des abstractions et expressivité.
+  </p>
+
+  <h4>Le quadrant criticité × complexité</h4>
+
+  <pre class="ascii" data-lang="diagramme">                                COMPLEXITÉ →
+                  faible                              forte
+    haute  ┌─────────────────────────┬─────────────────────────┐
+           │                         │                         │
+           │     Ada / SPARK         │   C++ + Ada wrappers    │
+           │   (lanceurs, AOCS,      │   (charges utiles       │
+           │    pilotage critique)   │    complexes, FDIR)     │
+    C      │                         │                         │
+    R      ├─────────────────────────┼─────────────────────────┤
+    I      │                         │                         │
+    T      │     C / MISRA-C         │      C++ moderne        │
+           │   (RTOS, drivers, BSP   │   (traitement données,  │
+    ↑      │    cyclique simple)     │    image, IA bord)      │
+    │      └─────────────────────────┴─────────────────────────┘
+    faible
+
+           Sol & banc : Python (scripts/IVV) · TS/React (MCS) · Java (CCSDS)
+</pre>
+
+  <h3>0.3 Les contraintes qui structurent tout</h3>
+  <ul>
+    <li><strong>Déterminisme temporel.</strong> Toute opération critique doit s'exécuter en <em>worst-case execution time</em> (WCET) borné et démontrable. Cela exclut allocation dynamique, récursion non bornée, et la plupart des constructions modernes.</li>
+    <li><strong>Pas de couches inutilisées.</strong> Le standard DO-178C exige la traçabilité totale : si une ligne de code n'est pas couverte par un test lié à une exigence, elle ne doit pas exister.</li>
+    <li><strong>Tolérance aux défauts.</strong> Architectures duplex/triplex, watchdog, mode <em>safe</em>, recovery — chaque erreur doit avoir un comportement défini.</li>
+    <li><strong>Validation par couches.</strong> Tests unitaires (TU) → tests d'intégration logicielle (TIL) → tests sur banc SVF (Software Validation Facility) → SCOE (Special Check-Out Equipment) → tests d'intégration satellite.</li>
+    <li><strong>Durabilité.</strong> Sentinel-1A vole depuis 2014, Voyager-1 depuis 1977. Les langages choisis doivent rester maintenables sur des décennies.</li>
+  </ul>
+
+  <div class="callout warn">
+    <div class="callout-title">À retenir avant d'aller plus loin</div>
+    <p style="margin:0">Le logiciel spatial n'est pas du logiciel embarqué « plus dur ». C'est une discipline d'ingénierie où le code n'est qu'un des artefacts d'un dossier de certification. Comprendre les <em>processus</em> (ECSS, DO-178C, IVV) est aussi important que maîtriser les <em>langages</em>.</p>
+  </div>
+
+  <details class="ex">
+    <summary><span class="ex-tag">Exercice 0.1</span>Classification d'une fonction</summary>
+    <div class="ex-body">
+      <p>Pour chacune des fonctions suivantes, indique : (a) la couche logicielle (OBSW critique, OBSW non-critique, EGSE, segment sol), (b) le ou les langages probables, (c) le standard de référence.</p>
+      <ol>
+        <li>Décodage des paquets TM CCSDS et tri par APID dans le centre de contrôle de mission.</li>
+        <li>Calcul du quaternion d'attitude à 10 Hz à partir des senseurs stellaires et magnétomètres.</li>
+        <li>Script qui rejoue automatiquement 200 scénarios de TC sur le SVF pour qualification.</li>
+        <li>Pilotage de l'allumage du moteur principal pendant la fenêtre de mise en orbite (12 s).</li>
+        <li>Dashboard temps réel affichant l'état de la batterie et la température des panneaux.</li>
+      </ol>
+
+      <div class="solution">
+        <ol>
+          <li><strong>Segment sol / MCS.</strong> Java ou C++ historiquement, Python plus récemment. Standards CCSDS 132.0-B (Space Packet) et ECSS-E-ST-70-41.</li>
+          <li><strong>OBSW critique (AOCS).</strong> Ada/SPARK ou C MISRA. ECSS-E-ST-40C, classification criticité A.</li>
+          <li><strong>EGSE / banc IVV.</strong> Python avec frameworks pytest/robot, ECSS-E-ST-10-25 pour stratégie de validation.</li>
+          <li><strong>OBSW critique vol.</strong> Ada/SPARK quasi-exclusif (Ariane, Vega). DO-178C DAL A si applicable, ECSS-Q-ST-80C niveau A.</li>
+          <li><strong>Segment sol / opérations.</strong> TypeScript/React côté front, Python ou Java côté back. ECSS-E-ST-70 pour interopérabilité.</li>
+        </ol>
+      </div>
+    </div>
+  </details>
+
+  <details class="ex">
+    <summary><span class="ex-tag">Exercice 0.2</span>Lecture de criticité</summary>
+    <div class="ex-body">
+      <p>On dit qu'un logiciel est de criticité <em>ECSS catégorie A</em>. Que cela signifie-t-il concrètement en termes de (a) conséquence d'une défaillance, (b) processus de développement requis, (c) effort de vérification ?</p>
+      <div class="solution">
+        <p><strong>Catégorie A (ECSS-Q-ST-80C)</strong> : défaillance entraînant la perte de la mission ou pire (perte de vie humaine pour missions habitées). Processus : architecture détaillée documentée, codage selon règles strictes (subset langage : Ravenscar pour Ada, MISRA pour C), revues croisées indépendantes, couverture de test MC/DC (Modified Condition / Decision Coverage) à 100 %. Vérification : équipe IVV indépendante de l'équipe développement, traçabilité bidirectionnelle exigences ↔ code ↔ tests, analyse statique WCET, fault injection. À comparer avec catégorie D (pas d'impact mission) où une couverture branches simple suffit.</p>
+      </div>
+    </div>
+  </details>
+</section>
+
+<!-- ============================================================== -->
+<!-- MODULE 1 — ARCHITECTURE                                        -->
+<!-- ============================================================== -->
+<section class="module" id="m1">
+  <div class="module-header">
+    <div class="module-num">MODULE 1</div>
+    <h2>Architecture des systèmes spatiaux</h2>
+  </div>
+
+  <p>
+    Comprendre où le logiciel s'insère dans un système spatial est un préalable indispensable. Ce module présente les architectures bord et sol, le cycle TM/TC, les modes de fonctionnement, le FDIR et le concept de cyclique majeur — vocabulaire et briques qu'on retrouve dans tout entretien et tout dossier technique.
+  </p>
+
+  <h3>1.1 Architecture système satellite (vue d'ensemble)</h3>
+
+  <pre class="ascii" data-lang="architecture">
+   ┌─────────────────────────────────────────────────────────────────┐
+   │                         SATELLITE                                │
+   │  ┌────────────────────────┐  ┌─────────────────────────────────┐│
+   │  │     PLATEFORME (BUS)   │  │      CHARGE UTILE (PAYLOAD)     ││
+   │  │                        │  │                                  ││
+   │  │  ┌──────────────────┐  │  │  ┌────────┐  ┌────────────────┐ ││
+   │  │  │ OBC (CPU LEON3)  │◄─┼──┼─►│ Imageur│  │ Transpondeur    │ ││
+   │  │  │ + RTEMS/OS bord  │  │  │  └────────┘  └────────────────┘ ││
+   │  │  │ + OBSW           │  │  │                                  ││
+   │  │  └────────┬─────────┘  │  └─────────────────────────────────┘│
+   │  │           │ MIL-1553 / SpaceWire / CAN                       │
+   │  │  ┌────────┴───────────────────────────────────────────────┐ │
+   │  │  │   AOCS · Power · Thermal · GNSS · Comms · Datation     │ │
+   │  │  └────────────────────────────────────────────────────────┘ │
+   │  └────────────────────────────────────────────────────────────┘ │
+   │                              ↕  RF (S/X/Ka band)                 │
+   └──────────────────────────────┼───────────────────────────────────┘
+                                  │
+   ┌──────────────────────────────┼───────────────────────────────────┐
+   │                       SEGMENT SOL                                 │
+   │   ┌──────────┐    ┌──────────┴────────┐    ┌──────────────────┐  │
+   │   │ Station  │◄──►│ MCC : MCS / FDS / │◄──►│  Centre mission   │  │
+   │   │ ESTRACK  │    │ FCT / Flight Dyn  │    │  / Utilisateurs    │  │
+   │   └──────────┘    └───────────────────┘    └──────────────────┘  │
+   └──────────────────────────────────────────────────────────────────┘
+  </pre>
+
+  <h4>Composants bord clés</h4>
+  <ul>
+    <li><strong>OBC (On-Board Computer).</strong> Processeur durci radiations, typiquement LEON3/LEON4 (SPARC V8) ou GR740, parfois PowerPC RAD750. 50–250 MHz, 4–256 Mo RAM ECC.</li>
+    <li><strong>Bus de données.</strong> MIL-STD-1553B (héritage, robuste, 1 Mbit/s), SpaceWire (200 Mbit/s, IEEE 1355), CAN (faible coût), TTEthernet ou SpaceFibre pour les missions récentes.</li>
+    <li><strong>RTOS.</strong> RTEMS (open source, dominant ESA), VxWorks (NASA, beaucoup d'héritage), bare-metal pour très petites missions.</li>
+    <li><strong>Datation.</strong> CUC ou CDS (CCSDS Unsegmented/Day-segmented Code), synchronisé GNSS ou par TC depuis le sol.</li>
+  </ul>
+
+  <h3>1.2 Le cycle TM/TC</h3>
+
+  <p>La quasi-totalité des interactions sol↔bord transitent par deux flux symétriques : <strong>télécommandes (TC)</strong> du sol vers le bord et <strong>télémétries (TM)</strong> du bord vers le sol. Tout est encapsulé en paquets CCSDS.</p>
+
+  <pre class="ascii" data-lang="ccsds">
+   PAQUET CCSDS (Space Packet, CCSDS 133.0-B-2)
+   ┌────────────────────────────────────────────────────────────┐
+   │ Primary Header (6 octets)                                   │
+   │  Version│Type│Sec.HdrFlag│   APID  │SeqFlags│SeqCount│Len  │
+   │   3 b   │1 b │   1 b     │  11 b   │  2 b   │ 14 b   │ 16 b│
+   ├────────────────────────────────────────────────────────────┤
+   │ Secondary Header (PUS, ECSS-E-ST-70-41C) — Service/Subservice│
+   ├────────────────────────────────────────────────────────────┤
+   │ Application Data (paramètres TC ou champs TM)              │
+   ├────────────────────────────────────────────────────────────┤
+   │ Packet Error Control (CRC-16, optionnel)                   │
+   └────────────────────────────────────────────────────────────┘
+  </pre>
+
+  <p>
+    Les <em>PUS Services</em> (Packet Utilization Standard, ECSS-E-ST-70-41C) normalisent les services applicatifs sur le paquet CCSDS : Service 1 (vérification TC), Service 3 (housekeeping), Service 5 (événements), Service 8 (fonctions), Service 13 (large data transfer), Service 17 (test), Service 19 (event-action), Service 200+ privés.
+  </p>
+
+  <div class="callout tip">
+    <div class="callout-title">Pratique IVV</div>
+    <p style="margin:0">Lors d'un test sur banc, tu envoies une TC <code>PUS(8,1)</code> « Perform Function » avec un identifiant de fonction, le bord exécute, puis remonte un <code>PUS(1,7)</code> « Completion of Execution » à recevoir dans la fenêtre temporelle attendue. Toute la chaîne d'IVV s'écrit ainsi.</p>
+  </div>
+
+  <h3>1.3 Modes opérationnels &amp; FDIR</h3>
+
+  <p>Un satellite vit dans un automate fini de modes, chaque mode définissant un sous-ensemble de comportements autorisés et de surveillances actives.</p>
+
+  <pre class="ascii" data-lang="états">
+                          ┌─────────────┐
+                  ┌──────►│   BOOT      │
+                  │       │ (ROM init)  │
+                  │       └──────┬──────┘
+                  │              │
+                  │       ┌──────▼──────┐         ┌─────────────┐
+                  │       │  STANDBY    │────────►│  NOMINAL    │
+                  │       │ (post-boot) │         │ (ops normal)│
+                  │       └──────┬──────┘         └──────┬──────┘
+                  │              │                       │
+                  │              │   anomalie            │ FDIR détecte
+                  │              ▼                       ▼
+                  │       ┌─────────────────────────────────┐
+                  └───────│             SAFE                 │
+                          │ (orientation Soleil, comms only) │
+                          └─────────────────────────────────┘
+  </pre>
+
+  <p>
+    <strong>FDIR</strong> (Failure Detection, Isolation and Recovery) s'organise classiquement en 5 niveaux :
+  </p>
+  <ol>
+    <li><strong>Niveau 0</strong> — protections matérielles (latchup, OCP).</li>
+    <li><strong>Niveau 1</strong> — surveillances unitaires d'équipement.</li>
+    <li><strong>Niveau 2</strong> — surveillances fonctionnelles (sous-système).</li>
+    <li><strong>Niveau 3</strong> — surveillances système (passage en safe mode).</li>
+    <li><strong>Niveau 4</strong> — reconfiguration matérielle (bascule sur unité redondante).</li>
+  </ol>
+
+  <h3>1.4 Le cyclique majeur</h3>
+
+  <p>
+    L'ordonnancement bord se fait souvent par <em>cyclique exécutif</em> (Major Cycle) : une trame temporelle fixe (souvent 1 s ou 250 ms) découpée en mini-cycles, où chaque tâche périodique reçoit une fenêtre d'exécution déterministe. C'est plus simple à certifier qu'un ordonnancement préemptif classique.
+  </p>
+
+  <pre class="ascii" data-lang="ordonnancement">
+   Cyclique 1 Hz, mini-cycles 125 ms (8 slots)
+   ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
+   │  0  │  1  │  2  │  3  │  4  │  5  │  6  │  7  │
+   ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+   │AOCS │ TM  │AOCS │ TC  │AOCS │ HK  │AOCS │FDIR │
+   │ 10Hz│ ack │ 10Hz│poll │ 10Hz│ poll│ 10Hz│poll │
+   └─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘
+     │
+     └── AOCS occupe slot 0,2,4,6 → 4 exécutions/seconde = 4 Hz interne
+         (avec interpolations pour boucle 10 Hz réelle)
+  </pre>
+
+  <details class="ex">
+    <summary><span class="ex-tag">Exercice 1.1</span>Décodage d'entête CCSDS</summary>
+    <div class="ex-body">
+      <p>On reçoit le flux hexadécimal suivant représentant le primary header d'un paquet CCSDS (6 octets) :</p>
+      <pre data-lang="hex"><code>18 0A C0 03 00 1F</code></pre>
+      <p>Décode chaque champ et indique : version, type (TM/TC), présence secondary header, APID, flags de séquence, compteur, longueur des données.</p>
+
+      <div class="solution">
+        <p>Conversion binaire (16 bits de poids fort) :</p>
+        <pre data-lang="binaire"><code>0x180A = 0001 1000 0000 1010
+         │││ │  ┌─────────────┐
+         │││ └──┤    APID     │
+         │└┴────┤ 10 (0x00A)  │
+         │     SecHdr=1
+         ├── Type=1 (TC)
+         └── Version=000</code></pre>
+        <ul>
+          <li><strong>Version</strong> : 0 (CCSDS standard).</li>
+          <li><strong>Type</strong> : 1 → TC (Telecommand). 0 aurait été TM.</li>
+          <li><strong>Sec. Header Flag</strong> : 1 → présence d'un secondary header (PUS).</li>
+          <li><strong>APID</strong> : 0x00A = 10 (identifie l'application destinataire).</li>
+          <li><strong>0xC003</strong> = 11 00 0000 0000 0011 → SeqFlags = 11 (paquet unique, non segmenté), SeqCount = 3.</li>
+          <li><strong>0x001F</strong> = 31 → longueur user data = 31 + 1 = 32 octets (convention CCSDS : length field = data_length − 1).</li>
+        </ul>
+        <p>Diagnostic : c'est une TC adressée à l'app 10, paquet n°3 dans la séquence, avec 32 octets de données applicatives suivant l'entête.</p>
+      </div>
+    </div>
+  </details>
+
+  <details class="ex">
+    <summary><span class="ex-tag">Exercice 1.2</span>Conception d'un FDIR de batterie</summary>
+    <div class="ex-body">
+      <p>On veut surveiller la batterie d'un cubesat. Les seuils sont : tension nominale 3.3–4.2 V, alerte sous 3.0 V, critique sous 2.7 V. Conçois un FDIR à 2 niveaux qui :</p>
+      <ol>
+        <li>Émet un événement PUS(5) « battery low » sous 3.0 V pendant ≥ 3 cycles de 1 s.</li>
+        <li>Bascule en safe mode sous 2.7 V pendant ≥ 2 cycles de 1 s.</li>
+      </ol>
+      <p>Précise la machine à états et explique pourquoi on filtre les seuils sur plusieurs cycles.</p>
+
+      <div class="solution">
+        <p><strong>Pourquoi filtrer.</strong> Une mesure isolée sous seuil peut résulter d'un transitoire (commutation de charge, SEU sur l'ADC). Déclencher une reconfiguration sur une mesure unique génèrerait des faux positifs catastrophiques (passage en safe pour rien = perte d'opérationnel).</p>
+        <pre data-lang="pseudocode"><code><span class="t">state</span> := NOMINAL
+<span class="t">cnt_low</span> := 0
+<span class="t">cnt_crit</span> := 0
+
+<span class="c">// Tâche périodique 1 Hz</span>
+<span class="k">on_each_cycle</span>(v_batt):
+    <span class="k">if</span> v_batt &lt; <span class="n">2.7</span>:
+        cnt_crit := cnt_crit + 1
+        <span class="k">if</span> cnt_crit &gt;= <span class="n">2</span> <span class="k">and</span> state != SAFE:
+            emit_event(<span class="s">PUS5_BATT_CRITICAL</span>)
+            transition_to(SAFE)
+    <span class="k">else</span>:
+        cnt_crit := 0
+
+    <span class="k">if</span> <span class="n">2.7</span> &lt;= v_batt &lt; <span class="n">3.0</span>:
+        cnt_low := cnt_low + 1
+        <span class="k">if</span> cnt_low == <span class="n">3</span>:
+            emit_event(<span class="s">PUS5_BATT_LOW</span>)  <span class="c">// 1 seule fois</span>
+    <span class="k">else</span> <span class="k">if</span> v_batt &gt;= <span class="n">3.0</span>:
+        cnt_low := 0</code></pre>
+        <p>Remarque : la sortie de safe mode n'est <em>jamais</em> automatique — elle est toujours commandée par TC depuis le sol, après diagnostic, pour garantir que les opérateurs reprennent la main.</p>
+      </div>
+    </div>
+  </details>
+</section>
+
+<!-- ============================================================== -->
+<!-- MODULE 2 — PYTHON                                              -->
+<!-- ============================================================== -->
+<section class="module" id="m2">
+  <div class="module-header">
+    <div class="module-num">MODULE 2</div>
+    <h2>Python pour le spatial — automatisation, banc, mécanique orbitale</h2>
+  </div>
+
+  <p>
+    Python n'a jamais sa place à bord (sauf curiosités type Raspberry Pi sur ISS). Sa place est <strong>partout ailleurs</strong> : bancs IVV, post-traitement TM, génération de stimuli, automatisation de campagnes, calculs de mécanique orbitale, et de plus en plus de pipelines de données mission. Maîtriser Python pour le spatial, c'est maîtriser un sous-ensemble discipliné et des bibliothèques précises.
+  </p>
+
+  <h3>2.1 Sous-ensemble &amp; bonnes pratiques IVV</h3>
+
+  <ul>
+    <li><strong>Typage statique systématique.</strong> Type hints partout, contrôle avec <code>mypy --strict</code>. Le « duck typing » est interdit en IVV : un test doit échouer à la compilation si une signature change.</li>
+    <li><strong>Structures immuables.</strong> <code>@dataclass(frozen=True)</code>, <code>NamedTuple</code>, ou Pydantic. Les paramètres de test ne doivent pas muter pendant l'exécution.</li>
+    <li><strong>Logging structuré.</strong> <code>logging</code> avec niveau et timestamp, jamais <code>print()</code>. Tous les logs doivent être horodatés à la milliseconde.</li>
+    <li><strong>Pas de globales mutables.</strong> Passage explicite par dépendance, configuration par fichier YAML/TOML.</li>
+    <li><strong>Reproductibilité.</strong> <code>random.seed()</code> fixé, environnement figé via <code>poetry.lock</code> ou <code>uv</code>.</li>
+  </ul>
+
+  <h3>2.2 Bibliothèques canoniques en spatial</h3>
+
+  <table>
+    <thead><tr><th>Domaine</th><th>Bibliothèques</th><th>Usage typique</th></tr></thead>
+    <tbody>
+      <tr><td>Calcul numérique</td><td>NumPy, SciPy</td><td>Vecteurs, intégration, optimisation</td></tr>
+      <tr><td>Mécanique orbitale</td><td>Poliastro, Skyfield, SGP4, Astropy</td><td>Propagation, repères, ephémérides</td></tr>
+      <tr><td>CCSDS / PUS</td><td>ccsdspy, struct, cobs</td><td>Décodage TM, encodage TC</td></tr>
+      <tr><td>Test &amp; banc</td><td>pytest, Robot Framework, behave</td><td>Campagnes IVV reproductibles</td></tr>
+      <tr><td>Communication bus</td><td>pyserial, python-can, socket</td><td>UART, CAN, SpaceWire via pont</td></tr>
+      <tr><td>Visualisation</td><td>Matplotlib, Plotly, Bokeh</td><td>Plots TM, replay traces</td></tr>
+      <tr><td>Asynchrone</td><td>asyncio, trio</td><td>Multi-équipements simultanés</td></tr>
+    </tbody>
+  </table>
+
+  <h3>2.3 Exemple — Décodeur de paquets TM PUS(3,25)</h3>
+
+  <p>Le service PUS 3.25 est le rapport de housekeeping cyclique : chaque paquet contient un set défini de paramètres bord. Voici un décodeur typique d'EGSE :</p>
+
+  <pre data-lang="python"><code><span class="k">from</span> <span class="t">dataclasses</span> <span class="k">import</span> dataclass
+<span class="k">from</span> <span class="t">typing</span> <span class="k">import</span> Sequence
+<span class="k">import</span> struct
+<span class="k">import</span> logging
+
+log = logging.getLogger(__name__)
+
+
+<span class="f">@dataclass(frozen=True)</span>
+<span class="k">class</span> <span class="t">PusHeader</span>:
+    <span class="c">"""Représentation immuable d'un entête CCSDS + secondary PUS."""</span>
+    apid: <span class="t">int</span>
+    seq_count: <span class="t">int</span>
+    pus_service: <span class="t">int</span>
+    pus_subservice: <span class="t">int</span>
+    timestamp_cuc: <span class="t">float</span>  <span class="c"># secondes depuis epoch mission</span>
+
+
+<span class="f">@dataclass(frozen=True)</span>
+<span class="k">class</span> <span class="t">HousekeepingReport</span>:
+    header: PusHeader
+    sid: <span class="t">int</span>                      <span class="c"># Structure ID (quel HK report)</span>
+    parameters: <span class="t">dict</span>[<span class="t">str</span>, <span class="t">float</span>]   <span class="c"># nom paramètre → valeur</span>
+
+
+<span class="k">def</span> <span class="f">decode_primary_header</span>(buf: <span class="t">bytes</span>) -&gt; <span class="t">tuple</span>[<span class="t">int</span>, <span class="t">int</span>, <span class="t">int</span>]:
+    <span class="c">"""Retourne (apid, seq_count, data_length) depuis 6 octets CCSDS."""</span>
+    <span class="k">if</span> <span class="f">len</span>(buf) &lt; <span class="n">6</span>:
+        <span class="k">raise</span> <span class="t">ValueError</span>(<span class="s">f"header CCSDS &lt; 6 octets: {len(buf)}"</span>)
+    word0, word1, length = struct.unpack(<span class="s">"&gt;HHH"</span>, buf[:<span class="n">6</span>])
+    apid = word0 &amp; <span class="n">0x07FF</span>
+    seq_count = word1 &amp; <span class="n">0x3FFF</span>
+    <span class="k">return</span> apid, seq_count, length + <span class="n">1</span>
+
+
+<span class="k">def</span> <span class="f">decode_pus_hk_report</span>(
+    packet: <span class="t">bytes</span>,
+    sid_layout: <span class="t">dict</span>[<span class="t">int</span>, <span class="t">list</span>[<span class="t">tuple</span>[<span class="t">str</span>, <span class="t">str</span>]]],
+) -&gt; HousekeepingReport:
+    <span class="c">"""
+    Décode un PUS(3,25) housekeeping report.
+    sid_layout : SID → liste ordonnée (nom_param, format_struct).
+    Lève ValueError si SID inconnu ou si la trame est incomplète.
+    """</span>
+    apid, seq, total_len = decode_primary_header(packet)
+
+    <span class="c"># secondary header PUS : 1 oct (version+ack) + 1 service + 1 subservice + CUC 4o</span>
+    service = packet[<span class="n">7</span>]
+    subservice = packet[<span class="n">8</span>]
+    <span class="k">if</span> (service, subservice) != (<span class="n">3</span>, <span class="n">25</span>):
+        <span class="k">raise</span> <span class="t">ValueError</span>(<span class="s">f"pas un HK report (PUS {service},{subservice})"</span>)
+
+    cuc_seconds = struct.unpack(<span class="s">"&gt;I"</span>, packet[<span class="n">9</span>:<span class="n">13</span>])[<span class="n">0</span>]
+    header = PusHeader(apid, seq, service, subservice, <span class="t">float</span>(cuc_seconds))
+
+    <span class="c"># Charge utile : SID (2 octets) + paramètres</span>
+    sid = struct.unpack(<span class="s">"&gt;H"</span>, packet[<span class="n">13</span>:<span class="n">15</span>])[<span class="n">0</span>]
+    <span class="k">if</span> sid <span class="k">not in</span> sid_layout:
+        <span class="k">raise</span> <span class="t">ValueError</span>(<span class="s">f"SID {sid} non défini dans le layout"</span>)
+
+    cursor = <span class="n">15</span>
+    params: <span class="t">dict</span>[<span class="t">str</span>, <span class="t">float</span>] = {}
+    <span class="k">for</span> name, fmt <span class="k">in</span> sid_layout[sid]:
+        size = struct.calcsize(<span class="s">"&gt;"</span> + fmt)
+        value = struct.unpack(<span class="s">"&gt;"</span> + fmt, packet[cursor:cursor + size])[<span class="n">0</span>]
+        params[name] = <span class="t">float</span>(value)
+        cursor += size
+
+    log.debug(<span class="s">"HK sid=%d, %d params à t=%.3fs"</span>, sid, <span class="f">len</span>(params), cuc_seconds)
+    <span class="k">return</span> HousekeepingReport(header, sid, params)
+
+
+<span class="c"># --- Exemple d'utilisation ---</span>
+LAYOUT = {
+    <span class="n">0x01</span>: [
+        (<span class="s">"batt_voltage_V"</span>, <span class="s">"f"</span>),
+        (<span class="s">"batt_current_A"</span>, <span class="s">"f"</span>),
+        (<span class="s">"panel_temp_C"</span>, <span class="s">"h"</span>),    <span class="c"># int16 *0.1 ailleurs</span>
+        (<span class="s">"mode_id"</span>, <span class="s">"B"</span>),
+    ],
+}</code></pre>
+
+  <h3>2.4 Exemple — Boucle de stimulation banc avec pytest</h3>
+
+  <p>Sur un banc EGSE, on pilote l'équipement sous test (EUT), on envoie une TC, on attend la réponse TM dans une fenêtre temporelle, on vérifie. Voici le squelette canonique :</p>
+
+  <pre data-lang="python"><code><span class="k">import</span> pytest
+<span class="k">import</span> asyncio
+<span class="k">from</span> <span class="t">contextlib</span> <span class="k">import</span> asynccontextmanager
+
+
+<span class="f">@pytest.fixture</span>
+<span class="k">def</span> <span class="f">eut</span>(request):
+    <span class="c">"""Connexion à l'EUT via SCOE, déconnexion garantie en teardown."""</span>
+    client = ScoeClient(host=<span class="s">"192.168.10.20"</span>, port=<span class="n">4242</span>)
+    client.connect()
+    <span class="k">yield</span> client
+    client.send_tc(PUS_SAFE_TC)   <span class="c"># retour état sûr avant déco</span>
+    client.disconnect()
+
+
+<span class="f">@pytest.mark.parametrize(</span><span class="s">"mode_target"</span>, [<span class="s">"STANDBY"</span>, <span class="s">"NOMINAL"</span>, <span class="s">"SAFE"</span>])
+<span class="k">def</span> <span class="f">test_mode_transition_timing</span>(eut, mode_target):
+    <span class="c">"""
+    Vérifie qu'une transition de mode aboutit dans &lt; 500 ms,
+    génère le PUS(1,7) attendu, et que le HK reflète le nouveau mode.
+    """</span>
+    eut.flush_tm()
+    t0 = eut.now_ms()
+    eut.send_tc(<span class="s">f"GOTO_MODE_{mode_target}"</span>)
+
+    ack = eut.wait_for_tm(service=<span class="n">1</span>, subservice=<span class="n">7</span>, timeout_ms=<span class="n">500</span>)
+    <span class="k">assert</span> ack <span class="k">is not</span> <span class="t">None</span>, <span class="s">f"pas d'acquittement TC vers {mode_target}"</span>
+    elapsed = eut.now_ms() - t0
+    <span class="k">assert</span> elapsed &lt; <span class="n">500</span>, <span class="s">f"transition trop lente : {elapsed}ms"</span>
+
+    hk = eut.poll_hk(sid=<span class="n">0x01</span>, retries=<span class="n">3</span>)
+    <span class="k">assert</span> hk.parameters[<span class="s">"mode_id"</span>] == MODE_ID[mode_target]</code></pre>
+
+  <h3>2.5 Exemple — Propagation orbitale avec Poliastro</h3>
+
+  <p>Calcul d'une orbite LEO depuis des TLE, propagation 1 jour, échantillonnage des positions :</p>
+
+  <pre data-lang="python"><code><span class="k">from</span> <span class="t">astropy</span> <span class="k">import</span> units <span class="k">as</span> u
+<span class="k">from</span> <span class="t">astropy.time</span> <span class="k">import</span> Time
+<span class="k">from</span> <span class="t">poliastro.bodies</span> <span class="k">import</span> Earth
+<span class="k">from</span> <span class="t">poliastro.twobody</span> <span class="k">import</span> Orbit
+<span class="k">from</span> <span class="t">poliastro.core.elements</span> <span class="k">import</span> rv2coe
+<span class="k">import</span> numpy <span class="k">as</span> np
+
+<span class="c"># ISS à un instant donné (vecteurs ECI en km et km/s)</span>
+r = [<span class="n">-6045</span>, <span class="n">-3490</span>, <span class="n">2500</span>] * u.km
+v = [<span class="n">-3.457</span>, <span class="n">6.618</span>, <span class="n">2.533</span>] * u.km / u.s
+epoch = Time(<span class="s">"2025-11-20 12:00:00"</span>, scale=<span class="s">"utc"</span>)
+
+orbit = Orbit.from_vectors(Earth, r, v, epoch)
+<span class="f">print</span>(<span class="s">f"a = {orbit.a:.0f}, e = {orbit.ecc:.4f}, i = {orbit.inc.to(u.deg):.2f}"</span>)
+<span class="f">print</span>(<span class="s">f"période = {orbit.period.to(u.min):.2f}"</span>)
+
+<span class="c"># Propagation sur 24 h, échantillonnage 60 s</span>
+times = np.arange(<span class="n">0</span>, <span class="n">86400</span>, <span class="n">60</span>) * u.s
+positions = [orbit.propagate(t).r.to(u.km).value <span class="k">for</span> t <span class="k">in</span> times]
+positions = np.array(positions)  <span class="c"># shape (1440, 3)</span></code></pre>
+
+  <div class="callout">
+    <div class="callout-title">Patron récurrent en IVV</div>
+    <p style="margin:0">90% des scripts banc suivent le triptyque : <strong>setup</strong> (arming, vidage TM, contexte initial) → <strong>stimulus</strong> (envoi TC) → <strong>capture &amp; assert</strong> (attente TM avec timeout strict, vérification champ par champ). Si tu maîtrises ce pattern et pytest+asyncio, tu es opérationnel sur 80% des bancs Python.</p>
+  </div>
+
+  <details class="ex">
+    <summary><span class="ex-tag">Exercice 2.1</span>Décodage CCSDS pur</summary>
+    <div class="ex-body">
+      <p>Écris une fonction <code>parse_apid(packet: bytes) -&gt; int</code> qui extrait l'APID d'un paquet CCSDS quelconque, lève <code>ValueError</code> si la trame fait moins de 6 octets, et est <em>type-safe</em> (mypy strict). Sans utiliser de bibliothèque externe.</p>
+
+      <div class="solution">
+<pre data-lang="python"><code><span class="k">import</span> struct
+
+<span class="k">def</span> <span class="f">parse_apid</span>(packet: <span class="t">bytes</span>) -&gt; <span class="t">int</span>:
+    <span class="c">"""Extrait l'APID (11 bits) du Primary Header CCSDS."""</span>
+    <span class="k">if</span> <span class="f">len</span>(packet) &lt; <span class="n">6</span>:
+        <span class="k">raise</span> <span class="t">ValueError</span>(
+            <span class="s">f"paquet CCSDS trop court : {len(packet)} octets (min 6)"</span>
+        )
+    word0: <span class="t">int</span> = struct.unpack(<span class="s">"&gt;H"</span>, packet[:<span class="n">2</span>])[<span class="n">0</span>]
+    <span class="k">return</span> word0 &amp; <span class="n">0x07FF</span>
+
+
+<span class="c"># Test inline</span>
+<span class="k">assert</span> parse_apid(<span class="t">bytes</span>.fromhex(<span class="s">"180AC003001F"</span>)) == <span class="n">10</span></code></pre>
+        <p>L'annotation de retour est <code>int</code>, l'argument est <code>bytes</code> ; <code>mypy --strict</code> passe. Le <code>0x07FF</code> masque les 11 bits APID (les 5 bits hauts portent version + type + sec-hdr-flag).</p>
+      </div>
+    </div>
+  </details>
+
+  <details class="ex">
+    <summary><span class="ex-tag">Exercice 2.2</span>Test paramétré avec timeout</summary>
+    <div class="ex-body">
+      <p>Conçois un test pytest qui envoie 50 TC <code>NOP</code> à un EUT et vérifie que chaque acquittement PUS(1,1) arrive en moins de 100 ms. La campagne entière doit échouer si plus de 1 acquittement dépasse le seuil. Donne aussi la stratégie de log.</p>
+
+      <div class="solution">
+<pre data-lang="python"><code><span class="k">import</span> time
+<span class="k">import</span> logging
+
+log = logging.getLogger(__name__)
+
+
+<span class="k">def</span> <span class="f">test_nop_acquittement_50_iters</span>(eut):
+    timeouts = []
+    latences_ms = []
+
+    <span class="k">for</span> i <span class="k">in</span> <span class="f">range</span>(<span class="n">50</span>):
+        eut.flush_tm()
+        t0 = time.perf_counter()
+        eut.send_tc(<span class="s">"NOP"</span>)
+        ack = eut.wait_for_tm(service=<span class="n">1</span>, subservice=<span class="n">1</span>, timeout_ms=<span class="n">100</span>)
+        elapsed_ms = (time.perf_counter() - t0) * <span class="n">1000.0</span>
+        latences_ms.append(elapsed_ms)
+
+        <span class="k">if</span> ack <span class="k">is</span> <span class="t">None</span> <span class="k">or</span> elapsed_ms &gt; <span class="n">100</span>:
+            timeouts.append((i, elapsed_ms))
+            log.warning(<span class="s">"NOP #%d hors temps : %.2f ms"</span>, i, elapsed_ms)
+
+    log.info(
+        <span class="s">"NOP campaign : min=%.2f max=%.2f mean=%.2f ms"</span>,
+        <span class="f">min</span>(latences_ms), <span class="f">max</span>(latences_ms),
+        <span class="f">sum</span>(latences_ms) / <span class="f">len</span>(latences_ms),
+    )
+
+    <span class="k">assert</span> <span class="f">len</span>(timeouts) &lt;= <span class="n">1</span>, (
+        <span class="s">f"{len(timeouts)} acquittements hors délai sur 50 : {timeouts}"</span>
+    )</code></pre>
+        <p>Logique : la latence est mesurée avec <code>perf_counter()</code> (monotone, haute précision). La tolérance d'1 dépassement absorbe les jitters réseau du banc. Les logs WARN trace chaque outlier, le INFO final donne les stats globales (utile pour le rapport de campagne).</p>
+      </div>
+    </div>
+  </details>
+
+  <details class="ex">
+    <summary><span class="ex-tag">Exercice 2.3</span>Détection passage à l'éclipse</summary>
+    <div class="ex-body">
+      <p>À partir d'un tableau NumPy <code>positions_eci</code> de shape (N,3) en km et d'une date <code>epoch</code>, écris une fonction <code>in_eclipse(positions, sun_direction) -&gt; np.ndarray</code> qui retourne un tableau booléen indiquant si chaque position est dans l'ombre cylindrique de la Terre (modèle simplifié, sans pénombre).</p>
+
+      <div class="solution">
+        <p>Modèle géométrique : on est en éclipse cylindrique si la projection de la position sur la direction Soleil est <strong>négative</strong> (côté opposé au Soleil) <em>et</em> si la distance perpendiculaire à l'axe Soleil-Terre est inférieure au rayon terrestre (R⊕ ≈ 6378 km).</p>
+<pre data-lang="python"><code><span class="k">import</span> numpy <span class="k">as</span> np
+
+R_EARTH_KM = <span class="n">6378.0</span>
+
+<span class="k">def</span> <span class="f">in_eclipse</span>(
+    positions_eci: np.ndarray,    <span class="c"># (N, 3) en km</span>
+    sun_direction: np.ndarray,    <span class="c"># (3,) unitaire</span>
+) -&gt; np.ndarray:
+    sun = sun_direction / np.linalg.norm(sun_direction)
+    <span class="c"># Projection scalaire sur l'axe Soleil</span>
+    proj = positions_eci @ sun                  <span class="c"># (N,)</span>
+    <span class="c"># Vecteurs perpendiculaires à l'axe Soleil</span>
+    perp = positions_eci - np.outer(proj, sun)  <span class="c"># (N, 3)</span>
+    dist_axis = np.linalg.norm(perp, axis=<span class="n">1</span>)    <span class="c"># (N,)</span>
+    <span class="k">return</span> (proj &lt; <span class="n">0</span>) &amp; (dist_axis &lt; R_EARTH_KM)</code></pre>
+        <p>Remarque : pour une vraie analyse de bilan énergétique, il faut le modèle conique (umbra + penumbra) et la position réelle du Soleil. Ce modèle suffit pour de l'ingénierie préliminaire et beaucoup d'exercices banc.</p>
+      </div>
+    </div>
+  </details>
+</section>
+
+
+<!-- ============================================================== -->
+<!-- MODULE 3 — C EMBARQUÉ                                          -->
+<!-- ============================================================== -->
+<section class="module" id="m3">
+  <div class="module-header">
+    <div class="module-num">MODULE 3</div>
+    <h2>C embarqué pour le spatial — RTOS, drivers, MISRA-C</h2>
+  </div>
+
+  <p>
+    Le C reste le langage dominant à bord pour les couches BSP, drivers et applications de criticité B-C. Il est partout dans RTEMS, dans FreeRTOS, dans les pilotes de SpaceWire, dans les boucles cycliques d'AOCS non-ada. Pour l'utiliser à bord, il faut adopter une discipline qui élimine les ambiguïtés du standard ISO : c'est l'objet de MISRA-C 2012.
+  </p>
+
+  <h3>3.1 Le sous-ensemble MISRA-C 2012</h3>
+
+  <p>
+    MISRA-C définit ~170 règles (Mandatory, Required, Advisory) qui éliminent les zones de comportement indéfini, dépendantes de l'implémentation, ou propices aux erreurs. Les règles emblématiques :
+  </p>
+
+  <table>
+    <thead><tr><th>Règle</th><th>Catégorie</th><th>Justification</th></tr></thead>
+    <tbody>
+      <tr><td>17.2</td><td>Mandatory</td><td>Pas de récursion (WCET non bornable, débordement de pile)</td></tr>
+      <tr><td>21.3</td><td>Required</td><td>Pas de <code>malloc</code>/<code>free</code> en production (fragmentation, non déterministe)</td></tr>
+      <tr><td>15.5</td><td>Advisory</td><td>Un seul <code>return</code> par fonction (lisibilité, vérification)</td></tr>
+      <tr><td>14.4</td><td>Required</td><td>Tout <code>switch</code> doit avoir un <code>default</code></tr></td>
+      <tr><td>10.x</td><td>Required</td><td>Pas de conversions implicites entre catégories de types</td></tr>
+      <tr><td>11.x</td><td>Required</td><td>Conversions de pointeurs strictement contrôlées</td></tr>
+      <tr><td>22.x</td><td>Required</td><td>Resources libres avant retour, fichiers fermés, etc.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout warn">
+    <div class="callout-title">Allocation dynamique : la règle d'or</div>
+    <p style="margin:0">Aucune allocation après l'initialisation. Toutes les structures, pools, buffers sont déclarés statiquement (taille connue à la compilation). Cela garantit l'absence de fragmentation, de <em>memory leak</em> en vol, et permet le calcul de la consommation mémoire pire cas par analyse statique.</p>
+  </div>
+
+  <h3>3.2 Pattern banc-driver : lecture SpaceWire</h3>
+
+  <p>Voici un pattern type : un driver C qui lit un paquet entrant SpaceWire avec timeout, sans allocation dynamique, à l'épreuve de MISRA :</p>
+
+  <pre data-lang="c"><code><span class="c">/* spw_rx.h */</span>
+<span class="k">#ifndef</span> SPW_RX_H
+<span class="k">#define</span> SPW_RX_H
+
+<span class="k">#include</span> &lt;stdint.h&gt;
+<span class="k">#include</span> &lt;stddef.h&gt;
+<span class="k">#include</span> &lt;stdbool.h&gt;
+
+<span class="k">#define</span> SPW_MAX_PKT_SIZE 1024U
+
+<span class="k">typedef</span> <span class="k">enum</span> {
+    SPW_OK = <span class="n">0</span>,
+    SPW_TIMEOUT,
+    SPW_OVERFLOW,
+    SPW_HW_ERROR,
+    SPW_INVALID_ARG
+} spw_status_t;
+
+<span class="k">typedef</span> <span class="k">struct</span> {
+    <span class="t">uint8_t</span>  data[SPW_MAX_PKT_SIZE];
+    <span class="t">uint16_t</span> length;
+    <span class="t">uint32_t</span> timestamp_us;
+} spw_packet_t;
+
+spw_status_t <span class="f">spw_rx_blocking</span>(<span class="t">uint8_t</span> port,
+                              spw_packet_t * <span class="k">const</span> out,
+                              <span class="t">uint32_t</span> timeout_us);
+
+<span class="k">#endif</span></code></pre>
+
+  <pre data-lang="c"><code><span class="c">/* spw_rx.c */</span>
+<span class="k">#include</span> <span class="s">"spw_rx.h"</span>
+<span class="k">#include</span> <span class="s">"hw_regs.h"</span>     <span class="c">/* registres mappés du contrôleur SpW */</span>
+<span class="k">#include</span> <span class="s">"clock.h"</span>       <span class="c">/* clock_us_now() */</span>
+
+<span class="k">static</span> <span class="t">bool</span> <span class="f">port_valid</span>(<span class="t">uint8_t</span> port) {
+    <span class="k">return</span> (port &lt; SPW_PORT_COUNT);
+}
+
+spw_status_t <span class="f">spw_rx_blocking</span>(<span class="t">uint8_t</span> port,
+                              spw_packet_t * <span class="k">const</span> out,
+                              <span class="t">uint32_t</span> timeout_us)
+{
+    spw_status_t status = SPW_OK;
+
+    <span class="k">if</span> ((out == <span class="t">NULL</span>) || !port_valid(port)) {
+        status = SPW_INVALID_ARG;
+    } <span class="k">else</span> {
+        <span class="k">const</span> <span class="t">uint32_t</span> t_start = clock_us_now();
+        <span class="t">uint16_t</span> idx = <span class="n">0U</span>;
+        <span class="t">bool</span>     done = <span class="t">false</span>;
+
+        <span class="k">while</span> (!done) {
+            <span class="k">if</span> (SPW_REG(port)-&gt;status &amp; SPW_STS_RX_DATA) {
+                <span class="k">if</span> (idx &gt;= SPW_MAX_PKT_SIZE) {
+                    status = SPW_OVERFLOW;
+                    done = <span class="t">true</span>;
+                } <span class="k">else</span> {
+                    out-&gt;data[idx] = SPW_REG(port)-&gt;rx_data;
+                    idx++;
+                }
+                <span class="k">if</span> (SPW_REG(port)-&gt;status &amp; SPW_STS_RX_EOP) {
+                    out-&gt;length = idx;
+                    out-&gt;timestamp_us = clock_us_now();
+                    done = <span class="t">true</span>;
+                }
+            } <span class="k">else if</span> ((clock_us_now() - t_start) &gt; timeout_us) {
+                status = SPW_TIMEOUT;
+                done = <span class="t">true</span>;
+            } <span class="k">else if</span> (SPW_REG(port)-&gt;status &amp; SPW_STS_ERROR) {
+                status = SPW_HW_ERROR;
+                done = <span class="t">true</span>;
+            } <span class="k">else</span> {
+                <span class="c">/* poll continu */</span>
+            }
+        }
+    }
+
+    <span class="k">return</span> status;
+}</code></pre>
+
+  <p>Caractéristiques MISRA-friendly du code ci-dessus :</p>
+  <ul>
+    <li>Pas d'allocation dynamique. Le buffer est dans la structure caller.</li>
+    <li>Un seul <code>return</code> en fin de fonction (variable <code>status</code> assignée puis retournée).</li>
+    <li>Tous les <code>if</code> ont une branche <code>else</code> explicite (règle 15.7, ici via le commentaire de poll).</li>
+    <li>Types fixes (<code>uint8_t</code>, <code>uint16_t</code>) plutôt que <code>int</code>.</li>
+    <li>Pointeurs <code>const</code> dans les paramètres pour montrer l'intention.</li>
+    <li>Suffixes <code>U</code> sur les littéraux non signés (règle 7.2).</li>
+  </ul>
+
+  <h3>3.3 Cyclique exécutif minimal</h3>
+
+  <p>Voici un cyclique 100 Hz bare-metal qui ordonnance plusieurs tâches périodiques sans RTOS, dimensionnable et calculable en WCET :</p>
+
+  <pre data-lang="c"><code><span class="c">/* scheduler.c — cyclique 100 Hz, 10 slots */</span>
+<span class="k">#include</span> &lt;stdint.h&gt;
+<span class="k">#include</span> &lt;stdbool.h&gt;
+<span class="k">#include</span> <span class="s">"timer.h"</span>
+
+<span class="k">#define</span> SLOT_COUNT 10U
+<span class="k">#define</span> SLOT_PERIOD_US 10000U   <span class="c">/* 10 ms */</span>
+
+<span class="k">typedef</span> <span class="k">void</span> (*task_fn_t)(<span class="k">void</span>);
+
+<span class="k">static</span> <span class="k">const</span> task_fn_t cyclic_table[SLOT_COUNT] = {
+    aocs_step,        <span class="c">/* slot 0 : AOCS 100Hz */</span>
+    tm_collect,       <span class="c">/* slot 1 : collecte HK */</span>
+    aocs_step,
+    tc_process,       <span class="c">/* slot 3 : décodage TC */</span>
+    aocs_step,
+    thermal_step,     <span class="c">/* slot 5 : thermique 20Hz */</span>
+    aocs_step,
+    fdir_check,       <span class="c">/* slot 7 : FDIR 20Hz */</span>
+    aocs_step,
+    housekeeping_emit <span class="c">/* slot 9 : émission HK */</span>
+};
+
+<span class="k">static</span> <span class="k">volatile</span> <span class="t">uint8_t</span> slot_index = <span class="n">0U</span>;
+<span class="k">static</span> <span class="k">volatile</span> <span class="t">uint32_t</span> overruns = <span class="n">0U</span>;
+
+<span class="k">void</span> <span class="f">tick_isr</span>(<span class="k">void</span>) {
+    <span class="k">const</span> <span class="t">uint32_t</span> t_start = clock_us_now();
+
+    cyclic_table[slot_index]();
+
+    <span class="k">const</span> <span class="t">uint32_t</span> elapsed = clock_us_now() - t_start;
+    <span class="k">if</span> (elapsed &gt; SLOT_PERIOD_US) {
+        overruns++;
+        <span class="c">/* signaler FDIR niveau 2 */</span>
+    }
+
+    slot_index = (<span class="t">uint8_t</span>)((slot_index + <span class="n">1U</span>) % SLOT_COUNT);
+}
+
+<span class="k">void</span> <span class="f">scheduler_start</span>(<span class="k">void</span>) {
+    timer_setup_periodic(SLOT_PERIOD_US, tick_isr);
+    timer_enable();
+}</code></pre>
+
+  <p>Chaque tâche doit avoir un WCET ≤ 10 ms démontré par analyse statique (outils type Bound-T, aiT, ou OTAWA pour LEON). La table est <code>const</code>, en flash, donc résistante aux SEU sur RAM.</p>
+
+  <h3>3.4 Précautions environnement radiatif</h3>
+
+  <ul>
+    <li><strong>ECC mémoire.</strong> RAM ECC (Hamming SECDED) corrige 1 bit, détecte 2 bits. Vérifier le compteur de corrections en HK.</li>
+    <li><strong>Scrubbing.</strong> Tâche périodique qui relit toute la mémoire critique pour forcer la correction ECC avant accumulation d'erreurs.</li>
+    <li><strong>Triple Modular Redundancy logicielle.</strong> Les variables critiques (mode système, compteurs) stockées 3× avec vote majoritaire à chaque lecture.</li>
+    <li><strong>Watchdog.</strong> Reset hardware si le main loop ne rafraîchit pas le compteur dans le délai imparti.</li>
+  </ul>
+
+  <pre data-lang="c"><code><span class="c">/* TMR logiciel — stockage triple avec vote majoritaire */</span>
+<span class="k">typedef</span> <span class="k">struct</span> {
+    <span class="t">uint32_t</span> copy_a;
+    <span class="t">uint32_t</span> copy_b;
+    <span class="t">uint32_t</span> copy_c;
+} tmr_uint32_t;
+
+<span class="k">static</span> <span class="t">uint32_t</span> <span class="f">tmr_read</span>(<span class="k">const</span> tmr_uint32_t * <span class="k">const</span> v) {
+    <span class="t">uint32_t</span> result;
+    <span class="k">if</span> (v-&gt;copy_a == v-&gt;copy_b) {
+        result = v-&gt;copy_a;
+    } <span class="k">else if</span> (v-&gt;copy_a == v-&gt;copy_c) {
+        result = v-&gt;copy_a;
+    } <span class="k">else if</span> (v-&gt;copy_b == v-&gt;copy_c) {
+        result = v-&gt;copy_b;
+    } <span class="k">else</span> {
+        result = v-&gt;copy_a;        <span class="c">/* fallback + raise FDIR */</span>
+        fdir_raise(FDIR_TMR_DIVERGE);
+    }
+    <span class="k">return</span> result;
+}
+
+<span class="k">static</span> <span class="k">void</span> <span class="f">tmr_write</span>(tmr_uint32_t * <span class="k">const</span> v, <span class="t">uint32_t</span> value) {
+    v-&gt;copy_a = value;
+    v-&gt;copy_b = value;
+    v-&gt;copy_c = value;
+}</code></pre>
+
+  <details class="ex">
+    <summary><span class="ex-tag">Exercice 3.1</span>Audit MISRA d'un fragment</summary>
+    <div class="ex-body">
+      <p>Identifie tous les problèmes MISRA-C 2012 dans ce code et propose une réécriture conforme :</p>
+<pre data-lang="c"><code><span class="k">int</span> <span class="f">read_sensor</span>(<span class="k">int</span> id, <span class="k">char</span> *buf) {
+    <span class="k">if</span> (id &lt; <span class="n">0</span>) <span class="k">return</span> -<span class="n">1</span>;
+    <span class="k">int</span> n = read(id, buf, <span class="n">100</span>);
+    <span class="k">switch</span> (id) {
+        <span class="k">case</span> <span class="n">0</span>: process_temp(buf); <span class="k">break</span>;
+        <span class="k">case</span> <span class="n">1</span>: process_press(buf); <span class="k">break</span>;
+    }
+    <span class="k">return</span> n;
+}</code></pre>
+      <div class="solution">
+        <p>Violations relevées :</p>
+        <ul>
+          <li><strong>15.5</strong> — deux <code>return</code> dans la fonction.</li>
+          <li><strong>14.4 / 16.4</strong> — <code>switch</code> sans <code>default</code>.</li>
+          <li><strong>Type int</strong> non spécifique : devrait être <code>uint8_t</code> pour l'id et <code>int32_t</code> pour le retour. Préférer <code>uint8_t * const</code> pour le buffer.</li>
+          <li><strong>21.6</strong> — <code>read()</code> est une fonction stdio non recommandée (interdite par MISRA). Doit être remplacée par une primitive du BSP.</li>
+          <li><strong>Pas de check sur la taille du buffer</strong> — risque de débordement.</li>
+          <li><strong>Magic number</strong> 100 sans définition.</li>
+        </ul>
+        <p>Réécriture conforme :</p>
+<pre data-lang="c"><code><span class="k">#define</span> SENSOR_BUF_SIZE 100U
+
+<span class="t">int32_t</span> <span class="f">read_sensor</span>(<span class="t">uint8_t</span> id,
+                     <span class="t">uint8_t</span> * <span class="k">const</span> buf,
+                     <span class="t">uint16_t</span> buf_size)
+{
+    <span class="t">int32_t</span> result = -<span class="n">1</span>;
+
+    <span class="k">if</span> ((buf != <span class="t">NULL</span>) &amp;&amp; (buf_size &gt;= SENSOR_BUF_SIZE) &amp;&amp;
+        (id &lt; SENSOR_ID_MAX)) {
+
+        <span class="t">int32_t</span> n = bsp_sensor_read(id, buf, SENSOR_BUF_SIZE);
+        <span class="k">if</span> (n &gt; <span class="n">0</span>) {
+            <span class="k">switch</span> (id) {
+                <span class="k">case</span> SENSOR_ID_TEMP:
+                    process_temp(buf);
+                    <span class="k">break</span>;
+                <span class="k">case</span> SENSOR_ID_PRESS:
+                    process_press(buf);
+                    <span class="k">break</span>;
+                <span class="k">default</span>:
+                    <span class="c">/* sécurité : id valide mais sans traitement */</span>
+                    <span class="k">break</span>;
+            }
+            result = n;
+        }
+    }
+
+    <span class="k">return</span> result;
+}</code></pre>
+      </div>
+    </div>
+  </details>
+
+  <details class="ex">
+    <summary><span class="ex-tag">Exercice 3.2</span>Dimensionnement WCET</summary>
+    <div class="ex-body">
+      <p>On veut faire tourner 4 tâches périodiques sur un LEON3 à 100 MHz : AOCS (50 Hz, WCET 4 ms), TM (10 Hz, WCET 1.5 ms), FDIR (5 Hz, WCET 2 ms), HK (1 Hz, WCET 3 ms). Détermine si l'ordonnancement cyclique avec mini-cycle de 20 ms est tenable et propose une table de 50 slots (1 seconde).</p>
+
+      <div class="solution">
+        <p><strong>Charge CPU</strong> : 50·4 + 10·1.5 + 5·2 + 1·3 = 200 + 15 + 10 + 3 = <strong>228 ms/s ≈ 23%</strong>. CPU largement dimensionné.</p>
+        <p><strong>Slot WCET</strong> : aucune tâche ne dépasse 20 ms ✓.</p>
+        <p><strong>Construction de la table</strong>. AOCS doit s'exécuter tous les 20 ms (2 slots), TM tous les 100 ms (5 slots), FDIR tous les 200 ms (10 slots), HK tous les 1000 ms (50 slots). On colle AOCS en slots pairs (0,2,4,...,48) → 25 occurrences/s, soit 25 Hz et non 50 Hz.</p>
+        <p>Pour avoir vraiment 50 Hz d'AOCS, le mini-cycle doit être 10 ms et non 20 ms. <strong>Correction</strong> : mini-cycle 10 ms, 100 slots/s.</p>
+        <ul>
+          <li>AOCS : tous les 2 slots (50 Hz) → slots pairs 0..98 → 50 occurrences.</li>
+          <li>TM : tous les 10 slots (10 Hz) → slots 1, 11, 21, ... 91 → 10 occurrences.</li>
+          <li>FDIR : tous les 20 slots (5 Hz) → slots 3, 23, 43, 63, 83 → 5 occurrences.</li>
+          <li>HK : 1 fois → slot 5 seul.</li>
+        </ul>
+        <p>Charge max d'un slot : AOCS (4 ms) + TM ou FDIR (1.5 ou 2 ms) = 6 ms &lt; 10 ms ✓. Marge confortable.</p>
+      </div>
+    </div>
+  </details>
+
+  <details class="ex">
+    <summary><span class="ex-tag">Exercice 3.3</span>Vote majoritaire avec hamming distance</summary>
+    <div class="ex-body">
+      <p>Étends le TMR vu en cours pour qu'il retourne aussi un <em>status</em> indiquant : OK (3 copies identiques), CORRECTED (1 copie divergente, 2 identiques), DIVERGED (3 copies toutes différentes). Pourquoi cette distinction est-elle utile pour le FDIR ?</p>
+
+      <div class="solution">
+<pre data-lang="c"><code><span class="k">typedef</span> <span class="k">enum</span> {
+    TMR_OK,
+    TMR_CORRECTED,
+    TMR_DIVERGED
+} tmr_status_t;
+
+<span class="k">static</span> tmr_status_t <span class="f">tmr_read_status</span>(<span class="k">const</span> tmr_uint32_t * <span class="k">const</span> v,
+                                     <span class="t">uint32_t</span> * <span class="k">const</span> out)
+{
+    tmr_status_t st;
+    <span class="k">if</span> ((v-&gt;copy_a == v-&gt;copy_b) &amp;&amp; (v-&gt;copy_b == v-&gt;copy_c)) {
+        *out = v-&gt;copy_a;
+        st = TMR_OK;
+    } <span class="k">else if</span> (v-&gt;copy_a == v-&gt;copy_b) {
+        *out = v-&gt;copy_a;  st = TMR_CORRECTED;
+    } <span class="k">else if</span> (v-&gt;copy_a == v-&gt;copy_c) {
+        *out = v-&gt;copy_a;  st = TMR_CORRECTED;
+    } <span class="k">else if</span> (v-&gt;copy_b == v-&gt;copy_c) {
+        *out = v-&gt;copy_b;  st = TMR_CORRECTED;
+    } <span class="k">else</span> {
+        *out = v-&gt;copy_a;  st = TMR_DIVERGED;
+    }
+    <span class="k">return</span> st;
+}</code></pre>
+        <p><strong>Utilité FDIR.</strong> CORRECTED est un événement banal (un SEU isolé), à incrémenter dans un compteur HK et à émettre en PUS(5). DIVERGED signale soit une corruption massive (SEU multiple, latchup) soit un bug logiciel. Le déclenchement et le seuil de réaction diffèrent : CORRECTED bénin tant que &lt; N/heure, DIVERGED = passage immédiat en safe.</p>
+      </div>
+    </div>
+  </details>
+</section>
+
+<!-- ============================================================== -->
+<!-- MODULE 4 — C++ MODERNE                                         -->
+<!-- ============================================================== -->
+<section class="module" id="m4">
+  <div class="module-header">
+    <div class="module-num">MODULE 4</div>
+    <h2>C++ moderne pour le spatial — RAII, templates, sans exceptions</h2>
+  </div>
+
+  <p>
+    Le C++ moderne (≥ C++14, idéalement C++17/20) gagne du terrain dans le spatial pour les couches non-critique ou semi-critique : traitement image bord, frameworks PUS, EGSE en performance critique, simulateurs SVF. Mais il s'y pratique sous forme d'un sous-ensemble strict qui exclut exceptions, RTTI dynamique, et allocation runtime.
+  </p>
+
+  <h3>4.1 Le sous-ensemble C++ embarqué spatial</h3>
+
+  <table>
+    <thead><tr><th>Construction</th><th>Statut</th><th>Raison</th></tr></thead>
+    <tbody>
+      <tr><td>RAII / scopes</td><td>✓ encouragé</td><td>Libération déterministe ressources</td></tr>
+      <tr><td>Templates (génériques)</td><td>✓ encouragé</td><td>Spécialisation à compile-time, zéro coût</td></tr>
+      <tr><td><code>constexpr</code> / <code>consteval</code></td><td>✓ encouragé</td><td>Calculs compile-time, pas de runtime</td></tr>
+      <tr><td><code>std::array</code>, <code>std::span</code></td><td>✓ encouragé</td><td>Conteneurs statiques type-safe</td></tr>
+      <tr><td><code>std::optional</code>, <code>std::variant</code></td><td>✓ avec discipline</td><td>Erreurs sans exceptions</td></tr>
+      <tr><td>Exceptions (<code>throw</code>)</td><td>✗ interdit</td><td>Stack unwinding non déterministe, overhead</td></tr>
+      <tr><td><code>new</code> / <code>delete</code></td><td>✗ interdit</td><td>Heap dynamique → fragmentation</td></tr>
+      <tr><td>RTTI (<code>dynamic_cast</code>)</td><td>✗ interdit</td><td>Overhead, mémoire métadonnées</td></tr>
+      <tr><td><code>std::vector</code>, conteneurs heap</td><td>✗ interdit</td><td>Allocation runtime</td></tr>
+      <tr><td>Polymorphisme virtuel</td><td>⚠ avec parcimonie</td><td>vtable, overhead, mais OK si géré</td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    Référence canonique : <strong>JSF Air Vehicle C++ Coding Standards</strong> (F-35) et <strong>AUTOSAR C++14 Guidelines</strong>. Les agences spatiales s'en inspirent largement, complétés par les guides MISRA C++ 2008/2023.
+  </p>
+
+  <h3>4.2 Pattern : gestion d'erreurs sans exceptions</h3>
+
+  <p>L'idiome dominant est <code>Result&lt;T,E&gt;</code> ou <code>std::expected</code> (C++23) ou <code>std::variant</code>. Voici une implémentation portable C++17 :</p>
+
+  <pre data-lang="c++"><code><span class="k">#include</span> &lt;variant&gt;
+<span class="k">#include</span> &lt;cstdint&gt;
+<span class="k">#include</span> &lt;array&gt;
+<span class="k">#include</span> &lt;span&gt;
+
+<span class="k">enum class</span> <span class="t">SpwError</span> : <span class="t">uint8_t</span> {
+    Timeout, Overflow, HwError, InvalidArg
+};
+
+<span class="k">template</span>&lt;<span class="k">typename</span> T&gt;
+<span class="k">class</span> <span class="t">Result</span> {
+    std::variant&lt;T, SpwError&gt; v_;
+<span class="k">public</span>:
+    <span class="k">constexpr</span> Result(T value) <span class="k">noexcept</span> : v_(value) {}
+    <span class="k">constexpr</span> Result(SpwError err) <span class="k">noexcept</span> : v_(err) {}
+
+    [[nodiscard]] <span class="k">constexpr</span> <span class="t">bool</span> ok() <span class="k">const</span> <span class="k">noexcept</span> {
+        <span class="k">return</span> std::holds_alternative&lt;T&gt;(v_);
+    }
+    [[nodiscard]] <span class="k">constexpr</span> <span class="k">const</span> T&amp; value() <span class="k">const</span> <span class="k">noexcept</span> {
+        <span class="k">return</span> std::get&lt;T&gt;(v_);
+    }
+    [[nodiscard]] <span class="k">constexpr</span> SpwError error() <span class="k">const</span> <span class="k">noexcept</span> {
+        <span class="k">return</span> std::get&lt;SpwError&gt;(v_);
+    }
+};
+
+<span class="k">struct</span> <span class="t">SpwPacket</span> {
+    std::array&lt;<span class="t">uint8_t</span>, <span class="n">1024</span>&gt; data;
+    <span class="t">uint16_t</span> length;
+    <span class="t">uint32_t</span> timestamp_us;
+};
+
+[[nodiscard]] Result&lt;SpwPacket&gt; <span class="f">spw_receive</span>(<span class="t">uint8_t</span> port,
+                                            <span class="t">uint32_t</span> timeout_us) <span class="k">noexcept</span>;
+
+<span class="c">// Utilisation :</span>
+<span class="k">void</span> <span class="f">handle</span>() <span class="k">noexcept</span> {
+    <span class="k">auto</span> r = spw_receive(<span class="n">0</span>, <span class="n">10000</span>);
+    <span class="k">if</span> (!r.ok()) {
+        fdir_raise_spw(r.error());
+        <span class="k">return</span>;
+    }
+    process(r.value());
+}</code></pre>
+
+  <div class="callout">
+    <div class="callout-title">Idiomes clés</div>
+    <p style="margin:0"><code>noexcept</code> sur toute fonction qui n'utilise pas d'exception. <code>[[nodiscard]]</code> pour forcer l'examen du <code>Result</code>. <code>constexpr</code> pour permettre l'évaluation à la compilation quand les arguments sont littéraux. <code>std::array</code> remplace toujours les VLA ou <code>std::vector</code>.</p>
+  </div>
+
+  <h3>4.3 Machine à états avec templates</h3>
+
+  <p>Pattern de plus en plus utilisé : une FSM zero-overhead via templates et <code>std::variant</code>. Exemple pour le mode satellite :</p>
+
+  <pre data-lang="c++"><code><span class="k">#include</span> &lt;variant&gt;
+
+<span class="k">struct</span> <span class="t">Boot</span>      { <span class="t">uint32_t</span> ticks_since_boot; };
+<span class="k">struct</span> <span class="t">Standby</span>   {};
+<span class="k">struct</span> <span class="t">Nominal</span>   { <span class="t">uint16_t</span> orbit_count; };
+<span class="k">struct</span> <span class="t">Safe</span>      { <span class="t">uint8_t</span> entry_reason; };
+
+<span class="k">using</span> <span class="t">SatMode</span> = std::variant&lt;Boot, Standby, Nominal, Safe&gt;;
+
+<span class="k">struct</span> <span class="t">EvBootDone</span>     {};
+<span class="k">struct</span> <span class="t">EvGoNominal</span>    {};
+<span class="k">struct</span> <span class="t">EvAnomaly</span>      { <span class="t">uint8_t</span> reason; };
+<span class="k">struct</span> <span class="t">EvGroundResume</span> {};
+
+<span class="k">using</span> <span class="t">SatEvent</span> = std::variant&lt;EvBootDone, EvGoNominal, EvAnomaly, EvGroundResume&gt;;
+
+<span class="k">class</span> <span class="t">Fsm</span> {
+    SatMode mode_{Boot{<span class="n">0</span>}};
+<span class="k">public</span>:
+    <span class="k">void</span> <span class="f">on_event</span>(<span class="k">const</span> SatEvent&amp; ev) <span class="k">noexcept</span> {
+        std::visit([<span class="k">this</span>](<span class="k">const</span> <span class="k">auto</span>&amp; m, <span class="k">const</span> <span class="k">auto</span>&amp; e) {
+            <span class="k">using</span> M = std::decay_t&lt;<span class="k">decltype</span>(m)&gt;;
+            <span class="k">using</span> E = std::decay_t&lt;<span class="k">decltype</span>(e)&gt;;
+            <span class="k">if</span> <span class="k">constexpr</span> (std::is_same_v&lt;M, Boot&gt; &amp;&amp; std::is_same_v&lt;E, EvBootDone&gt;) {
+                mode_ = Standby{};
+            } <span class="k">else if</span> <span class="k">constexpr</span> (std::is_same_v&lt;M, Standby&gt; &amp;&amp; std::is_same_v&lt;E, EvGoNominal&gt;) {
+                mode_ = Nominal{<span class="n">0</span>};
+            } <span class="k">else if</span> <span class="k">constexpr</span> (std::is_same_v&lt;E, EvAnomaly&gt;) {
+                mode_ = Safe{e.reason};   <span class="c">// transition globale possible</span>
+            } <span class="k">else if</span> <span class="k">constexpr</span> (std::is_same_v&lt;M, Safe&gt; &amp;&amp; std::is_same_v&lt;E, EvGroundResume&gt;) {
+                mode_ = Standby{};
+            }
+        }, mode_, ev);
+    }
+
+    [[nodiscard]] <span class="t">uint8_t</span> <span class="f">mode_id</span>() <span class="k">const</span> <span class="k">noexcept</span> {
+        <span class="k">return</span> <span class="k">static_cast</span>&lt;<span class="t">uint8_t</span>&gt;(mode_.index());
+    }
+};</code></pre>
+
+  <p>
+    Avantages : vérification de toutes les transitions à la compilation (impossible d'oublier un cas), zéro allocation, taille fixe (<code>variant</code> = max(sizeof) des alternatives + discriminant), pas de vtable.
+  </p>
+
+  <h3>4.4 Sérialisation TC/TM type-safe avec concepts (C++20)</h3>
+
+  <pre data-lang="c++"><code><span class="k">#include</span> &lt;span&gt;
+<span class="k">#include</span> &lt;bit&gt;
+<span class="k">#include</span> &lt;cstring&gt;
+<span class="k">#include</span> &lt;concepts&gt;
+
+<span class="k">template</span>&lt;<span class="k">typename</span> T&gt;
+<span class="k">concept</span> <span class="t">TriviallySerializable</span> = std::is_trivially_copyable_v&lt;T&gt; &amp;&amp;
+                              std::is_standard_layout_v&lt;T&gt;;
+
+<span class="k">template</span>&lt;TriviallySerializable T&gt;
+[[nodiscard]] <span class="t">bool</span> <span class="f">serialize_be</span>(std::span&lt;<span class="t">uint8_t</span>&gt; buf,
+                                <span class="t">size_t</span>&amp; cursor,
+                                <span class="k">const</span> T&amp; value) <span class="k">noexcept</span> {
+    <span class="k">if</span> (cursor + <span class="k">sizeof</span>(T) &gt; buf.size()) { <span class="k">return</span> <span class="k">false</span>; }
+    <span class="k">if</span> <span class="k">constexpr</span> (std::endian::native == std::endian::little) {
+        T swapped = std::byteswap(value);   <span class="c">// C++23</span>
+        std::memcpy(buf.data() + cursor, &amp;swapped, <span class="k">sizeof</span>(T));
+    } <span class="k">else</span> {
+        std::memcpy(buf.data() + cursor, &amp;value, <span class="k">sizeof</span>(T));
+    }
+    cursor += <span class="k">sizeof</span>(T);
+    <span class="k">return</span> <span class="k">true</span>;
+}</code></pre>
+
+  <p>
+    Le concept <code>TriviallySerializable</code> empêche la compilation pour des types non plats (<code>std::string</code>, classes avec virtual, etc.). L'erreur survient à la compilation, pas en vol.
+  </p>
+
+  <details class="ex">
+    <summary><span class="ex-tag">Exercice 4.1</span>Réimplémenter <code>Result</code> sans variant</summary>
+    <div class="ex-body">
+      <p>Sur certains compilateurs embarqués anciens, <code>std::variant</code> n'est pas disponible. Réimplémente un <code>Result&lt;T,E&gt;</code> minimal sans STL avec un type <em>tagged union</em> manuel. Garantis l'absence d'allocation.</p>
+
+      <div class="solution">
+<pre data-lang="c++"><code><span class="k">template</span>&lt;<span class="k">typename</span> T, <span class="k">typename</span> E&gt;
+<span class="k">class</span> <span class="t">Result</span> {
+    <span class="k">enum class</span> Tag : <span class="t">uint8_t</span> { Ok, Err };
+    Tag tag_;
+    <span class="k">union</span> Storage {
+        T value;
+        E error;
+        Storage() {}
+        ~Storage() {}
+    } st_;
+
+<span class="k">public</span>:
+    Result(<span class="k">const</span> T&amp; v) : tag_(Tag::Ok)  { <span class="k">new</span>(&amp;st_.value) T(v); }
+    Result(<span class="k">const</span> E&amp; e) : tag_(Tag::Err) { <span class="k">new</span>(&amp;st_.error) E(e); }
+
+    ~Result() {
+        <span class="k">if</span> (tag_ == Tag::Ok)  st_.value.~T();
+        <span class="k">else</span>                 st_.error.~E();
+    }
+
+    <span class="t">bool</span> ok()    <span class="k">const</span> <span class="k">noexcept</span> { <span class="k">return</span> tag_ == Tag::Ok; }
+    <span class="k">const</span> T&amp; value() <span class="k">const</span> <span class="k">noexcept</span> { <span class="k">return</span> st_.value; }
+    <span class="k">const</span> E&amp; error() <span class="k">const</span> <span class="k">noexcept</span> { <span class="k">return</span> st_.error; }
+};</code></pre>
+        <p>Le <code>new(&amp;st_.value) T(v)</code> est un <em>placement new</em> : il construit l'objet à l'emplacement mémoire fourni, sans allocation heap. Le placement new est autorisé en embarqué spatial (à différencier du <code>new</code> classique qui appelle <code>malloc</code>).</p>
+        <p>Limite : il faut aussi gérer le copy/move constructor pour éviter les UB. En production, préférer <code>std::variant</code> ou <code>std::expected</code> dès que possible.</p>
+      </div>
+    </div>
+  </details>
+
+  <details class="ex">
+    <summary><span class="ex-tag">Exercice 4.2</span>FSM avec <code>std::variant</code></summary>
+    <div class="ex-body">
+      <p>Étends la FSM satellite du cours avec un état supplémentaire <code>Maintenance</code>, accessible depuis <code>Standby</code> uniquement, sur événement <code>EvMaintenance</code>. La sortie de Maintenance se fait par <code>EvMaintenanceDone</code> vers <code>Standby</code>. Garantis que toute autre transition depuis Maintenance soit refusée (sauf Anomaly → Safe).</p>
+
+      <div class="solution">
+<pre data-lang="c++"><code><span class="k">struct</span> <span class="t">Maintenance</span>          { <span class="t">uint32_t</span> entered_at; };
+<span class="k">struct</span> <span class="t">EvMaintenance</span>        {};
+<span class="k">struct</span> <span class="t">EvMaintenanceDone</span>    {};
+
+<span class="k">using</span> <span class="t">SatMode</span>  = std::variant&lt;Boot, Standby, Nominal, Maintenance, Safe&gt;;
+<span class="k">using</span> <span class="t">SatEvent</span> = std::variant&lt;EvBootDone, EvGoNominal, EvAnomaly,
+                              EvGroundResume, EvMaintenance, EvMaintenanceDone&gt;;
+
+<span class="c">// Dans on_event, ajouter :</span>
+<span class="k">else if</span> <span class="k">constexpr</span> (std::is_same_v&lt;M, Standby&gt; &amp;&amp;
+                       std::is_same_v&lt;E, EvMaintenance&gt;) {
+    mode_ = Maintenance{tick_now()};
+}
+<span class="k">else if</span> <span class="k">constexpr</span> (std::is_same_v&lt;M, Maintenance&gt; &amp;&amp;
+                       std::is_same_v&lt;E, EvMaintenanceDone&gt;) {
+    mode_ = Standby{};
+}
+<span class="c">// EvAnomaly toujours OK car capturé en premier dans le visit (transition globale).
+// Tout autre couple (M, E) non listé → no-op = transition refusée, OK.</span></code></pre>
+        <p>Avec <code>std::variant</code>, l'absence de match pour un couple (mode, événement) signifie pas de changement. C'est le comportement souhaité : seules les transitions explicitement codées sont permises.</p>
+      </div>
+    </div>
+  </details>
+</section>
+
+<!-- ============================================================== -->
+<!-- MODULE 5 — ADA / SPARK                                         -->
+<!-- ============================================================== -->
+<section class="module" id="m5">
+  <div class="module-header">
+    <div class="module-num">MODULE 5</div>
+    <h2>Ada &amp; SPARK pour le critique vol</h2>
+  </div>
+
+  <p>
+    Ada vit dans le spatial depuis Ariane 4. Sa survie à 40 ans de critiques s'explique par trois propriétés introuvables ailleurs : <strong>typage extrêmement fort</strong> avec contraintes vérifiées au runtime ou à la compile-time, <strong>profil temps réel certifié</strong> (Ravenscar) prouvant l'absence de famine et de deadlock par construction, et <strong>preuves formelles</strong> via SPARK pour les sous-systèmes les plus critiques.
+  </p>
+
+  <h3>5.1 Pourquoi Ada résiste</h3>
+
+  <p>
+    Comparons un même bug — un overflow d'index — en C, C++ et Ada :
+  </p>
+
+  <pre data-lang="c"><code><span class="c">/* C : silencieux, UB, peut planter le satellite */</span>
+<span class="t">uint8_t</span> tab[<span class="n">10</span>];
+tab[<span class="n">15</span>] = <span class="n">42</span>;   <span class="c">/* compile, écrit dans la pile adjacente */</span></code></pre>
+
+  <pre data-lang="ada"><code><span class="c">-- Ada : exception Constraint_Error à l'exécution, ou erreur à la compile si index constant</span>
+<span class="k">type</span> Idx <span class="k">is</span> <span class="k">range</span> <span class="n">0</span>..<span class="n">9</span>;
+Tab : <span class="k">array</span> (Idx) <span class="k">of</span> Unsigned_8;
+Tab (<span class="n">15</span>) := <span class="n">42</span>;  <span class="c">-- erreur compile : 15 hors Idx</span></code></pre>
+
+  <p>
+    En SPARK, on va plus loin : la preuve formelle démontre <em>statiquement</em> qu'aucun index ne peut être hors borne, qu'aucune division par zéro ne peut survenir, qu'aucun débordement arithmétique n'est possible — sans tests, sans exécution.
+  </p>
+
+  <h3>5.2 Le profil Ravenscar</h3>
+
+  <p>
+    Ravenscar (ISO 8652:2012 Annex D.13) est un sous-ensemble du modèle de tâches Ada conçu pour la certification temps réel. Il interdit toute construction qui empêcherait une analyse d'ordonnancement par <em>Rate Monotonic Analysis</em> :
+  </p>
+
+  <ul>
+    <li>Pas de file d'attente sur les <em>protected entries</em> de plus d'une tâche.</li>
+    <li>Pas de <code>select</code> avec <code>delay</code> alternatif.</li>
+    <li>Pas de tâches dynamiques (toutes statiques au boot).</li>
+    <li>Tâches périodiques exclusivement (pas de tâches sporadiques sans relation au temps).</li>
+    <li>Priorités fixes, ordonnancement préemptif <em>fixed priority</em>.</li>
+  </ul>
+
+  <pre data-lang="ada"><code><span class="k">pragma</span> <span class="f">Profile</span> (Ravenscar);
+<span class="k">pragma</span> <span class="f">Partition_Elaboration_Policy</span> (Sequential);
+
+<span class="k">with</span> Ada.Real_Time; <span class="k">use</span> Ada.Real_Time;
+<span class="k">with</span> Aocs;
+
+<span class="k">package</span> Aocs_Task <span class="k">is</span>
+   <span class="k">task</span> Aocs_Cyclic <span class="k">with</span> Priority =&gt; <span class="n">20</span>;
+<span class="k">end</span> Aocs_Task;
+
+<span class="k">package</span> <span class="k">body</span> Aocs_Task <span class="k">is</span>
+
+   <span class="k">task</span> <span class="k">body</span> Aocs_Cyclic <span class="k">is</span>
+      Period : <span class="k">constant</span> Time_Span := Milliseconds (<span class="n">10</span>);  <span class="c">-- 100 Hz</span>
+      Next   : Time := Clock + Period;
+   <span class="k">begin</span>
+      <span class="k">loop</span>
+         Aocs.Step;
+         <span class="k">delay until</span> Next;
+         Next := Next + Period;
+      <span class="k">end loop</span>;
+   <span class="k">end</span> Aocs_Cyclic;
+
+<span class="k">end</span> Aocs_Task;</code></pre>
+
+  <p>
+    Ce code, avec le pragma Ravenscar, est analysable : on peut calculer si le système entier respecte ses échéances par RMA classique (Liu-Layland), et le compilateur refuse toute construction qui invaliderait cette analyse.
+  </p>
+
+  <h3>5.3 Contrats et preuves SPARK</h3>
+
+  <p>
+    SPARK est un sous-ensemble d'Ada où on ajoute des contrats (pré/post-conditions, invariants) que l'outil <code>gnatprove</code> démontre à la compilation. Exemple — un quaternion normalisé :
+  </p>
+
+  <pre data-lang="ada"><code><span class="k">package</span> Quaternions <span class="k">with</span> SPARK_Mode =&gt; <span class="k">on</span> <span class="k">is</span>
+
+   <span class="k">type</span> Real <span class="k">is</span> <span class="k">digits</span> <span class="n">15</span> <span class="k">range</span> <span class="n">-1.0E10</span> .. <span class="n">1.0E10</span>;
+
+   <span class="k">type</span> Quaternion <span class="k">is record</span>
+      W, X, Y, Z : Real;
+   <span class="k">end record</span>;
+
+   <span class="k">function</span> Norm_Sq (Q : Quaternion) <span class="k">return</span> Real <span class="k">is</span>
+     (Q.W * Q.W + Q.X * Q.X + Q.Y * Q.Y + Q.Z * Q.Z)
+   <span class="k">with</span> Post =&gt; Norm_Sq'Result &gt;= <span class="n">0.0</span>;
+
+   <span class="k">function</span> Is_Unit (Q : Quaternion) <span class="k">return</span> Boolean <span class="k">is</span>
+     (<span class="k">abs</span> (Norm_Sq (Q) - <span class="n">1.0</span>) &lt; <span class="n">1.0E-6</span>);
+
+   <span class="k">procedure</span> Multiply (A, B : <span class="k">in</span> Quaternion; R : <span class="k">out</span> Quaternion)
+   <span class="k">with</span>
+     Pre  =&gt; Is_Unit (A) <span class="k">and</span> Is_Unit (B),
+     Post =&gt; Is_Unit (R);
+
+<span class="k">end</span> Quaternions;</code></pre>
+
+  <p>
+    L'outil <code>gnatprove</code> tentera de démontrer mathématiquement que <code>Multiply</code> préserve la norme unité quand ses entrées le sont. Si ce n'est pas démontrable, soit le code est faux, soit le contrat manque d'hypothèses : le programmeur doit corriger ou raffiner.
+  </p>
+
+  <h3>5.4 Le tableau périodique d'un AOCS en Ada</h3>
+
+  <pre data-lang="ada"><code><span class="k">package</span> Aocs_Pipeline <span class="k">with</span> SPARK_Mode =&gt; <span class="k">on</span> <span class="k">is</span>
+
+   <span class="k">type</span> Sensor_Reading <span class="k">is record</span>
+      Gyro       : Vector3;
+      Star_Track : Quaternion;
+      Mag_Field  : Vector3;
+      Valid      : Boolean;
+   <span class="k">end record</span>;
+
+   <span class="k">type</span> Actuator_Command <span class="k">is record</span>
+      Torque_Wheels : Vector3;
+      Torque_Mtq    : Vector3;
+   <span class="k">end record</span>;
+
+   <span class="k">procedure</span> Step
+     (Sensors  : <span class="k">in</span>     Sensor_Reading;
+      State    : <span class="k">in out</span> Aocs_State;
+      Commands :    <span class="k">out</span> Actuator_Command)
+   <span class="k">with</span>
+     Pre  =&gt; Sensors.Valid <span class="k">and then</span> Is_Unit (Sensors.Star_Track),
+     Post =&gt; State.Mode <span class="k">in</span> Sun_Pointing | Nominal | Safe
+             <span class="k">and</span> Bounded (Commands.Torque_Wheels, Max_Wheel_Torque)
+             <span class="k">and</span> Bounded (Commands.Torque_Mtq, Max_Mtq_Torque);
+
+<span class="k">end</span> Aocs_Pipeline;</code></pre>
+
+  <p>
+    La <em>Post</em>-condition garantit que peu importe ce qui se passe dans <code>Step</code>, les couples envoyés aux roues à inertie et magnétocoupleurs restent bornés. Une saturation oubliée échouera à la preuve — détectée en bureau, avant même un seul test sur banc.
+  </p>
+
+  <details class="ex">
+    <summary><span class="ex-tag">Exercice 5.1</span>Sous-typage par contrainte</summary>
+    <div class="ex-body">
+      <p>Définis en Ada un type <code>Battery_Voltage</code> qui ne peut jamais sortir de la plage [0.0 ; 5.0] V, et un sous-type <code>Critical_Voltage</code> uniquement pour les valeurs &lt; 2.7 V. Écris une fonction qui prend un <code>Battery_Voltage</code> et retourne le booléen indiquant si c'est une tension critique.</p>
+
+      <div class="solution">
+<pre data-lang="ada"><code><span class="k">type</span> Battery_Voltage <span class="k">is</span> <span class="k">digits</span> <span class="n">6</span> <span class="k">range</span> <span class="n">0.0</span> .. <span class="n">5.0</span>;
+
+<span class="k">subtype</span> Critical_Voltage <span class="k">is</span> Battery_Voltage <span class="k">range</span> <span class="n">0.0</span> .. <span class="n">2.699</span>;
+
+<span class="k">function</span> Is_Critical (V : Battery_Voltage) <span class="k">return</span> Boolean <span class="k">is</span>
+   (V <span class="k">in</span> Critical_Voltage);</code></pre>
+        <p>Tentative d'utilisation invalide :</p>
+<pre data-lang="ada"><code>V : Battery_Voltage := <span class="n">6.0</span>;
+<span class="c">-- erreur compile-time si littéral, sinon Constraint_Error à runtime</span></code></pre>
+        <p>L'élégance : aucun <code>if</code> manuel, aucune fonction de check à ajouter ailleurs. Le typage <em>est</em> la vérification.</p>
+      </div>
+    </div>
+  </details>
+
+  <details class="ex">
+    <summary><span class="ex-tag">Exercice 5.2</span>Tâche Ravenscar 4 Hz</summary>
+    <div class="ex-body">
+      <p>Écris une tâche Ravenscar qui collecte les paramètres de housekeeping toutes les 250 ms, à priorité 15, et appelle <code>HK.Collect_And_Emit</code>. Justifie le rythme et l'utilisation de <code>delay until</code> plutôt que <code>delay</code>.</p>
+
+      <div class="solution">
+<pre data-lang="ada"><code><span class="k">with</span> Ada.Real_Time; <span class="k">use</span> Ada.Real_Time;
+<span class="k">with</span> Hk;
+
+<span class="k">package</span> Hk_Task <span class="k">is</span>
+   <span class="k">task</span> Hk_Periodic <span class="k">with</span> Priority =&gt; <span class="n">15</span>;
+<span class="k">end</span> Hk_Task;
+
+<span class="k">package</span> <span class="k">body</span> Hk_Task <span class="k">is</span>
+   <span class="k">task</span> <span class="k">body</span> Hk_Periodic <span class="k">is</span>
+      Period : <span class="k">constant</span> Time_Span := Milliseconds (<span class="n">250</span>);
+      Next   : Time := Clock + Period;
+   <span class="k">begin</span>
+      <span class="k">loop</span>
+         Hk.Collect_And_Emit;
+         <span class="k">delay until</span> Next;
+         Next := Next + Period;
+      <span class="k">end loop</span>;
+   <span class="k">end</span> Hk_Periodic;
+<span class="k">end</span> Hk_Task;</code></pre>
+        <p><strong>Pourquoi <code>delay until</code> et pas <code>delay</code> ?</strong> <code>delay 0.250</code> compte 250 ms après l'instant de l'instruction ; si <code>Collect_And_Emit</code> a pris 30 ms, la période effective est 280 ms et dérive cumulativement. <code>delay until Next</code> rendez-vous à un instant absolu : si <code>Collect_And_Emit</code> dépasse, le delay est immédiat, et la tâche reste alignée sur la base de temps. Pour du temps-réel dur, on utilise <em>toujours</em> <code>delay until</code>.</p>
+        <p><strong>Priorité 15</strong> : sous AOCS (20) mais au-dessus des tâches d'arrière-plan. HK doit pouvoir céder le CPU à AOCS si nécessaire ; un retard de HK est tolérable, un retard d'AOCS ne l'est pas.</p>
+      </div>
+    </div>
+  </details>
+
+  <details class="ex">
+    <summary><span class="ex-tag">Exercice 5.3</span>Contrat SPARK sur saturation de couple</summary>
+    <div class="ex-body">
+      <p>Écris une fonction <code>Saturate (X : Real; Max_Abs : Positive_Real) return Real</code> qui sature X dans [−Max_Abs, +Max_Abs], avec un contrat SPARK prouvant que la sortie est toujours bornée.</p>
+
+      <div class="solution">
+<pre data-lang="ada"><code><span class="k">subtype</span> Positive_Real <span class="k">is</span> Real <span class="k">range</span> <span class="n">0.0</span> .. Real'Last;
+
+<span class="k">function</span> Saturate (X : Real; Max_Abs : Positive_Real) <span class="k">return</span> Real
+<span class="k">with</span>
+   Post =&gt; Saturate'Result <span class="k">in</span> -Max_Abs .. Max_Abs;
+
+<span class="k">function</span> Saturate (X : Real; Max_Abs : Positive_Real) <span class="k">return</span> Real <span class="k">is</span>
+<span class="k">begin</span>
+   <span class="k">if</span> X &gt;  Max_Abs <span class="k">then return</span>  Max_Abs;
+   <span class="k">elsif</span> X &lt; -Max_Abs <span class="k">then return</span> -Max_Abs;
+   <span class="k">else return</span> X;
+   <span class="k">end if</span>;
+<span class="k">end</span> Saturate;</code></pre>
+        <p><code>gnatprove --level=2</code> démontre la postcondition trivialement par analyse des trois branches. La preuve formelle garantit qu'aucune entrée (même infinie, NaN exclus du typage <code>Real</code> contraint) ne peut produire une sortie hors bornes.</p>
+      </div>
+    </div>
+  </details>
+</section>
+
+
+<!-- ============================================================== -->
+<!-- MODULE 6 — WEB POUR SEGMENT SOL                                -->
+<!-- ============================================================== -->
+<section class="module" id="m6">
+  <div class="module-header">
+    <div class="module-num">MODULE 6</div>
+    <h2>Web pour le segment sol — MCS, dashboards, télémétrie temps réel</h2>
+  </div>
+
+  <p>
+    Le segment sol s'est largement modernisé depuis les MCS Java/Swing des années 2000. Aujourd'hui un centre de contrôle moderne (CS Group, GMV, Telespazio) combine un cœur Java/C++ pour la chaîne TM/TC critique et un front web TypeScript/React pour les visualisations opérateur. Comprendre cette pile est crucial pour les profils hybrides embarqué/web ciblant CS Group, Thales Alenia Space ou les opérations.
+  </p>
+
+  <h3>6.1 Architecture typique d'un MCS moderne</h3>
+
+  <pre class="ascii" data-lang="architecture">
+   ┌─────────────────────────────────────────────────────────────┐
+   │                       FRONTEND (TS/React/Next)               │
+   │   ┌──────────────┐  ┌──────────────┐  ┌──────────────────┐  │
+   │   │ HK Dashboard │  │  TC Console  │  │  Mimic / Synoptic │  │
+   │   └──────┬───────┘  └──────┬───────┘  └──────────┬───────┘  │
+   └──────────┼─────────────────┼─────────────────────┼──────────┘
+              │  WebSocket    REST/gRPC       SSE / WebSocket
+   ┌──────────┴─────────────────┴─────────────────────┴──────────┐
+   │              BACKEND (Java/Spring, C++, Python)              │
+   │   ┌──────────────────┐  ┌──────────────────────────────────┐│
+   │   │ TM Distribution  │  │ TC Validation & Sequencing       ││
+   │   │  (decoder bus)   │  │  (procedure engine, e.g. PUS-C)  ││
+   │   └────────┬─────────┘  └─────────────────┬────────────────┘│
+   │            │                              │                  │
+   │   ┌────────┴──────────────────────────────┴───────────────┐ │
+   │   │ Telemetry Archive │ Time-series DB │ Procedure Library│ │
+   │   └───────────────────────────────────────────────────────┘ │
+   └──────────────────────┬───────────────────────────────────────┘
+                          │  CCSDS over TCP / SLE (Space Link Extension)
+   ┌──────────────────────┴───────────────────────────────────────┐
+   │              Stations sol ESTRACK / DSN                       │
+   └───────────────────────────────────────────────────────────────┘
+  </pre>
+
+  <h3>6.2 Stack de référence côté front</h3>
+
+  <ul>
+    <li><strong>Next.js 14 / 15</strong> (App Router) — server components pour les dashboards historiques, client components pour le temps réel.</li>
+    <li><strong>TypeScript strict</strong> — <code>strict: true</code>, <code>noUncheckedIndexedAccess</code>, branded types pour les unités physiques.</li>
+    <li><strong>TanStack Query</strong> pour le cache REST + invalidation.</li>
+    <li><strong>WebSocket / Server-Sent Events</strong> pour le streaming TM. Pas de polling.</li>
+    <li><strong>Visualisation</strong> : Recharts pour les courbes simples, D3 pour les mimics et représentations spatiales, Three.js pour visualisations 3D d'attitude.</li>
+    <li><strong>State machines</strong> : XState pour modéliser le mode opérateur (idle, sending TC, awaiting ack, etc).</li>
+  </ul>
+
+  <h3>6.3 Branded types pour la sécurité des unités</h3>
+
+  <p>
+    Une erreur d'unité a coûté Mars Climate Orbiter (1999). En TypeScript moderne, les <em>branded types</em> empêchent de mélanger kilomètres et miles, secondes et millisecondes, radians et degrés :
+  </p>
+
+  <pre data-lang="typescript"><code><span class="c">// types/units.ts</span>
+<span class="k">declare const</span> brand: <span class="t">unique symbol</span>;
+<span class="k">type</span> <span class="t">Brand</span>&lt;T, B&gt; = T &amp; { [brand]: B };
+
+<span class="k">export type</span> Kilometers = Brand&lt;<span class="t">number</span>, <span class="s">"km"</span>&gt;;
+<span class="k">export type</span> Seconds    = Brand&lt;<span class="t">number</span>, <span class="s">"s"</span>&gt;;
+<span class="k">export type</span> Volts      = Brand&lt;<span class="t">number</span>, <span class="s">"V"</span>&gt;;
+<span class="k">export type</span> Celsius    = Brand&lt;<span class="t">number</span>, <span class="s">"°C"</span>&gt;;
+
+<span class="k">export const</span> <span class="f">km</span> = (n: <span class="t">number</span>): Kilometers =&gt; n <span class="k">as</span> Kilometers;
+<span class="k">export const</span> <span class="f">volts</span> = (n: <span class="t">number</span>): Volts =&gt; n <span class="k">as</span> Volts;
+
+<span class="c">// usage</span>
+<span class="k">function</span> <span class="f">deltaV</span>(target: Kilometers, current: Kilometers): Kilometers {
+  <span class="k">return</span> (target - current) <span class="k">as</span> Kilometers;
+}
+
+deltaV(km(<span class="n">42164</span>), km(<span class="n">6778</span>));        <span class="c">// OK</span>
+deltaV(<span class="n">42164</span>, <span class="n">6778</span>);                <span class="c">// erreur TS : nombre brut refusé</span></code></pre>
+
+  <h3>6.4 Composant React pour streaming TM</h3>
+
+  <p>Pattern recommandé : un hook qui s'abonne à un flux WebSocket TM et expose une série temporelle bornée (ring buffer côté client) :</p>
+
+  <pre data-lang="typescript"><code><span class="c">// hooks/useTelemetryStream.ts</span>
+<span class="k">import</span> { useEffect, useState, useRef } <span class="k">from</span> <span class="s">"react"</span>;
+
+<span class="k">export interface</span> <span class="t">TmSample</span> {
+  t: <span class="t">number</span>;           <span class="c">// ms UTC</span>
+  value: <span class="t">number</span>;
+  quality: <span class="s">"OK"</span> | <span class="s">"STALE"</span> | <span class="s">"INVALID"</span>;
+}
+
+<span class="k">export function</span> <span class="f">useTelemetryStream</span>(
+  parameterId: <span class="t">string</span>,
+  bufferSize = <span class="n">3600</span>,
+): TmSample[] {
+  <span class="k">const</span> [samples, setSamples] = useState&lt;TmSample[]&gt;([]);
+  <span class="k">const</span> wsRef = useRef&lt;WebSocket | <span class="t">null</span>&gt;(<span class="t">null</span>);
+
+  <span class="f">useEffect</span>(() =&gt; {
+    <span class="k">const</span> ws = <span class="k">new</span> WebSocket(<span class="s">`wss://mcs.example.org/tm/</span>${parameterId}<span class="s">`</span>);
+    wsRef.current = ws;
+
+    ws.onmessage = (event) =&gt; {
+      <span class="k">const</span> sample = JSON.parse(event.data) <span class="k">as</span> TmSample;
+      <span class="f">setSamples</span>((prev) =&gt; {
+        <span class="k">const</span> next = [...prev, sample];
+        <span class="k">return</span> next.length &gt; bufferSize
+          ? next.slice(next.length - bufferSize)
+          : next;
+      });
+    };
+
+    ws.onerror = (e) =&gt; console.error(<span class="s">"WS error"</span>, parameterId, e);
+
+    <span class="k">return</span> () =&gt; ws.close();
+  }, [parameterId, bufferSize]);
+
+  <span class="k">return</span> samples;
+}</code></pre>
+
+  <pre data-lang="typescript"><code><span class="c">// components/BatteryChart.tsx</span>
+<span class="s">"use client"</span>;
+<span class="k">import</span> { LineChart, Line, XAxis, YAxis, ReferenceLine, Tooltip } <span class="k">from</span> <span class="s">"recharts"</span>;
+<span class="k">import</span> { useTelemetryStream } <span class="k">from</span> <span class="s">"@/hooks/useTelemetryStream"</span>;
+
+<span class="k">export function</span> <span class="f">BatteryChart</span>() {
+  <span class="k">const</span> samples = useTelemetryStream(<span class="s">"BATT_V"</span>, <span class="n">600</span>);
+
+  <span class="k">return</span> (
+    &lt;LineChart width={<span class="n">680</span>} height={<span class="n">240</span>} data={samples}&gt;
+      &lt;XAxis
+        dataKey=<span class="s">"t"</span>
+        tickFormatter={(t) =&gt; <span class="k">new</span> <span class="f">Date</span>(t).toISOString().slice(<span class="n">11</span>, <span class="n">19</span>)}
+        stroke=<span class="s">"#6f7882"</span>
+      /&gt;
+      &lt;YAxis domain={[<span class="n">2.5</span>, <span class="n">4.3</span>]} stroke=<span class="s">"#6f7882"</span> unit=<span class="s">"V"</span> /&gt;
+      &lt;ReferenceLine y={<span class="n">3.0</span>} stroke=<span class="s">"#ffd76a"</span> strokeDasharray=<span class="s">"4 4"</span> label=<span class="s">"Low"</span> /&gt;
+      &lt;ReferenceLine y={<span class="n">2.7</span>} stroke=<span class="s">"#ff5577"</span> strokeDasharray=<span class="s">"4 4"</span> label=<span class="s">"Critical"</span> /&gt;
+      &lt;Tooltip /&gt;
+      &lt;Line
+        type=<span class="s">"monotone"</span>
+        dataKey=<span class="s">"value"</span>
+        stroke=<span class="s">"#5ad1ff"</span>
+        dot={<span class="k">false</span>}
+        isAnimationActive={<span class="k">false</span>}
+      /&gt;
+    &lt;/LineChart&gt;
+  );
+}</code></pre>
+
+  <div class="callout tip">
+    <div class="callout-title">Performance critique</div>
+    <p style="margin:0"><code>isAnimationActive={false}</code> est non négociable sur les courbes TM : à 10 Hz d'arrivée, l'animation de transition consomme tout le frame budget. Pour de très gros volumes (>10k points), passer à Canvas direct (Pixi.js, lightweight-charts).</p>
+  </div>
+
+  <h3>6.5 Authentification &amp; séparation des privilèges</h3>
+
+  <p>
+    Sur un MCS, la séparation est stricte : <em>viewer</em> (lecture HK), <em>operator</em> (envoi TC nominal), <em>commander</em> (TC critiques, mode safe), <em>flight director</em> (override). Chaque rôle correspond à un scope OAuth/JWT. Le frontend doit refuser d'afficher les boutons TC critiques aux rôles insuffisants, et le backend re-vérifier systématiquement (defense in depth).
+  </p>
+
+  <details class="ex">
+    <summary><span class="ex-tag">Exercice 6.1</span>Hook avec reconnection automatique</summary>
+    <div class="ex-body">
+      <p>Améliore le hook <code>useTelemetryStream</code> pour gérer la reconnexion exponentielle (1 s, 2 s, 4 s, 8 s, max 30 s) en cas de coupure WebSocket. Expose aussi un état <code>connected: boolean</code> au composant.</p>
+
+      <div class="solution">
+<pre data-lang="typescript"><code><span class="k">export function</span> <span class="f">useTelemetryStream</span>(
+  parameterId: <span class="t">string</span>,
+  bufferSize = <span class="n">3600</span>,
+): { samples: TmSample[]; connected: <span class="t">boolean</span> } {
+  <span class="k">const</span> [samples, setSamples] = useState&lt;TmSample[]&gt;([]);
+  <span class="k">const</span> [connected, setConnected] = useState(<span class="k">false</span>);
+  <span class="k">const</span> attemptRef = useRef(<span class="n">0</span>);
+  <span class="k">const</span> wsRef = useRef&lt;WebSocket | <span class="t">null</span>&gt;(<span class="t">null</span>);
+  <span class="k">const</span> stoppedRef = useRef(<span class="k">false</span>);
+
+  <span class="f">useEffect</span>(() =&gt; {
+    stoppedRef.current = <span class="k">false</span>;
+
+    <span class="k">const</span> <span class="f">connect</span> = () =&gt; {
+      <span class="k">if</span> (stoppedRef.current) <span class="k">return</span>;
+      <span class="k">const</span> ws = <span class="k">new</span> WebSocket(<span class="s">`wss://mcs.example.org/tm/</span>${parameterId}<span class="s">`</span>);
+      wsRef.current = ws;
+
+      ws.onopen = () =&gt; {
+        <span class="f">setConnected</span>(<span class="k">true</span>);
+        attemptRef.current = <span class="n">0</span>;
+      };
+
+      ws.onmessage = (event) =&gt; {
+        <span class="k">const</span> s = JSON.parse(event.data) <span class="k">as</span> TmSample;
+        <span class="f">setSamples</span>((prev) =&gt; {
+          <span class="k">const</span> next = [...prev, s];
+          <span class="k">return</span> next.length &gt; bufferSize
+            ? next.slice(next.length - bufferSize)
+            : next;
+        });
+      };
+
+      ws.onclose = () =&gt; {
+        <span class="f">setConnected</span>(<span class="k">false</span>);
+        <span class="k">if</span> (stoppedRef.current) <span class="k">return</span>;
+        <span class="k">const</span> backoff = Math.min(<span class="n">30000</span>, <span class="n">1000</span> * <span class="n">2</span> ** attemptRef.current);
+        attemptRef.current += <span class="n">1</span>;
+        <span class="f">setTimeout</span>(connect, backoff);
+      };
+    };
+
+    <span class="f">connect</span>();
+    <span class="k">return</span> () =&gt; {
+      stoppedRef.current = <span class="k">true</span>;
+      wsRef.current?.close();
+    };
+  }, [parameterId, bufferSize]);
+
+  <span class="k">return</span> { samples, connected };
+}</code></pre>
+        <p>Le <code>stoppedRef</code> évite la reconnexion après démontage du composant (sinon fuite de timers). Le composant peut afficher un badge orange si <code>!connected</code> pour alerter l'opérateur d'une perte de flux.</p>
+      </div>
+    </div>
+  </details>
+
+  <details class="ex">
+    <summary><span class="ex-tag">Exercice 6.2</span>API Route Next.js de TC validation</summary>
+    <div class="ex-body">
+      <p>Écris une route API Next.js (App Router) qui reçoit une demande d'envoi de TC en POST, vérifie le rôle JWT, vérifie que la TC n'est pas dans la liste rouge, et la transmet au backend MCS. Retourne erreur structurée si refusée.</p>
+
+      <div class="solution">
+<pre data-lang="typescript"><code><span class="c">// app/api/tc/route.ts</span>
+<span class="k">import</span> { NextRequest, NextResponse } <span class="k">from</span> <span class="s">"next/server"</span>;
+<span class="k">import</span> { verifyJwt } <span class="k">from</span> <span class="s">"@/lib/auth"</span>;
+
+<span class="k">const</span> <span class="t">REDLINE_TCS</span> = <span class="k">new</span> Set([<span class="s">"FORCE_REBOOT"</span>, <span class="s">"DISABLE_FDIR"</span>, <span class="s">"PYRO_FIRE"</span>]);
+<span class="k">const</span> <span class="t">ROLE_RIGHTS</span> = {
+  viewer: <span class="k">new</span> Set&lt;<span class="t">string</span>&gt;(),
+  operator: <span class="k">new</span> Set([<span class="s">"PUS_NOP"</span>, <span class="s">"GOTO_STANDBY"</span>, <span class="s">"HK_REQUEST"</span>]),
+  commander: <span class="k">new</span> Set([<span class="s">"*"</span>]),
+};
+
+<span class="k">export async function</span> <span class="f">POST</span>(req: NextRequest) {
+  <span class="k">const</span> auth = req.headers.get(<span class="s">"authorization"</span>) ?? <span class="s">""</span>;
+  <span class="k">const</span> claims = <span class="k">await</span> <span class="f">verifyJwt</span>(auth.replace(<span class="s">"Bearer "</span>, <span class="s">""</span>));
+  <span class="k">if</span> (!claims) {
+    <span class="k">return</span> NextResponse.json({ error: <span class="s">"unauthorized"</span> }, { status: <span class="n">401</span> });
+  }
+
+  <span class="k">const</span> body = (<span class="k">await</span> req.json()) <span class="k">as</span> { name: <span class="t">string</span>; args?: <span class="t">unknown</span> };
+
+  <span class="k">if</span> (REDLINE_TCS.has(body.name) &amp;&amp; claims.role !== <span class="s">"flight_director"</span>) {
+    <span class="k">return</span> NextResponse.json(
+      { error: <span class="s">"redline_requires_fd"</span>, tc: body.name },
+      { status: <span class="n">403</span> },
+    );
+  }
+
+  <span class="k">const</span> allowed = ROLE_RIGHTS[claims.role <span class="k">as</span> <span class="k">keyof typeof</span> ROLE_RIGHTS];
+  <span class="k">if</span> (!allowed || (!allowed.has(<span class="s">"*"</span>) &amp;&amp; !allowed.has(body.name))) {
+    <span class="k">return</span> NextResponse.json(
+      { error: <span class="s">"forbidden_for_role"</span>, role: claims.role, tc: body.name },
+      { status: <span class="n">403</span> },
+    );
+  }
+
+  <span class="k">const</span> resp = <span class="k">await</span> <span class="f">fetch</span>(<span class="s">`</span>${process.env.MCS_URL}<span class="s">/api/tc/submit`</span>, {
+    method: <span class="s">"POST"</span>,
+    headers: { <span class="s">"content-type"</span>: <span class="s">"application/json"</span> },
+    body: JSON.stringify({ name: body.name, args: body.args, requested_by: claims.sub }),
+  });
+
+  <span class="k">return</span> NextResponse.json(<span class="k">await</span> resp.json(), { status: resp.status });
+}</code></pre>
+        <p>Points clés : double vérification (role <em>et</em> redline), backend re-valide tout (defense in depth), traçabilité via <code>requested_by</code> dans le payload, erreurs structurées pour l'audit.</p>
+      </div>
+    </div>
+  </details>
+</section>
+
+<!-- ============================================================== -->
+<!-- MODULE 7 — CAS CONCRETS INTÉGRÉS                               -->
+<!-- ============================================================== -->
+<section class="module" id="m7">
+  <div class="module-header">
+    <div class="module-num">MODULE 7</div>
+    <h2>Cas concrets intégrés — bout-en-bout</h2>
+  </div>
+
+  <p>
+    Trois études de cas multi-langages qui suivent un comportement satellite depuis l'algorithme bord jusqu'à l'opérateur sol. Chaque cas mobilise au moins trois des cinq langages vus.
+  </p>
+
+  <h3>7.1 Cas A — Pointage fin par étoile</h3>
+
+  <p>
+    <strong>Scénario.</strong> Un satellite d'observation doit pointer une cible terrestre avec précision &lt; 0,01°. Une étoile de référence est suivie par le tracker stellaire à 10 Hz, le quaternion estimé pilote les roues à inertie, l'opérateur sol vérifie la convergence sur dashboard.
+  </p>
+
+  <pre class="ascii" data-lang="flux">
+   Star Tracker  ──┐
+                   │  10 Hz raw quat
+   Gyro IMU     ──┼──►  AOCS (Ada Ravenscar)  ──► Reaction Wheels
+                   │       │
+                   │       │ HK + status
+                   ▼       ▼
+              FDIR (C/MISRA)    PUS(3,25) HK toutes 250 ms
+                                       │
+                                       ▼
+                              TM lien S-band ──► station sol
+                                                    │
+                                                    ▼
+                                            MCS (Java) decode
+                                                    │
+                                                    ▼  WebSocket
+                                            Dashboard (Next.js)
+                                            "Pointing error: 0.008°"
+  </pre>
+
+  <h4>Couche AOCS bord (Ada/SPARK extrait)</h4>
+
+  <pre data-lang="ada"><code><span class="k">procedure</span> Step_Pointing
+   (Sensors : <span class="k">in</span>     Sensor_Reading;
+    Target  : <span class="k">in</span>     Quaternion;
+    State   : <span class="k">in out</span> Aocs_State;
+    Wheels  :    <span class="k">out</span> Wheel_Torque)
+<span class="k">with</span>
+   Pre =&gt;  Is_Unit (Sensors.Star_Track) <span class="k">and</span> Is_Unit (Target),
+   Post =&gt; Bounded (Wheels, Max_Wheel_Torque)
+<span class="k">is</span>
+   Error_Quat : <span class="k">constant</span> Quaternion := Multiply (Conjugate (Sensors.Star_Track), Target);
+   Error_Vec  : <span class="k">constant</span> Vector3    := Small_Angle (Error_Quat);
+<span class="k">begin</span>
+   Wheels := Saturate (Kp * Error_Vec + Kd * State.Last_Rate, Max_Wheel_Torque);
+   State.Last_Rate := Sensors.Gyro;
+<span class="k">end</span> Step_Pointing;</code></pre>
+
+  <h4>Couche FDIR bord (C/MISRA)</h4>
+
+  <pre data-lang="c"><code><span class="k">static</span> <span class="t">uint8_t</span> star_tracker_outage_cnt = <span class="n">0U</span>;
+
+<span class="k">void</span> <span class="f">fdir_check_star_tracker</span>(<span class="k">const</span> sensor_status_t * <span class="k">const</span> s) {
+    <span class="k">if</span> (!s-&gt;star_tracker_valid) {
+        <span class="k">if</span> (star_tracker_outage_cnt &lt; UINT8_MAX) {
+            star_tracker_outage_cnt++;
+        }
+        <span class="k">if</span> (star_tracker_outage_cnt &gt;= STAR_OUTAGE_THRESHOLD) {  <span class="c">/* 30 cycles = 3 s */</span>
+            pus5_emit(EV_STAR_TRACKER_LOST);
+            aocs_fallback_to_sun_pointing();
+        }
+    } <span class="k">else</span> {
+        star_tracker_outage_cnt = <span class="n">0U</span>;
+    }
+}</code></pre>
+
+  <h4>EGSE banc (Python) — qualification de la convergence</h4>
+
+  <pre data-lang="python"><code><span class="k">import</span> numpy <span class="k">as</span> np
+
+<span class="k">def</span> <span class="f">test_pointing_convergence</span>(eut):
+    <span class="c">"""Vérifie convergence &lt; 0.01° en moins de 30s sur 10 cibles."""</span>
+    targets = generate_random_targets(n=<span class="n">10</span>, seed=<span class="n">42</span>)
+    convergence_times = []
+
+    <span class="k">for</span> i, target_quat <span class="k">in</span> <span class="f">enumerate</span>(targets):
+        eut.send_tc(<span class="s">"GOTO_MODE_NOMINAL"</span>)
+        eut.send_tc_with_quat(<span class="s">"POINT_TO_TARGET"</span>, target_quat)
+        t0 = eut.now_ms()
+
+        <span class="k">while</span> eut.now_ms() - t0 &lt; <span class="n">30000</span>:
+            hk = eut.poll_hk(sid=<span class="n">0x10</span>)         <span class="c"># AOCS HK</span>
+            err_deg = hk.parameters[<span class="s">"pointing_error_deg"</span>]
+            <span class="k">if</span> err_deg &lt; <span class="n">0.01</span>:
+                convergence_times.append((eut.now_ms() - t0) / <span class="n">1000.0</span>)
+                <span class="k">break</span>
+        <span class="k">else</span>:
+            pytest.fail(<span class="s">f"target {i} not converged in 30s"</span>)
+
+    <span class="k">assert</span> np.median(convergence_times) &lt; <span class="n">15.0</span>, <span class="s">"median convergence too slow"</span>
+    <span class="k">assert</span> <span class="f">max</span>(convergence_times) &lt; <span class="n">25.0</span>, <span class="s">"worst-case too slow"</span></code></pre>
+
+  <h3>7.2 Cas B — Détection d'éclipse et bascule batterie</h3>
+
+  <p>
+    <strong>Scénario.</strong> Le satellite passe en éclipse 35 min/orbite ; les panneaux solaires ne fournissent plus, le bus se rabat sur batterie. La détection doit anticiper de quelques secondes pour activer mode économie.
+  </p>
+
+  <p>
+    On combine prédiction sol (Poliastro Python) avec détection bord (mesure tension panneau + horloge mission). Le sol envoie en TC les fenêtres d'éclipse prédites pour les prochaines 24 h. Le bord les utilise comme oracle + croise avec mesures.
+  </p>
+
+  <pre data-lang="python"><code><span class="c"># Sol — calcul des fenêtres d'éclipse 24h à venir</span>
+<span class="k">def</span> <span class="f">compute_eclipse_windows</span>(orbit, t_start, duration_hours=<span class="n">24</span>):
+    sun_dir = get_sun_direction_eci(t_start)
+    samples_per_orbit = <span class="n">600</span>
+    n_orbits = <span class="t">int</span>(duration_hours * <span class="n">3600</span> / orbit.period.to(u.s).value) + <span class="n">1</span>
+    times = np.linspace(<span class="n">0</span>, duration_hours * <span class="n">3600</span>, n_orbits * samples_per_orbit) * u.s
+
+    positions = np.array([orbit.propagate(t).r.to(u.km).value <span class="k">for</span> t <span class="k">in</span> times])
+    <span class="k">in</span>_shadow = in_eclipse(positions, sun_dir)
+
+    <span class="c"># Détection des transitions</span>
+    transitions = np.diff(<span class="k">in</span>_shadow.astype(<span class="t">int</span>))
+    starts = np.where(transitions == <span class="n">1</span>)[<span class="n">0</span>]
+    ends = np.where(transitions == -<span class="n">1</span>)[<span class="n">0</span>]
+    <span class="k">return</span> <span class="f">list</span>(<span class="f">zip</span>(times[starts], times[ends]))</code></pre>
+
+  <p>Bord, en C, la table est stockée en mémoire ECC et chaque seconde le code croise l'horloge mission avec les fenêtres pour décider d'activer le mode <code>ECLIPSE</code> 60 s avant.</p>
+
+  <pre data-lang="c"><code><span class="k">#define</span> ECLIPSE_PREDICTION_LEAD_S 60U
+
+<span class="k">void</span> <span class="f">power_mode_step</span>(<span class="t">uint32_t</span> now_mission_s) {
+    <span class="k">for</span> (<span class="t">uint8_t</span> i = <span class="n">0U</span>; i &lt; ECLIPSE_WIN_COUNT; i++) {
+        <span class="t">uint32_t</span> start = eclipse_windows[i].start_s;
+        <span class="t">uint32_t</span> end   = eclipse_windows[i].end_s;
+        <span class="k">if</span> ((now_mission_s + ECLIPSE_PREDICTION_LEAD_S &gt;= start) &amp;&amp;
+            (now_mission_s &lt; end)) {
+            power_set_mode(POWER_MODE_ECLIPSE);
+            <span class="k">return</span>;
+        }
+    }
+    power_set_mode(POWER_MODE_NOMINAL);
+}</code></pre>
+
+  <h3>7.3 Cas C — Téléversement et activation d'un patch logiciel</h3>
+
+  <p>
+    <strong>Scénario.</strong> Bug critique à corriger sur un satellite en orbite. Le patch (binaire signé) doit être uploadé via PUS(13) Large Data Transfer, validé par checksum, puis activé par TC.
+  </p>
+
+  <pre class="ascii" data-lang="séquence">
+   1. Sol : prépare patch.bin, signe avec clé privée mission
+   2. Sol : découpe en blocs de 1024 octets, génère séquence PUS(13,1)..PUS(13,N)
+   3. Sol : envoie TC PUS(13,1) "First Uplink Part" avec total_size, hash
+   4. Bord : alloue buffer ECC, attend les parts intermédiaires
+   5. Sol : envoie TC PUS(13,2)..PUS(13,N-1) "Intermediate Parts"
+   6. Bord : ack chaque part par PUS(1,7), réémet PUS(13) si trou
+   7. Sol : envoie TC PUS(13,3) "Last Part" avec signature
+   8. Bord : vérifie signature ED25519, hash, et taille → ok
+   9. Sol : envoie TC PUS(8) "Activate Patch" avec id
+  10. Bord : programme la flash secondaire, reboot, vérifie boot
+  11. Bord : émet PUS(5) "Patch Active" et HK avec nouvelle version
+  </pre>
+
+  <p>
+    Ce scénario mobilise : Python (script sol de génération et envoi), C++ (couche EGSE de bas niveau pour le SVF), C (réception bord, écriture flash), Ada (logique de validation et bascule), Web (dashboard de progression de l'upload).
+  </p>
+
+  <details class="ex">
+    <summary><span class="ex-tag">Exercice 7.1</span>Pipeline patch — composant Python orchestrateur</summary>
+    <div class="ex-body">
+      <p>Écris l'orchestrateur Python qui implémente l'étapes 2–7 du Cas C : découpage en blocs, envoi PUS(13), gestion des retransmissions sur timeout. Limite les retransmissions à 3 par bloc.</p>
+
+      <div class="solution">
+<pre data-lang="python"><code><span class="k">import</span> hashlib
+<span class="k">import</span> logging
+<span class="k">from</span> <span class="t">dataclasses</span> <span class="k">import</span> dataclass
+
+log = logging.getLogger(__name__)
+BLOCK_SIZE = <span class="n">1024</span>
+MAX_RETRIES = <span class="n">3</span>
+ACK_TIMEOUT_MS = <span class="n">2000</span>
+
+
+<span class="f">@dataclass</span>
+<span class="k">class</span> <span class="t">UploadResult</span>:
+    blocks_sent: <span class="t">int</span>
+    retries: <span class="t">int</span>
+    success: <span class="t">bool</span>
+
+
+<span class="k">def</span> <span class="f">upload_patch</span>(eut, patch_bytes: <span class="t">bytes</span>, signature: <span class="t">bytes</span>) -&gt; UploadResult:
+    total_hash = hashlib.sha256(patch_bytes).digest()
+    blocks = [patch_bytes[i:i + BLOCK_SIZE]
+              <span class="k">for</span> i <span class="k">in</span> <span class="f">range</span>(<span class="n">0</span>, <span class="f">len</span>(patch_bytes), BLOCK_SIZE)]
+    n = <span class="f">len</span>(blocks)
+    retries_total = <span class="n">0</span>
+
+    <span class="c"># Étape 3 : First Uplink Part</span>
+    eut.send_tc_pus(<span class="n">13</span>, <span class="n">1</span>, payload=<span class="f">struct.pack</span>(
+        <span class="s">"&gt;IH32s"</span>, <span class="f">len</span>(patch_bytes), n, total_hash))
+    <span class="k">if not</span> eut.wait_ack(timeout_ms=ACK_TIMEOUT_MS):
+        <span class="k">return</span> UploadResult(<span class="n">0</span>, <span class="n">0</span>, <span class="k">False</span>)
+
+    <span class="c"># Étape 5 : Intermediate Parts (sauf dernier)</span>
+    <span class="k">for</span> idx, block <span class="k">in</span> <span class="f">enumerate</span>(blocks[:-<span class="n">1</span>]):
+        <span class="k">for</span> attempt <span class="k">in</span> <span class="f">range</span>(MAX_RETRIES + <span class="n">1</span>):
+            eut.send_tc_pus(<span class="n">13</span>, <span class="n">2</span>, payload=<span class="f">struct.pack</span>(
+                <span class="s">"&gt;H"</span>, idx + <span class="n">1</span>) + block)
+            <span class="k">if</span> eut.wait_ack(timeout_ms=ACK_TIMEOUT_MS):
+                <span class="k">break</span>
+            retries_total += <span class="n">1</span>
+            log.warning(<span class="s">"block %d ack lost (try %d)"</span>, idx + <span class="n">1</span>, attempt + <span class="n">1</span>)
+        <span class="k">else</span>:
+            log.error(<span class="s">"block %d failed after retries"</span>, idx + <span class="n">1</span>)
+            <span class="k">return</span> UploadResult(idx + <span class="n">1</span>, retries_total, <span class="k">False</span>)
+
+    <span class="c"># Étape 7 : Last Part avec signature</span>
+    eut.send_tc_pus(<span class="n">13</span>, <span class="n">3</span>, payload=<span class="f">struct.pack</span>(
+        <span class="s">"&gt;H"</span>, n) + blocks[-<span class="n">1</span>] + signature)
+    success = eut.wait_ack(timeout_ms=ACK_TIMEOUT_MS * <span class="n">2</span>)  <span class="c"># vérif + flash plus long</span>
+
+    log.info(<span class="s">"upload done: %d blocks, %d retries, success=%s"</span>, n, retries_total, success)
+    <span class="k">return</span> UploadResult(n, retries_total, success)</code></pre>
+        <p>Le pattern à retenir : on encapsule chaque étape critique dans une boucle <code>for/else</code> qui n'exécute le <code>else</code> que si la boucle finit sans <code>break</code> — idiomatique Python pour le « retry jusqu'à succès ou échec définitif ».</p>
+      </div>
+    </div>
+  </details>
+</section>
+
+
+<!-- ============================================================== -->
+<!-- MODULE 8 — ÉVALUATION FINALE                                   -->
+<!-- ============================================================== -->
+<section class="module" id="m8">
+  <div class="module-header">
+    <div class="module-num">MODULE 8</div>
+    <h2>Évaluation finale — projet intégrateur</h2>
+  </div>
+
+  <p>
+    Cette évaluation finale prend la forme d'un projet intégrateur reproduisant les chaînes développées en cours. Les exercices sont conçus pour servir de support à un entretien technique (CS Group, Thales Alenia Space, ArianeGroup, GMV, Telespazio). Les corrigés couvrent les attendus principaux ; il est normal d'aller plus loin selon le profil visé.
+  </p>
+
+  <h3>8.1 QCM diagnostique</h3>
+
+  <details class="ex">
+    <summary><span class="ex-tag">QCM</span>20 questions, ~30 min</summary>
+    <div class="ex-body">
+      <ol>
+        <li>Le PUS service 5 correspond à : (a) housekeeping, (b) événements, (c) Large Data Transfer, (d) test.</li>
+        <li>Un APID CCSDS fait combien de bits ? (a) 8, (b) 11, (c) 14, (d) 16.</li>
+        <li>MISRA-C 2012 interdit principalement : (a) les pointeurs, (b) <code>malloc</code> en runtime, (c) <code>switch</code>, (d) <code>const</code>.</li>
+        <li>Le profil Ravenscar concerne : (a) C++, (b) Ada, (c) Python, (d) Rust.</li>
+        <li>L'ECC SECDED corrige et détecte respectivement : (a) 1/1, (b) 1/2, (c) 2/3, (d) 0/1.</li>
+        <li>Dans un cyclique 100 Hz, un slot dure : (a) 1 ms, (b) 10 ms, (c) 100 ms, (d) variable.</li>
+        <li>SpaceWire débite typiquement à : (a) 1 Mbit/s, (b) 100 Mbit/s, (c) 200 Mbit/s, (d) 1 Gbit/s.</li>
+        <li>Un <em>safe mode</em> sort généralement : (a) automatiquement après diagnostic, (b) uniquement par TC sol, (c) par watchdog hardware, (d) à l'éclipse suivante.</li>
+        <li>L'AOCS d'un satellite d'observation tourne typiquement à : (a) 1 Hz, (b) 10–50 Hz, (c) 1 kHz, (d) 10 kHz.</li>
+        <li>RTEMS est : (a) un compilateur Ada, (b) un RTOS, (c) un bus de données, (d) un standard CCSDS.</li>
+        <li>L'ECSS-E-ST-40C traite : (a) du segment sol, (b) du logiciel, (c) de la mécanique, (d) de la thermique.</li>
+        <li>En SPARK, <code>gnatprove</code> sert à : (a) compiler, (b) tester unitairement, (c) prouver formellement les contrats, (d) profiler.</li>
+        <li>Une TC redline doit être : (a) refusée par défaut, (b) acceptée avec confirmation, (c) interdite, (d) auto-loggée.</li>
+        <li>Le quaternion d'identité est : (a) (0,0,0,1), (b) (1,0,0,0), (c) (0,0,0,0), (d) (1,1,1,1).</li>
+        <li>Une exception C++ est interdite à bord car : (a) overhead mémoire, (b) déterminisme WCET, (c) les deux, (d) ni l'un ni l'autre.</li>
+        <li>Une SEU (Single Event Upset) corrompt typiquement : (a) un bit, (b) un mot, (c) une page mémoire, (d) le CPU entier.</li>
+        <li>La <em>traçabilité</em> en DO-178C exige : (a) lien exigence→code, (b) lien code→test, (c) lien exigence→code→test, (d) lien équipe→livraison.</li>
+        <li>SLE (Space Link Extension) est utilisé entre : (a) bord et sol, (b) station sol et MCS, (c) charge utile et bus, (d) opérateur et MCS.</li>
+        <li>L'orbite GEO a une altitude d'environ : (a) 600 km, (b) 8 000 km, (c) 36 000 km, (d) 400 000 km.</li>
+        <li>Une <em>orbite répétitive</em> est utile pour : (a) observation Terre récurrente, (b) communication continue, (c) lancement, (d) sortie atmosphère.</li>
+      </ol>
+      <div class="solution">
+        <p>Réponses : 1-b · 2-b · 3-b · 4-b · 5-b · 6-b · 7-c · 8-b · 9-b · 10-b · 11-b · 12-c · 13-b · 14-b · 15-c · 16-a · 17-c · 18-b · 19-c · 20-a.</p>
+        <p>Barème indicatif : 16+/20 niveau confirmé, 12–15 niveau ciblé, &lt; 12 reprendre les modules 0–1.</p>
+      </div>
+    </div>
+  </details>
+
+  <h3>8.2 Mini-projet intégrateur — chaîne TM/TC simulée</h3>
+
+  <p>
+    Conçois et implémente une chaîne TM/TC complète sur ton poste : (1) un simulateur bord en C++ qui produit des paquets CCSDS PUS(3,25) à 1 Hz contenant tension batterie, température et mode, (2) un service Python qui décode et stocke dans une time-series locale, (3) un dashboard Next.js qui affiche les courbes temps réel via WebSocket. Bonus : ajoute une FSM Ada qui gère les modes du simulateur bord et une TC PUS(8) pour la commander.
+  </p>
+
+  <details class="ex">
+    <summary><span class="ex-tag">Projet</span>Squelette d'architecture et critères d'évaluation</summary>
+    <div class="ex-body">
+      <p><strong>Architecture cible :</strong></p>
+<pre class="ascii" data-lang="archi">
+   ┌──────────────┐  TCP    ┌──────────────┐  WS    ┌────────────┐
+   │ Sim bord C++ │────────►│ Décoder Py   │───────►│ Dashboard  │
+   │ + FSM Ada    │  CCSDS  │ + TS DB      │  JSON  │ Next.js    │
+   └──────────────┘         └──────────────┘        └────────────┘
+          ▲                                                │
+          │             TC (CCSDS over TCP)                │
+          └────────────────────────────────────────────────┘
+</pre>
+      <p><strong>Critères d'évaluation (40 pts) :</strong></p>
+      <ul>
+        <li><strong>10 pts — Conformité protocole.</strong> Paquets CCSDS valides, primary header conforme, PUS secondary header présent. Décodeur Python type-checké strict.</li>
+        <li><strong>10 pts — Architecture.</strong> Séparation claire des couches, pas de couplage fort, communication par messages. Bonus : configuration externalisée.</li>
+        <li><strong>8 pts — Robustesse.</strong> Reconnect WebSocket front, gestion timeout TC, validation des champs, logs structurés.</li>
+        <li><strong>8 pts — Qualité code.</strong> Typage strict TS, MISRA-friendly C++, tests unitaires pytest, README clair.</li>
+        <li><strong>4 pts — Bonus FSM Ada.</strong> Tâche Ravenscar, contrats SPARK sur transitions.</li>
+      </ul>
+
+      <p><strong>Squelette de simulateur C++ minimal :</strong></p>
+<pre data-lang="c++"><code><span class="k">#include</span> &lt;asio.hpp&gt;
+<span class="k">#include</span> &lt;array&gt;
+<span class="k">#include</span> &lt;chrono&gt;
+<span class="k">#include</span> &lt;thread&gt;
+
+<span class="k">struct</span> <span class="t">HkPayload</span> {
+    <span class="t">uint32_t</span> sid;
+    <span class="t">float</span> batt_v;
+    <span class="t">float</span> batt_i;
+    <span class="t">int16_t</span> panel_temp_dC;
+    <span class="t">uint8_t</span> mode_id;
+} <span class="k">__attribute__</span>((packed));
+
+<span class="t">size_t</span> <span class="f">build_pus_3_25</span>(std::span&lt;<span class="t">uint8_t</span>&gt; buf,
+                      <span class="t">uint16_t</span> apid,
+                      <span class="t">uint16_t</span>&amp; seq,
+                      <span class="k">const</span> HkPayload&amp; hk) {
+    <span class="c">// Primary header : version 0, type TM (0), sechdr=1, apid</span>
+    <span class="t">uint16_t</span> word0 = <span class="k">static_cast</span>&lt;<span class="t">uint16_t</span>&gt;((<span class="n">1</span> &lt;&lt; <span class="n">11</span>) | (apid &amp; <span class="n">0x07FF</span>));
+    <span class="t">uint16_t</span> word1 = <span class="k">static_cast</span>&lt;<span class="t">uint16_t</span>&gt;((<span class="n">0b11</span> &lt;&lt; <span class="n">14</span>) | (seq &amp; <span class="n">0x3FFF</span>));
+    <span class="t">uint16_t</span> data_len = <span class="k">sizeof</span>(HkPayload) + <span class="n">6</span> - <span class="n">1</span>;  <span class="c">// PUS sec hdr + payload − 1</span>
+
+    write_be16(buf, <span class="n">0</span>, word0);
+    write_be16(buf, <span class="n">2</span>, word1);
+    write_be16(buf, <span class="n">4</span>, data_len);
+
+    <span class="c">// PUS secondary header simplifié : version 2, service 3, subservice 25, CUC 32 bits</span>
+    buf[<span class="n">6</span>] = <span class="n">0x20</span>;
+    buf[<span class="n">7</span>] = <span class="n">3</span>;
+    buf[<span class="n">8</span>] = <span class="n">25</span>;
+    write_be32(buf, <span class="n">9</span>, std::chrono::duration_cast&lt;std::chrono::seconds&gt;(
+        std::chrono::system_clock::now().time_since_epoch()).count());
+
+    std::memcpy(buf.data() + <span class="n">13</span>, &amp;hk, <span class="k">sizeof</span>(HkPayload));
+    seq = (seq + <span class="n">1</span>) &amp; <span class="n">0x3FFF</span>;
+    <span class="k">return</span> <span class="n">13</span> + <span class="k">sizeof</span>(HkPayload);
+}
+
+<span class="k">int</span> <span class="f">main</span>() {
+    asio::io_context io;
+    asio::ip::tcp::acceptor acc(io, {asio::ip::tcp::v4(), <span class="n">42420</span>});
+    <span class="k">auto</span> sock = acc.accept();
+
+    std::array&lt;<span class="t">uint8_t</span>, <span class="n">256</span>&gt; buf{};
+    <span class="t">uint16_t</span> seq = <span class="n">0</span>;
+    HkPayload hk{<span class="n">1</span>, <span class="n">3.85f</span>, <span class="n">0.42f</span>, <span class="n">215</span>, <span class="n">2</span>};
+
+    <span class="k">while</span> (<span class="k">true</span>) {
+        hk.batt_v = <span class="n">3.85f</span> + <span class="n">0.1f</span> * std::sin(seq * <span class="n">0.05f</span>);
+        <span class="k">auto</span> n = build_pus_3_25(buf, <span class="n">0x064</span>, seq, hk);
+        asio::write(sock, asio::buffer(buf.data(), n));
+        std::this_thread::sleep_for(std::chrono::seconds(<span class="n">1</span>));
+    }
+}</code></pre>
+
+      <p><strong>Squelette Python décodeur + serveur WebSocket :</strong></p>
+<pre data-lang="python"><code><span class="k">import</span> asyncio, struct, json
+<span class="k">import</span> websockets
+
+clients = <span class="f">set</span>()
+
+<span class="k">async def</span> <span class="f">read_bord</span>():
+    reader, _ = <span class="k">await</span> asyncio.open_connection(<span class="s">"127.0.0.1"</span>, <span class="n">42420</span>)
+    <span class="k">while</span> <span class="k">True</span>:
+        header = <span class="k">await</span> reader.readexactly(<span class="n">6</span>)
+        length = struct.unpack(<span class="s">"&gt;H"</span>, header[<span class="n">4</span>:<span class="n">6</span>])[<span class="n">0</span>] + <span class="n">1</span>
+        body = <span class="k">await</span> reader.readexactly(length)
+        <span class="c"># PUS sec hdr 7 oct (version+service+subservice+CUC) puis HK payload</span>
+        sid, batt_v, batt_i, temp_dC, mode = struct.unpack(<span class="s">"&gt;IffhB"</span>, body[<span class="n">7</span>:<span class="n">7</span>+<span class="n">15</span>])
+        sample = {<span class="s">"t"</span>: <span class="t">int</span>(asyncio.get_event_loop().time() * <span class="n">1000</span>),
+                  <span class="s">"batt_v"</span>: batt_v, <span class="s">"batt_i"</span>: batt_i,
+                  <span class="s">"temp_C"</span>: temp_dC * <span class="n">0.1</span>, <span class="s">"mode"</span>: mode}
+        msg = json.dumps(sample)
+        dead = []
+        <span class="k">for</span> ws <span class="k">in</span> clients:
+            <span class="k">try</span>:
+                <span class="k">await</span> ws.send(msg)
+            <span class="k">except</span>:
+                dead.append(ws)
+        <span class="k">for</span> ws <span class="k">in</span> dead: clients.discard(ws)
+
+<span class="k">async def</span> <span class="f">ws_handler</span>(ws):
+    clients.add(ws)
+    <span class="k">try</span>:
+        <span class="k">await</span> ws.wait_closed()
+    <span class="k">finally</span>:
+        clients.discard(ws)
+
+<span class="k">async def</span> <span class="f">main</span>():
+    server = <span class="k">await</span> websockets.serve(ws_handler, <span class="s">"127.0.0.1"</span>, <span class="n">8765</span>)
+    <span class="k">await</span> asyncio.gather(read_bord(), server.wait_closed())
+
+asyncio.run(main())</code></pre>
+
+        <p>Le front (Next.js) consomme <code>ws://localhost:8765</code> via le hook <code>useTelemetryStream</code> vu au module 6. Les paquets contiennent <code>{t, batt_v, batt_i, temp_C, mode}</code> ; chaque composant Chart filtre la clé voulue.</p>
+
+        <p><strong>Test du projet.</strong> Lance les trois processus : <code>./sim_bord</code> écoute, <code>python decoder.py</code> se connecte et expose WS, <code>pnpm dev</code> sert le dashboard. Tu dois voir la tension batterie osciller en temps réel sur le graphe. La déconnexion brutale du C++ doit déclencher la reconnexion exponentielle.</p>
+      </div>
+    </details>
+
+    <h3>8.3 Questions d'entretien type</h3>
+
+    <details class="ex">
+      <summary><span class="ex-tag">Oral</span>10 questions techniques</summary>
+      <div class="ex-body">
+        <ol>
+          <li>Différence entre PUS service 3.25 et service 3.27 ? Quand utiliser l'un plutôt que l'autre ?</li>
+          <li>Comment calcules-tu le WCET d'une fonction C ? Quels outils ?</li>
+          <li>Pourquoi Ada Ravenscar interdit-il les <em>sporadic tasks</em> sans contrainte de minimum inter-arrival time ?</li>
+          <li>Comment garantis-tu qu'un patch logiciel uploadé en orbite ne va pas bricker le satellite ?</li>
+          <li>Sur un MCS, pourquoi double-valider les TC critiques côté front <em>et</em> côté back ?</li>
+          <li>Donne deux différences entre MISRA-C 2012 et JSF C++.</li>
+          <li>Comment détectes-tu un SEU silencieux (qui n'a pas déclenché ECC) ?</li>
+          <li>À quoi sert un <em>major frame</em> en cyclique exécutif ?</li>
+          <li>Pourquoi l'opérateur sol ne sort-il jamais automatiquement du safe mode ?</li>
+          <li>Que fait <code>delay until</code> qu'un simple <code>sleep</code> ne fait pas ?</li>
+        </ol>
+
+        <div class="solution">
+          <ol>
+            <li><strong>PUS(3,25)</strong> = HK report cyclique automatique (envoyé spontanément par le bord à période fixe). <strong>PUS(3,27)</strong> = HK report sur demande sol. Le premier sert le monitoring permanent, le second le diagnostic ponctuel ou les paramètres peu fréquents qu'on n'inclut pas dans le HK cyclique.</li>
+            <li>Trois familles : (a) <em>static analysis</em> avec aiT, Bound-T, OTAWA — analyse le binaire et le modèle du processeur ; (b) <em>measurement-based</em> avec mesures sur cible et facteur de sécurité (souvent ×1.5–2) ; (c) <em>hybrid</em> qui combine analyse de chemins et mesures. En spatial certifié on exige du static avec preuve mathématique.</li>
+            <li>Sans <em>minimum inter-arrival time</em>, on ne peut pas borner la charge CPU pire cas : RMA suppose une période minimum garantie. Ravenscar autorise les <em>sporadic</em> via <code>protected entry</code> avec <em>pragma Implementation_Defined_Suspension</em>, mais avec MIAT déclarée.</li>
+            <li>Trois couches de protection : (a) signature cryptographique vérifiée bord avant écriture flash ; (b) écriture dans une <em>partition secondaire</em>, le bootloader teste la nouvelle image et reboot sur l'ancienne si le watchdog n'est pas alimenté au bout de N secondes ; (c) garde toujours une <em>safe image</em> en flash protégée write-once.</li>
+            <li>Defense in depth. Le front empêche les clics accidentels et donne du feedback utilisateur. Mais un front compromis (XSS, dev tools) pourrait forger n'importe quelle requête : le back est la seule autorité de sécurité. Sans re-validation back, un attaquant qui prend la main sur une session passe tout.</li>
+            <li>MISRA-C cible le C ISO ; JSF C++ cible le C++ (avec orientations objet, templates, RAII). MISRA est consensus industriel automobile/aéro étendu ; JSF est plus restrictif sur le C++ (interdit RTTI, multiple inheritance, certains aspects du polymorphisme).</li>
+            <li>Le scrubbing périodique force la relecture donc l'éventuelle correction ECC. Pour les SEU sur données critiques non ECC, on utilise du TMR logiciel avec divergence détectée → événement FDIR.</li>
+            <li>Un <em>major frame</em> est la période complète après laquelle le schéma d'ordonnancement se répète. Toutes les tâches périodiques ont une fréquence divisant le major frame. Cela permet une analyse exhaustive (vérifier que sur 1 hyperperiod, toutes les échéances sont tenables).</li>
+            <li>Parce qu'une sortie automatique de safe sur la base de la même mesure qui n'a pas détecté le problème initial est un risque inacceptable. Le sol procède à un diagnostic complet (lecture HK historique, vérification autres sous-systèmes), corrige la cause, puis commande la sortie en connaissance de cause. C'est aussi un principe ECSS : <em>man-in-the-loop</em> sur les transitions critiques.</li>
+            <li><code>sleep(t)</code> attend t depuis l'instant d'invocation → dérive cumulative à chaque cycle si le code utile prend du temps. <code>delay until t_absolu</code> attend jusqu'à un instant absolu : la dérive ne s'accumule pas, et si la tâche dépasse, le delay est immédiat. Indispensable pour toute boucle périodique temps-réel.</li>
+          </ol>
+        </div>
+      </div>
+    </details>
+</section>
+
+<!-- ============================================================== -->
+<!-- RÉFÉRENCES                                                     -->
+<!-- ============================================================== -->
+<section class="module" id="refs">
+  <div class="module-header">
+    <div class="module-num">RÉF.</div>
+    <h2>Bibliographie &amp; standards</h2>
+  </div>
+
+  <h3>Standards à connaître absolument</h3>
+  <ul>
+    <li><strong>ECSS-E-ST-40C</strong> — Software engineering. Le cadre processus du logiciel spatial européen.</li>
+    <li><strong>ECSS-Q-ST-80C</strong> — Software product assurance. Définit les catégories de criticité (A–D).</li>
+    <li><strong>ECSS-E-ST-70-41C</strong> — Telemetry and telecommand packet utilization (PUS-C). Les services applicatifs.</li>
+    <li><strong>ECSS-E-ST-10-25C</strong> — Engineering design and analysis. Bonnes pratiques de validation.</li>
+    <li><strong>CCSDS 133.0-B-2</strong> — Space Packet Protocol. La structure des paquets.</li>
+    <li><strong>CCSDS 232.0-B-4</strong> — TC Space Data Link Protocol.</li>
+    <li><strong>CCSDS 132.0-B-3</strong> — TM Space Data Link Protocol.</li>
+    <li><strong>DO-178C / ED-12C</strong> — Software considerations in airborne systems (aéro, applicable au spatial habité).</li>
+    <li><strong>MISRA-C:2012</strong> + Amendments 1, 2, 3 — Coding standard pour le C critique.</li>
+    <li><strong>JSF Air Vehicle C++ Coding Standards</strong> &amp; <strong>AUTOSAR C++14 Guidelines</strong>.</li>
+    <li><strong>ISO/IEC 8652</strong> — Ada Reference Manual, en particulier Annex D (Real-Time) et le profil Ravenscar.</li>
+  </ul>
+
+  <h3>Lectures conseillées</h3>
+  <ul>
+    <li><em>Real-Time Systems and Programming Languages</em> — Burns &amp; Wellings (Addison-Wesley).</li>
+    <li><em>Building Parallel, Embedded, and Real-Time Applications with Ada</em> — McCormick, Singhoff, Hugues.</li>
+    <li><em>Spacecraft Systems Engineering</em> — Fortescue, Stark, Swinerd (Wiley). Le manuel.</li>
+    <li><em>Fundamentals of Astrodynamics and Applications</em> — Vallado. Référence en mécanique orbitale.</li>
+    <li><em>Programming for Spacecraft</em> — Eickhoff (Springer). Vue intégrée OBSW.</li>
+    <li><em>Practical Reliability Engineering</em> — O'Connor &amp; Kleyner. Fiabilité statistique.</li>
+  </ul>
+
+  <h3>Ressources en ligne</h3>
+  <ul>
+    <li><strong>ESA OPS-SAT</strong> — accès expérimental à un nanosat en orbite pour étudiants/chercheurs.</li>
+    <li><strong>NASA cFS</strong> (Core Flight System) — framework OBSW open source en C. Excellent à étudier.</li>
+    <li><strong>OBSW Reference</strong> — DLR/airbus contribuent à des frameworks PUS open source en C++.</li>
+    <li><strong>AdaCore Learn</strong> — cours Ada/SPARK gratuits avec exercices interactifs.</li>
+    <li><strong>RTEMS</strong> — RTOS open source utilisé par ESA, documentation et exemples.</li>
+    <li><strong>Poliastro</strong> — bibliothèque Python de mécanique orbitale, tutoriels solides.</li>
+  </ul>
+
+  <h3>Outils à pratiquer</h3>
+  <table>
+    <thead><tr><th>Domaine</th><th>Outils</th></tr></thead>
+    <tbody>
+      <tr><td>Analyse statique C</td><td>Coverity, Polyspace, PC-Lint, LDRA</td></tr>
+      <tr><td>Analyse WCET</td><td>aiT (AbsInt), Bound-T, OTAWA</td></tr>
+      <tr><td>Preuve Ada/SPARK</td><td>GNATprove (AdaCore)</td></tr>
+      <tr><td>Couverture MC/DC</td><td>VectorCAST, LDRA TBrun, BullseyeCoverage</td></tr>
+      <tr><td>Simulation orbitale</td><td>STK, GMAT (open source), Poliastro</td></tr>
+      <tr><td>Décodage CCSDS/PUS</td><td>SCOS-2000 (ESA), Yamcs (open), ccsdspy</td></tr>
+      <tr><td>Bus simulation</td><td>SpaceWire Brick, MIL-STD-1553 PCIe, BusTools</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Pour aller plus loin</h3>
+  <ul>
+    <li>Lire le code source de <strong>cFS</strong> (NASA Goddard) pour comprendre une architecture OBSW réelle.</li>
+    <li>Étudier le <strong>profil Ravenscar</strong> via les exemples GNAT, faire un AOCS jouet en Ada.</li>
+    <li>Implémenter une chaîne TM/TC sur cubesat open source (<strong>KubOS</strong>, <strong>libcsp</strong>).</li>
+    <li>Participer à un challenge type <strong>CYSAT</strong> (cybersécurité spatiale) pour comprendre les angles d'attaque sur MCS et bord.</li>
+    <li>Suivre les MOOC <strong>EUMETSAT</strong> sur le traitement de données satellite.</li>
+  </ul>
+
+  <div class="callout tip">
+    <div class="callout-title">Conseil de parcours</div>
+    <p style="margin:0">Ce MOOC est une base. La vraie maîtrise vient de la pratique sur un projet personnel substantiel (cf. ton hardware portfolio STM32+RTL-SDR), du contact avec les outils industriels (demander un POC SCOS-2000 ou Yamcs), et de la lecture systématique des standards ECSS dans leur jus. La séquence recommandée : (1) finir cette formation, (2) implémenter le projet intégrateur 8.2, (3) lire entièrement ECSS-E-ST-70-41C, (4) reproduire un sous-système (AOCS, FDIR, ou MCS mini) en bout-en-bout.</p>
+  </div>
+</section>
+
+<footer>
+  SURI · SPACE — MOOC Programmation Spatiale · v1.0 · Compilé 2026 ·
+  <br>Format auto-portable HTML — sauvegarde, partage, impression PDF possible (Ctrl+P).
+</footer>
+
+</main>
+</div>
+
+<script>
+  // Highlight TOC entry on scroll
+  const sections = document.querySelectorAll('.module, .hero');
+  const tocLinks = document.querySelectorAll('.toc a');
+  const tocMap = {};
+  tocLinks.forEach(a => { tocMap[a.getAttribute('href').slice(1)] = a; });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        tocLinks.forEach(a => a.style.borderLeftColor = 'transparent');
+        const link = tocMap[e.target.id];
+        if (link) {
+          link.style.borderLeftColor = 'var(--accent)';
+          link.style.background = 'var(--bg-3)';
+          link.style.color = 'var(--ink)';
+        }
+      } else {
+        const link = tocMap[e.target.id];
+        if (link) {
+          link.style.background = 'transparent';
+          link.style.color = 'var(--ink-2)';
+        }
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+
+  sections.forEach(s => { if (s.id) observer.observe(s); });
+</script>
+
+</body>
+</html>

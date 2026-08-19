@@ -1,5 +1,5 @@
 // app/posts/new/page.tsx
-import CreateProjectForm from '@/components/ProjectForm';
+import CreateProjectForm from '@/components/forms/ProjectForm';
 
 export default function CreateProjectPage() {
   return (

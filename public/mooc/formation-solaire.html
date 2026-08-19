@@ -1,0 +1,2581 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formation Solaire Photovoltaïque — MOOC</title>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Cabinet+Grotesk:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0e14;
+  --bg2: #0f1520;
+  --bg3: #141c2e;
+  --surface: #1a2338;
+  --surface2: #1f2a42;
+  --border: rgba(255,255,255,0.07);
+  --solar: #f59e0b;
+  --solar-light: #fcd34d;
+  --solar-dim: rgba(245,158,11,0.15);
+  --solar-glow: rgba(245,158,11,0.4);
+  --sky: #38bdf8;
+  --sky-dim: rgba(56,189,248,0.12);
+  --green: #34d399;
+  --red: #f87171;
+  --text: #e2e8f0;
+  --text-muted: #64748b;
+  --text-dim: #94a3b8;
+  --font-display: 'Clash Display', sans-serif;
+  --font-body: 'Cabinet Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --sidebar-w: 280px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ── PROGRESS BAR ── */
+#progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--solar), var(--sky));
+  z-index: 1000;
+  transition: width 0.3s ease;
+  box-shadow: 0 0 12px var(--solar-glow);
+}
+
+/* ── SIDEBAR ── */
+#sidebar {
+  position: fixed;
+  left: 0; top: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  overflow-y: auto;
+  transition: transform 0.3s ease;
+}
+
+.sidebar-logo {
+  padding: 28px 24px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-logo .logo-icon {
+  width: 36px; height: 36px;
+  background: var(--solar-dim);
+  border: 1px solid var(--solar);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.sidebar-logo h2 {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--solar);
+  line-height: 1.3;
+}
+
+.sidebar-logo p {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 4px;
+  font-family: var(--font-mono);
+}
+
+.sidebar-progress-label {
+  padding: 16px 24px 8px;
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar-progress-track {
+  margin: 0 24px 16px;
+  height: 4px;
+  background: var(--surface);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.sidebar-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--solar), var(--sky));
+  border-radius: 2px;
+  transition: width 0.4s ease;
+  width: 0%;
+}
+
+nav { padding: 8px 0 24px; flex: 1; }
+
+.nav-module {
+  margin-bottom: 2px;
+}
+
+.nav-module-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 24px;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  user-select: none;
+  transition: color 0.2s;
+}
+
+.nav-module-header:hover { color: var(--text-dim); }
+
+.nav-module-number {
+  width: 20px; height: 20px;
+  background: var(--surface);
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px;
+  color: var(--solar);
+  flex-shrink: 0;
+}
+
+.nav-items { padding: 0; }
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 24px 8px 54px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text-muted);
+  transition: all 0.2s;
+  border-left: 2px solid transparent;
+  position: relative;
+  text-decoration: none;
+}
+
+.nav-item:hover {
+  color: var(--text);
+  background: var(--solar-dim);
+  border-left-color: var(--solar);
+}
+
+.nav-item.active {
+  color: var(--solar-light);
+  background: var(--solar-dim);
+  border-left-color: var(--solar);
+}
+
+.nav-item.done .nav-dot {
+  background: var(--green);
+}
+
+.nav-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--surface2);
+  flex-shrink: 0;
+  transition: background 0.3s;
+}
+
+/* ── MAIN CONTENT ── */
+#main {
+  margin-left: var(--sidebar-w);
+  min-height: 100vh;
+}
+
+/* ── HERO ── */
+#hero {
+  position: relative;
+  overflow: hidden;
+  padding: 100px 80px 80px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(245,158,11,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245,158,11,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.hero-glow {
+  position: absolute;
+  top: -100px; right: -100px;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(245,158,11,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-glow2 {
+  position: absolute;
+  bottom: -150px; left: 200px;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(56,189,248,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--solar-dim);
+  border: 1px solid rgba(245,158,11,0.3);
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--solar);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+
+.hero-badge .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--solar);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+#hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  max-width: 700px;
+  position: relative;
+}
+
+#hero h1 span {
+  background: linear-gradient(135deg, var(--solar), var(--solar-light), var(--sky));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  margin-top: 20px;
+  font-size: 18px;
+  color: var(--text-dim);
+  max-width: 560px;
+  font-weight: 300;
+  position: relative;
+}
+
+.hero-meta {
+  display: flex;
+  gap: 32px;
+  margin-top: 40px;
+  position: relative;
+}
+
+.hero-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hero-meta-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.hero-meta-value {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--solar);
+}
+
+.hero-meta-unit {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 40px;
+  padding: 14px 28px;
+  background: var(--solar);
+  color: #0a0e14;
+  border-radius: 8px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.hero-cta:hover {
+  background: var(--solar-light);
+  box-shadow: 0 0 24px var(--solar-glow);
+  transform: translateY(-1px);
+}
+
+/* ── SECTIONS ── */
+.section {
+  padding: 80px 80px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+.section:nth-child(even) {
+  background: var(--bg2);
+}
+
+.section-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--solar);
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 3vw, 40px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+
+.section-subtitle {
+  font-size: 16px;
+  color: var(--text-dim);
+  max-width: 600px;
+  margin-bottom: 48px;
+  font-weight: 300;
+}
+
+/* ── CARDS GRID ── */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 32px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--solar), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.card:hover {
+  border-color: rgba(245,158,11,0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+.card:hover::before { opacity: 1; }
+
+.card-icon {
+  font-size: 28px;
+  margin-bottom: 14px;
+}
+
+.card-title {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.card-text {
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+/* ── STATS ROW ── */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  margin: 32px 0;
+}
+
+.stat-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px;
+  text-align: center;
+}
+
+.stat-value {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--solar);
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 8px;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stat-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* ── MIX ÉNERGÉTIQUE CHART ── */
+.mix-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 32px 0;
+}
+
+.mix-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.mix-label {
+  width: 140px;
+  font-size: 13px;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  flex-shrink: 0;
+}
+
+.mix-bar-track {
+  flex: 1;
+  height: 8px;
+  background: var(--surface);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.mix-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 1s ease;
+  width: 0;
+}
+
+.mix-pct {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  width: 50px;
+  text-align: right;
+  color: var(--text);
+}
+
+/* ── GRID DIAGRAM SVG ── */
+.diagram-container {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px;
+  margin: 32px 0;
+  overflow: hidden;
+}
+
+/* ── CONTENT TEXT ── */
+.prose {
+  max-width: 760px;
+}
+
+.prose p {
+  margin-bottom: 16px;
+  color: var(--text-dim);
+  font-size: 15px;
+}
+
+.prose h3 {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+  margin: 32px 0 12px;
+  color: var(--text);
+}
+
+.prose h4 {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+  margin: 24px 0 8px;
+  color: var(--solar-light);
+}
+
+.prose ul {
+  margin: 12px 0 20px 20px;
+}
+
+.prose ul li {
+  font-size: 15px;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+}
+
+.prose ul li::marker { color: var(--solar); }
+
+.highlight-box {
+  background: var(--solar-dim);
+  border: 1px solid rgba(245,158,11,0.25);
+  border-left: 3px solid var(--solar);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin: 24px 0;
+  font-size: 14px;
+  color: var(--text-dim);
+}
+
+.highlight-box strong { color: var(--solar); }
+
+.info-box {
+  background: var(--sky-dim);
+  border: 1px solid rgba(56,189,248,0.2);
+  border-left: 3px solid var(--sky);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin: 24px 0;
+  font-size: 14px;
+  color: var(--text-dim);
+}
+
+.info-box strong { color: var(--sky); }
+
+/* ── CELL TYPES TABLE ── */
+.cell-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 24px 0;
+  font-size: 14px;
+}
+
+.cell-table th {
+  background: var(--surface2);
+  padding: 12px 16px;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+}
+
+.cell-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-dim);
+  vertical-align: top;
+}
+
+.cell-table tr:hover td { background: var(--solar-dim); }
+
+.cell-table td:first-child { color: var(--solar-light); font-weight: 500; }
+
+/* ── VIDEO PLACEHOLDER ── */
+.video-placeholder {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  aspect-ratio: 16/9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+  max-width: 680px;
+  margin: 24px 0;
+}
+
+.video-placeholder:hover {
+  border-color: rgba(245,158,11,0.3);
+}
+
+.video-placeholder .play-btn {
+  width: 56px; height: 56px;
+  background: var(--solar);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  color: #0a0e14;
+  transition: all 0.2s;
+}
+
+.video-placeholder:hover .play-btn {
+  box-shadow: 0 0 24px var(--solar-glow);
+  transform: scale(1.05);
+}
+
+.video-placeholder p {
+  font-size: 14px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+/* ── QUIZ ── */
+.quiz-container {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px;
+  margin: 40px 0;
+  max-width: 680px;
+}
+
+.quiz-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.quiz-badge {
+  background: var(--solar-dim);
+  border: 1px solid rgba(245,158,11,0.3);
+  padding: 4px 10px;
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--solar);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.quiz-question {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.quiz-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
+}
+
+.quiz-option:hover {
+  border-color: rgba(245,158,11,0.3);
+  background: var(--solar-dim);
+}
+
+.quiz-option.correct {
+  border-color: var(--green);
+  background: rgba(52,211,153,0.08);
+  color: var(--green);
+}
+
+.quiz-option.wrong {
+  border-color: var(--red);
+  background: rgba(248,113,113,0.08);
+  color: var(--red);
+}
+
+.quiz-letter {
+  width: 28px; height: 28px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.quiz-option.correct .quiz-letter { border-color: var(--green); color: var(--green); }
+.quiz-option.wrong .quiz-letter { border-color: var(--red); color: var(--red); }
+
+.quiz-feedback {
+  margin-top: 16px;
+  padding: 14px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  display: none;
+}
+
+.quiz-feedback.show { display: block; }
+.quiz-feedback.correct-fb { background: rgba(52,211,153,0.1); border: 1px solid var(--green); color: var(--green); }
+.quiz-feedback.wrong-fb { background: rgba(248,113,113,0.1); border: 1px solid var(--red); color: var(--red); }
+
+.quiz-next {
+  margin-top: 16px;
+  padding: 10px 20px;
+  background: var(--solar);
+  color: #0a0e14;
+  border: none;
+  border-radius: 8px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  display: none;
+  transition: all 0.2s;
+}
+
+.quiz-next:hover { background: var(--solar-light); }
+.quiz-next.show { display: inline-block; }
+
+/* ── STEP TIMELINE ── */
+.timeline {
+  position: relative;
+  padding-left: 32px;
+  margin: 32px 0;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 8px; top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--solar), var(--sky), transparent);
+}
+
+.timeline-step {
+  position: relative;
+  margin-bottom: 32px;
+}
+
+.timeline-step::before {
+  content: '';
+  position: absolute;
+  left: -28px;
+  top: 6px;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--solar);
+  box-shadow: 0 0 8px var(--solar-glow);
+}
+
+.timeline-step-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.timeline-step-text {
+  font-size: 14px;
+  color: var(--text-dim);
+}
+
+/* ── DIMENSIONNEMENT TABLE ── */
+.dim-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin: 32px 0;
+}
+
+.dim-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px;
+}
+
+.dim-panel-title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--solar);
+  margin-bottom: 16px;
+}
+
+.dim-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+
+.dim-item:last-child { border-bottom: none; }
+.dim-key { color: var(--text-dim); }
+.dim-val { font-family: var(--font-mono); color: var(--solar-light); font-size: 12px; }
+
+/* ── SOFTWARE TAGS ── */
+.tag-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.tag {
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  border: 1px solid;
+}
+
+.tag-solar { background: var(--solar-dim); border-color: rgba(245,158,11,0.3); color: var(--solar); }
+.tag-sky { background: var(--sky-dim); border-color: rgba(56,189,248,0.3); color: var(--sky); }
+.tag-green { background: rgba(52,211,153,0.08); border-color: rgba(52,211,153,0.3); color: var(--green); }
+
+/* ── MOBILE TOGGLE ── */
+#sidebar-toggle {
+  display: none;
+  position: fixed;
+  bottom: 24px; right: 24px;
+  width: 48px; height: 48px;
+  background: var(--solar);
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  z-index: 200;
+  font-size: 20px;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px var(--solar-glow);
+}
+
+/* ── SECTION ANCHORS ── */
+.section-anchor { scroll-margin-top: 24px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  :root { --sidebar-w: 0px; }
+  #sidebar { transform: translateX(-280px); width: 280px; }
+  #sidebar.open { transform: translateX(0); }
+  #main { margin-left: 0; }
+  #sidebar-toggle { display: flex; }
+  .section { padding: 48px 24px; }
+  #hero { padding: 60px 24px 48px; }
+  .dim-grid { grid-template-columns: 1fr; }
+  .hero-meta { flex-wrap: wrap; gap: 20px; }
+}
+
+/* ── FADE-IN ANIMATIONS ── */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── FOOTER ── */
+footer {
+  padding: 40px 80px;
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+footer p {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+.footer-logo {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--solar);
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- SIDEBAR -->
+<aside id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">☀️</div>
+    <h2>Formation<br>Solaire PV</h2>
+    <p>MOOC · Français · 4–6h</p>
+  </div>
+  <div class="sidebar-progress-label">
+    <span>Progression</span>
+    <span id="pct-label">0%</span>
+  </div>
+  <div class="sidebar-progress-track">
+    <div class="sidebar-progress-fill" id="sidebar-prog"></div>
+  </div>
+  <nav id="nav-tree">
+    <div class="nav-module">
+      <div class="nav-module-header"><span class="nav-module-number">0</span>Introduction</div>
+      <div class="nav-items">
+        <a class="nav-item" href="#intro"><span class="nav-dot"></span>Objectifs & parcours</a>
+      </div>
+    </div>
+    <div class="nav-module">
+      <div class="nav-module-header"><span class="nav-module-number">1</span>Énergie en France</div>
+      <div class="nav-items">
+        <a class="nav-item" href="#mix"><span class="nav-dot"></span>Mix électrique FR</a>
+        <a class="nav-item" href="#reseau"><span class="nav-dot"></span>Réseau électrique</a>
+        <a class="nav-item" href="#europe"><span class="nav-dot"></span>Panorama européen</a>
+      </div>
+    </div>
+    <div class="nav-module">
+      <div class="nav-module-header"><span class="nav-module-number">2</span>Photovoltaïque</div>
+      <div class="nav-items">
+        <a class="nav-item" href="#effet-pv"><span class="nav-dot"></span>Effet photovoltaïque</a>
+        <a class="nav-item" href="#cellules"><span class="nav-dot"></span>Types de cellules</a>
+        <a class="nav-item" href="#modules"><span class="nav-dot"></span>Constitution des modules</a>
+        <a class="nav-item" href="#capacites"><span class="nav-dot"></span>Capacités & marché</a>
+        <a class="nav-item" href="#rd"><span class="nav-dot"></span>R&D & avancées</a>
+      </div>
+    </div>
+    <div class="nav-module">
+      <div class="nav-module-header"><span class="nav-module-number">3</span>Dimensionnement</div>
+      <div class="nav-items">
+        <a class="nav-item" href="#gisement"><span class="nav-dot"></span>Gisement solaire</a>
+        <a class="nav-item" href="#composants"><span class="nav-dot"></span>Composants système</a>
+        <a class="nav-item" href="#productible"><span class="nav-dot"></span>Calcul productible</a>
+      </div>
+    </div>
+    <div class="nav-module">
+      <div class="nav-module-header"><span class="nav-module-number">4</span>Aspects admin.</div>
+      <div class="nav-items">
+        <a class="nav-item" href="#raccordements"><span class="nav-dot"></span>Types raccordements</a>
+        <a class="nav-item" href="#demarches"><span class="nav-dot"></span>Démarches & aides</a>
+        <a class="nav-item" href="#rentabilite"><span class="nav-dot"></span>Rentabilité</a>
+      </div>
+    </div>
+    <div class="nav-module">
+      <div class="nav-module-header"><span class="nav-module-number">5</span>Autoconsommation</div>
+      <div class="nav-items">
+        <a class="nav-item" href="#stockage"><span class="nav-dot"></span>Systèmes de stockage</a>
+        <a class="nav-item" href="#autoconso"><span class="nav-dot"></span>Dimensionnement</a>
+      </div>
+    </div>
+    <div class="nav-module">
+      <div class="nav-module-header"><span class="nav-module-number">6</span>Maintenance</div>
+      <div class="nav-items">
+        <a class="nav-item" href="#mise-en-oeuvre"><span class="nav-dot"></span>Mise en œuvre</a>
+        <a class="nav-item" href="#maintenance"><span class="nav-dot"></span>Maintenance</a>
+        <a class="nav-item" href="#quiz-final"><span class="nav-dot"></span>Quiz final</a>
+      </div>
+    </div>
+    <div class="nav-module">
+      <div class="nav-module-header"><span class="nav-module-number">7</span>Nucléaire</div>
+      <div class="nav-items">
+        <a class="nav-item" href="#nucleaire-intro"><span class="nav-dot"></span>Parc français & histoire</a>
+        <a class="nav-item" href="#reacteur"><span class="nav-dot"></span>Fonctionnement REP</a>
+        <a class="nav-item" href="#types-reacteurs"><span class="nav-dot"></span>Types de réacteurs</a>
+        <a class="nav-item" href="#dechets"><span class="nav-dot"></span>Déchets & sûreté</a>
+        <a class="nav-item" href="#avenir-nucleaire"><span class="nav-dot"></span>SMR, EPR2 & débat</a>
+      </div>
+    </div>
+    <div class="nav-module">
+      <div class="nav-module-header"><span class="nav-module-number">8</span>EnR en France</div>
+      <div class="nav-items">
+        <a class="nav-item" href="#enr-contexte"><span class="nav-dot"></span>Contexte & cadre légal</a>
+        <a class="nav-item" href="#enr-sources"><span class="nav-dot"></span>Éolien, hydro, biomasse…</a>
+        <a class="nav-item" href="#enr-objectifs"><span class="nav-dot"></span>Objectifs 2030/2050</a>
+        <a class="nav-item" href="#enr-defis"><span class="nav-dot"></span>Défis & flexibilité réseau</a>
+      </div>
+    </div>
+  </nav>
+</aside>
+
+<button id="sidebar-toggle" onclick="toggleSidebar()">☀</button>
+
+<main id="main">
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-badge"><span class="dot"></span>MOOC — Formation professionnelle</div>
+  <h1>Énergie Solaire<br><span>Photovoltaïque</span><br>de A à Z</h1>
+  <p class="hero-sub">Du réseau électrique français aux calculs de productible, maîtrisez l'ensemble du cycle de vie d'une installation solaire.</p>
+  <div class="hero-meta">
+    <div class="hero-meta-item">
+      <span class="hero-meta-label">Durée</span>
+      <span class="hero-meta-value">4–6<span class="hero-meta-unit">h</span></span>
+    </div>
+    <div class="hero-meta-item">
+      <span class="hero-meta-label">Modules</span>
+      <span class="hero-meta-value">6</span>
+    </div>
+    <div class="hero-meta-item">
+      <span class="hero-meta-label">Niveau</span>
+      <span class="hero-meta-value" style="font-size:16px;margin-top:4px">Tous publics</span>
+    </div>
+    <div class="hero-meta-item">
+      <span class="hero-meta-label">Accès</span>
+      <span class="hero-meta-value" style="font-size:16px;margin-top:4px;color:var(--green)">Libre</span>
+    </div>
+  </div>
+  <button class="hero-cta" onclick="scrollToSection('intro')">Commencer la formation →</button>
+</section>
+
+<!-- ═══════════════════════════════ MODULE 0 : INTRO ═══════════════════════════════ -->
+<section class="section section-anchor" id="intro">
+  <div class="fade-in">
+    <p class="section-tag">Module 0</p>
+    <h2 class="section-title">Objectifs & parcours</h2>
+    <p class="section-subtitle">Ce que vous allez maîtriser à l'issue de cette formation.</p>
+  </div>
+  <div class="cards-grid fade-in">
+    <div class="card">
+      <div class="card-icon">⚡</div>
+      <div class="card-title">Comprendre le système électrique</div>
+      <div class="card-text">Architecture du réseau français et européen, mix énergétique, enjeux de la transition.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔬</div>
+      <div class="card-title">Maîtriser la physique PV</div>
+      <div class="card-text">Effet photovoltaïque, types de cellules, constitution des modules, rendements.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📐</div>
+      <div class="card-title">Dimensionner une installation</div>
+      <div class="card-text">Gisement solaire, onduleurs, câblage, logiciels PVsyst / Archélios, calcul de productible.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📋</div>
+      <div class="card-title">Gérer les aspects administratifs</div>
+      <div class="card-text">Raccordements, démarches Enedis/CACSI, aides fiscales, contrats d'achat.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔋</div>
+      <div class="card-title">Concevoir l'autoconsommation</div>
+      <div class="card-text">Stockage électrochimique, taux d'autoconsommation, rentabilité, retour d'expérience.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔧</div>
+      <div class="card-title">Assurer la maintenance</div>
+      <div class="card-text">Bonnes pratiques d'installation, maintenance préventive et corrective, diagnostic.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ MODULE 1 : ÉNERGIE FR ═══════════════════════════════ -->
+<section class="section section-anchor" id="mix">
+  <div class="fade-in">
+    <p class="section-tag">Module 1 — Énergie en France</p>
+    <h2 class="section-title">Mix électrique français</h2>
+    <p class="section-subtitle">État des lieux de la production électrique nationale — données 2024.</p>
+  </div>
+  <div class="stats-row fade-in">
+    <div class="stat-box">
+      <div class="stat-value">~70%</div>
+      <div class="stat-label">Nucléaire</div>
+      <div class="stat-sub">~330 TWh/an</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-value">~12%</div>
+      <div class="stat-label">Hydraulique</div>
+      <div class="stat-sub">~60 TWh/an</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-value">~8%</div>
+      <div class="stat-label">Éolien</div>
+      <div class="stat-sub">~40 TWh/an</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-value">~4%</div>
+      <div class="stat-label">Solaire PV</div>
+      <div class="stat-sub">~22 TWh/an</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-value">~6%</div>
+      <div class="stat-label">Thermique + Autres</div>
+      <div class="stat-sub">EnR thermiques incluses</div>
+    </div>
+  </div>
+  <div class="fade-in">
+    <div class="mix-chart">
+      <div class="mix-row"><span class="mix-label">Nucléaire</span><div class="mix-bar-track"><div class="mix-bar-fill" data-w="70" style="background:var(--sky)"></div></div><span class="mix-pct">~70%</span></div>
+      <div class="mix-row"><span class="mix-label">Hydraulique</span><div class="mix-bar-track"><div class="mix-bar-fill" data-w="12" style="background:var(--green)"></div></div><span class="mix-pct">~12%</span></div>
+      <div class="mix-row"><span class="mix-label">Éolien</span><div class="mix-bar-track"><div class="mix-bar-fill" data-w="8" style="background:#818cf8"></div></div><span class="mix-pct">~8%</span></div>
+      <div class="mix-row"><span class="mix-label">Solaire PV</span><div class="mix-bar-track"><div class="mix-bar-fill" data-w="4" style="background:var(--solar)"></div></div><span class="mix-pct">~4%</span></div>
+      <div class="mix-row"><span class="mix-label">Thermique+</span><div class="mix-bar-track"><div class="mix-bar-fill" data-w="6" style="background:#f87171"></div></div><span class="mix-pct">~6%</span></div>
+    </div>
+    <div class="prose">
+      <p>La France dispose de l'un des mix électriques les moins carbonés d'Europe grâce à sa part nucléaire dominante (≈70 g CO₂/kWh contre ~250 g en Allemagne). Le solaire photovoltaïque représente encore une part modeste mais connaît la plus forte croissance relative : la puissance installée dépasse <strong>22 GW</strong> fin 2024 et les objectifs de la PPE 2 visent <strong>44–60 GW</strong> à l'horizon 2030.</p>
+      <div class="highlight-box"><strong>PPE 2 — Programmation Pluriannuelle de l'Énergie</strong> : l'objectif fixé est d'atteindre 40 % d'électricité renouvelable en 2030, avec un rôle majeur pour le solaire (résidentiel, toitures industrielles, agrivoltaïsme, centrales au sol).</div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-anchor" id="reseau">
+  <div class="fade-in">
+    <p class="section-tag">Module 1 — Réseau électrique</p>
+    <h2 class="section-title">Architecture du réseau électrique français</h2>
+    <p class="section-subtitle">Du producteur au consommateur : comprendre les niveaux de tension et les acteurs.</p>
+  </div>
+  <div class="fade-in">
+    <div class="diagram-container">
+      <svg viewBox="0 0 720 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px">
+        <defs>
+          <marker id="arrow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+            <path d="M0,0 L8,4 L0,8 Z" fill="#f59e0b" opacity="0.7"/>
+          </marker>
+        </defs>
+        <!-- Production -->
+        <rect x="10" y="120" width="110" height="80" rx="8" fill="#1a2338" stroke="#f59e0b" stroke-width="1.5"/>
+        <text x="65" y="148" text-anchor="middle" font-family="Cabinet Grotesk,sans-serif" font-size="11" fill="#f59e0b">Production</text>
+        <text x="65" y="165" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#94a3b8">Nucléaire</text>
+        <text x="65" y="179" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#94a3b8">Éolien / PV</text>
+        <text x="65" y="193" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#94a3b8">Hydraulique</text>
+
+        <!-- THT -->
+        <rect x="155" y="105" width="110" height="55" rx="8" fill="#1a2338" stroke="#38bdf8" stroke-width="1.5"/>
+        <text x="210" y="128" text-anchor="middle" font-family="Cabinet Grotesk,sans-serif" font-size="11" fill="#38bdf8">Transport (RTE)</text>
+        <text x="210" y="148" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#94a3b8">400 kV / 225 kV (THT/HT)</text>
+
+        <!-- HTB -->
+        <rect x="300" y="105" width="110" height="55" rx="8" fill="#1a2338" stroke="#38bdf8" stroke-width="1"/>
+        <text x="355" y="128" text-anchor="middle" font-family="Cabinet Grotesk,sans-serif" font-size="11" fill="#38bdf8">Distribution HTA</text>
+        <text x="355" y="148" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#94a3b8">63 kV / 20 kV</text>
+
+        <!-- Enedis -->
+        <rect x="445" y="105" width="110" height="55" rx="8" fill="#1a2338" stroke="#34d399" stroke-width="1.5"/>
+        <text x="500" y="128" text-anchor="middle" font-family="Cabinet Grotesk,sans-serif" font-size="11" fill="#34d399">Distribution BT</text>
+        <text x="500" y="148" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#94a3b8">Enedis — 400V</text>
+
+        <!-- Consommateur -->
+        <rect x="595" y="120" width="110" height="60" rx="8" fill="#1a2338" stroke="#f59e0b" stroke-width="1"/>
+        <text x="650" y="144" text-anchor="middle" font-family="Cabinet Grotesk,sans-serif" font-size="11" fill="#f59e0b">Consommateur</text>
+        <text x="650" y="162" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#94a3b8">Particulier / Industrie</text>
+
+        <!-- Arrows -->
+        <line x1="120" y1="160" x2="152" y2="135" stroke="#f59e0b" stroke-width="1.5" opacity="0.5" marker-end="url(#arrow)"/>
+        <line x1="265" y1="132" x2="298" y2="132" stroke="#38bdf8" stroke-width="1.5" opacity="0.5" marker-end="url(#arrow)"/>
+        <line x1="410" y1="132" x2="443" y2="132" stroke="#38bdf8" stroke-width="1.5" opacity="0.5" marker-end="url(#arrow)"/>
+        <line x1="555" y1="140" x2="592" y2="145" stroke="#34d399" stroke-width="1.5" opacity="0.5" marker-end="url(#arrow)"/>
+
+        <!-- PV injection label -->
+        <rect x="440" y="195" width="120" height="40" rx="6" fill="rgba(245,158,11,0.08)" stroke="rgba(245,158,11,0.3)" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="500" y="212" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#f59e0b">Injection PV</text>
+        <text x="500" y="228" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#94a3b8">≤36 kVA → BT</text>
+        <line x1="500" y1="195" x2="500" y2="163" stroke="rgba(245,158,11,0.4)" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arrow)"/>
+
+        <!-- Labels acteurs -->
+        <text x="210" y="95" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#64748b">RTE (gestionnaire)</text>
+        <text x="355" y="95" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#64748b">ELD / Enedis</text>
+        <text x="500" y="95" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#64748b">Enedis / ELD locaux</text>
+      </svg>
+    </div>
+    <div class="prose">
+      <h3>Les acteurs du réseau</h3>
+      <ul>
+        <li><strong>RTE</strong> (Réseau de Transport d'Électricité) : gère le réseau très haute tension (225–400 kV), assure l'équilibre offre/demande en temps réel.</li>
+        <li><strong>Enedis</strong> (ex-ERDF) : exploite 95 % du réseau de distribution (HTA 20 kV et BT 400 V). Interlocuteur principal pour les raccordements PV &lt; 36 kVA.</li>
+        <li><strong>ELD</strong> (Entreprises Locales de Distribution) : couvrent certaines communes (Strasbourg, Grenoble…).</li>
+        <li><strong>CACSI</strong> : Contrat d'Accès au Réseau pour la Consommation avec Source d'Injection — document contractuel pour toute installation raccordée.</li>
+      </ul>
+      <div class="info-box"><strong>Point clé :</strong> Un particulier avec une installation &lt; 36 kVA se raccorde au réseau BT Enedis. Au-delà, le raccordement peut s'effectuer en HTA avec un poste de transformation dédié.</div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-anchor" id="europe">
+  <div class="fade-in">
+    <p class="section-tag">Module 1 — Europe</p>
+    <h2 class="section-title">Panorama solaire européen</h2>
+    <p class="section-subtitle">La France dans le contexte des grands marchés PV d'Europe.</p>
+  </div>
+  <div class="stats-row fade-in">
+    <div class="stat-box">
+      <div class="stat-value">263</div>
+      <div class="stat-label">GW installés en Europe</div>
+      <div class="stat-sub">Fin 2024 — SolarPower Europe</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-value">88</div>
+      <div class="stat-label">GW — Allemagne</div>
+      <div class="stat-sub">1er marché européen</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-value">34</div>
+      <div class="stat-label">GW — Espagne</div>
+      <div class="stat-sub">Fort potentiel sudiste</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-value">22+</div>
+      <div class="stat-label">GW — France</div>
+      <div class="stat-sub">Forte progression 2023-24</div>
+    </div>
+  </div>
+  <div class="prose fade-in">
+    <p>Le marché européen est le 2ᵉ mondial derrière la Chine. L'objectif REPowerEU vise <strong>600 GW</strong> installés dans l'UE à horizon 2030. La France dispose d'un irradiation solaire favorable (1 100–1 800 kWh/m²/an selon les régions) mais reste sous-développée par rapport à l'Espagne et l'Italie.</p>
+    <div class="highlight-box"><strong>Règlement EU Fast-Permitting 2022 :</strong> Délai de traitement des dossiers ramené à 3 mois pour les installations sur bâtiment existant et à 9 mois pour les centrales au sol — objectif de simplification administrative majeur.</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ MODULE 2 : PHOTOVOLTAÏQUE ═══════════════════════════════ -->
+<section class="section section-anchor" id="effet-pv">
+  <div class="fade-in">
+    <p class="section-tag">Module 2 — Physique du PV</p>
+    <h2 class="section-title">L'effet photovoltaïque</h2>
+    <p class="section-subtitle">Comprendre comment la lumière devient électricité.</p>
+  </div>
+  <div class="video-placeholder fade-in" title="Vidéo : L'effet photovoltaïque expliqué">
+    <div class="play-btn">▶</div>
+    <p>Vidéo — L'effet photovoltaïque (≈ 8 min)</p>
+  </div>
+  <div class="prose fade-in">
+    <h3>Principe physique</h3>
+    <p>L'effet photovoltaïque fut découvert par <strong>Edmond Becquerel</strong> en 1839. Il repose sur l'interaction entre les photons du rayonnement solaire et les électrons d'un matériau semi-conducteur (généralement le silicium).</p>
+    <h4>Mécanisme en 4 étapes</h4>
+    <div class="timeline">
+      <div class="timeline-step">
+        <div class="timeline-step-title">1. Absorption du photon</div>
+        <div class="timeline-step-text">Un photon d'énergie E = h·ν (h = constante de Planck, ν = fréquence) pénètre dans le semi-conducteur. Si E ≥ Eg (énergie de bande interdite), il est absorbé.</div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-step-title">2. Création d'une paire électron-trou</div>
+        <div class="timeline-step-text">L'énergie du photon arrache un électron de la bande de valence vers la bande de conduction, créant un trou positif dans la bande de valence.</div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-step-title">3. Séparation par la jonction P-N</div>
+        <div class="timeline-step-text">La jonction P-N (créée par dopage) génère un champ électrique interne qui sépare les porteurs : électrons vers la couche N, trous vers la couche P.</div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-step-title">4. Collection du courant</div>
+        <div class="timeline-step-text">Les charges sont collectées par les contacts métalliques (grilles conductrices) et produisent un courant continu (DC) circulant dans le circuit extérieur.</div>
+      </div>
+    </div>
+    <div class="info-box"><strong>Énergie de bande interdite du silicium :</strong> Eg = 1,12 eV à 300 K. Cette valeur détermine la longueur d'onde maximale utilisable (~1,1 µm, dans le proche infrarouge). Un photon UV/visible dépasse largement cette valeur — l'excès d'énergie est dissipé en chaleur.</div>
+    <h3>Grandeurs caractéristiques d'une cellule</h3>
+    <ul>
+      <li><strong>Icc (court-circuit)</strong> : courant maximal, proportionnel à l'éclairement.</li>
+      <li><strong>Voc (circuit ouvert)</strong> : tension maximale, dépend du matériau (~0,6 V pour Si cristallin).</li>
+      <li><strong>Pmax</strong> : puissance au point de puissance maximale (MPP).</li>
+      <li><strong>FF (Fill Factor)</strong> : rapport Pmax / (Voc × Icc), indicateur de qualité de la cellule (0,70–0,85 typique).</li>
+      <li><strong>η (rendement)</strong> : Pmax / (Irradiance × Surface), de 15 % à plus de 26 % selon technologie.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="section section-anchor" id="cellules">
+  <div class="fade-in">
+    <p class="section-tag">Module 2 — Technologies</p>
+    <h2 class="section-title">Types de cellules photovoltaïques</h2>
+    <p class="section-subtitle">Des technologies matures aux innovations de rupture.</p>
+  </div>
+  <div class="fade-in">
+    <table class="cell-table">
+      <thead>
+        <tr>
+          <th>Technologie</th>
+          <th>Rendement cellule</th>
+          <th>Rendement module</th>
+          <th>Avantages</th>
+          <th>Inconvénients</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Silicium monocristallin (mono-Si)</td>
+          <td>24–26 %</td>
+          <td>18–22 %</td>
+          <td>Haut rendement, longévité, excellent comportement en faible luminosité</td>
+          <td>Coût de production élevé (procédé Czochralski)</td>
+        </tr>
+        <tr>
+          <td>Silicium polycristallin (poly-Si)</td>
+          <td>19–22 %</td>
+          <td>15–18 %</td>
+          <td>Moins cher, technologie mature</td>
+          <td>Rendement inférieur, moins performant à haute température</td>
+        </tr>
+        <tr>
+          <td>Silicium amorphe (a-Si)</td>
+          <td>6–10 %</td>
+          <td>5–8 %</td>
+          <td>Flexible, bon comportement en diffus, faible coût</td>
+          <td>Dégradation initiale (effet Staebler-Wronski), faible rendement</td>
+        </tr>
+        <tr>
+          <td>Couche mince CdTe</td>
+          <td>16–22 %</td>
+          <td>12–17 %</td>
+          <td>Faible empreinte carbone fabrication, bon en hautes températures</td>
+          <td>Cadmium (toxicité), dépendance tellure rare</td>
+        </tr>
+        <tr>
+          <td>CIGS (Cu-In-Ga-Se)</td>
+          <td>20–23 %</td>
+          <td>14–18 %</td>
+          <td>Flexible, bon spectre d'absorption, performance diffus</td>
+          <td>Matériaux rares (indium, gallium), complexité fabrication</td>
+        </tr>
+        <tr>
+          <td>Pérovskite (émergent)</td>
+          <td>26–33 % (labo)</td>
+          <td>18–22 % (proto)</td>
+          <td>Rendement record, faible coût potentiel, déposable en solution</td>
+          <td>Instabilité (humidité, UV, chaleur), plomb, durabilité à confirmer</td>
+        </tr>
+        <tr>
+          <td>Tandem Si/Pérovskite</td>
+          <td>33–35 % (record)</td>
+          <td>En développement</td>
+          <td>Dépasse la limite Shockley-Queisser du Si seul</td>
+          <td>Complexité fabrication, coût, durabilité interface</td>
+        </tr>
+        <tr>
+          <td>Cellules HJT (Hétérojonction)</td>
+          <td>24–26 %</td>
+          <td>20–23 %</td>
+          <td>Très faible coefficient thermique, bonne performance ambiante</td>
+          <td>Coût de production plus élevé</td>
+        </tr>
+        <tr>
+          <td>TOPCon (Tunnel Oxide Passivated Contact)</td>
+          <td>24–26 %</td>
+          <td>21–23 %</td>
+          <td>Excellente passivation, haut rendement, compatible ligne Si actuelle</td>
+          <td>Procédé complexe, récent sur marché de masse</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="info-box"><strong>Tendance de marché (2024–2025) :</strong> Les modules TOPCon et HJT remplacent progressivement le poly-Si standard. Les cellules pérovskite/Si tandem approchent de la commercialisation avec des records à 33,9 % (record KAUST 2024).</div>
+  </div>
+</section>
+
+<section class="section section-anchor" id="modules">
+  <div class="fade-in">
+    <p class="section-tag">Module 2 — Constitution</p>
+    <h2 class="section-title">Constitution des modules PV</h2>
+    <p class="section-subtitle">De la cellule au générateur solaire : assemblage et caractéristiques.</p>
+  </div>
+  <div class="fade-in">
+    <div class="diagram-container">
+      <svg viewBox="0 0 700 240" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px">
+        <!-- Module layers -->
+        <rect x="60" y="20" width="420" height="200" rx="8" fill="rgba(56,189,248,0.04)" stroke="rgba(56,189,248,0.2)" stroke-width="1"/>
+        <text x="70" y="36" font-family="JetBrains Mono,monospace" font-size="10" fill="#38bdf8">MODULE</text>
+
+        <!-- Layers stacked -->
+        <rect x="80" y="45" width="380" height="22" rx="3" fill="rgba(200,220,255,0.1)" stroke="rgba(200,220,255,0.2)" stroke-width="1"/>
+        <text x="90" y="61" font-family="JetBrains Mono,monospace" font-size="11" fill="#94a3b8">① Verre trempé anti-reflet (3–4 mm)</text>
+
+        <rect x="80" y="74" width="380" height="18" rx="3" fill="rgba(245,158,11,0.06)" stroke="rgba(245,158,11,0.2)" stroke-width="1"/>
+        <text x="90" y="88" font-family="JetBrains Mono,monospace" font-size="11" fill="#f59e0b">② Encapsulant EVA / POE (face avant)</text>
+
+        <rect x="80" y="100" width="380" height="30" rx="3" fill="rgba(245,158,11,0.15)" stroke="rgba(245,158,11,0.4)" stroke-width="1"/>
+        <text x="270" y="120" text-anchor="middle" font-family="Cabinet Grotesk,sans-serif" font-size="12" fill="#fcd34d" font-weight="600">③ Cellules PV (interconnectées en série/parallèle)</text>
+
+        <rect x="80" y="137" width="380" height="18" rx="3" fill="rgba(245,158,11,0.06)" stroke="rgba(245,158,11,0.2)" stroke-width="1"/>
+        <text x="90" y="151" font-family="JetBrains Mono,monospace" font-size="11" fill="#f59e0b">④ Encapsulant EVA / POE (face arrière)</text>
+
+        <rect x="80" y="162" width="380" height="18" rx="3" fill="rgba(100,116,139,0.2)" stroke="rgba(100,116,139,0.3)" stroke-width="1"/>
+        <text x="90" y="176" font-family="JetBrains Mono,monospace" font-size="11" fill="#94a3b8">⑤ Backsheet (tedlar TPT ou verre)</text>
+
+        <rect x="80" y="187" width="380" height="20" rx="3" fill="rgba(56,189,248,0.08)" stroke="rgba(56,189,248,0.2)" stroke-width="1"/>
+        <text x="90" y="201" font-family="JetBrains Mono,monospace" font-size="11" fill="#38bdf8">⑥ Cadre aluminium anodisé + boîte de jonction (IP67)</text>
+
+        <!-- Flèches latérales -->
+        <text x="510" y="56" font-family="JetBrains Mono,monospace" font-size="9" fill="#64748b">ARC coating</text>
+        <text x="510" y="88" font-family="JetBrains Mono,monospace" font-size="9" fill="#64748b">adhérence / protection UV</text>
+        <text x="510" y="120" font-family="JetBrains Mono,monospace" font-size="9" fill="#64748b">60 / 72 / 96 cellules</text>
+        <text x="510" y="151" font-family="JetBrains Mono,monospace" font-size="9" fill="#64748b">isolation thermique</text>
+        <text x="510" y="176" font-family="JetBrains Mono,monospace" font-size="9" fill="#64748b">étanchéité / durabilité</text>
+        <text x="510" y="200" font-family="JetBrains Mono,monospace" font-size="9" fill="#64748b">diodes bypass incluses</text>
+      </svg>
+    </div>
+    <div class="prose">
+      <h3>Association des cellules dans un module</h3>
+      <ul>
+        <li><strong>En série</strong> : les tensions s'additionnent, le courant reste constant. Un module 60 cellules à 0,6 V → ~36 V en circuit ouvert.</li>
+        <li><strong>En parallèle</strong> : les courants s'additionnent, la tension reste constante. Utilisé pour augmenter la puissance tout en conservant une tension normalisée.</li>
+        <li><strong>Diodes bypass</strong> : protègent les cellules ombragées (hotspot) en court-circuitant les sous-chaînes défaillantes (1 diode / 18–24 cellules).</li>
+      </ul>
+      <h3>Caractéristiques normatives</h3>
+      <ul>
+        <li><strong>STC</strong> (Standard Test Conditions) : 1000 W/m², 25°C, AM 1.5 — conditions de référence pour les puissances nominales (Wc).</li>
+        <li><strong>NOCT</strong> (Nominal Operating Cell Temperature) : 800 W/m², 20°C, vent 1 m/s — plus représentatif des conditions réelles.</li>
+        <li><strong>Coefficient de température</strong> (Pmax) : typiquement -0,35 à -0,45 %/°C → perte de puissance par température.</li>
+        <li><strong>Garantie produit</strong> : 10–12 ans (défauts matériaux). <strong>Garantie linéaire de performance</strong> : 25–30 ans (≥80 % Pmax).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section section-anchor" id="capacites">
+  <div class="fade-in">
+    <p class="section-tag">Module 2 — Marché</p>
+    <h2 class="section-title">Capacités d'installation & marché mondial</h2>
+  </div>
+  <div class="stats-row fade-in">
+    <div class="stat-box"><div class="stat-value">1,6</div><div class="stat-label">TW installés monde</div><div class="stat-sub">Fin 2024</div></div>
+    <div class="stat-box"><div class="stat-value">~80%</div><div class="stat-label">Part de la Chine</div><div class="stat-sub">dans la production mondiale de modules</div></div>
+    <div class="stat-box"><div class="stat-value">~0,10€</div><div class="stat-label">/Wc module</div><div class="stat-sub">Prix marché 2024 (TOPCon)</div></div>
+    <div class="stat-box"><div class="stat-value">500–700</div><
+    <div class="stat-label">GW/an</div><div class="stat-sub">Cadence de déploiement 2024</div></div>
+  </div>
+  <div class="prose fade-in">
+    <p>Le coût des modules a chuté de plus de <strong>90 % depuis 2010</strong>, passant de ~1,5 €/Wc à moins de 0,10 €/Wc pour les modules standards. Le coût système total (CAPEX) pour une installation résidentielle en France se situe entre <strong>1 800 et 2 800 €/kWc</strong> (pose comprise), et descend à 600–900 €/kWc pour les centrales au sol.</p>
+    <div class="highlight-box"><strong>LCOE (Coût Actualisé de l'Énergie)</strong> : Le solaire PV atteint des LCOE de 30–50 €/MWh en France pour les grandes centrales (parmi les plus compétitifs toutes sources confondues).</div>
+  </div>
+</section>
+
+<section class="section section-anchor" id="rd">
+  <div class="fade-in">
+    <p class="section-tag">Module 2 — Innovation</p>
+    <h2 class="section-title">Avancées technologiques & recherche</h2>
+  </div>
+  <div class="cards-grid fade-in">
+    <div class="card">
+      <div class="card-icon">🔬</div>
+      <div class="card-title">Cellules tandem pérovskite/Si</div>
+      <div class="card-text">Rendement record 33,9 % (KAUST, 2024). Approchent de la commercialisation. Permettent de dépasser la limite Shockley-Queisser (~33 %) du Si monocristallin.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🏗️</div>
+      <div class="card-title">Agrivoltaïsme</div>
+      <div class="card-text">Combiner production agricole et production solaire sur une même parcelle. Loi AE2E (France, 2023) crée un cadre juridique — projets pilotes &gt;2 GW en développement.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🏢</div>
+      <div class="card-title">BIPV (Building Integrated PV)</div>
+      <div class="card-text">Intégration en toiture, façade, verrière. Tuiles solaires (SunRoof, Edilians), vitrages semi-transparents. Marché en forte croissance avec RE2020.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌊</div>
+      <div class="card-title">Solaire flottant</div>
+      <div class="card-text">Installation sur plans d'eau (retenues, carrières). Réduit l'évaporation, améliore le rendement par effet de refroidissement. Projets &gt;100 MW en Europe.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🤖</div>
+      <div class="card-title">Trackers solaires</div>
+      <div class="card-text">Suivi 1 axe ou 2 axes pour optimiser l'angle d'incidence. Gain de productible de 15–30 % vs fixe. Standard sur les grandes centrales au sol.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📡</div>
+      <div class="card-title">Monitoring & IA</div>
+      <div class="card-text">Détection précoce des défauts par analyse IV, drone thermique IR, ML. Optimiseurs de puissance par module (SolarEdge, Tigo) pour réduire l'impact des ombrages.</div>
+    </div>
+  </div>
+  <div class="fade-in">
+    <div class="video-placeholder" style="margin-top:32px">
+      <div class="play-btn">▶</div>
+      <p>Vidéo — Les cellules pérovskite tandem (≈ 10 min)</p>
+    </div>
+  </div>
+
+  <!-- QUIZ MODULE 2 -->
+  <div class="quiz-container fade-in" id="quiz-1" data-answer="2">
+    <div class="quiz-header">
+      <span class="quiz-badge">Quiz</span>
+      <span style="font-size:13px;color:var(--text-muted);font-family:var(--font-mono)">Module 2 — Q1/2</span>
+    </div>
+    <div class="quiz-question">Quel est l'élément qui génère le champ électrique interne dans une cellule solaire, permettant de séparer électrons et trous ?</div>
+    <div class="quiz-options">
+      <div class="quiz-option" onclick="answerQuiz('quiz-1', this, false)"><span class="quiz-letter">A</span>La couche anti-reflet (ARC)</div>
+      <div class="quiz-option" onclick="answerQuiz('quiz-1', this, false)"><span class="quiz-letter">B</span>Le verre trempé en surface du module</div>
+      <div class="quiz-option" onclick="answerQuiz('quiz-1', this, true)"><span class="quiz-letter">C</span>La jonction P-N formée par dopage du semi-conducteur</div>
+      <div class="quiz-option" onclick="answerQuiz('quiz-1', this, false)"><span class="quiz-letter">D</span>L'encapsulant EVA</div>
+    </div>
+    <div class="quiz-feedback" id="feedback-quiz-1"></div>
+    <button class="quiz-next" id="next-quiz-1" onclick="scrollToSection('gisement')">Module suivant →</button>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ MODULE 3 : DIMENSIONNEMENT ═══════════════════════════════ -->
+<section class="section section-anchor" id="gisement">
+  <div class="fade-in">
+    <p class="section-tag">Module 3 — Dimensionnement</p>
+    <h2 class="section-title">Gisement solaire & relevé de masque</h2>
+  </div>
+  <div class="prose fade-in">
+    <h3>Irradiance et irradiation</h3>
+    <ul>
+      <li><strong>Irradiance</strong> (W/m²) : puissance solaire reçue par unité de surface à un instant T. Max ~1000 W/m² en STC.</li>
+      <li><strong>Irradiation</strong> (kWh/m²/an) : énergie cumulée sur une période. En France métropolitaine : de 1 100 kWh/m²/an (Normandie) à 1 800 kWh/m²/an (PACA).</li>
+      <li><strong>Ensoleillement optimal</strong> : inclinaison ~30–35° plein sud en France. Chaque 10° de déviation de l'optimum réduit le productible de 2–5 %.</li>
+    </ul>
+    <h3>Outils de mesure du gisement</h3>
+    <div class="tag-group">
+      <span class="tag tag-solar">PVGIS (EU Commission)</span>
+      <span class="tag tag-solar">SolarGIS</span>
+      <span class="tag tag-solar">Meteonorm</span>
+      <span class="tag tag-sky">Solargis API</span>
+      <span class="tag tag-sky">SARAH-2 (EUMETSAT)</span>
+      <span class="tag tag-green">Données Météo-France</span>
+    </div>
+    <h3>Relevé de masque</h3>
+    <p>Le masque d'horizon est l'ensemble des obstacles (arbres, bâtiments, reliefs) qui obstruent le champ de vision du ciel. Un masque non pris en compte peut entraîner une surestimation de 10–30 % du productible.</p>
+    <h4>Outils de relevé</h4>
+    <ul>
+      <li><strong>Fisheye / SunEye 210</strong> : photographie hémisphérique avec analyse automatique.</li>
+      <li><strong>SOLMETRIC SunEye</strong>, <strong>Kipp &amp; Zonen CMP</strong> : boussoles solaires professionnelles.</li>
+      <li><strong>Applications mobiles</strong> : Solarcalc, Sun Seeker, PVGIS intégré.</li>
+      <li><strong>Modélisation 3D</strong> : import LiDAR + PVsyst pour masques complexes.</li>
+    </ul>
+    <div class="info-box"><strong>Règle pratique :</strong> Un ombrage de 1 cellule sur un string peut annuler la production de tout le string si aucune diode bypass n'est activée. La précision du relevé de masque est critique pour les optimiseurs de rendement.</div>
+  </div>
+</section>
+
+<section class="section section-anchor" id="composants">
+  <div class="fade-in">
+    <p class="section-tag">Module 3 — Composants</p>
+    <h2 class="section-title">Onduleur & composants système</h2>
+  </div>
+  <div class="cards-grid fade-in">
+    <div class="card">
+      <div class="card-icon">🔄</div>
+      <div class="card-title">Onduleur string</div>
+      <div class="card-text">1 onduleur pour 1 ou plusieurs strings. Technologie dominante (résidentiel &amp; tertiaire). Coût optimisé. Sensible à l'ombrage partiel. Marques : Fronius, SMA, Huawei, SolarEdge.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📦</div>
+      <div class="card-title">Micro-onduleur</div>
+      <div class="card-text">1 onduleur par module. Monitoring individuel, résistant aux ombrages, idéal toiture complexe. Coût plus élevé. Marques : Enphase IQ8, APsystems.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">⚙️</div>
+      <div class="card-title">Optimiseur DC</div>
+      <div class="card-text">MPPT par module, compatible string onduleur. Compromis entre string et micro. SolarEdge P-series, Tigo.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔌</div>
+      <div class="card-title">Câblage DC/AC</div>
+      <div class="card-text">Câbles PV DC : section 4 ou 6 mm², double isolation, UV-résistant (norme NF EN 50618). Raccordements MC4. Chute de tension DC &lt; 1 %, AC &lt; 3 %.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🛡️</div>
+      <div class="card-title">Protection foudre & surtension</div>
+      <div class="card-text">Parafoudres DC (type 2) entre strings et onduleur. Parafoudres AC côté tableau. Parasurtenseurs + disjoncteurs différentiels selon NF C 15-100 art. 712.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📊</div>
+      <div class="card-title">Monitoring & datalogger</div>
+      <div class="card-text">Supervision en temps réel via protocole Modbus/RS485 ou cloud. Alertes de défaut, courbes IV, comparaison avec météo de référence.</div>
+    </div>
+  </div>
+  <div class="prose fade-in">
+    <h3>Choix de l'onduleur — critères clés</h3>
+    <div class="dim-grid">
+      <div class="dim-panel">
+        <div class="dim-panel-title">Paramètres DC (côté modules)</div>
+        <div class="dim-item"><span class="dim-key">Voc max admissible</span><span class="dim-val">600 / 800 / 1000 V</span></div>
+        <div class="dim-item"><span class="dim-key">Plage MPPT</span><span class="dim-val">ex: 200–800 V</span></div>
+        <div class="dim-item"><span class="dim-key">Nombre d'entrées MPPT</span><span class="dim-val">1 à 12</span></div>
+        <div class="dim-item"><span class="dim-key">Icc max par entrée</span><span class="dim-val">20–30 A typique</span></div>
+      </div>
+      <div class="dim-panel">
+        <div class="dim-panel-title">Paramètres AC (côté réseau)</div>
+        <div class="dim-item"><span class="dim-key">Puissance AC nominale</span><span class="dim-val">Pnd = Pcc × DC/AC ratio</span></div>
+        <div class="dim-item"><span class="dim-key">DC/AC ratio recommandé</span><span class="dim-val">1,0 – 1,25</span></div>
+        <div class="dim-item"><span class="dim-key">Rendement CEC/EU</span><span class="dim-val">&gt; 97 % haut de gamme</span></div>
+        <div class="dim-item"><span class="dim-key">Protection anti-îlotage</span><span class="dim-val">VDE 0126 / EN 62116</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-anchor" id="productible">
+  <div class="fade-in">
+    <p class="section-tag">Module 3 — Calcul</p>
+    <h2 class="section-title">Calcul du productible</h2>
+  </div>
+  <div class="prose fade-in">
+    <h3>Formule simplifiée</h3>
+    <div class="highlight-box" style="font-family:var(--font-mono);font-size:15px;letter-spacing:0.03em">
+      <strong>E (kWh/an) = P_crête (kWc) × H_opt (kWh/m²/an) × PR</strong><br><br>
+      Avec PR (Performance Ratio) = 0,75 à 0,85 typique<br>
+      H_opt = Irradiation sur plan incliné optimal
+    </div>
+    <p>Exemple : 6 kWc installés à Lyon (H_opt ≈ 1 400 kWh/m²/an), PR = 0,80 → <strong>6 720 kWh/an</strong>.</p>
+    <h3>Logiciels de simulation</h3>
+    <div class="tag-group">
+      <span class="tag tag-solar">PVsyst</span>
+      <span class="tag tag-solar">Archélios</span>
+      <span class="tag tag-solar">Calsol</span>
+      <span class="tag tag-sky">HOMER Pro</span>
+      <span class="tag tag-sky">SAM (NREL)</span>
+      <span class="tag tag-green">PVGIS (gratuit EU)</span>
+    </div>
+    <h4>PVsyst — fonctionnalités principales</h4>
+    <ul>
+      <li>Import de base de données météo (Meteonorm, NASA, PVGIS).</li>
+      <li>Modélisation 3D du masque d'horizon et des ombrages proches.</li>
+      <li>Simulation horaire sur 12 mois, pertes détaillées (câbles, soiling, température, inadaptation).</li>
+      <li>Rapport de simulation normalisé (kWh/kWc), courbe de performance, ratio de performance (PR).</li>
+      <li>Standard de fait pour les études bancables (financement projet).</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ MODULE 4 : ASPECTS ADMIN ═══════════════════════════════ -->
+<section class="section section-anchor" id="raccordements">
+  <div class="fade-in">
+    <p class="section-tag">Module 4 — Aspects administratifs</p>
+    <h2 class="section-title">Types de raccordements & revente</h2>
+  </div>
+  <div class="cards-grid fade-in">
+    <div class="card">
+      <div class="card-icon">🏠</div>
+      <div class="card-title">Autoconsommation totale</div>
+      <div class="card-text">Toute l'énergie produite est consommée sur site. Surplus non injecté (ou avec batterie). Aucun contrat de vente nécessaire. Idéal si taux d'autoconsommation &gt; 70 %.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">↔️</div>
+      <div class="card-title">Autoconsommation avec vente du surplus</div>
+      <div class="card-text">Consommation prioritaire, surplus vendu à EDF OA. Tarif d'achat surplus : ~0,06–0,13 €/kWh selon puissance. Contrat S21 Enedis requis.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">⚡</div>
+      <div class="card-title">Vente totale (injection totale)</div>
+      <div class="card-text">100 % de la production vendue à EDF OA. Tarif d'achat garanti 20 ans (obligation d'achat). Tarif 2024 : ~0,09–0,26 €/kWh selon puissance et segment.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🏘️</div>
+      <div class="card-title">Autoconsommation collective</div>
+      <div class="card-text">Partage d'énergie entre producteur et consommateurs d'un même bâtiment ou périmètre géographique. Cadre légal Loi Énergie 2017 + arrêtés Enedis. En fort développement.</div>
+    </div>
+  </div>
+  <div class="prose fade-in">
+    <div class="info-box"><strong>Prime à l'investissement (PI) :</strong> Pour les installations &lt; 500 kWc en injection totale ou autoconsommation avec vente surplus, une prime unique à la mise en service complète le tarif d'achat. Montant 2024 : 130–230 €/kWc selon segment et puissance.</div>
+  </div>
+</section>
+
+<section class="section section-anchor" id="demarches">
+  <div class="fade-in">
+    <p class="section-tag">Module 4 — Démarches</p>
+    <h2 class="section-title">Démarches administratives & aides</h2>
+  </div>
+  <div class="fade-in">
+    <div class="timeline">
+      <div class="timeline-step">
+        <div class="timeline-step-title">1. Étude de faisabilité</div>
+        <div class="timeline-step-text">Relevé de masque, simulation PVsyst, étude de rentabilité, choix du schéma de raccordement.</div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-step-title">2. Déclaration préalable de travaux (DP)</div>
+        <div class="timeline-step-text">Obligatoire pour toute installation sur bâtiment. Formulaire Cerfa n°13703. Délai instruction : 1 mois. Certains périmètres ABF nécessitent avis architecture.</div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-step-title">3. Demande de raccordement Enedis (S10)</div>
+        <div class="timeline-step-text">Démarche en ligne sur Enedis.fr (portail CACSI). Enedis étudie la faisabilité et produit une proposition technique et financière (PTF) sous 30 jours.</div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-step-title">4. Installation par un professionnel RGE</div>
+        <div class="timeline-step-text">Qualification QualiPV (modules et onduleurs), RGE Qualibat ou QUALIFELEC. Obligatoire pour bénéficier des aides (MaPrimeRénov', TVA réduite).</div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-step-title">5. CONSUEL + raccordement Enedis (S14)</div>
+        <div class="timeline-step-text">Contrôle de conformité électrique (attestation CONSUEL). Puis mise en service du compteur Linky bidirectionnel par Enedis.</div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-step-title">6. Contrat d'achat EDF OA</div>
+        <div class="timeline-step-text">Signature du contrat de vente avec EDF Obligation d'Achat (ou autre acheteur obligé désigné). Garanti 20 ans à tarif indexé.</div>
+      </div>
+    </div>
+    <h3 style="margin-top:32px">Aides fiscales et financières (2024)</h3>
+    <table class="cell-table" style="font-size:13px">
+      <thead><tr><th>Dispositif</th><th>Conditions</th><th>Montant indicatif</th></tr></thead>
+      <tbody>
+        <tr><td>TVA réduite 10 %</td><td>Résidentiel &lt; 3 kWc</td><td>TVA à 10 % au lieu de 20 %</td></tr>
+        <tr><td>Prime à l'investissement (CRE)</td><td>&lt; 500 kWc — injection ou surplus</td><td>130–230 €/kWc</td></tr>
+        <tr><td>MaPrimeRénov' Éco</td><td>Logement &gt; 15 ans, conditions ressources</td><td>Variable selon revenus / région</td></tr>
+        <tr><td>CEE (Certificats d'Économies d'Énergie)</td><td>Selon opération standardisée</td><td>Variable selon énergie économisée</td></tr>
+        <tr><td>Prêt éco-PTZ</td><td>Propriétaire résidence principale</td><td>Jusqu'à 30 000 € à 0 %</td></tr>
+        <tr><td>Exonération IFER</td><td>Installations &lt; 100 kWc</td><td>Exonération taxe annuelle</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="section section-anchor" id="rentabilite">
+  <div class="fade-in">
+    <p class="section-tag">Module 4 — Économie</p>
+    <h2 class="section-title">Rentabilité & retour sur investissement</h2>
+  </div>
+  <div class="prose fade-in">
+    <h3>Exemple résidentiel — 6 kWc</h3>
+    <div class="dim-grid">
+      <div class="dim-panel">
+        <div class="dim-panel-title">Investissement</div>
+        <div class="dim-item"><span class="dim-key">Coût installation (6 kWc)</span><span class="dim-val">~12 000 €</span></div>
+        <div class="dim-item"><span class="dim-key">Prime investissement</span><span class="dim-val">-1 380 €</span></div>
+        <div class="dim-item"><span class="dim-key">TVA réduite (si éligible)</span><span class="dim-val">-600 € éco.</span></div>
+        <div class="dim-item"><span class="dim-key">Investissement net</span><span class="dim-val">~10 000 €</span></div>
+      </div>
+      <div class="dim-panel">
+        <div class="dim-panel-title">Revenus annuels</div>
+        <div class="dim-item"><span class="dim-key">Productible annuel</span><span class="dim-val">~6 300 kWh</span></div>
+        <div class="dim-item"><span class="dim-key">Économies autoconso (50%)</span><span class="dim-val">~630 €/an</span></div>
+        <div class="dim-item"><span class="dim-key">Vente surplus (50%)</span><span class="dim-val">~200 €/an</span></div>
+        <div class="dim-item"><span class="dim-key">Gain total brut</span><span class="dim-val">~830 €/an</span></div>
+      </div>
+    </div>
+    <div class="highlight-box"><strong>Temps de retour brut :</strong> ~12 ans (sans emprunt, en autoconsommation avec vente surplus). Durée de vie garantie : 25–30 ans. <strong>Coût du kWh produit sur 25 ans :</strong> ≈ 0,06–0,09 €/kWh — très compétitif vs tarif réseau actuel.</div>
+    <h3>Indicateurs de rentabilité projet</h3>
+    <ul>
+      <li><strong>TRI</strong> (Taux de Rentabilité Interne) : objectif &gt; 6–8 % pour un projet résidentiel.</li>
+      <li><strong>VAN</strong> (Valeur Actuelle Nette) : valeur créée sur la durée de vie, actualisée au taux d'emprunt.</li>
+      <li><strong>LCOE</strong> : coût total actualisé / énergie produite sur durée de vie.</li>
+      <li><strong>PR</strong> (Performance Ratio) : indicateur de qualité opérationnelle (&gt;0,80 = bon).</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ MODULE 5 : AUTOCONSOMMATION ═══════════════════════════════ -->
+<section class="section section-anchor" id="stockage">
+  <div class="fade-in">
+    <p class="section-tag">Module 5 — Autoconsommation</p>
+    <h2 class="section-title">Systèmes de stockage</h2>
+  </div>
+  <div class="fade-in">
+    <table class="cell-table">
+      <thead>
+        <tr>
+          <th>Technologie</th>
+          <th>Énergie spécifique</th>
+          <th>Cycles (80% DOD)</th>
+          <th>Coût indicatif</th>
+          <th>Usage PV</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Li-Ion NMC</td><td>150–250 Wh/kg</td><td>1 000–3 000</td><td>250–400 €/kWh</td><td>Résidentiel standard</td></tr>
+        <tr><td>Li-Ion LFP (LiFePO4)</td><td>90–160 Wh/kg</td><td>3 000–6 000</td><td>300–500 €/kWh</td><td>Résidentiel/tertiaire — sécurité</td></tr>
+        <tr><td>Plomb-acide AGM/GEL</td><td>30–50 Wh/kg</td><td>300–700</td><td>80–150 €/kWh</td><td>Systèmes isolés, budget serré</td></tr>
+        <tr><td>Redox Vanadium (VRFB)</td><td>15–35 Wh/kg</td><td>&gt;15 000</td><td>300–600 €/kWh</td><td>Industrie, stockage stationnaire</td></tr>
+        <tr><td>Batterie sel fondu (NaS)</td><td>100–200 Wh/kg</td><td>4 500+</td><td>400–700 €/kWh</td><td>Réseaux, centrales au sol</td></tr>
+        <tr><td>Hydrogène (P2G2P)</td><td>~33 kWh/kg H₂</td><td>—</td><td>Élevé — à maturité</td><td>Stockage saisonnier, industrie</td></tr>
+      </tbody>
+    </table>
+    <div class="info-box"><strong>Marché résidentiel France (2024) :</strong> Le LFP domine. Prix moyen batterie installée : 800–1 200 €/kWh. Systèmes populaires : Tesla Powerwall 3, SolarEdge Home Battery, BYD HVM, Pylontech. La rentabilité du stockage reste limitée en France vs autoconsommation seule (EDF achat garanti bas).</div>
+  </div>
+</section>
+
+<section class="section section-anchor" id="autoconso">
+  <div class="fade-in">
+    <p class="section-tag">Module 5 — Dimensionnement</p>
+    <h2 class="section-title">Dimensionnement de l'autoconsommation</h2>
+  </div>
+  <div class="prose fade-in">
+    <h3>Indicateurs clés</h3>
+    <ul>
+      <li><strong>Taux d'autoconsommation (TAC)</strong> : part de l'énergie produite consommée sur site = E_autoconsommée / E_produite. Objectif : 60–80 %.</li>
+      <li><strong>Taux d'autosuffisance (TAS)</strong> : part des besoins couverts par le PV = E_autoconsommée / E_consommée. Objectif résidentiel : 30–50 % sans stockage.</li>
+    </ul>
+    <h3>Règles de dimensionnement</h3>
+    <div class="highlight-box">
+      <strong>Règle pratique :</strong> Pour maximiser le TAC sans surstockage :<br>
+      • Capacité batterie ≈ 1–1,5 kWh par kWc installé<br>
+      • Ne pas surdimensionner le PV par rapport à la consommation (risque injection forcée)<br>
+      • En résidentiel, 3 kWc couvre ~30 % des besoins moyens (~4 500 kWh/an foyer)
+    </div>
+    <h3>Simulation avec logiciels</h3>
+    <ul>
+      <li><strong>PVsyst Standalone</strong> : module dédié autoconsommation avec batterie.</li>
+      <li><strong>Archélios+</strong> : outil français, interfaces installateurs, calculs normatifs.</li>
+      <li><strong>HOMER Pro</strong> : optimisation technico-économique systèmes hybrides (PV+éolien+groupe).</li>
+      <li><strong>SMA Sunny Design</strong> / <strong>Fronius Solar.Configurator</strong> : outils constructeurs gratuits.</li>
+    </ul>
+  </div>
+
+  <!-- QUIZ MODULE 5 -->
+  <div class="quiz-container fade-in" id="quiz-2" data-answer="1">
+    <div class="quiz-header">
+      <span class="quiz-badge">Quiz</span>
+      <span style="font-size:13px;color:var(--text-muted);font-family:var(--font-mono)">Module 5 — Q2/2</span>
+    </div>
+    <div class="quiz-question">Quel indicateur mesure la part de la production solaire effectivement consommée sur site ?</div>
+    <div class="quiz-options">
+      <div class="quiz-option" onclick="answerQuiz('quiz-2', this, true)"><span class="quiz-letter">A</span>Le taux d'autoconsommation (TAC)</div>
+      <div class="quiz-option" onclick="answerQuiz('quiz-2', this, false)"><span class="quiz-letter">B</span>Le taux d'autosuffisance (TAS)</div>
+      <div class="quiz-option" onclick="answerQuiz('quiz-2', this, false)"><span class="quiz-letter">C</span>Le Performance Ratio (PR)</div>
+      <div class="quiz-option" onclick="answerQuiz('quiz-2', this, false)"><span class="quiz-letter">D</span>L'irradiation sur plan incliné</div>
+    </div>
+    <div class="quiz-feedback" id="feedback-quiz-2"></div>
+    <button class="quiz-next" id="next-quiz-2" onclick="scrollToSection('mise-en-oeuvre')">Module suivant →</button>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ MODULE 6 : MAINTENANCE ═══════════════════════════════ -->
+<section class="section section-anchor" id="mise-en-oeuvre">
+  <div class="fade-in">
+    <p class="section-tag">Module 6 — Maintenance</p>
+    <h2 class="section-title">Précautions de mise en œuvre</h2>
+  </div>
+  <div class="cards-grid fade-in">
+    <div class="card">
+      <div class="card-icon">⚡</div>
+      <div class="card-title">Sécurité électrique</div>
+      <div class="card-text">Modules PV sous tension dès exposition à la lumière. Travaux hors tension impossibles le jour — utiliser des couvertures occultantes. Habilitation électrique B1V/BR obligatoire.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🏗️</div>
+      <div class="card-title">Intégrité structurelle</div>
+      <div class="card-text">Vérification charge de vent (NV65/Eurocode 1), charge de neige (S1/S2/S3). Poids système : 15–25 kg/m². Étanchéité des traversées de toiture (NF DTU 43).</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌡️</div>
+      <div class="card-title">Ventilation des modules</div>
+      <div class="card-text">Laisser 10–15 cm d'espace entre module et toiture pour la ventilation. Chaque 10°C de température supplémentaire = -4 % de production environ.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔩</div>
+      <div class="card-title">Câblage & connectique</div>
+      <div class="card-text">Connexions MC4 certifiées, couples de serrage respectés. Protéger les câbles DC des pincements, UV, rongeurs. Repérage et étiquetage de tous les circuits.</div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-anchor" id="maintenance">
+  <div class="fade-in">
+    <p class="section-tag">Module 6 — Opération</p>
+    <h2 class="section-title">Maintenance préventive & corrective</h2>
+  </div>
+  <div class="prose fade-in">
+    <h3>Maintenance préventive</h3>
+    <div class="timeline">
+      <div class="timeline-step">
+        <div class="timeline-step-title">Mensuel — Monitoring logiciel</div>
+        <div class="timeline-step-text">Vérification des courbes de production vs données météo de référence. Alerte si écart &gt; 10 % par rapport à la simulation.</div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-step-title">Annuel — Nettoyage des modules</div>
+        <div class="timeline-step-text">Nettoyage à l'eau claire (éviter détergents). Gain moyen : 3–8 % sur sites poussiéreux. En zone rurale ou polluée, jusqu'à 15 %.</div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-step-title">Annuel — Inspection visuelle</div>
+        <div class="timeline-step-text">Contrôle cellules (délaminages, bulles EVA, microfissures). Inspection de la fixation mécanique. Vérification de l'étanchéité des pénétrations de toiture.</div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-step-title">Tous les 5 ans — Inspection approfondie</div>
+        <div class="timeline-step-text">Thermographie infrarouge (drone IR) pour détecter hotspots, bypass actives. Tests IV des strings. Vérification des connexions et serrage des borniers.</div>
+      </div>
+    </div>
+    <h3>Diagnostics & maintenance corrective</h3>
+    <ul>
+      <li><strong>Hotspot</strong> : point chaud localisé sur une cellule (ombrage, microfissure, corps étranger). Détection par thermographie IR. Risque incendie si non traité.</li>
+      <li><strong>Délaminage EVA</strong> : jaunissement ou décollement de l'encapsulant. Irréversible — remplacement module nécessaire.</li>
+      <li><strong>Défaut de diode bypass</strong> : string partiellement court-circuité en permanence. Détectable par courbe IV.</li>
+      <li><strong>Dégradation LID</strong> (Light Induced Degradation) : perte initiale de 0,5–2 % dans les premières heures d'exposition. Normale, stabilisée ensuite.</li>
+      <li><strong>Vieillissement naturel</strong> : dégradation annuelle ~0,3–0,6 %/an sur modules de qualité (garantie constructeur 80 % à 25 ans).</li>
+    </ul>
+    <div class="highlight-box"><strong>Outils de diagnostic :</strong> Analyseur IV portable (EKO MP-11), caméra thermique IR (Flir), drone d'inspection, multimètre clamp DC. Protocole IEC 61215 pour tests d'acceptation.</div>
+  </div>
+
+  <!-- QUIZ FINAL -->
+  <div class="quiz-container fade-in" id="quiz-final" data-answer="0">
+    <div class="quiz-header">
+      <span class="quiz-badge" style="background:rgba(56,189,248,0.1);border-color:rgba(56,189,248,0.3);color:var(--sky)">Quiz Final</span>
+      <span style="font-size:13px;color:var(--text-muted);font-family:var(--font-mono)">Synthèse générale</span>
+    </div>
+    <div class="quiz-question">Un installateur relève un écart de -18 % entre la production réelle et la simulation PVsyst après 6 mois d'exploitation. Quelle est la première vérification à effectuer ?</div>
+    <div class="quiz-options">
+      <div class="quiz-option" onclick="answerQuiz('quiz-final', this, true)"><span class="quiz-letter">A</span>Comparer les données d'irradiation réelle (pyranomètre) avec les données météo de la simulation</div>
+      <div class="quiz-option" onclick="answerQuiz('quiz-final', this, false)"><span class="quiz-letter">B</span>Remplacer immédiatement l'onduleur</div>
+      <div class="quiz-option" onclick="answerQuiz('quiz-final', this, false)"><span class="quiz-letter">C</span>Augmenter la capacité de la batterie de stockage</div>
+      <div class="quiz-option" onclick="answerQuiz('quiz-final', this, false)"><span class="quiz-letter">D</span>Renégocier le tarif de rachat avec EDF OA</div>
+    </div>
+    <div class="quiz-feedback" id="feedback-quiz-final"></div>
+    <button class="quiz-next" id="next-quiz-final" onclick="scrollToSection('nucleaire-intro')">Module 7 — Nucléaire →</button>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ MODULE 7 : NUCLÉAIRE ═══════════════════════════════ -->
+<section class="section section-anchor" id="nucleaire-intro">
+  <div class="fade-in">
+    <p class="section-tag">Module 7 — Nucléaire</p>
+    <h2 class="section-title">Le parc nucléaire français</h2>
+    <p class="section-subtitle">Premier producteur d'électricité de France, pilier du mix bas-carbone européen.</p>
+  </div>
+  <div class="stats-row fade-in">
+    <div class="stat-box"><div class="stat-value">56</div><div class="stat-label">Réacteurs en exploitation</div><div class="stat-sub">18 sites, 32 unités en production régulière fin 2024</div></div>
+    <div class="stat-box"><div class="stat-value">61,4</div><div class="stat-label">GW installés</div><div class="stat-sub">Puissance totale du parc EDF</div></div>
+    <div class="stat-box"><div class="stat-value">~320</div><div class="stat-label">TWh/an</div><div class="stat-sub">Production moyenne (hors crise 2022)</div></div>
+    <div class="stat-box"><div class="stat-value">~6</div><div class="stat-label">g CO₂/kWh</div><div class="stat-sub">Parmi les plus bas mondiaux (ACV)</div></div>
+    <div class="stat-box"><div class="stat-value">40–50</div><div class="stat-label">ans</div><div class="stat-sub">Durée de vie visée après Grand Carénage</div></div>
+  </div>
+  <div class="prose fade-in">
+    <h3>Bref historique du programme électronucléaire français</h3>
+    <div class="timeline">
+      <div class="timeline-step">
+        <div class="timeline-step-title">1945–1958 — Naissance du CEA</div>
+        <div class="timeline-step-text">Création du Commissariat à l'Énergie Atomique. Premiers réacteurs de recherche (ZOÉ, EL2). La France développe son programme nucléaire militaire et civil en parallèle.</div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-step-title">1956–1973 — Premières centrales UNGG</div>
+        <div class="timeline-step-text">Filière graphite-gaz (Uranium Naturel Graphite Gaz). Chinon A1 (1963), Saint-Laurent, Bugey. La France fait d'abord le choix d'une filière nationale avant de pivoter vers le REP américain (Westinghouse).</div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-step-title">1974 — Plan Messmer</div>
+        <div class="timeline-step-text">Après le choc pétrolier de 1973, le Premier ministre Pierre Messmer annonce la construction massive de 80 réacteurs REP (Réacteurs à Eau Pressurisée). Objectif : indépendance énergétique totale. Ce plan façonne la France pour 50 ans.</div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-step-title">1977–1999 — Déploiement du parc REP</div>
+        <div class="timeline-step-text">Construction en série de 56 réacteurs REP en 20 ans — paliers CP0, CPY (900 MW), P4/P'4 (1 300 MW), N4 (1 450 MW). Standardisation industrielle record. La France exporte de l'électricité vers toute l'Europe.</div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-step-title">2003–2019 — EPR & débat national</div>
+        <div class="timeline-step-text">Construction de l'EPR de Flamanville (débuté 2007, mis en service 2024 avec 17 ans de retard). Loi de transition énergétique 2015 fixe un plafond à 50 % de nucléaire dans le mix à horizon 2025 — objectif repoussé plusieurs fois.</div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-step-title">2022–2023 — Crise de corrosion sous contrainte</div>
+        <div class="timeline-step-text">Découverte de fissures de corrosion sous contrainte (CSC) sur les circuits RIS/RRA de nombreux réacteurs. À l'hiver 2022-23, seulement 24–28 réacteurs opérationnels simultanément. Production chute à 279 TWh — pires depuis 30 ans. Révèle la fragilité du vieillissement du parc.</div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-step-title">2022–2024 — Relance annoncée</div>
+        <div class="timeline-step-text">Emmanuel Macron annonce en février 2022 la construction de 6 nouveaux EPR2 (avec option 8 supplémentaires) et le lancement d'un programme SMR. Loi de souveraineté énergétique (2023) supprime le plafond des 50 %.</div>
+      </div>
+    </div>
+    <div class="highlight-box"><strong>Le Grand Carénage :</strong> Programme EDF d'investissement massif (~50 Mds€) pour prolonger la durée de vie du parc existant de 40 à 50–60 ans. Réexamen décennal par l'ASN, mise aux normes post-Fukushima (core catcher, filtres à sable, diesels d'ultime secours).</div>
+  </div>
+</section>
+
+<section class="section section-anchor" id="reacteur">
+  <div class="fade-in">
+    <p class="section-tag">Module 7 — Physique & ingénierie</p>
+    <h2 class="section-title">Fonctionnement d'un réacteur REP</h2>
+    <p class="section-subtitle">Le Réacteur à Eau Pressurisée — technologie de 100 % du parc en exploitation en France.</p>
+  </div>
+  <div class="fade-in">
+    <div class="diagram-container">
+      <svg viewBox="0 0 720 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:720px">
+        <defs>
+          <marker id="arr2" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto">
+            <path d="M0,0 L7,3.5 L0,7 Z" fill="#f59e0b" opacity="0.7"/>
+          </marker>
+          <marker id="arr-blue" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto">
+            <path d="M0,0 L7,3.5 L0,7 Z" fill="#38bdf8" opacity="0.8"/>
+          </marker>
+          <marker id="arr-green" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto">
+            <path d="M0,0 L7,3.5 L0,7 Z" fill="#34d399" opacity="0.8"/>
+          </marker>
+        </defs>
+
+        <!-- ── CIRCUIT PRIMAIRE ── -->
+        <rect x="30" y="80" width="130" height="180" rx="10" fill="rgba(245,158,11,0.08)" stroke="rgba(245,158,11,0.5)" stroke-width="1.5"/>
+        <text x="95" y="105" text-anchor="middle" font-family="Cabinet Grotesk,sans-serif" font-size="12" fill="#f59e0b" font-weight="600">Cœur du</text>
+        <text x="95" y="120" text-anchor="middle" font-family="Cabinet Grotesk,sans-serif" font-size="12" fill="#f59e0b" font-weight="600">réacteur</text>
+        <text x="95" y="145" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#94a3b8">Fission U-235</text>
+        <text x="95" y="160" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#94a3b8">Barres de contrôle</text>
+        <text x="95" y="175" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#94a3b8">Modérateur H₂O</text>
+        <text x="95" y="195" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#64748b">155 bar / 315°C</text>
+        <text x="95" y="210" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#64748b">(eau pressurisée)</text>
+
+        <!-- Pressuriseur -->
+        <rect x="175" y="60" width="70" height="50" rx="6" fill="rgba(245,158,11,0.06)" stroke="rgba(245,158,11,0.3)" stroke-width="1"/>
+        <text x="210" y="82" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#f59e0b">Pressuriseur</text>
+        <text x="210" y="97" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#94a3b8">155 bar</text>
+        <line x1="210" y1="110" x2="210" y2="130" stroke="rgba(245,158,11,0.4)" stroke-width="1" stroke-dasharray="3,3"/>
+
+        <!-- Générateur de vapeur -->
+        <rect x="270" y="80" width="120" height="180" rx="10" fill="rgba(56,189,248,0.06)" stroke="rgba(56,189,248,0.4)" stroke-width="1.5"/>
+        <text x="330" y="105" text-anchor="middle" font-family="Cabinet Grotesk,sans-serif" font-size="12" fill="#38bdf8" font-weight="600">Générateur</text>
+        <text x="330" y="120" text-anchor="middle" font-family="Cabinet Grotesk,sans-serif" font-size="12" fill="#38bdf8" font-weight="600">de vapeur</text>
+        <text x="330" y="145" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#94a3b8">Échange thermique</text>
+        <text x="330" y="162" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#94a3b8">primaire / secondaire</text>
+        <text x="330" y="185" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#64748b">Eau primaire ≠ vapeur</text>
+        <text x="330" y="200" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#64748b">secondaire (circuits</text>
+        <text x="330" y="215" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#64748b">indépendants)</text>
+
+        <!-- Turbine + Alternateur -->
+        <rect x="430" y="100" width="110" height="60" rx="8" fill="rgba(52,211,153,0.06)" stroke="rgba(52,211,153,0.4)" stroke-width="1.5"/>
+        <text x="485" y="125" text-anchor="middle" font-family="Cabinet Grotesk,sans-serif" font-size="12" fill="#34d399" font-weight="600">Turbine +</text>
+        <text x="485" y="142" text-anchor="middle" font-family="Cabinet Grotesk,sans-serif" font-size="12" fill="#34d399" font-weight="600">Alternateur</text>
+
+        <!-- Condenseur -->
+        <rect x="430" y="195" width="110" height="50" rx="8" fill="rgba(56,189,248,0.04)" stroke="rgba(56,189,248,0.2)" stroke-width="1"/>
+        <text x="485" y="220" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#38bdf8">Condenseur</text>
+        <text x="485" y="236" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#64748b">Retour eau froide</text>
+
+        <!-- Réseau électrique -->
+        <rect x="585" y="110" width="110" height="45" rx="8" fill="rgba(52,211,153,0.08)" stroke="rgba(52,211,153,0.3)" stroke-width="1"/>
+        <text x="640" y="130" text-anchor="middle" font-family="Cabinet Grotesk,sans-serif" font-size="11" fill="#34d399" font-weight="600">Réseau</text>
+        <text x="640" y="146" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#94a3b8">~400 kV RTE</text>
+
+        <!-- Arrows circuit primaire -->
+        <path d="M160,130 Q215,130 270,130" stroke="#f59e0b" stroke-width="1.5" fill="none" opacity="0.6" marker-end="url(#arr2)"/>
+        <text x="215" y="125" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#f59e0b">eau chaude</text>
+        <path d="M270,210 Q215,210 160,210" stroke="#38bdf8" stroke-width="1.5" fill="none" opacity="0.6" marker-end="url(#arr-blue)"/>
+        <text x="215" y="225" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#38bdf8">eau refroidie</text>
+
+        <!-- Arrows circuit secondaire -->
+        <path d="M390,130 Q410,130 428,130" stroke="#34d399" stroke-width="1.5" fill="none" opacity="0.6" marker-end="url(#arr-green)"/>
+        <text x="410" y="120" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#34d399">vapeur</text>
+        <path d="M540,160 L540,195" stroke="#38bdf8" stroke-width="1.5" fill="none" opacity="0.6" marker-end="url(#arr-blue)"/>
+        <path d="M430,220 Q395,220 390,220" stroke="#38bdf8" stroke-width="1.5" fill="none" opacity="0.6" marker-end="url(#arr-blue)"/>
+
+        <!-- Arrow to grid -->
+        <path d="M540,130 L583,130" stroke="#34d399" stroke-width="1.5" fill="none" opacity="0.6" marker-end="url(#arr-green)"/>
+        <text x="562" y="122" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#34d399">élec.</text>
+
+        <!-- Tour de refroidissement -->
+        <ellipse cx="95" cy="305" rx="45" ry="18" fill="rgba(56,189,248,0.06)" stroke="rgba(56,189,248,0.2)" stroke-width="1"/>
+        <rect x="60" y="270" width="70" height="35" fill="rgba(56,189,248,0.04)" stroke="rgba(56,189,248,0.2)" stroke-width="1"/>
+        <text x="95" y="289" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#38bdf8">Tour refroid.</text>
+        <text x="95" y="302" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#64748b">circuit tertiaire</text>
+        <line x1="95" y1="260" x2="95" y2="245" stroke="rgba(56,189,248,0.3)" stroke-width="1" stroke-dasharray="3,3"/>
+
+        <!-- Legend -->
+        <rect x="480" y="260" width="12" height="12" fill="rgba(245,158,11,0.3)" rx="2"/>
+        <text x="498" y="271" font-family="JetBrains Mono,monospace" font-size="9" fill="#94a3b8">Circuit primaire (eau pressurisée)</text>
+        <rect x="480" y="278" width="12" height="12" fill="rgba(56,189,248,0.3)" rx="2"/>
+        <text x="498" y="289" font-family="JetBrains Mono,monospace" font-size="9" fill="#94a3b8">Circuit secondaire (vapeur/eau)</text>
+        <rect x="480" y="296" width="12" height="12" fill="rgba(52,211,153,0.3)" rx="2"/>
+        <text x="498" y="307" font-family="JetBrains Mono,monospace" font-size="9" fill="#94a3b8">Production électrique</text>
+      </svg>
+    </div>
+    <div class="prose">
+      <h3>Les 3 circuits d'un REP</h3>
+      <ul>
+        <li><strong>Circuit primaire</strong> : eau maintenue à 155 bar (non bouillante) circule dans le cœur, se réchauffe à ~315°C, transfère la chaleur au générateur de vapeur, revient à ~280°C. Radioactif — confiné dans l'enceinte de confinement.</li>
+        <li><strong>Circuit secondaire</strong> : eau du GV se vaporise (~280°C, 60 bar), entraîne la turbine → l'alternateur produit de l'électricité. Non radioactif. Eau condensée retourne au GV.</li>
+        <li><strong>Circuit tertiaire</strong> (refroidissement) : eau de rivière, mer ou tour de refroidissement, condense la vapeur secondaire. Évacue ~60–65 % de la chaleur produite (rendement thermique REP ≈ 33–35 %).</li>
+      </ul>
+      <h3>La fission nucléaire</h3>
+      <p>Le combustible est de l'uranium enrichi à 3–5 % en U-235 (vs 0,72 % naturel), sous forme de pastilles de UO₂ empilées dans des crayons de zirconium. La fission de U-235 par un neutron lent libère ~200 MeV d'énergie thermique et 2–3 nouveaux neutrons — entretenant la réaction en chaîne.</p>
+      <div class="info-box"><strong>Contrôle de la réaction :</strong> Les barres de contrôle (bore/hafnium) absorbent les neutrons pour réguler la puissance. L'eau pressurisée joue un double rôle : caloporteur ET modérateur (ralentit les neutrons). Toute perte de caloporteur réduit naturellement la puissance — sûreté inhérente.</div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-anchor" id="types-reacteurs">
+  <div class="fade-in">
+    <p class="section-tag">Module 7 — Technologies</p>
+    <h2 class="section-title">Types de réacteurs nucléaires</h2>
+  </div>
+  <div class="fade-in">
+    <table class="cell-table">
+      <thead>
+        <tr><th>Type</th><th>Modérateur / Caloporteur</th><th>Puissance</th><th>Pays principaux</th><th>Statut</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>REP (PWR)</td><td>Eau légère / eau légère pressurisée</td><td>900–1 650 MWe</td><td>France, USA, Chine</td><td>Dominant mondial (~70 % du parc)</td></tr>
+        <tr><td>REB (BWR)</td><td>Eau légère / ébullition directe</td><td>700–1 400 MWe</td><td>USA, Japon, Allemagne</td><td>En exploitation, peu de nouvelles unités</td></tr>
+        <tr><td>CANDU (PHWR)</td><td>Eau lourde / eau lourde</td><td>700–900 MWe</td><td>Canada, Corée, Inde</td><td>Fonctionne avec uranium naturel</td></tr>
+        <tr><td>RBMK</td><td>Graphite / eau légère</td><td>1 000 MWe</td><td>URSS/Russie</td><td>Obsolète — Tchernobyl 1986</td></tr>
+        <tr><td>GCR / AGR</td><td>Graphite / CO₂</td><td>600–670 MWe</td><td>Royaume-Uni</td><td>En arrêt progressif</td></tr>
+        <tr><td>EPR (REP Gen III+)</td><td>Eau légère / eau légère</td><td>1 600 MWe</td><td>France, Chine, Finlande</td><td>Flamanville 3 en service 2024 ; Hinkley Point C en construction</td></tr>
+        <tr><td>EPR2</td><td>Eau légère / eau légère</td><td>1 670 MWe</td><td>France (projet)</td><td>6 unités commandées — 1ère prévue ~2035–2037</td></tr>
+        <tr><td>SMR (Nuward, AP300…)</td><td>Variable selon concept</td><td>50–300 MWe</td><td>France, USA, Canada, UK</td><td>En développement — démonstrateur Nuward prévu ~2030</td></tr>
+        <tr><td>Réacteur rapide (RNR, SFR)</td><td>Aucun / sodium liquide</td><td>600–1 200 MWe</td><td>France (Astrid arrêté), Russie, Chine</td><td>Génération IV — surgénération, transmutation déchets</td></tr>
+      </tbody>
+    </table>
+    <div class="highlight-box"><strong>EPR2 vs EPR :</strong> L'EPR2 vise à corriger les défauts de l'EPR (simplification des systèmes de sûreté, réduction du génie civil, meilleure constructibilité en série). Coût cible : 7–8 Mds€/unité vs ~13 Mds€ pour Flamanville 3. Délai cible : 7 ans vs 17 ans.</div>
+  </div>
+</section>
+
+<section class="section section-anchor" id="dechets">
+  <div class="fade-in">
+    <p class="section-tag">Module 7 — Sûreté & déchets</p>
+    <h2 class="section-title">Gestion des déchets & sûreté nucléaire</h2>
+  </div>
+  <div class="prose fade-in">
+    <h3>Classification des déchets radioactifs (ANDRA)</h3>
+    <table class="cell-table" style="font-size:13px">
+      <thead><tr><th>Catégorie</th><th>Activité</th><th>Durée de vie</th><th>Volume</th><th>Gestion</th></tr></thead>
+      <tbody>
+        <tr><td>TFA (très faible activité)</td><td>Très basse</td><td>Courte</td><td>~60 % du volume total</td><td>Centre de Morvillars (CIRES)</td></tr>
+        <tr><td>FMA-VC (faible/moyenne activité, vie courte)</td><td>Faible-moyenne</td><td>&lt;31 ans</td><td>~36 %</td><td>Centre de l'Aube (CSFMA)</td></tr>
+        <tr><td>FMA-VL (vie longue)</td><td>Faible-moyenne</td><td>Milliers d'années</td><td>&lt;3 %</td><td>Solution en cours d'étude</td></tr>
+        <tr><td>HMA (haute activité)</td><td>Très haute</td><td>Centaines de milliers d'années</td><td>&lt;0,2 % (96 % de la radioactivité)</td><td>CIGÉO (Bure, Meuse) — stockage géologique profond</td></tr>
+      </tbody>
+    </table>
+    <div class="info-box"><strong>CIGÉO</strong> : Projet de stockage réversible profond à -500 m dans une couche d'argilite (Callovo-Oxfordien). Autorisation de création instruite — mise en service industrielle visée 2050. Seule solution à long terme reconnue scientifiquement pour les déchets HA.</div>
+    <h3>Sûreté nucléaire — Défense en profondeur</h3>
+    <p>Le principe de défense en profondeur repose sur 3 barrières successives indépendantes pour confiner la radioactivité :</p>
+    <ul>
+      <li><strong>Barrière 1</strong> : Pastilles de combustible (UO₂ — retient ~98 % des produits de fission)</li>
+      <li><strong>Barrière 2</strong> : Gaine en zirconium entourant les crayons combustibles</li>
+      <li><strong>Barrière 3</strong> : Enceinte de confinement en béton précontraint (1,20 m d'épaisseur, étanchéité testée)</li>
+    </ul>
+    <h4>Acteurs de la sûreté</h4>
+    <ul>
+      <li><strong>ASN</strong> (Autorité de Sûreté Nucléaire) : autorité administrative indépendante, contrôle, inspecte, autorise les réacteurs. Pilote les réexamens périodiques (VD3, VD4).</li>
+      <li><strong>IRSN</strong> (Institut de Radioprotection et de Sûreté Nucléaire) : expertise technique et recherche au service de l'ASN. Fusion IRSN/ASN en cours (2025) pour créer l'ASNR.</li>
+      <li><strong>EDF</strong> : exploitant nucléaire, responsable premier de la sûreté de ses installations.</li>
+    </ul>
+    <div class="highlight-box"><strong>Post-Fukushima (2011) :</strong> L'ASN a imposé le renforcement du parc français : diesels d'ultime secours (DUS), pompes à moteur thermique (PAM), core catcher pour EPR, filtres à sable pour enceintes. Investissement global : plusieurs milliards d'euros.</div>
+  </div>
+</section>
+
+<section class="section section-anchor" id="avenir-nucleaire">
+  <div class="fade-in">
+    <p class="section-tag">Module 7 — Perspectives</p>
+    <h2 class="section-title">SMR, EPR2 & débat énergétique</h2>
+  </div>
+  <div class="cards-grid fade-in">
+    <div class="card">
+      <div class="card-icon">🏗️</div>
+      <div class="card-title">EPR2 — Programme France</div>
+      <div class="card-text">6 réacteurs de 1 670 MWe commandés (3 paires : Penly, Gravelines, Bugey ou Tricastin). 1ère mise en service visée ~2035–2037. Option 8 réacteurs supplémentaires sous étude. Puissance additionnelle potentielle : ~10–14 GW.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔬</div>
+      <div class="card-title">SMR — Nuward (EDF/CEA)</div>
+      <div class="card-text">Petit réacteur modulaire de 170 MWe (2 modules par unité). Piscine de refroidissement passive 72h sans intervention. Démonstrateur attendu ~2030. Marché cible : pays n'ayant pas de grand parc, remplacement de centrales thermiques.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">♻️</div>
+      <div class="card-title">Réacteurs de Génération IV</div>
+      <div class="card-text">Réacteurs à neutrons rapides (RNR/SFR) — surgénèrent du combustible et permettent de transmuter les déchets HA. Projet Astrid (France) arrêté en 2019 faute de financement. Russie et Chine avancent sur cette technologie.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">⚖️</div>
+      <div class="card-title">Fusion nucléaire — ITER</div>
+      <div class="card-text">Réacteur de fusion en construction à Cadarache (PACA). Objectif : démontrer la faisabilité scientifique Q &gt; 10. 35 pays participants. Mise en service plasma ~2025, phase DT repoussée à ~2035. Électricité commerciale : horizon 2050+.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📊</div>
+      <div class="card-title">Arguments pour le nucléaire</div>
+      <div class="card-text">Bas-carbone (6 g CO₂/kWh), pilotable (contrairement au solaire/éolien), densité énergétique extrême, indépendance énergétique, emploi industriel local (220 000 emplois directs/indirects en France).</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">⚠️</div>
+      <div class="card-title">Arguments contre / défis</div>
+      <div class="card-text">Coûts de construction élevés et dépassements chroniques, déchets millénaires, risque accidentel résiduel, eau de refroidissement (tension hydrique), dépendance uranium (Niger, Kazakhstan, Canada), vieillissement du parc.</div>
+    </div>
+  </div>
+  <div class="quiz-container fade-in" id="quiz-nucleaire" data-answer="1">
+    <div class="quiz-header">
+      <span class="quiz-badge" style="background:rgba(245,158,11,0.1);border-color:rgba(245,158,11,0.3);color:var(--solar)">Quiz</span>
+      <span style="font-size:13px;color:var(--text-muted);font-family:var(--font-mono)">Module 7 — Nucléaire</span>
+    </div>
+    <div class="quiz-question">Dans un REP, quel est le rôle du pressuriseur ?</div>
+    <div class="quiz-options">
+      <div class="quiz-option" onclick="answerQuiz('quiz-nucleaire', this, false)"><span class="quiz-letter">A</span>Refroidir le circuit primaire en cas d'accident</div>
+      <div class="quiz-option" onclick="answerQuiz('quiz-nucleaire', this, true)"><span class="quiz-letter">B</span>Maintenir l'eau du circuit primaire à haute pression pour éviter l'ébullition (~155 bar)</div>
+      <div class="quiz-option" onclick="answerQuiz('quiz-nucleaire', this, false)"><span class="quiz-letter">C</span>Générer la vapeur qui entraîne la turbine</div>
+      <div class="quiz-option" onclick="answerQuiz('quiz-nucleaire', this, false)"><span class="quiz-letter">D</span>Stocker les déchets radioactifs gazeux</div>
+    </div>
+    <div class="quiz-feedback" id="feedback-quiz-nucleaire"></div>
+    <button class="quiz-next" id="next-quiz-nucleaire" onclick="scrollToSection('enr-contexte')">Module 8 — EnR →</button>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ MODULE 8 : ENR EN FRANCE ═══════════════════════════════ -->
+<section class="section section-anchor" id="enr-contexte">
+  <div class="fade-in">
+    <p class="section-tag">Module 8 — EnR en France</p>
+    <h2 class="section-title">Contexte & cadre réglementaire</h2>
+    <p class="section-subtitle">Les énergies renouvelables dans le paysage énergétique français — état des lieux 2024.</p>
+  </div>
+  <div class="stats-row fade-in">
+    <div class="stat-box"><div class="stat-value">~27%</div><div class="stat-label">Part EnR dans conso finale</div><div class="stat-sub">Objectif EU 2020 : 23 % — atteint</div></div>
+    <div class="stat-box"><div class="stat-value">40%</div><div class="stat-label">Objectif EnR électricité 2030</div><div class="stat-sub">PPE 2 — hors nucléaire</div></div>
+    <div class="stat-box"><div class="stat-value">~60</div><div class="stat-label">GW EnR électrique installés</div><div class="stat-sub">Hydro + éolien + solaire + biomasse</div></div>
+    <div class="stat-box"><div class="stat-value">2050</div><div class="stat-label">Neutralité carbone</div><div class="stat-sub">Objectif France (SNBC)</div></div>
+  </div>
+  <div class="prose fade-in">
+    <h3>Principaux textes réglementaires</h3>
+    <ul>
+      <li><strong>Loi de Transition Énergétique (LTECV, 2015)</strong> : objectifs 40 % EnR en 2030, 50 % nucléaire réduit à 2025 (repoussé). Socle des politiques EnR.</li>
+      <li><strong>PPE 2 — Programmation Pluriannuelle de l'Énergie (2020–2028)</strong> : feuille de route détaillée par filière (capacités, appels d'offres CRE, tarifs d'achat).</li>
+      <li><strong>Loi AE2E (Accélération des EnR, 2023)</strong> : simplification et accélération des procédures d'autorisation. Crée un cadre juridique pour l'agrivoltaïsme. Zones d'accélération EnR définies par communes.</li>
+      <li><strong>Directive EU RED III (2023)</strong> : porte l'objectif EnR de l'UE à 42,5 % d'ici 2030. Renforce les délais de permitting.</li>
+      <li><strong>SNBC (Stratégie Nationale Bas-Carbone)</strong> : trajectoire de décarbonation à 2050, avec neutralité carbone comme objectif final.</div>
+    </ul>
+    <div class="highlight-box"><strong>Débat nucléaire / renouvelables :</strong> La France fait le pari d'un mix combinant relance du nucléaire ET développement massif des EnR — à rebours de l'Allemagne (sortie du nucléaire + EnR). Le Conseil National de la Transition Écologique (CNTE) et RTE plaident pour les deux piliers complémentaires.</div>
+  </div>
+</section>
+
+<section class="section section-anchor" id="enr-sources">
+  <div class="fade-in">
+    <p class="section-tag">Module 8 — Filières</p>
+    <h2 class="section-title">Les filières EnR en France</h2>
+  </div>
+  <div class="cards-grid fade-in">
+    <div class="card">
+      <div class="card-icon">💧</div>
+      <div class="card-title">Hydraulique — 25,7 GW</div>
+      <div class="card-text">1ère source EnR électrique en France. Grands barrages (Génissiat, Grand'Maison), STEP (stations de transfert d'énergie par pompage — stockage intersaisonnier). Production : ~60 TWh/an. Faibles marges de développement — renouvellement des concessions (enjeu EU).</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌬️</div>
+      <div class="card-title">Éolien terrestre — 23 GW</div>
+      <div class="card-text">~10 000 éoliennes installées. Productible : ~40 TWh/an. Taux de charge moyen : ~24 %. Délais d'autorisation records en Europe (7–10 ans). Loi AE2E vise à réduire à 2–3 ans. Principales régions : Hauts-de-France, Grand-Est, Occitanie.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌊</div>
+      <div class="card-title">Éolien offshore — &lt;1 GW</div>
+      <div class="card-text">Départ très tardif vs UK/Allemagne. 1er parc commercial : Saint-Nazaire (480 MW, 2022). Dunkerque (600 MW), Yeu-Noirmoutier en construction. Objectif PPE 2 : 5,2 GW en 2028. Offshore flottant en démonstration (Provence Grand Large).</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">☀️</div>
+      <div class="card-title">Solaire PV — 22+ GW</div>
+      <div class="card-text">Filière en très forte accélération (+7 GW en 2024). Mix résidentiel (petits toits), tertiaire, centrales au sol, agrivoltaïsme. Objectif 2030 : 44–60 GW. Principal frein : raccordements réseau. Voir modules 2–6.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌿</div>
+      <div class="card-title">Biomasse & biogaz — ~2,5 GW</div>
+      <div class="card-text">Cogénération bois-énergie (chaleur + élec). Méthanisation agricole et déchets organiques (biogaz → injection réseau GNR ou électricité). ~700 unités de méthanisation en France. Enjeux : ressource limitée, concurrence usage des terres, ILUC.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌋</div>
+      <div class="card-title">Géothermie</div>
+      <div class="card-text">Géothermie basse énergie (PAC géothermiques, réseaux de chaleur). Géothermie profonde : Soultz-sous-Forêts (Alsace) — 1 MWe. Potentiel limité en France métropolitaine. DOM : potentiel volcanologique (Guadeloupe — Bouillante).</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌊</div>
+      <div class="card-title">Énergies marines</div>
+      <div class="card-text">Hydrolien (courants marins) : Raz Blanchard, pilotes en mer. Houlomoteur, énergie thermique des mers (OTEC). Technologie globalement pré-commerciale. Forte ressource côtière française (2ème ZEE mondiale).</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">☀️🔥</div>
+      <div class="card-title">Solaire thermique & CSP</div>
+      <div class="card-text">Solaire thermique pour chauffe-eau (SSD, CESI). CSP (Concentrated Solar Power) : aucune centrale en métropole, 1 projet à Llo (Pyrénées). Fort potentiel DOM (La Réunion, Antilles). À distinguer du photovoltaïque.</div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-anchor" id="enr-objectifs">
+  <div class="fade-in">
+    <p class="section-tag">Module 8 — Objectifs</p>
+    <h2 class="section-title">Objectifs 2030 & trajectoire 2050</h2>
+  </div>
+  <div class="fade-in">
+    <div class="mix-chart" style="margin-bottom:32px">
+      <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:16px">Capacités EnR électrique visées 2030 (GW)</div>
+      <div class="mix-row"><span class="mix-label">Solaire PV</span><div class="mix-bar-track"><div class="mix-bar-fill" data-w="70" style="background:var(--solar)"></div></div><span class="mix-pct">44–60 GW</span></div>
+      <div class="mix-row"><span class="mix-label">Éolien terrestre</span><div class="mix-bar-track"><div class="mix-bar-fill" data-w="54" style="background:#818cf8"></div></div><span class="mix-pct">33–35 GW</span></div>
+      <div class="mix-row"><span class="mix-label">Hydraulique</span><div class="mix-bar-track"><div class="mix-bar-fill" data-w="44" style="background:var(--sky)"></div></div><span class="mix-pct">~26 GW</span></div>
+      <div class="mix-row"><span class="mix-label">Éolien offshore</span><div class="mix-bar-track"><div class="mix-bar-fill" data-w="14" style="background:#38bdf8"></div></div><span class="mix-pct">5–8 GW</span></div>
+      <div class="mix-row"><span class="mix-label">Biomasse</span><div class="mix-bar-track"><div class="mix-bar-fill" data-w="8" style="background:var(--green)"></div></div><span class="mix-pct">~3 GW</span></div>
+    </div>
+    <div class="prose">
+      <h3>Scénarios RTE — Futurs énergétiques 2050</h3>
+      <p>En 2021–2022, RTE a publié une analyse exhaustive de 6 scénarios pour atteindre la neutralité carbone en 2050, couvrant tous les mix possibles entre nucléaire et renouvelables :</p>
+      <table class="cell-table" style="font-size:13px">
+        <thead><tr><th>Scénario</th><th>Nucléaire 2050</th><th>EnR 2050</th><th>Caractéristique</th></tr></thead>
+        <tbody>
+          <tr><td>M0 — Sortie nucléaire</td><td>0 GW</td><td>~500 GW</td><td>100 % EnR — défi de stockage majeur</td></tr>
+          <tr><td>M1 — Min nucléaire</td><td>~50 GW (13 réact.)</td><td>~300 GW</td><td>Parc existant prolongé, pas de nouveau</td></tr>
+          <tr><td>M23 — Équilibre</td><td>~45 GW (parc + EPR2)</td><td>~280 GW</td><td>Scénario de référence RTE</td></tr>
+          <tr><td>N1 — Max nucléaire</td><td>~100 GW (50 réact.)</td><td>~180 GW</td><td>Renaissance nucléaire totale</td></tr>
+          <tr><td>N2 — Très fort nucléaire</td><td>~100 GW</td><td>~110 GW</td><td>Électrification massive + nucléaire</td></tr>
+          <tr><td>N03 — Nouveau nucléaire</td><td>~45 GW (EPR2 + SMR)</td><td>~280 GW</td><td>Favorise les technologies nouvelles</td></tr>
+        </tbody>
+      </table>
+      <div class="highlight-box"><strong>Conclusion RTE :</strong> Tous les scénarios atteignant la neutralité carbone en 2050 nécessitent une part d'EnR significative (min. 40 %), une multiplication par 2–3 de la consommation électrique (électrification des usages), et d'importants investissements en flexibilité/stockage. Aucun scénario 100 % nucléaire n'est envisagé.</div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-anchor" id="enr-defis">
+  <div class="fade-in">
+    <p class="section-tag">Module 8 — Défis</p>
+    <h2 class="section-title">Défis & flexibilité du réseau EnR</h2>
+  </div>
+  <div class="cards-grid fade-in">
+    <div class="card">
+      <div class="card-icon">⚖️</div>
+      <div class="card-title">Intermittence & pilotabilité</div>
+      <div class="card-text">Solaire et éolien sont non pilotables et dépendent des conditions météo. Plus leur part augmente, plus les besoins de flexibilité (stockage, effacement, imports/exports) s'accroissent. C'est le défi central du mix EnR massif.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔋</div>
+      <div class="card-title">Stockage à grande échelle</div>
+      <div class="card-text">STEP (stations de pompage) : 4,9 GW en France — principale solution actuelle. Batteries stationnaires (Li-ion) : déploiement rapide mais coûteux pour le stockage longue durée. Hydrogène vert : solution saisonnière à horizon 2030–2035.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔌</div>
+      <div class="card-title">Renforcement réseau</div>
+      <div class="card-text">Les EnR se déploient souvent en zones rurales éloignées des centres de consommation. Besoin de renforcement des réseaux HTA et HTB. RTE investit ~35 Mds€ d'ici 2040 pour adapter le réseau de transport. Raccordement PV = frein principal.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">💡</div>
+      <div class="card-title">Effacement & demande flexible</div>
+      <div class="card-text">Déplacer la consommation vers les heures de fort productible EnR. Recharge intelligente des véhicules électriques (V2G), chauffe-eaux connectés, data centers flexibles. Potentiel : 3–8 GW d'effacement mobilisables en France.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌍</div>
+      <div class="card-title">Interconnexions européennes</div>
+      <div class="card-text">La France est le pays le mieux interconnecté d'Europe (15 GW de capacité d'échange). Les interconnexions permettent d'exporter les surplus EnR et d'importer en cas de pointe. Projet GOLFE DE GASCOGNE (interconnexion France-Espagne sous-marine, 2028) : +5 GW.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🏘️</div>
+      <div class="card-title">Acceptabilité sociale</div>
+      <div class="card-text">Vent : recours juridiques fréquents, délais d'autorisation parmi les plus longs d'Europe. Solaire au sol : conflits d'usage agricole. Loi AE2E 2023 tente de résoudre par la concertation locale et les zones d'accélération définies par les communes.</div>
+    </div>
+  </div>
+  <div class="prose fade-in" style="margin-top:32px">
+    <div class="info-box"><strong>Le marché de l'électricité en crise :</strong> La réforme du marché électrique européen (REMIT 2, 2024) répond aux effets de la crise énergétique 2021–2023. En France, les contrats pour différence (CfD) remplacent progressivement l'OA classique pour les nouvelles EnR, garantissant un prix plancher tout en reversant les surplus au consommateur quand les prix de marché sont élevés.</div>
+
+    <h3>Chiffres clés pour la compréhension du système électrique</h3>
+    <div class="dim-grid">
+      <div class="dim-panel">
+        <div class="dim-panel-title">Consommation France (2024)</div>
+        <div class="dim-item"><span class="dim-key">Consommation annuelle</span><span class="dim-val">~440 TWh</span></div>
+        <div class="dim-item"><span class="dim-key">Puissance de pointe hiver</span><span class="dim-val">~88 GW</span></div>
+        <div class="dim-item"><span class="dim-key">Puissance minimale été nuit</span><span class="dim-val">~30 GW</span></div>
+        <div class="dim-item"><span class="dim-key">Tendance long terme</span><span class="dim-val">+50–60 % à 2050</span></div>
+      </div>
+      <div class="dim-panel">
+        <div class="dim-panel-title">Mix cible 2035 (scénario central)</div>
+        <div class="dim-item"><span class="dim-key">Nucléaire</span><span class="dim-val">~55–60 %</span></div>
+        <div class="dim-item"><span class="dim-key">Solaire PV</span><span class="dim-val">~10–12 %</span></div>
+        <div class="dim-item"><span class="dim-key">Éolien</span><span class="dim-val">~12–15 %</span></div>
+        <div class="dim-item"><span class="dim-key">Hydraulique</span><span class="dim-val">~10–12 %</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="quiz-container fade-in" id="quiz-enr" data-answer="2">
+    <div class="quiz-header">
+      <span class="quiz-badge" style="background:rgba(52,211,153,0.1);border-color:rgba(52,211,153,0.3);color:var(--green)">Quiz</span>
+      <span style="font-size:13px;color:var(--text-muted);font-family:var(--font-mono)">Module 8 — EnR</span>
+    </div>
+    <div class="quiz-question">Quelle est la principale solution de stockage d'électricité à grande échelle actuellement opérationnelle en France ?</div>
+    <div class="quiz-options">
+      <div class="quiz-option" onclick="answerQuiz('quiz-enr', this, false)"><span class="quiz-letter">A</span>Les batteries lithium-ion stationnaires</div>
+      <div class="quiz-option" onclick="answerQuiz('quiz-enr', this, false)"><span class="quiz-letter">B</span>L'hydrogène vert par électrolyse</div>
+      <div class="quiz-option" onclick="answerQuiz('quiz-enr', this, true)"><span class="quiz-letter">C</span>Les Stations de Transfert d'Énergie par Pompage (STEP)</div>
+      <div class="quiz-option" onclick="answerQuiz('quiz-enr', this, false)"><span class="quiz-letter">D</span>Les volants d'inertie (flywheels)</div>
+    </div>
+    <div class="quiz-feedback" id="feedback-quiz-enr"></div>
+    <button class="quiz-next" id="next-quiz-enr" onclick="showCompletion()">Terminer la formation 🎓</button>
+  </div>
+</section>
+
+<!-- COMPLETION -->
+<section class="section" id="completion" style="display:none;text-align:center;padding:80px;">
+  <div style="font-size:64px;margin-bottom:24px">🎓</div>
+  <h2 style="font-family:var(--font-display);font-size:40px;font-weight:700;letter-spacing:-0.02em;margin-bottom:16px">Formation complétée !</h2>
+  <p style="color:var(--text-dim);max-width:540px;margin:0 auto 32px;font-size:16px">Vous avez parcouru l'ensemble du programme — du réseau électrique français au photovoltaïque, du nucléaire aux enjeux des EnR en France à l'horizon 2050.</p>
+  <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px 32px">
+      <div style="font-family:var(--font-display);font-size:36px;font-weight:700;color:var(--solar)">8</div>
+      <div style="font-size:12px;color:var(--text-muted);font-family:var(--font-mono);text-transform:uppercase;margin-top:4px">Modules</div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px 32px">
+      <div style="font-family:var(--font-display);font-size:36px;font-weight:700;color:var(--green)">5</div>
+      <div style="font-size:12px;color:var(--text-muted);font-family:var(--font-mono);text-transform:uppercase;margin-top:4px">Quiz</div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px 32px">
+      <div style="font-family:var(--font-display);font-size:36px;font-weight:700;color:var(--sky)">4–6h</div>
+      <div style="font-size:12px;color:var(--text-muted);font-family:var(--font-mono);text-transform:uppercase;margin-top:4px">Formation</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-logo">☀ Formation Solaire PV</span>
+  <p>MOOC libre d'accès · Tous publics · France · 2024–2025</p>
+  <p>Sources : RTE, Enedis, CRE, SolarPower Europe, ADEME, PVGIS, IEA</p>
+</footer>
+
+</main>
+
+<script>
+// ── SIDEBAR TOGGLE ──
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+
+// ── SMOOTH SCROLL ──
+function scrollToSection(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ── PROGRESS TRACKING ──
+function updateProgress() {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = docHeight > 0 ? Math.round((scrollTop / docHeight) * 100) : 0;
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('sidebar-prog').style.width = pct + '%';
+  document.getElementById('pct-label').textContent = pct + '%';
+  updateActiveNav();
+}
+
+function updateActiveNav() {
+  const sections = document.querySelectorAll('.section-anchor');
+  const navItems = document.querySelectorAll('.nav-item');
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 80) current = s.id;
+  });
+  navItems.forEach(item => {
+    item.classList.remove('active');
+    if (item.getAttribute('href') === '#' + current) item.classList.add('active');
+  });
+}
+
+window.addEventListener('scroll', updateProgress, { passive: true });
+
+// ── MIX BARS ANIMATION ──
+function animateBars() {
+  document.querySelectorAll('.mix-bar-fill').forEach(bar => {
+    const w = bar.dataset.w;
+    setTimeout(() => bar.style.width = w + '%', 300);
+  });
+}
+
+// ── FADE-IN OBSERVER ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      if (e.target.closest('#mix')) animateBars();
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// ── QUIZ LOGIC ──
+function answerQuiz(quizId, option, isCorrect) {
+  const container = document.getElementById(quizId);
+  if (container.dataset.answered) return;
+  container.dataset.answered = 'true';
+
+  container.querySelectorAll('.quiz-option').forEach(o => {
+    o.style.pointerEvents = 'none';
+    if (o === option) {
+      o.classList.add(isCorrect ? 'correct' : 'wrong');
+    }
+    // reveal correct option
+    if (!isCorrect) {
+      const opts = container.querySelectorAll('.quiz-option');
+      opts.forEach(o2 => {
+        if (o2.onclick.toString().includes('true')) o2.classList.add('correct');
+      });
+    }
+  });
+
+  const fb = document.getElementById('feedback-' + quizId);
+  if (isCorrect) {
+    fb.textContent = '✓ Correct ! ' + getFeedbackText(quizId, true);
+    fb.className = 'quiz-feedback show correct-fb';
+  } else {
+    fb.textContent = '✗ Incorrect. ' + getFeedbackText(quizId, false);
+    fb.className = 'quiz-feedback show wrong-fb';
+  }
+
+  document.getElementById('next-' + quizId).classList.add('show');
+}
+
+function getFeedbackText(id, correct) {
+  const texts = {
+    'quiz-1': {
+      true: "La jonction P-N crée le champ électrique interne qui sépare les porteurs de charges générés par l'absorption des photons.",
+      false: "La jonction P-N (dopage P et N du silicium) est l'élément fondamental qui génère le champ électrique séparateur."
+    },
+    'quiz-2': {
+      true: "Le TAC = E_autoconsommée / E_produite. L'autosuffisance (TAS) mesure la part des besoins couverts par le PV.",
+      false: "Le taux d'autoconsommation (TAC) mesure la part de la production consommée sur site. Le TAS mesure la couverture des besoins."
+    },
+    'quiz-final': {
+      true: "Un écart de production peut s'expliquer par une météo moins favorable que prévu. Toujours comparer l'irradiation réelle avant de diagnostiquer une panne matérielle.",
+      false: "La première étape est de comparer l'irradiation réelle mesurée vs les données de simulation. La météo peut expliquer un écart important avant tout défaut matériel."
+    },
+    'quiz-nucleaire': {
+      true: "Correct ! Le pressuriseur maintient l'eau du circuit primaire à ~155 bars pour qu'elle reste liquide à 315°C. Sans lui, l'eau bout et le refroidissement du cœur est compromis.",
+      false: "Le pressuriseur est un réservoir chauffant/refroidissant qui régule la pression du circuit primaire à ~155 bars, empêchant l'ébullition de l'eau malgré sa haute température (315°C)."
+    },
+    'quiz-enr': {
+      true: "Correct ! Les STEP (4,9 GW en France) pompent l'eau vers un réservoir amont lors des surplus électriques, puis turbinent lors des pics de demande. Technologie mature, efficacité ~80 %.",
+      false: "Les STEP (Stations de Transfert d'Énergie par Pompage) représentent ~4,9 GW et constituent la quasi-totalité du stockage stationnaire en France. Les batteries Li-ion sont en déploiement mais restent marginales à grande échelle."
+    }
+  };
+  return texts[id] ? (correct ? texts[id].true : texts[id].false) : '';
+}
+
+function showCompletion() {
+  document.getElementById('completion').style.display = 'block';
+  document.getElementById('completion').scrollIntoView({ behavior: 'smooth' });
+}
+
+// ── NAV CLICK CLOSE MOBILE SIDEBAR ──
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', () => {
+    document.getElementById('sidebar').classList.remove('open');
+  });
+});
+
+// Initial call
+updateProgress();
+</script>
+</body>
+</html>

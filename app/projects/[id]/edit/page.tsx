@@ -1,11 +1,7 @@
 // app/posts/new/page.tsx
-import { EditProjectForm } from '@/components/ProjectForm';
-import Link from "next/link";
+import { EditProjectForm } from '@/components/forms/ProjectForm';
 import prisma from '@/lib/prisma'
-import Image from 'next/image'
 import { notFound } from "next/navigation";
-
-
 
 export default async function EditProjectPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
@@ -33,6 +29,11 @@ export default async function EditProjectPage({ params }: { params: Promise<{ id
             imageTitle: project.imageTitle ?? undefined,
             imageTitle2: project.image2Title ?? undefined,
             link: project.link ?? "",
+            siteUrl: project.siteUrl ?? "",
+            siteUrlPublic: project.siteUrlPublic,
+            visible: project.visible,
+            createdAt: project.createdAt.toISOString().slice(0, 10),
+            tags: project.tags,
           }}
         />
         </div>

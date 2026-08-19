@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import prisma from '@/lib/prisma'; 
+import prisma from '@/lib/prisma';
 import { writeFile } from 'fs/promises';
 import path from 'path';
+import { auth } from '@/lib/auth';
 
 export async function POST(request: NextRequest) {
+  const session = await auth();
+  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
   try {
     const formData = await request.formData();
     const title = formData.get('title') as string;
@@ -15,6 +19,11 @@ export async function POST(request: NextRequest) {
     const imageTitle = formData.get('imageTitle') as string| null;
     const image2Title = formData.get('imageTitle2') as string| null;
     const link = formData.get('link') as string| null;
+    const siteUrl = formData.get('siteUrl') as string| null;
+    const siteUrlPublic = formData.get('siteUrlPublic') === 'true';
+    const visible = formData.has('visible') ? formData.get('visible') === 'true' : true;
+    const createdAtRaw = formData.get('createdAt') as string | null;
+    const tags = formData.getAll('tags') as string[];
 
     if (!title || !resume) {
       return NextResponse.json(
@@ -23,41 +32,32 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    let imagePath,imagePath2 = null;
+    const ALLOWED_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg'];
+    const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
 
-    // Si une image est uploadée
-    if (image && image.size > 0) {
-      const bytes = await image.arrayBuffer();
-      const buffer = Buffer.from(bytes);
+    let imagePath: string | null = null;
+    let imagePath2: string | null = null;
 
-      // Générer un nom unique pour l'image
-      const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1E9)}`;
-      const ext = path.extname(image.name);
-      const filename = `image-${uniqueSuffix}${ext}`;
-      
-      // Sauvegarder dans /public/uploads
-      const filepath = path.join(process.cwd(), 'public', 'uploads', filename);
-      await writeFile(filepath, buffer);
-      
-      // Chemin relatif pour la DB
-      imagePath = `/uploads/${filename}`;
-    }
-        // Si une image est uploadée
-    if (image2 && image2.size > 0) {
-      const bytes = await image2.arrayBuffer();
-      const buffer = Buffer.from(bytes);
+    for (const img of [image, image2]) {
+      if (img && img.size > 0) {
+        const ext = path.extname(img.name).toLowerCase();
+        if (!ALLOWED_EXTENSIONS.includes(ext)) {
+          return NextResponse.json({ error: 'Extension de fichier non autorisée' }, { status: 400 });
+        }
+        if (img.size > MAX_FILE_SIZE) {
+          return NextResponse.json({ error: 'Fichier trop volumineux (max 5 Mo)' }, { status: 400 });
+        }
 
-      // Générer un nom unique pour l'image
-      const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1E9)}`;
-      const ext = path.extname(image2.name);
-      const filename2 = `image-${uniqueSuffix}${ext}`;
-      
-      // Sauvegarder dans /public/uploads
-      const filepath = path.join(process.cwd(), 'public', 'uploads', filename2);
-      await writeFile(filepath, buffer);
-      
-      // Chemin relatif pour la DB
-      imagePath2 = `/uploads/${filename2}`;
+        const bytes = await img.arrayBuffer();
+        const buffer = Buffer.from(bytes);
+        const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1E9)}`;
+        const filename = `image-${uniqueSuffix}${ext}`;
+        const filepath = path.join(process.cwd(), 'public', 'uploads', filename);
+        await writeFile(filepath, buffer);
+
+        if (img === image) imagePath = `/uploads/${filename}`;
+        else imagePath2 = `/uploads/${filename}`;
+      }
     }
 
     // Créer l'article dans la DB
@@ -71,8 +71,13 @@ export async function POST(request: NextRequest) {
         imageTitle,
         image2: imagePath2,
         image2Title,
+        tags,
         link,
+        siteUrl,
+        siteUrlPublic,
+        visible,
         authorId: 1,
+        ...(createdAtRaw && { createdAt: new Date(createdAtRaw) }),
       },
     });
 

@@ -1,0 +1,705 @@
+// components/CreatePostForm.tsx
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+
+
+interface ProjectFormProps {
+  initialData?: {
+    id: number
+    title: string
+    content: string
+    content2: string
+    resume: string
+    image?: string
+    image2?: string
+    imageTitle?: string
+    imageTitle2?: string
+    link: string
+    siteUrl?: string
+    siteUrlPublic?: boolean
+    visible?: boolean
+    createdAt?: string
+    tags?: string[]
+  }
+}
+
+function TagInput({ tags, onChange }: { tags: string[]; onChange: (tags: string[]) => void }) {
+  const [input, setInput] = useState('');
+
+  const add = (raw: string) => {
+    const trimmed = raw.trim().replace(/,+$/, '');
+    if (trimmed && !tags.includes(trimmed)) onChange([...tags, trimmed]);
+    setInput('');
+  };
+
+  const onKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' || e.key === ',') { e.preventDefault(); add(input); }
+    if (e.key === 'Backspace' && !input && tags.length) onChange(tags.slice(0, -1));
+  };
+
+  return (
+    <div className="flex flex-wrap gap-1.5 px-3 py-2 border rounded-lg border-gray-600 focus-within:ring-2 focus-within:ring-blue-500 min-h-[42px] cursor-text"
+      onClick={() => (document.getElementById('tag-input') as HTMLInputElement)?.focus()}>
+      {tags.map(t => (
+        <span key={t} className="flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-semibold bg-blue-500/15 text-blue-400 border border-blue-500/25">
+          {t}
+          <button type="button" onClick={() => onChange(tags.filter(x => x !== t))}
+            className="opacity-60 hover:opacity-100 leading-none">×</button>
+        </span>
+      ))}
+      <input
+        id="tag-input"
+        value={input}
+        onChange={e => setInput(e.target.value)}
+        onKeyDown={onKey}
+        onBlur={() => input.trim() && add(input)}
+        placeholder={tags.length === 0 ? 'Next.js, TypeScript… (Entrée pour valider)' : ''}
+        className="flex-1 min-w-[120px] bg-transparent outline-none text-sm text-white placeholder-gray-500"
+      />
+    </div>
+  );
+}
+
+export default function CreateProjectForm() {
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [content2, setContent2] = useState('');
+  const [resume, setResume] = useState('');
+  const [image, setImage] = useState<File | null>(null);
+  const [image2, setImage2] = useState<File | null>(null);
+  const [imageTitle, setImageTitle] = useState('');
+  const [imageTitle2, setImageTitle2] = useState('');
+  const [link, setLink] = useState('');
+  const [siteUrl, setSiteUrl] = useState('');
+  const [siteUrlPublic, setSiteUrlPublic] = useState(false);
+  const [visible, setVisible] = useState(true);
+  const [createdAt, setCreatedAt] = useState('');
+  const [tags, setTags] = useState<string[]>([]);
+  const [preview, setPreview] = useState<string | null>(null);
+  const [preview2, setPreview2] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+
+    if (file) {
+      setImage(file);
+        // Créer un aperçu de l'image
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+
+    }
+  };
+  const handleImageChange2 = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file2 = e.target.files?.[0];
+    if (file2) {
+        setImage2(file2);
+        // Créer un aperçu de l'image
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setPreview2(reader.result as string);
+        };
+        reader.readAsDataURL(file2);
+        }
+    }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('content', content);
+      formData.append('content2', content2);
+      formData.append('resume', resume);
+      formData.append('link', link);
+      formData.append('siteUrl', siteUrl);
+      formData.append('siteUrlPublic', siteUrlPublic ? 'true' : 'false');
+      formData.append('visible', visible ? 'true' : 'false');
+      formData.append('tagsTouched', '1');
+      if (createdAt) formData.append('createdAt', createdAt);
+      if (image) {
+        formData.append('image', image);
+        formData.append('imageTitle', imageTitle);
+      }
+      if (image2) {
+        formData.append('image2', image2);
+        formData.append('imageTitle2', imageTitle2);
+      }
+      tags.forEach(t => formData.append('tags', t));
+
+      const response = await fetch('/api/projects', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        alert('Projet créé avec succès !');
+        //router.refresh();
+        router.push('/projects');
+      } else {
+        const data = await response.json();
+        alert(`Erreur: ${data.error}`);
+      }
+    } catch (error) {
+      console.error('Erreur:', error);
+      alert('Erreur lors de la création du projet');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="max-w-2xl mx-auto p-6 space-y-6">
+      <h2 className="text-2xl font-bold">Créer un nouveau projet</h2>
+
+      {/* Champ Titre */}
+      <div>
+        <label htmlFor="title" className="block mb-2 font-medium">
+          Titre
+        </label>
+        <input
+          type="text"
+          id="title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+          className="w-full px-4 py-2 border rounded-lg  border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Entrez le titre du projet"
+        />
+      </div>
+        {/* Champ Résume */}
+      <div>
+        <label htmlFor="resume" className="block mb-2 font-medium">
+          Resumé
+        </label>
+        <textarea
+          id="resume"
+          value={resume}
+          onChange={(e) => setResume(e.target.value)}
+          required
+          className="w-full px-4 py-2 border rounded-lg border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Résumé du projet..."
+        />
+      </div>
+      {/* Champ Contenu */}
+      <div>
+        <label htmlFor="content" className="block mb-2 font-medium">
+          Contenu
+        </label>
+        <textarea
+          id="contenu"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          required
+          rows={2}
+          className="w-full px-4 py-2 border rounded-lg border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Présentation 1 du projet..."
+        />
+      </div>
+       {/* Champ Contenu 2*/}
+      <div>
+        <label htmlFor="content2" className="block mb-2 font-medium">
+          Contenu 2 (optionnel)
+        </label>
+        <textarea
+          id="content2"
+          value={content2}
+          onChange={(e) => setContent2(e.target.value)}
+          rows={2}
+          className="w-full px-4 py-2 border rounded-lg border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Présentation 2 du projet..."
+        />
+      </div>
+
+      {/* Champ Image */}
+      <div>
+        <label htmlFor="image" className="block mb-2 font-medium">
+          Image (optionnelle)
+        </label>
+        <input
+          type="file"
+          id="image"
+          accept="image/*"
+          onChange={handleImageChange}
+          className="w-full px-4 py-2 border rounded-lg border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+      <div>
+        <label htmlFor="imageTitle" className="block mb-2 font-medium">
+          Titre Image
+        </label>
+        <textarea
+          id="imageTitle"
+          value={imageTitle}
+          onChange={(e) => setImageTitle(e.target.value)}
+          required
+          rows={2}
+          className="w-full px-4 py-2 border rounded-lg border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Présentation 2 du projet..."
+        />
+      </div>
+
+      {/* Aperçu de l'image */}
+      {preview && (
+        <div className="relative w-full h-64">
+          <p className="mb-2 text-sm text-gray-600 dark:text-gray-400">Aperçu :</p>
+          <Image
+            src={preview}
+            alt="Aperçu"
+            fill
+            className="object-contain rounded-lg"
+          />
+        </div>
+      )}
+      {/* Champ Image 2*/}
+      <div>
+        <label htmlFor="image2" className="block mb-2 font-medium">
+          Image (optionnelle)
+        </label>
+        <input
+          type="file"
+          id="image2"
+          accept="image/*"
+          onChange={handleImageChange2}
+          className="w-full px-4 py-2 border rounded-lg border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+      <div>
+        <label htmlFor="imageTitle2" className="block mb-2 font-medium">
+          Titre Image 2
+        </label>
+        <textarea
+          id="imageTitle2"
+          value={imageTitle2}
+          onChange={(e) => setImageTitle2(e.target.value)}
+          className="w-full px-4 py-2 border rounded-lg border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Présentation 2 du projet..."
+        />
+      </div>
+      {/* Aperçu de l'image 2 */}
+      {preview2 && (
+        <div className="relative w-full h-64">
+          <p className="mb-2 text-sm text-gray-600 dark:text-gray-400">Aperçu 2:</p>
+          <Image
+            src={preview2}
+            alt="Aperçu"
+            fill
+            className="object-contain rounded-lg"
+          />
+        </div>
+        
+      )}
+      {/* Champ lien github*/}
+      <div>
+        <label htmlFor="link" className="block mb-2 font-medium">
+          Lien Github (optionnel)
+        </label>
+        <textarea
+          id="link"
+          value={link}
+          onChange={(e) => setLink(e.target.value)}
+          className="w-full px-4 py-2 border rounded-lg border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="https://github/hadrienvinay/Project"
+        />
+      </div>
+
+      {/* Champ lien du site en ligne */}
+      <div>
+        <label htmlFor="siteUrl" className="block mb-2 font-medium">
+          Lien du site en ligne (optionnel)
+        </label>
+        <input
+          type="url"
+          id="siteUrl"
+          value={siteUrl}
+          onChange={(e) => setSiteUrl(e.target.value)}
+          className="w-full px-4 py-2 border rounded-lg border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="https://mon-projet.vercel.app"
+        />
+        <label className="flex items-center gap-2 mt-2 text-sm text-gray-400">
+          <input
+            type="checkbox"
+            checked={siteUrlPublic}
+            onChange={(e) => setSiteUrlPublic(e.target.checked)}
+            className="rounded"
+          />
+          Afficher ce lien sur la page publique du projet
+        </label>
+      </div>
+
+      {/* Champ Date de création */}
+      <div>
+        <label htmlFor="createdAt" className="block mb-2 font-medium">
+          Date de création
+        </label>
+        <input
+          type="date"
+          id="createdAt"
+          value={createdAt}
+          onChange={(e) => setCreatedAt(e.target.value)}
+          className="w-full px-4 py-2 border rounded-lg border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      {/* Tags */}
+      <div>
+        <label className="block mb-2 font-medium">Technologies utilisées</label>
+        <TagInput tags={tags} onChange={setTags} />
+        <p className="mt-1 text-xs text-gray-500">Entrée ou virgule pour valider chaque tag</p>
+      </div>
+
+      {/* Visibilité sur /projects */}
+      <div>
+        <label className="flex items-center gap-2 text-sm font-medium">
+          <input
+            type="checkbox"
+            checked={visible}
+            onChange={(e) => setVisible(e.target.checked)}
+            className="rounded"
+          />
+          Visible sur la page /projects
+        </label>
+      </div>
+
+      {/* Bouton Submit */}
+      <button
+        type="submit"
+        disabled={isSubmitting}
+        className="w-full px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+      >
+        {isSubmitting ? 'Création en cours...' : 'Créer le projet'}
+      </button>
+    </form>
+  );
+}
+
+
+export  function EditProjectForm(props?: ProjectFormProps) {
+  const projectId = props?.initialData?.id
+  console.log(projectId)
+  const [title, setTitle] = useState(props?.initialData?.title ?? '');
+  const [content, setContent] = useState(props?.initialData?.content ?? '');
+  const [content2, setContent2] = useState(props?.initialData?.content2 ?? '');
+  const [resume, setResume] = useState(props?.initialData?.resume ?? '');
+  const [imagePath, setImagePath] = useState(props?.initialData?.image);
+  const [image2Path, setImage2Path] = useState(props?.initialData?.image2);
+  const [image, setImage] = useState<File| null>(null);
+  const [image2, setImage2] = useState<File | null>(null);
+
+  const [imageTitle, setImageTitle] = useState(props?.initialData?.imageTitle ??'');
+  const [imageTitle2, setImageTitle2] = useState(props?.initialData?.imageTitle2 ?? '');
+  const [link, setLink] = useState(props?.initialData?.link ??'');
+  const [siteUrl, setSiteUrl] = useState(props?.initialData?.siteUrl ?? '');
+  const [siteUrlPublic, setSiteUrlPublic] = useState(props?.initialData?.siteUrlPublic ?? false);
+  const [visible, setVisible] = useState(props?.initialData?.visible ?? true);
+  const [createdAt, setCreatedAt] = useState(props?.initialData?.createdAt ?? '');
+  const [tags, setTags] = useState<string[]>(props?.initialData?.tags ?? []);
+  const [preview, setPreview] = useState<string | null>(null);
+  const [preview2, setPreview2] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+
+    if (file) {
+      setImage(file);
+        // Créer un aperçu de l'image
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+      
+    }
+  };
+  const handleImageChange2 = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file2 = e.target.files?.[0];
+    if (file2) {
+        setImage2(file2);
+        // Créer un aperçu de l'image
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setPreview2(reader.result as string);
+        };
+        reader.readAsDataURL(file2);
+        }
+    }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('content', content);
+      formData.append('content2', content2);
+      formData.append('resume', resume);
+      formData.append('link', link);
+      formData.append('siteUrl', siteUrl);
+      formData.append('siteUrlPublic', siteUrlPublic ? 'true' : 'false');
+      formData.append('visible', visible ? 'true' : 'false');
+      formData.append('imageTitle',imageTitle)
+      formData.append('imageTitle2',imageTitle2)
+      formData.append('tagsTouched', '1');
+      if (createdAt) formData.append('createdAt', createdAt);
+
+      if (image) formData.append('image', image);
+      if (image2) formData.append('image2', image2);
+      tags.forEach(t => formData.append('tags', t));
+
+      const response = await fetch(`/api/projects/${projectId}`, {
+        method: 'PUT',
+        body: formData,
+      });
+
+      if (response.ok) {
+        alert('Projet modifié avec succès !');
+        //router.refresh();
+        router.push('/projects');
+      } else {
+        const data = await response.json();
+        alert(`Erreur: ${data.error}`);
+      }
+    } catch (error) {
+      console.error('Erreur:', error);
+      alert('Erreur lors de la modification du projet');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="max-w-2xl mx-auto p-6 space-y-6">
+      <h2 className="text-2xl font-bold">Modifier le projet {title}</h2>
+
+      {/* Champ Titre */}
+      <div>
+        <label htmlFor="title" className="block mb-2 font-medium">
+          Titre
+        </label>
+        <input
+          type="text"
+          id="title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+          className="w-full px-4 py-2 border rounded-lg  border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Entrez le titre du projet"
+        />
+      </div>
+        {/* Champ Résume */}
+      <div>
+        <label htmlFor="resume" className="block mb-2 font-medium">
+          Resumé
+        </label>
+        <textarea
+          id="resume"
+          value={resume}
+          onChange={(e) => setResume(e.target.value)}
+          required
+          className="w-full px-4 py-2 border rounded-lg border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Résumé du projet..."
+        />
+      </div>
+      {/* Champ Contenu */}
+      <div>
+        <label htmlFor="content" className="block mb-2 font-medium">
+          Contenu
+        </label>
+        <textarea
+          id="contenu"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          required
+          rows={2}
+          className="w-full px-4 py-2 border rounded-lg border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Présentation 1 du projet..."
+        />
+      </div>
+       {/* Champ Contenu 2*/}
+      <div>
+        <label htmlFor="content2" className="block mb-2 font-medium">
+          Contenu 2
+        </label>
+        <textarea
+          id="content2"
+          value={content2}
+          onChange={(e) => setContent2(e.target.value)}
+          required
+          rows={2}
+          className="w-full px-4 py-2 border rounded-lg border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Présentation 2 du projet..."
+        />
+      </div>
+
+      {/* Champ Image */}
+      <div>
+        <label htmlFor="image" className="block mb-2 font-medium">
+          Image : { imagePath }
+        </label>
+        <input
+          type="file"
+          id="image"
+          accept="image/*"
+          onChange={handleImageChange}
+          className="w-full px-4 py-2 border rounded-lg border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+      <div>
+        <label htmlFor="imageTitle" className="block mb-2 font-medium">
+          Titre Image
+        </label>
+        <textarea
+          id="imageTitle"
+          value={imageTitle}
+          onChange={(e) => setImageTitle(e.target.value)}
+          className="w-full px-4 py-2 border rounded-lg border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Présentation 2 du projet..."
+        />
+      </div>
+
+      {/* Aperçu de l'image */}
+      {preview && (
+        <div className="relative w-full h-64">
+          <p className="mb-2 text-sm text-gray-600 dark:text-gray-400">Aperçu :</p>
+          <Image
+            src={preview}
+            alt="Aperçu"
+            fill
+            className="object-contain rounded-lg"
+          />
+        </div>
+      )}
+      {/* Champ Image 2*/}
+      <div>
+        <label htmlFor="image2" className="block mb-2 font-medium">
+            Image { image2Path }
+        </label>
+        <input
+          type="file"
+          id="image2"
+          accept="image/*"
+          onChange={handleImageChange2}
+          className="w-full px-4 py-2 border rounded-lg border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+      <div>
+        <label htmlFor="imageTitle2" className="block mb-2 font-medium">
+          Titre Image 2
+        </label>
+        <textarea
+          id="imageTitle2"
+          value={imageTitle2}
+          onChange={(e) => setImageTitle2(e.target.value)}
+          className="w-full px-4 py-2 border rounded-lg border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Présentation 2 du projet..."
+        />
+      </div>
+      {/* Aperçu de l'image 2 */}
+      {preview2 && (
+        <div className="relative w-full h-64">
+          <p className="mb-2 text-sm text-gray-600 dark:text-gray-400">Aperçu 2:</p>
+          <Image
+            src={preview2}
+            alt="Aperçu"
+            fill
+            className="object-contain rounded-lg"
+          />
+        </div>
+        
+      )}
+      {/* Champ lien github*/}
+      <div>
+        <label htmlFor="link" className="block mb-2 font-medium">
+          Lien Github
+        </label>
+        <textarea
+          id="link"
+          value={link}
+          onChange={(e) => setLink(e.target.value)}
+          required
+          className="w-full px-4 py-2 border rounded-lg border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="https://github/hadrienvinay/Project"
+        />
+      </div>
+
+      {/* Champ lien du site en ligne */}
+      <div>
+        <label htmlFor="siteUrl-edit" className="block mb-2 font-medium">
+          Lien du site en ligne (optionnel)
+        </label>
+        <input
+          type="url"
+          id="siteUrl-edit"
+          value={siteUrl}
+          onChange={(e) => setSiteUrl(e.target.value)}
+          className="w-full px-4 py-2 border rounded-lg border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="https://mon-projet.vercel.app"
+        />
+        <label className="flex items-center gap-2 mt-2 text-sm text-gray-400">
+          <input
+            type="checkbox"
+            checked={siteUrlPublic}
+            onChange={(e) => setSiteUrlPublic(e.target.checked)}
+            className="rounded"
+          />
+          Afficher ce lien sur la page publique du projet
+        </label>
+      </div>
+
+      {/* Champ Date de création */}
+      <div>
+        <label htmlFor="createdAt-edit" className="block mb-2 font-medium">
+          Date de création
+        </label>
+        <input
+          type="date"
+          id="createdAt-edit"
+          value={createdAt}
+          onChange={(e) => setCreatedAt(e.target.value)}
+          className="w-full px-4 py-2 border rounded-lg border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      {/* Tags */}
+      <div>
+        <label className="block mb-2 font-medium">Technologies utilisées</label>
+        <TagInput tags={tags} onChange={setTags} />
+        <p className="mt-1 text-xs text-gray-500">Entrée ou virgule pour valider chaque tag</p>
+      </div>
+
+      {/* Visibilité sur /projects */}
+      <div>
+        <label className="flex items-center gap-2 text-sm font-medium">
+          <input
+            type="checkbox"
+            checked={visible}
+            onChange={(e) => setVisible(e.target.checked)}
+            className="rounded"
+          />
+          Visible sur la page /projects
+        </label>
+      </div>
+
+      {/* Bouton Submit */}
+      <button
+        type="submit"
+        disabled={isSubmitting}
+        className="w-full px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+      >
+        {isSubmitting ? 'Modification en cours...' : 'Modifier le projet'}
+      </button>
+    </form>
+  );
+}

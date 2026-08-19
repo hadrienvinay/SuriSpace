@@ -1,10 +1,42 @@
 import "./globals.css";
-import { ThemeProvider } from "@/components/ThemeProvider"
-import  NavBar from '@/components/Navbar'
+import type { Metadata } from 'next';
+import NavBar from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
+import ScrollToTop from '@/components/buttons/ScrollToTop';
+import { JsonLd } from '@/components/common/JsonLd';
 
-export const metadata = {
-  title: "Suri Space",
-  description: "Blog Moderne realisé par Hadrien Vinay 2026",
+export const metadata: Metadata = {
+  metadataBase: new URL('https://suri-space.vercel.app'),
+  title: {
+    default: 'Hadrien Vinay — Suri Space',
+    template: '%s | Hadrien Vinay — Suri Space',
+  },
+  description: "Portfolio et blog d'Hadrien Vinay — Explorez l'espace, la physique, la chimie atomique, les projets et les sciences.",
+  keywords: ['portfolio', 'Hadrien Vinay', 'espace', 'astronomie', 'physique', 'chimie', 'tableau périodique', 'sciences', 'aéronautique'],
+  authors: [{ name: 'Hadrien Vinay' }],
+  creator: 'Hadrien Vinay',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true },
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'fr_FR',
+    siteName: 'Hadrien Vinay — Suri Space',
+    title: 'Hadrien Vinay — Suri Space',
+    description: "Portfolio et blog d'Hadrien Vinay — Espace, sciences et projets.",
+    images: [{ url: '/blog.png', width: 1200, height: 630, alt: 'Suri Space — Portfolio Hadrien Vinay' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Hadrien Vinay — Suri Space',
+    description: "Portfolio et blog d'Hadrien Vinay — Espace, sciences et projets.",
+    images: ['/blog.png'],
+  },
+  alternates: {
+    canonical: '/',
+  },
 };
 
 export default function RootLayout({
@@ -15,24 +47,67 @@ export default function RootLayout({
 
   return (
     <html lang="fr" className="scroll-smooth" suppressHydrationWarning>
-      <body className="bg-white text-white dark:bg-black dark:text-white">
-        <ThemeProvider attribute="class" defaultTheme="dark">
-        {/* HEADER */}
-        <header className="fixed top-0 left-0 right-0 backdrop-blur bg-white/70 dark:bg-gray-900/70 border-b border-gray-200/40 dark:border-gray-700/40 z-50">
-          <NavBar/>            
-        </header>
+      <head>
+        <meta name="theme-color" content="#020817" />
+        <meta name="google-site-verification" content="PqO9oQhvNlVwu7NcTg2wRbHE5iBzwN1UrF_-_xCzLM8" />
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="alternate" type="application/rss+xml" title="Suri Space — Articles" href="/feed.xml" />
+      </head>
+      <body className="flex flex-col">
+          <JsonLd data={{
+            '@context': 'https://schema.org',
+            '@type': 'Person',
+            name: 'Hadrien Vinay',
+            url: 'https://suri-space.vercel.app',
+            jobTitle: 'Ingénieur aéronautique',
+            sameAs: [
+              'https://www.linkedin.com/in/hadrien-vinay',
+              'https://github.com/hadrienvinay',
+            ],
+            knowsAbout: ['aéronautique', 'espace', 'astronomie', 'physique', 'systèmes embarqués', 'développement web'],
+          }} />
+          {/* Deep space background */}
+          <div className="fixed inset-0 z-0 pointer-events-none">
+            <div
+              className="absolute inset-0 space-background"
+              style={{
+                background:
+                  'radial-gradient(ellipse at 20% 50%, rgba(30,58,138,0.18) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(88,28,135,0.12) 0%, transparent 50%)',
+              }}
+            />
+            {Array.from({ length: 80 }, (_, i) => (
+              <div
+                key={i}
+                className="absolute rounded-full"
+                style={{
+                  width: i % 5 === 0 ? 2.5 : 1.5,
+                  height: i % 5 === 0 ? 2.5 : 1.5,
+                  background: `rgba(255,255,255,${0.15 + ((i * 37) % 60) / 100})`,
+                  left: `${(i * 17.3) % 100}%`,
+                  top: `${(i * 11.7) % 100}%`,
+                  boxShadow: i % 6 === 0 ? '0 0 4px rgba(255,255,255,0.4)' : 'none',
+                }}
+              />
+            ))}
+          </div>
 
-        {/* CONTENT */}
-        <main className="max-w-7xl md:px-0 sm:px-0 mx-auto lg:px-6 pt-10 pb-14">
-          {children}
-        </main>
+          {/* HEADER */}
+          <header
+            className="fixed top-0 left-0 right-0 z-50"
+            style={{ background: 'rgba(2,8,23,0.92)', backdropFilter: 'blur(16px)', borderBottom: '1px solid rgba(255,255,255,0.07)' }}
+          >
+            <NavBar />
+          </header>
 
+          {/* CONTENT */}
+          <main className="flex-1 pt-16 pb-2 relative z-10">
+            <ScrollToTop />
+            {children}
+          </main>
 
-        {/* FOOTER */}
-        <footer className="py-6 text-center text-gray-500 border-t border-gray-200 dark:border-gray-700">
-          © Hadrien Vinay — Blog Page - {new Date().getFullYear()}
-        </footer>
-      </ThemeProvider>
+          {/* FOOTER */}
+          <Footer />
+
       </body>
     </html>
   );

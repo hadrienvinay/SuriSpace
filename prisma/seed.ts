@@ -14,17 +14,6 @@ const userData: Prisma.UserCreateInput[] = [
   {
     name: "Suri",
     email: "hadrien.vinay@yahoo.fr",
-    posts: {
-      create: [
-        {
-          title: "Le spatial en 2026",
-          content: "https://pris.ly/youtube",
-          image: "/uploads/default.webp",
-          published: true,
-        },
-
-      ],
-    },
     projects: {
       create: [
         {
@@ -57,8 +46,8 @@ const userData: Prisma.UserCreateInput[] = [
           link: "https://github.com/hadrienvinay/SuriSpace",
           image: "/blog.png",
           imageTitle: "Capture d'écran du blog personnel",
-          image2: "/bdd.png",
-          image2Title: "Schéma de la base de données",
+          image2: "/atomes.png",
+          image2Title: "Tableau de Mendeleïev",
           createdAt: new Date('2026-01-15'),
 
         },
@@ -68,7 +57,7 @@ const userData: Prisma.UserCreateInput[] = [
           content: "Permet de créer et de résoudre des grilles de Sudoku de différentes difficultés. Interface utilisateur simple avec pour le moment une saisie manuele des grilles dans le code source (premières lignes du fichier main.c). ",
           content2: "Peut être amélioré en utilisant des algorithmes de backtracking pour trouver la solution optimale plus rapidement et en ajoutant une interface graphique pour une meilleure expérience utilisateur. Pour le moment le rendu est dans le terminal. Je pense le refaire avec comme input une image prise en photo d'une grille de Sudoku et utiliser la reconnaissance d'image pour extraire la grille automatiquement.",
           link: "https://github.com/hadrienvinay/sudoku",
-          image: "/sudoku1.png",
+          image: "/sudoku.png",
           imageTitle: "Capture d'écran du solveur Sudoku - Initialisation",
           image2: "/sudoku2.png",
           image2Title: "Fin de la résolution du Sudoku",
@@ -139,7 +128,7 @@ const linkData =  [
     description: "Interview, articles économie, société, politique ",
     image: "/default.png",
     tag: "Education, Economie",
-    link: "https://www.elucid-media.fr"
+    link: "https://elucid.media/"
   },
   {
     title: "Idriss Aberkane",
@@ -561,6 +550,122 @@ const actionsData: Prisma.ActionCreateInput[] = [
 ];
 
 
+const bookData: Prisma.BookCreateManyInput[] = [
+  // ── 2021 ──────────────────────────────────────────────────────────
+  { title: "L'insoutenable légèreté de l'être", author: "Milan Kundera",            date: "1984", dateRead: "2021-01" },
+  { title: "L'immortalité",                      author: "Milan Kundera",            date: "1990", dateRead: "2021-01" },
+  { title: "Risibles Amours",                    author: "Milan Kundera",            date: "1969", dateRead: "2021-01" },
+  { title: "Le tour du monde en 80 jours",       author: "Jules Verne",              date: "1872", dateRead: "2021-01" },
+  { title: "Malevil",                            author: "Barjavel",                 date: "1972", dateRead: "2021-01" },
+  { title: "L'écume des jours",                  author: "Boris Vian",               date: "1947", dateRead: "2021-01" },
+  { title: "Jonathan Livingston Le Goéland",     author: "Richard Bach",             date: "1970", dateRead: "2021-01" },
+  { title: "Nouvelles du Paradis",               author: "David Lodge",              date: "1991", dateRead: "2021-01" },
+  { title: "L'enfant de Noé",                    author: "Éric-Emmanuel Schmitt",    date: "2004", dateRead: "2021-01" },
+  { title: "Cantique pour les étoiles",          author: "Simon Jimenez",            date: "2021", dateRead: "2021-01" },
+  { title: "Arsène Lupin, gentleman cambrioleur",author: "Maurice Leblanc",          date: "1907", dateRead: "2021-01" },
+  { title: "La promesse de l'aube",              author: "Romain Gary",              date: "1960", dateRead: "2021-01" },
+  { title: "Petit guide de la conscience",       author: "Inconnu",                  date: "",     dateRead: "2021-01" },
+  { title: "Une brève histoire de l'avenir",     author: "Jacques Attali",           date: "2006", dateRead: "2021-01" },
+  { title: "Les fourmis",                        author: "Bernard Werber",           date: "1991", dateRead: "2021-01" },
+  { title: "L'appel de la forêt",                author: "Jack London",              date: "1903", dateRead: "2021-01" },
+
+  // ── 2022 ──────────────────────────────────────────────────────────
+  { title: "Comme un roman",                                   author: "Daniel Pennac",              date: "1992", dateRead: "2022-01" },
+  { title: "La petite marchande de prose",                     author: "Daniel Pennac",              date: "1989", dateRead: "2022-01" },
+  { title: "La Horde du Contrevent",                           author: "Alain Damasio",              date: "2004", dateRead: "2022-01" },
+  { title: "La loi du plus faible",                            author: "John Grisham",               date: "1999", dateRead: "2022-01" },
+  { title: "Le plan de transformation de l'économie française",author: "Shift Project",              date: "2020", dateRead: "2022-01" },
+  { title: "1984",                                             author: "Georges Orwell",             date: "1949", dateRead: "2022-01" },
+  { title: "Magellan",                                         author: "Stefan Zweig",               date: "1938", dateRead: "2022-01" },
+  { title: "Les particules élémentaires",                      author: "Michel Houellebecq",         date: "1998", dateRead: "2022-01" },
+  { title: "Les fourmis (Tome 1 à 3)",                         author: "Bernard Werber",             date: "1991", dateRead: "2022-01" },
+  { title: "Diderot, le bonheur de penser",                    author: "Jacques Attali",             date: "2012", dateRead: "2022-01" },
+  { title: "Vol de nuit",                                      author: "Antoine de Saint-Exupéry",   date: "1931", dateRead: "2022-01" },
+  { title: "Au-delà de l'impossible",                          author: "Didier Van Cauwelaert",      date: "2005", dateRead: "2022-01" },
+  { title: "Un aller simple",                                  author: "Didier Van Cauwelaert",      date: "1994", dateRead: "2022-01" },
+  { title: "La plume empoisonnée",                             author: "Agatha Christie",            date: "1945", dateRead: "2022-01" },
+  { title: "Le bonheur était pour demain",                     author: "Philippe Bihouix",           date: "2014", dateRead: "2022-01" },
+  { title: "Un animal doté de raison",                         author: "Inconnu",                    date: "",     dateRead: "2022-01" },
+  { title: "Signé la tortue / À vous le plaisir",              author: "James Hadley Chase",         date: "",     dateRead: "2022-01" },
+
+  // ── 2023 ──────────────────────────────────────────────────────────
+  { title: "Vernon Subutex (1 et 2)",              author: "Virginie Despentes",        date: "2015", dateRead: "2023-01" },
+  { title: "Opuscules sur l'histoire",             author: "Kant",                      date: "1784", dateRead: "2023-01" },
+  { title: "Denier du rêve",                       author: "Marguerite Yourcenar",      date: "1934", dateRead: "2023-01" },
+  { title: "Life and Times of Michael K",          author: "J. M. Coetzee",             date: "1983", dateRead: "2023-01" },
+  { title: "Les Furtifs",                          author: "Alain Damasio",             date: "2019", dateRead: "2023-01" },
+  { title: "Le rayon vert",                        author: "Jules Verne",               date: "1882", dateRead: "2023-01" },
+  { title: "Ravage",                               author: "René Barjavel",             date: "1943", dateRead: "2023-01" },
+  { title: "Les lions du Panshir",                 author: "Ken Follett",               date: "1986", dateRead: "2023-01" },
+  { title: "Où est le sens",                       author: "Sébastien Bohler",          date: "2020", dateRead: "2023-01" },
+  { title: "Thérapie",                             author: "David Lodge",               date: "1995", dateRead: "2023-01" },
+  { title: "L'éloge de la fuite",                  author: "Henri Laborit",             date: "1976", dateRead: "2023-01" },
+  { title: "Long Shadows",                         author: "David Baldacci",            date: "2022", dateRead: "2023-01" },
+  { title: "Voir",                                 author: "Carlos Castaneda",          date: "1974", dateRead: "2023-01" },
+  { title: "007: Bons baisers de Russie",          author: "Ian Fleming",               date: "1957", dateRead: "2023-01" },
+  { title: "Journal d'un apprenti chaman",         author: "Corine Sombrun",            date: "2002", dateRead: "2023-01" },
+  { title: "Terre des Hommes",                     author: "Antoine de Saint-Exupéry",  date: "1939", dateRead: "2023-01" },
+  { title: "Jung",                                 author: "Frédéric Lenoir",           date: "2017", dateRead: "2023-01" },
+  { title: "La légende",                           author: "David Gemmell",             date: "1984", dateRead: "2023-01" },
+  { title: "La Zone du dehors",                    author: "Alain Damasio",             date: "1999", dateRead: "2023-01" },
+  { title: "Sciences de l'âme",                    author: "André Dumas",               date: "",     dateRead: "2023-01" },
+  { title: "Sur la route du papier",               author: "Erik Orsenna",              date: "2012", dateRead: "2023-01" },
+  { title: "Cœur et âme",                          author: "Frank Conroy",              date: "1993", dateRead: "2023-01" },
+  { title: "Mémoires d'Hadrien",                   author: "Marguerite Yourcenar",      date: "1951", dateRead: "2023-01" },
+  { title: "J'irai nager dans plus de rivières",   author: "Philippe Labro",            date: "",     dateRead: "2023-01" },
+
+  // ── 2024 ──────────────────────────────────────────────────────────
+  { title: "La Métamorphose",                           author: "Franz Kafka",             date: "1915", dateRead: "2024-01" },
+  { title: "Le labyrinthe des égarés",                  author: "Amin Maalouf",            date: "2023", dateRead: "2024-01" },
+  { title: "Un voyant à la recherche du temps futur",   author: "Belline",                 date: "",     dateRead: "2024-01" },
+  { title: "Les gens de la nuit",                       author: "Michel Déon",             date: "1975", dateRead: "2024-01" },
+  { title: "Recherche Scientifique: un naufrage mondial",author: "Jean-Pierre Petit",      date: "",     dateRead: "2024-01" },
+  { title: "Eutopia",                                   author: "Camille Leboulanger",     date: "2022", dateRead: "2024-01" },
+  { title: "La pensée de Dieu",                         author: "Igor Bogdanov",           date: "",     dateRead: "2024-01" },
+  { title: "Flash",                                     author: "Inconnu",                 date: "",     dateRead: "2024-01" },
+  { title: "Le choc des générations",                   author: "Inconnu",                 date: "",     dateRead: "2024-01" },
+  { title: "Le sursaut",                                author: "Franz-Olivier Giesbert",  date: "2024", dateRead: "2024-01" },
+  { title: "Da Vinci Code",                             author: "Dan Brown",               date: "2003", dateRead: "2024-01" },
+
+  // ── 2025 ──────────────────────────────────────────────────────────
+  { title: "Biographie Napoléon III",                    author: "Pierre Milza",                     date: "",     dateRead: "2025-01" },
+  { title: "Le grand livre des coïncidences",            author: "Paul Kammerer",                    date: "1919", dateRead: "2025-01" },
+  { title: "888",                                        author: "Pierre Jovanovic",                 date: "",     dateRead: "2025-01" },
+  { title: "Problème à trois corps",                     author: "Liu Cixin",                        date: "2008", dateRead: "2025-01" },
+  { title: "Les chiens de Riga",                         author: "Henning Mankell",                  date: "1992", dateRead: "2025-01" },
+  { title: "La radiesthésie",                            author: "Inconnu",                          date: "",     dateRead: "2025-01" },
+  { title: "La muraille de lave",                        author: "Arnaldur Indridason",              date: "2012", dateRead: "2025-01" },
+  { title: "Pourquoi les méduses ne vieillissent pas",   author: "Nicklas Brenberg",                 date: "2013", dateRead: "2025-01" },
+  { title: "Récits d'un voyageur de l'astral",           author: "Anne Givaudan, Daniel Meurois",    date: "1987", dateRead: "2025-01" },
+  { title: "Je vais mieux",                              author: "David Foenkinos",                  date: "2013", dateRead: "2025-01" },
+  { title: "Ainsi parlait Zarathoustra",                 author: "Friedrich Nietzsche",              date: "1883", dateRead: "2025-01" },
+  { title: "La condition humaine",                       author: "André Malraux",                    date: "1933", dateRead: "2025-01" },
+  { title: "Le médecin de campagne",                     author: "Honoré de Balzac",                 date: "1833", dateRead: "2025-01" },
+  { title: "La chartreuse de Parme",                     author: "Stendhal",                         date: "1839", dateRead: "2025-01" },
+  { title: "Quatre-Vingt-Treize",                        author: "Victor Hugo",                      date: "1874", dateRead: "2025-01" },
+  { title: "Quand la machine apprend",                   author: "Yann LeCun",                       date: "2019", dateRead: "2025-01" },
+  { title: "Récits de voyage",                           author: "Guy de Maupassant",                date: "",     dateRead: "2025-01" },
+  { title: "Histoire secrète de la conquête spatiale",   author: "Stéphane Koechlin",                date: "2019", dateRead: "2025-01" },
+  { title: "La partie et le tout",                       author: "Werner Heisenberg",                date: "1969", dateRead: "2025-01" },
+
+  // ── 2026 ──────────────────────────────────────────────────────────
+  { title: "L'argent",                           author: "Émile Zola",                    date: "1891", dateRead: "2026-01" },
+  { title: "Lettre à Ménécée",                   author: "Épicure",                       date: "-300", dateRead: "2026-01" },
+  { title: "Le manifeste du parti communiste",   author: "Karl Marx",                     date: "1848", dateRead: "2026-01" },
+  { title: "Au pays de l'or noir",               author: "Philippe Pétriat",              date: "",     dateRead: "2026-01" },
+  { title: "La guerre des mondes",               author: "H. G. Wells",                   date: "1898", dateRead: "2026-01" },
+  { title: "Technique du coup d'état",           author: "Curzio Malaparte",              date: "1931", dateRead: "2026-01" },
+  { title: "Crime et Châtiment",                 author: "Fiodor Dostoïevski",            date: "1866", dateRead: "2026-01" },
+  { title: "La dernière frontière",              author: "Volodia Petropavlovsky",         date: "",     dateRead: "2026-01" },
+  { title: "Investir en Bourse avec succès",     author: "Didier Vitrac",                 date: "",     dateRead: "2026-01" },
+  { title: "Du contrat social",                  author: "Jean-Jacques Rousseau",         date: "1762", dateRead: "2026-01" },
+  { title: "Un million de révolutions tranquilles", author: "Bénédicte Manier",           date: "2012", dateRead: "2026-01" },
+  { title: "Propos sur les pouvoirs",            author: "Alain",                         date: "1925", dateRead: "2026-01" },
+  { title: "T-REX",                              author: "Douglas Preston",               date: "",     dateRead: "2026-01" },
+  { title: "Si Einstein avait su",               author: "Alain Aspect",                  date: "",     dateRead: "2026-01" },
+  { title: "Libérer votre cerveau",              author: "Idriss Aberkane",               date: "2016", dateRead: "2026-01" },
+];
+
 export async function main() {
   for (const u of userData) {
     await prisma.user.create({ data: u });
@@ -571,6 +676,10 @@ export async function main() {
     });
     await prisma.action.createMany({
         data: actionsData
+    });
+    await prisma.book.createMany({
+        data: bookData,
+        skipDuplicates: true,
     });
 }
 
