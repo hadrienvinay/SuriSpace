@@ -35,6 +35,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE}/atoms/abondance`,             changeFrequency: monthly, priority: 0.6 },
     { url: `${BASE}/atoms/nucleosynthese`,        changeFrequency: monthly, priority: 0.6 },
     { url: `${BASE}/atoms/particules`,            changeFrequency: monthly, priority: 0.6 },
+    { url: `${BASE}/atoms/instruments`,           changeFrequency: monthly, priority: 0.6 },
 
     // Solar system
     { url: `${BASE}/space`,                changeFrequency: monthly, priority: 0.8 },

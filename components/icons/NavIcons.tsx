@@ -119,6 +119,9 @@ export function IcoChart({ color }: { color: string }) {
 export function IcoRadiation({ color }: { color: string }) {
   return <svg viewBox="0 0 16 16" width="14" height="14" fill="none"><circle cx="8" cy="8" r="2" fill={color} />{[0,120,240].map((a,i) => { const r=Math.PI*a/180; const x1=8+2.2*Math.cos(r), y1=8+2.2*Math.sin(r); const x2=8+6*Math.cos(r), y2=8+6*Math.sin(r); return <path key={i} d={`M ${x1} ${y1} L ${x2} ${y2}`} stroke={color} strokeWidth="2.5" strokeLinecap="round" />; })}</svg>;
 }
+export function IcoCollider({ color }: { color: string }) {
+  return <svg viewBox="0 0 16 16" width="14" height="14" fill="none"><circle cx="8" cy="8" r="6" stroke={color} strokeWidth="1.3" fill="none" strokeDasharray="2.4 1.6" /><circle cx="8" cy="8" r="1.5" fill={color} fillOpacity="0.85" /></svg>;
+}
 export function IcoLeaf({ color }: { color: string }) {
   return <svg viewBox="0 0 16 16" width="14" height="14" fill="none"><path d="M8 14 C2 10 2 4 8 2 C14 4 14 10 8 14 Z" stroke={color} strokeWidth="1.2" fill={`${color}25`} /><line x1="8" y1="14" x2="8" y2="2" stroke={color} strokeWidth="0.9" strokeLinecap="round" /></svg>;
 }

@@ -20,6 +20,7 @@ import {
   ExplosionIcon,
   BarChartIcon,
   GalaxyIcon,
+  ColliderIcon,
 } from '@/components/icons/AtomsIcons';
 import { AtomIcon } from '@/components/icons/UniverseIcons';
 
@@ -68,6 +69,15 @@ const features = [
     gradient: 'from-violet-600/20 to-purple-600/20',
     border: 'border-violet-500/30',
     accent: 'text-violet-300',
+  },
+  {
+    href: '/atoms/instruments',
+    Icon: ColliderIcon,
+    title: 'Accélérateurs de particules',
+    description: 'LHC, Fermilab, ITER, LIGO — les grands instruments qui explorent la matière à travers le monde.',
+    gradient: 'from-sky-600/20 to-blue-600/20',
+    border: 'border-sky-500/30',
+    accent: 'text-sky-300',
   },
 ];
 

@@ -10,7 +10,7 @@ import {
   NavPlanetIcon, NavScienceIcon, NavAtomIcon, NavLeafIcon, NavBiologieIcon,
   IcoHome, IcoMap, IcoGlobe, IcoGalaxy, IcoRocket, IcoTelescope, IcoStar,
   IcoClock, IcoUser, IcoSigma, IcoInfinity,
-  IcoFlask, IcoExplosion, IcoChart, IcoRadiation,
+  IcoFlask, IcoExplosion, IcoChart, IcoRadiation, IcoCollider,
   IcoLeaf, IcoHouse, IcoSun, IcoApple,
   IcoHeart, IcoDna, IcoTree, IcoEvolution, IcoAtp,
   IcoGene, IcoShield, IcoEarth,
@@ -61,6 +61,7 @@ const DROPDOWNS: { label: string; Icon: TopIcon; color: string; items: NavItem[]
       { href: '/atoms/nucleosynthese', label: 'Nucléosynthèse',     Icon: IcoExplosion },
       { href: '/atoms/abondance',      label: 'Abondance',          Icon: IcoChart     },
       { href: '/atoms/particules',     label: 'Particules',         Icon: IcoRadiation },
+      { href: '/atoms/instruments',    label: 'Accélérateurs',      Icon: IcoCollider  },
     ],
   },
   // {

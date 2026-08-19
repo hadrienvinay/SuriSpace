@@ -260,3 +260,57 @@ export function GalaxyIcon({ size = 72 }: IconProps) {
     </svg>
   );
 }
+
+export function ColliderIcon({ size = 72 }: IconProps) {
+  return (
+    <svg viewBox="0 0 100 100" width={size} height={size} xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="colliderGlow" cx="0.5" cy="0.5">
+          <stop offset="0%" stopColor="#FEF3C7" />
+          <stop offset="100%" stopColor="rgba(252,211,77,0)" />
+        </radialGradient>
+      </defs>
+
+      {/* Outer glow */}
+      <circle cx="50" cy="50" r="46" fill="rgba(96,165,250,0.06)" />
+
+      {/* Accelerator ring (dashed, like a tunnel seen from above) */}
+      <circle cx="50" cy="50" r="34" fill="none" stroke="#60A5FA" strokeWidth="2.2" strokeDasharray="6 4" opacity="0.55">
+        <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="18s" repeatCount="indefinite" />
+      </circle>
+      <circle cx="50" cy="50" r="34" fill="none" stroke="#93C5FD" strokeWidth="1" opacity="0.25" />
+
+      {/* Detector ring (inner, thicker) */}
+      <circle cx="50" cy="50" r="20" fill="none" stroke="#A78BFA" strokeWidth="1.4" opacity="0.4" />
+
+      {/* Two counter-rotating particle beams */}
+      <g>
+        <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="3s" repeatCount="indefinite" />
+        <circle cx="84" cy="50" r="3" fill="#60A5FA" />
+      </g>
+      <g>
+        <animateTransform attributeName="transform" type="rotate" from="360 50 50" to="0 50 50" dur="3.6s" repeatCount="indefinite" />
+        <circle cx="16" cy="50" r="3" fill="#F472B6" />
+      </g>
+
+      {/* Collision point flash */}
+      <circle cx="50" cy="50" r="10" fill="url(#colliderGlow)">
+        <animate attributeName="r" values="6;13;6" dur="1.8s" repeatCount="indefinite" />
+        <animate attributeName="opacity" values="0.4;0.95;0.4" dur="1.8s" repeatCount="indefinite" />
+      </circle>
+      <circle cx="50" cy="50" r="3" fill="#FEF3C7" />
+
+      {/* Collision sparks */}
+      {[0, 60, 120, 180, 240, 300].map((a) => {
+        const r1 = Math.PI * a / 180;
+        const x1 = 50 + 6 * Math.cos(r1), y1 = 50 + 6 * Math.sin(r1);
+        const x2 = 50 + 13 * Math.cos(r1), y2 = 50 + 13 * Math.sin(r1);
+        return (
+          <line key={a} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#FDE68A" strokeWidth="1.4" strokeLinecap="round" opacity="0.8">
+            <animate attributeName="opacity" values="0;0.9;0" dur="1.8s" repeatCount="indefinite" />
+          </line>
+        );
+      })}
+    </svg>
+  );
+}
