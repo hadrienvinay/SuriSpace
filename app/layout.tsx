@@ -4,6 +4,7 @@ import NavBar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import ScrollToTop from '@/components/buttons/ScrollToTop';
 import { JsonLd } from '@/components/common/JsonLd';
+import { ServiceWorkerRegister } from '@/components/common/ServiceWorkerRegister';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://suri-space.vercel.app'),
@@ -52,8 +53,15 @@ export default function RootLayout({
         <meta name="google-site-verification" content="PqO9oQhvNlVwu7NcTg2wRbHE5iBzwN1UrF_-_xCzLM8" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="alternate" type="application/rss+xml" title="Suri Space — Articles" href="/feed.xml" />
+        {/* PWA — installation & écran d'accueil */}
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="Suri Space" />
       </head>
       <body className="flex flex-col">
+          <ServiceWorkerRegister />
           <JsonLd data={{
             '@context': 'https://schema.org',
             '@type': 'Person',
